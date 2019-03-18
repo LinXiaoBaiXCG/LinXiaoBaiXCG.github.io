@@ -2,47 +2,7 @@
 <search>
   <entry>
     <title><![CDATA[Hexo 编写博客工具]]></title>
-    <url>%2F2019%2F03%2F16%2FHexo%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2%E5%B7%A5%E5%85%B71%2F</url>
-    <content type="text"><![CDATA[工具推荐使用Typora，不知道Typora或者还没安装Typora请看我的上一篇博客，程序员必备神器（Typora）。你也可以使用Sublime Text 3 来写，Sublime Text 3 写的话需要写MD语法。我是两者一起配合使用?]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hexo 编写博客工具]]></title>
     <url>%2F2019%2F03%2F16%2FHexo%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2%E5%B7%A5%E5%85%B7%2F</url>
-    <content type="text"><![CDATA[工具推荐使用Typora，不知道Typora或者还没安装Typora请看我的上一篇博客，程序员必备神器（Typora）。你也可以使用Sublime Text 3 来写，Sublime Text 3 写的话需要写MD语法。我是两者一起配合使用?]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hexo 编写博客工具]]></title>
-    <url>%2F2019%2F03%2F16%2FHexo%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2%E5%B7%A5%E5%85%B74%2F</url>
-    <content type="text"><![CDATA[工具推荐使用Typora，不知道Typora或者还没安装Typora请看我的上一篇博客，程序员必备神器（Typora）。你也可以使用Sublime Text 3 来写，Sublime Text 3 写的话需要写MD语法。我是两者一起配合使用?]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hexo 编写博客工具]]></title>
-    <url>%2F2019%2F03%2F16%2FHexo%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2%E5%B7%A5%E5%85%B75%2F</url>
-    <content type="text"><![CDATA[工具推荐使用Typora，不知道Typora或者还没安装Typora请看我的上一篇博客，程序员必备神器（Typora）。你也可以使用Sublime Text 3 来写，Sublime Text 3 写的话需要写MD语法。我是两者一起配合使用?]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hexo 编写博客工具]]></title>
-    <url>%2F2019%2F03%2F16%2FHexo%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2%E5%B7%A5%E5%85%B73%2F</url>
-    <content type="text"><![CDATA[工具推荐使用Typora，不知道Typora或者还没安装Typora请看我的上一篇博客，程序员必备神器（Typora）。你也可以使用Sublime Text 3 来写，Sublime Text 3 写的话需要写MD语法。我是两者一起配合使用?]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hexo 编写博客工具]]></title>
-    <url>%2F2019%2F03%2F16%2FHexo%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2%E5%B7%A5%E5%85%B72%2F</url>
     <content type="text"><![CDATA[工具推荐使用Typora，不知道Typora或者还没安装Typora请看我的上一篇博客，程序员必备神器（Typora）。你也可以使用Sublime Text 3 来写，Sublime Text 3 写的话需要写MD语法。我是两者一起配合使用?]]></content>
       <tags>
         <tag>hexo</tag>
@@ -52,6 +12,9 @@
     <title><![CDATA[我的第一篇博客]]></title>
     <url>%2F2019%2F03%2F16%2F%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%2F</url>
     <content type="text"><![CDATA[林创琼的第一篇博客]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
       <tags>
         <tag>hexo</tag>
         <tag>github</tag>
