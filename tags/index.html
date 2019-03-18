@@ -1,213 +1,564 @@
+<!DOCTYPE html>
 
 
 
+  
 
 
-
-
-
-
-
-
-
-
-
-
-<!doctype html>
-<html lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-  <meta name="renderer" content="webkit">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" , user-scalable="no"">
-  <title>javablog</title>
-  <link rel="shortcut icon" href>
-  
-    
-    
-      <link rel="stylesheet" href="/css/bootstrap.min.css">
-    
-      <link rel="stylesheet" href="/css/font-awesome.min.css">
-    
-      <link rel="stylesheet" href="/css/atom-one-dark.css">
-    
-      <link rel="stylesheet" href="/css/jquery.fancybox.css">
-    
-      <link rel="stylesheet" href="/css/nprogress.min.css">
-    
-      <link rel="stylesheet" href="/css/valine.css">
-    
-      <link rel="stylesheet" href="/css/life.css">
-    
-  
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
-  <!-- jQuery first, then Tether, then Bootstrap JS. -->
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="博客标签">
+<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta property="og:site_name" content="Jayden&#39;s Blog">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-18T01:22:22.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博客标签">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/tags/">
+
+
+
+
+
+  <title>博客标签 | Jayden's Blog</title>
   
-  
-  
-    <script src="/js/jquery-2.2.4.min.js"></script>
-  
-    <script src="https://cdn1.lncld.net/static/js/3.1.0/av-min.js"></script>
-  
-    <script src="/js/jquery.pjax.js"></script>
-  
-    <script src="/js/nprogress.min.js"></script>
-  
-    <script src="/js/tether.min.js"></script>
-  
-    <script src="/js/bootstrap.min.js"></script>
-  
-    <script src="/js/highlight.min.js"></script>
-  
-    <script src="/js/highlightjs-line-numbers.min.js"></script>
-  
-    <script src="/js/jquery.fancybox.js"></script>
-  
-    <script src="/js/jquery.qrcode.min.js"></script>
-  
-    <script src="/js/Valine.min.js"></script>
-  
-  
+
+
+
+
+
+
+
+
 </head>
-<body>
-<script>AV.init({appId:'',appKey:''});</script>
-<script type="text/javascript">
-      var config = {
-            ClasS: 'Counter',
-            el:'.views',
-            elP: '.views-post'
-      }
-</script>
-<div class="container">
-    <div class="row blog-box-shadow">
-        <!--博客主栏开始-->
-        <div class="col-xl-9 col-lg-12 blog-main" id="pjax-box">
-            <header class="blog-header">
-                <a href="http://yoursite.com" class="blog-header-mobile-title">blog</a>
-                <a href="javascript:;" class="blog-header-navbar-btn"><i class="fa fa-bars"></i></a>
-                <nav class="blog-header-navbar blog-header-fixed">
-                    <ul class="blog-navbar-links">
-                        
-                          <li class="blog-nav-item"><a href="/" class="transition">首页</a></li>
-                        
-                          <li class="blog-nav-item"><a href="/about/" class="transition">关于</a></li>
-                        
-                          <li class="blog-nav-item"><a href="/links/" class="transition">链接</a></li>
-                        
-                        <div class="blog-navbar-right">
-                            <form action>
-                                <div class="input-group">
-                                    <input type="text" class="blog-header-search" placeholder="search...">
-                                    <buttn type="submit" class="blog-header-search-btn"><i class="fa fa-search"></i></buttn>
-                                </div>
-                            </form>
-                        </div>
-                    </ul>
-                </nav>
-            </header>
-                
-<header class="blog-post-page-title">
-    <h4>java</h4>
-</header>
-<div class="blog-main-post blog-post-page-box">
-    <article class="blog-post-block blog-post-page-content">
-        <section>
-            <hr>
 
-        </section>     
-    </article>
-</div>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-                
-            <footer class="blog-footer">
-                <p class="blog-footer-left">Copyright ©  2019 <a href="http://yoursite.com">blog</a></p>
-                <p class="blog-footer-right">Powered by <a href="https://hexo.io" target="_blank">Hexo</a>,Theme <a href="https://note.isweic.com/themes-life/" target="_blank">Life</a></p>
-            </footer>
-        </div><!--博客主栏结束-->
-        <!--博客侧边栏开始-->
-        <div class="col-xl-3 blog-sidebar">
-            <div class="blog-sidebar-title">
-                <a href="https://linxiaobaixcg.github.io">blog</a>
-            </div>
-            <div class="blog-sidebar-logo">
-                <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
-            </div>
-            <div class="blog-sidebar-count blog-sidebar-padding">
-                <div class="blog-sidebar-count-left">
-                    <p class="blog-sidebar-count-p">1</p>
-                    <span class="blog-sidebar-count-span">文章</span>
-                </div>
-                <div class="blog-sidebar-count-right">
-                    <p class="blog-sidebar-count-p">2</p>
-                    <span class="blog-sidebar-count-span">标签</span>
-                </div>
-                <div style="clear: both;"></div>
-            </div>
-            <div class="blog-sidebar-icon blog-sidebar-padding">
-                <ul>
-                    <li><a href class="icon-github" target="_blank" data-toggle="tooltip" data-placement="top" title="Github"><i class="fa fa-github"></i></a></li>
-                    <li><a href class="icon-weibo" target="_blank" data-toggle="tooltip" data-placement="top" title="新浪微博"><i class="fa fa-weibo"></i></a></li>
-                    <li><a href class="icon-twitter" target="_blank" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-                    <!--<li><a href="" class="icon-facebook" target="_blank" data-toggle="tooltip" data-placement="top" title="FaceBook"><i class="fa fa-facebook"></i></a></li>-->
-                    <li><a href="mailto:" class="icon-email" data-toggle="tooltip" data-placement="top" title="E-Mail"><i class="fa fa-envelope"></i></a></li>
-                    <li><a href class="icon-rss" data-toggle="tooltip" target="_blank" data-placement="top" title="RSS"><i class="fa fa-rss"></i></a></li>
-                </ul>
-            </div>
-            <div class="blog-sidebar-categories">
-                <h4 class="blog-sidebar-h4"><i class="fa fa-folder-open"></i>&nbsp;文章分类</h4>
-                <ul class="list-group blog-sidebar-padding">
-                  
-                </ul>
-            </div>
-            <div class="blog-sidebar-tags">
-                <h4 class="blog-sidebar-h4"><i class="fa fa-tag"></i>&nbsp;标签云</h4>
-                <ul class="blog-sidebar-tags-ul blog-sidebar-padding">
-                  
-                    
-                      <li><a href="/tags/hexo/" class="tag-could" data-toggle="tooltip" data-placement="top" title="hexo">hexo</a></li>
-                    
-                      <li><a href="/tags/github/" class="tag-could" data-toggle="tooltip" data-placement="top" title="github">github</a></li>
-                    
-                  
-                </ul>
-            </div>
-            <script>
-              // 博客侧栏标签云随机色
-              var tag_cloud = $('.tag-could');
-              tag_cloud.each(function () {
-                  var Cnum = 9;
-                  var Crand = parseInt(Math.random() * Cnum);
-                  $(this).addClass("tag-could" + Crand);
-              })
-            </script>
-            <!--返回顶部按钮-->
-            <div class="retop">
-                <i class="fa fa-angle-up"></i>
-            </div>
-        </div><!--博客侧边栏结束-->
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jayden's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
-<script src="/js/LeanStatistics.min.js"></script>
-<script src="/js/Life.js"></script>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">博客标签</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <div class="tag-cloud">
+            <div class="tag-cloud-title">
+                目前共计 3 个标签
+            </div>
+            <div class="tag-cloud-tags">
+              <a href="/tags/github/" style="font-size: 12px; color: #ccc">github</a> <a href="/tags/hexo/" style="font-size: 30px; color: #111">hexo</a> <a href="/tags/java/" style="font-size: 12px; color: #ccc">java</a>
+            </div>
+          </div>
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">LCQ</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LCQ</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
 <script type="text/javascript">
-    hljs.initHighlightingOnLoad();
-    hljs.initLineNumbersOnLoad();
-    otherF();
-    LeanStatistics();
-    $(document).pjax('a', '#pjax-box', {fragment:'#pjax-box', timeout:8000}).on('pjax:complete', function() {
-      $('pre code').each(function(i, block){
-        hljs.highlightBlock(block);
-      })
-      $('code.hljs').each(function(i, block) {
-        hljs.lineNumbersBlock(block);
-      });
-      LeanStatistics();
-    }).on('pjax:start', function() { NProgress.start(); }).on('pjax:end',   function() {
-      NProgress.done();
-      otherF();
-    });
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
