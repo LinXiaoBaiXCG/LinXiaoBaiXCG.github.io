@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2019-03-19T16:24:26.614Z</updated>
+  <updated>2019-03-19T16:22:39.415Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <author>
@@ -15,32 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>博客</title>
-    <link href="https://linxiaobaixcg.github.io/2019/03/16/text/"/>
-    <id>https://linxiaobaixcg.github.io/2019/03/16/text/</id>
-    <published>2019-03-16T02:26:08.000Z</published>
-    <updated>2019-03-19T16:24:26.614Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;林创琼的第一篇博客，很开心！&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-      <category term="博客" scheme="https://linxiaobaixcg.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
-    
-    
-      <category term="hexo" scheme="https://linxiaobaixcg.github.io/tags/hexo/"/>
-    
-      <category term="github" scheme="https://linxiaobaixcg.github.io/tags/github/"/>
-    
-  </entry>
   
   <entry>
     <title>我的第一篇博客</title>
