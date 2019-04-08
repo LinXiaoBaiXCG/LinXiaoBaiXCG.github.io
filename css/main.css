@@ -1961,7 +1961,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #b6d2e7;
+  background: #ffd16a;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3132,6 +3132,8 @@ img:hover {
 body {
   background: url("/images/huyan.jpg");
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% 50%;
 }
 .post {
   margin-top: 0px;
