@@ -6,10 +6,35 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2019-04-17T06:30:07.350Z</updated>
+  <updated>2019-04-19T06:37:03.527Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Dubbo入门实战</title>
+    <link href="https://linxiaobaixcg.github.io/2019/04/19/Dubbo%E5%85%A5%E9%97%A8%E5%AE%9E%E6%88%98/"/>
+    <id>https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/</id>
+    <published>2019-04-19T05:18:20.000Z</published>
+    <updated>2019-04-19T06:37:03.527Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Dubbo简介&quot;&gt;&lt;a href=&quot;#Dubbo简介&quot; class=&quot;headerlink&quot; title=&quot;Dubbo简介&quot;&gt;&lt;/a&gt;Dubbo简介&lt;/h2&gt;&lt;p&gt;Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
+    
+      <category term="Zookeeper" scheme="https://linxiaobaixcg.github.io/tags/Zookeeper/"/>
+    
+  </entry>
   
   <entry>
     <title>余华--活着 观后感</title>
