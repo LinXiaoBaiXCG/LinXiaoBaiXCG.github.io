@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="Jayden&#39;s Blog">
 <meta property="og:description" content="Dubbo简介Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。 Dubbo是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案。 文档：http://dubbo.apache.org/zh-cn/index.html RPC简介RPC（Remo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-19T06:37:03.527Z">
+<meta property="og:updated_time" content="2019-04-19T06:40:07.642Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubbo入门实战">
 <meta name="twitter:description" content="Dubbo简介Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。 Dubbo是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案。 文档：http://dubbo.apache.org/zh-cn/index.html RPC简介RPC（Remo">
@@ -428,16 +428,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name = dubbo-consumer</span><br><span class="line">server.port = 9091</span><br><span class="line"></span><br><span class="line">#指定当前服务/应用的名字（同样的服务名字相同，不要和别的服务同名）</span><br><span class="line">dubbo.application.name = dubbo-consumer</span><br><span class="line"></span><br><span class="line">demo.service.version = 1.0.0</span><br><span class="line"></span><br><span class="line">dubbo.protocol.name = dubbo</span><br><span class="line">dubbo.protocol.port = 20880</span><br><span class="line"></span><br><span class="line">#指定注册中心的位置</span><br><span class="line">dubbo.registry.address = zookeeper://localhost:2181</span><br><span class="line"></span><br><span class="line">#统一设置服务提供方的规则</span><br><span class="line">dubbo.consumer.timeout = 5000</span><br></pre></td></tr></table></figure>
 <h3 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h3><p>启动DubboProviderApplication和DubboConsumerApplication</p>
 <p>访问：<a href="http://localhost:9091/sayHello/HelloWorld" target="_blank" rel="noopener">http://localhost:9091/sayHello/HelloWorld</a></p>
-<ul>
-<li><p>透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。</p>
-</li>
-<li><p>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。</p>
-</li>
-<li><p>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除服务提供者。</p>
-</li>
-<li><p>Dubbo的流程</p>
-</li>
-</ul>
 
       
       <div>
