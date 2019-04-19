@@ -96,10 +96,15 @@
 <meta property="og:site_name" content="Jayden&#39;s Blog">
 <meta property="og:description" content="Dubbo简介Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。 Dubbo是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案。 文档：http://dubbo.apache.org/zh-cn/index.html RPC简介RPC（Remo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-19T07:26:41.723Z">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/9005929-b630c970a0b2e8ae.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/微信截图_20190419135018.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/微信截图_20190419135540.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/微信截图_20190419140359.png">
+<meta property="og:updated_time" content="2019-04-19T07:38:58.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubbo入门实战">
 <meta name="twitter:description" content="Dubbo简介Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。 Dubbo是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案。 文档：http://dubbo.apache.org/zh-cn/index.html RPC简介RPC（Remo">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/9005929-b630c970a0b2e8ae.jpg">
 
 
 
@@ -408,7 +413,8 @@
 <li>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。</li>
 <li>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除服务提供者。</li>
 </ul>
-<h2 id="Dubbo的流程"><a href="#Dubbo的流程" class="headerlink" title="Dubbo的流程"></a>Dubbo的流程</h2><p>如图：</p>
+<h2 id="Dubbo的流程"><a href="#Dubbo的流程" class="headerlink" title="Dubbo的流程"></a>Dubbo的流程</h2><p><img src="/2019/04/19/Dubbo入门实战/9005929-b630c970a0b2e8ae.jpg" alt="/Dubbo入门实战/9005929-b630c970a0b2e8ae.jpg"></p>
+<p>如图：</p>
 <p>0：start。服务容器container启动，加载提供者provider。</p>
 <p>1：registry。服务提供者向dubbo的注册中心注册自己提供的服务。</p>
 <p>2：subscribe注册。消费者服务启动的时候向注册中心订阅自己需要的服务。</p>
@@ -418,16 +424,17 @@
 <h2 id="Zookeeper介绍"><a href="#Zookeeper介绍" class="headerlink" title="Zookeeper介绍"></a>Zookeeper介绍</h2><p>本Demo中的Dubbo注册中心采用的是Zookeeper。为什么采用Zookeeper呢？</p>
 <p>Zookeeper是一个分布式的服务框架，是树型的目录服务的数据存储，能做到集群管理数据 ，这里能很好的作为Dubbo服务的注册中心。</p>
 <p>Dubbo能与Zookeeper做到集群部署，当提供者出现断电等异常停机时，Zookeeper注册中心能自动删除提供者信息，当提供者重启时，能自动恢复注册数据，以及订阅请求。</p>
-<h2 id="Dubbo实战"><a href="#Dubbo实战" class="headerlink" title="Dubbo实战"></a>Dubbo实战</h2><p>图片</p>
+<h2 id="Dubbo实战"><a href="#Dubbo实战" class="headerlink" title="Dubbo实战"></a>Dubbo实战</h2><p><img src="/2019/04/19/Dubbo入门实战/微信截图_20190419135018.png" alt="/Dubbo入门实战/微信截图_20190419135018.png"></p>
 <p>服务提供者模块：dubbo-provider</p>
 <p>消费者模块：dubbo-consumer</p>
 <p>调用的服务接口共同的Api：dubbo-api</p>
-<h3 id="结构："><a href="#结构：" class="headerlink" title="结构："></a>结构：</h3><p>dubbo-provider模块下的application.properties配置如下：</p>
+<h3 id="结构："><a href="#结构：" class="headerlink" title="结构："></a>结构：</h3><p><img src="/2019/04/19/Dubbo入门实战/微信截图_20190419135540.png" alt="/Dubbo入门实战/微信截图_20190419135540.png"><br>dubbo-provider模块下的application.properties配置如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name = dubbo-provider</span><br><span class="line">server.port = 9090</span><br><span class="line"></span><br><span class="line">#指定当前服务/应用的名字（同样的服务名字相同，不要和别的服务同名）</span><br><span class="line">dubbo.application.name = dubbo-provider</span><br><span class="line"></span><br><span class="line">demo.service.version = 1.0.0</span><br><span class="line"></span><br><span class="line">dubbo.protocol.name = dubbo</span><br><span class="line">dubbo.protocol.port = 20880</span><br><span class="line"></span><br><span class="line">#指定注册中心的位置</span><br><span class="line">dubbo.registry.address = zookeeper://localhost:2181</span><br><span class="line"></span><br><span class="line">#统一设置服务提供方的规则</span><br><span class="line">dubbo.provider.timeout = 1000</span><br></pre></td></tr></table></figure>
 <p>dubbo-consumer模块下的application.properties配置如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name = dubbo-consumer</span><br><span class="line">server.port = 9091</span><br><span class="line"></span><br><span class="line">#指定当前服务/应用的名字（同样的服务名字相同，不要和别的服务同名）</span><br><span class="line">dubbo.application.name = dubbo-consumer</span><br><span class="line"></span><br><span class="line">demo.service.version = 1.0.0</span><br><span class="line"></span><br><span class="line">dubbo.protocol.name = dubbo</span><br><span class="line">dubbo.protocol.port = 20880</span><br><span class="line"></span><br><span class="line">#指定注册中心的位置</span><br><span class="line">dubbo.registry.address = zookeeper://localhost:2181</span><br><span class="line"></span><br><span class="line">#统一设置服务提供方的规则</span><br><span class="line">dubbo.consumer.timeout = 5000</span><br></pre></td></tr></table></figure>
 <h3 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h3><p>启动DubboProviderApplication和DubboConsumerApplication</p>
-<p>访问：<a href="http://localhost:9091/sayHello/HelloWorld" target="_blank" rel="noopener">http://localhost:9091/sayHello/HelloWorld</a></p>
+<p>访问：<a href="http://localhost:9091/sayHello/HelloWorld" target="_blank" rel="noopener">http://localhost:9091/sayHello/HelloWorld</a><br><img src="/2019/04/19/Dubbo入门实战/微信截图_20190419140359.png" alt="/Dubbo入门实战/微信截图_20190419140359.png"></p>
+<h3 id="github地址"><a href="#github地址" class="headerlink" title="github地址"></a>github地址</h3><p><a href="https://github.com/LinXiaoBaiXCG/dubbo-demo" target="_blank" rel="noopener">https://github.com/LinXiaoBaiXCG/dubbo-demo</a></p>
 
       
       <div>
@@ -663,7 +670,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo简介"><span class="nav-number">1.</span> <span class="nav-text">Dubbo简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC简介"><span class="nav-number">2.</span> <span class="nav-text">RPC简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo的作用"><span class="nav-number">3.</span> <span class="nav-text">Dubbo的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo的流程"><span class="nav-number">4.</span> <span class="nav-text">Dubbo的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zookeeper介绍"><span class="nav-number">5.</span> <span class="nav-text">Zookeeper介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo实战"><span class="nav-number">6.</span> <span class="nav-text">Dubbo实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构："><span class="nav-number">6.1.</span> <span class="nav-text">结构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行项目"><span class="nav-number">6.2.</span> <span class="nav-text">运行项目</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo简介"><span class="nav-number">1.</span> <span class="nav-text">Dubbo简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC简介"><span class="nav-number">2.</span> <span class="nav-text">RPC简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo的作用"><span class="nav-number">3.</span> <span class="nav-text">Dubbo的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo的流程"><span class="nav-number">4.</span> <span class="nav-text">Dubbo的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zookeeper介绍"><span class="nav-number">5.</span> <span class="nav-text">Zookeeper介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo实战"><span class="nav-number">6.</span> <span class="nav-text">Dubbo实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构："><span class="nav-number">6.1.</span> <span class="nav-text">结构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行项目"><span class="nav-number">6.2.</span> <span class="nav-text">运行项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github地址"><span class="nav-number">6.3.</span> <span class="nav-text">github地址</span></a></li></ol></li></ol></div>
             
 
           </div>
