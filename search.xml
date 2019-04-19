@@ -4,6 +4,12 @@
     <title><![CDATA[haha]]></title>
     <url>%2F2019%2F04%2F19%2Fhaha%2F</url>
     <content type="text"></content>
+      <categories>
+        <category>ceshi</category>
+      </categories>
+      <tags>
+        <tag>ceshi</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Dubbo入门实战]]></title>
