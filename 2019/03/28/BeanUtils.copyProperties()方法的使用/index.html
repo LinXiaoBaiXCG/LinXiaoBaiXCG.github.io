@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="java,">
 
 
 
@@ -88,13 +88,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jayden&#39;s Blog">
-<meta property="og:url" content="https://linxiaobaixcg.github.io/archives/2019/04/index.html">
+<meta name="description" content="BeanUtils简介：一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。 BeanUtils.copyProperties()方法源码123public static void copyProp">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BeanUtils.copyProperties()方法的使用">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()方法的使用/index.html">
 <meta property="og:site_name" content="Jayden&#39;s Blog">
+<meta property="og:description" content="BeanUtils简介：一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。 BeanUtils.copyProperties()方法源码123public static void copyProp">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-23T09:13:28.243Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jayden&#39;s Blog">
+<meta name="twitter:title" content="BeanUtils.copyProperties()方法的使用">
+<meta name="twitter:description" content="BeanUtils简介：一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。 BeanUtils.copyProperties()方法源码123public static void copyProp">
 
 
 
@@ -124,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="https://linxiaobaixcg.github.io/archives/2019/04/">
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()方法的使用/">
 
 
 
 
 
-  <title>归档 | Jayden's Blog</title>
+  <title>BeanUtils.copyProperties()方法的使用 | Jayden's Blog</title>
   
 
 
@@ -149,7 +154,7 @@
     
   
 
-  <div class="container sidebar-position-right page-archive">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/LinXiaoBaiXCG"><img style="position:absolute;top:0;left:0;border:0" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
 
@@ -286,72 +291,206 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共计 4 篇日志。 继续努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()方法的使用/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content>
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jayden's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/04/19/Dubbo入门实战/" itemprop="url">
-              
-                <span itemprop="name">Dubbo入门实战</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">BeanUtils.copyProperties()方法的使用</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-19T13:18:20+08:00" content="2019-04-19">
-          04-19
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T16:34:53+08:00">
+                2019-03-28
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <h2 id="BeanUtils简介："><a href="#BeanUtils简介：" class="headerlink" title="BeanUtils简介："></a>BeanUtils简介：</h2><p>一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。</p>
+<h2 id="BeanUtils-copyProperties-方法源码"><a href="#BeanUtils-copyProperties-方法源码" class="headerlink" title="BeanUtils.copyProperties()方法源码"></a>BeanUtils.copyProperties()方法源码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static void copyProperties(Object source, Object target) throws BeansException &#123;</span><br><span class="line">    copyProperties(source, target, (Class)null, (String[])null);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Object source指的是来源对象，Object target指的是目标对象。意思是将Object source的属性拷贝到Object target。</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="将一个JavaBean对象的属性赋值给另一个JavaBean对象"><a href="#将一个JavaBean对象的属性赋值给另一个JavaBean对象" class="headerlink" title="将一个JavaBean对象的属性赋值给另一个JavaBean对象"></a>将一个JavaBean对象的属性赋值给另一个JavaBean对象</h3><p>学生信息类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Student &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private int age;</span><br><span class="line">    private String sex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>教师信息类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Teacher &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private Integer age;</span><br><span class="line">    private String sexs;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Student student = new Student();</span><br><span class="line">    student.setName(&quot;我是学生&quot;);</span><br><span class="line">    System.out.println(student);</span><br><span class="line">    Teacher teacher = new Teacher();</span><br><span class="line">    teacher.setName(&quot;我是教师&quot;);</span><br><span class="line">    teacher.setAge(20);</span><br><span class="line">    teacher.setSexs(&quot;女&quot;);</span><br><span class="line">    BeanUtils.copyProperties(teacher,student);</span><br><span class="line">    System.out.println(student);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>控制台输出：Student(name=我是学生, age=0, sex=null)<br>            Student(name=我是教师, age=20, sex=null)</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol>
+<li>不管目标对象（Student）是否有值，相同的属性都会被拷贝。</li>
+<li>当来源对象（Teacher）中有属性值为null时，即使目标对象相同的属性有值，目标对象的属性同样被拷贝，值也为null。</li>
+<li>只要两个JavaBean对象的属性名称名称相同就会赋值，不同的不赋值。</li>
+</ol>
+
+      
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #636363;font-size:14px;letter-spacing: 10px">本文结束啦<i class="fa fa-bell"></i>感谢您的阅读</div>
+    
+</div>
+
+        
+      </div>
     </div>
+    
+    
+    
+    <div>
+      
+        
+
+      
+    </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"> </i> java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/18/2019-03-18-[余华--活着]观后感/" rel="next" title="余华--活着 观后感">
+                <i class="fa fa-chevron-left"></i> 余华--活着 观后感
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/19/Dubbo入门实战/" rel="prev" title="Dubbo入门实战">
+                Dubbo入门实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -359,6 +498,15 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MzI2My8xOTgwNg=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -379,8 +527,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -483,6 +640,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanUtils简介："><span class="nav-number">1.</span> <span class="nav-text">BeanUtils简介：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanUtils-copyProperties-方法源码"><span class="nav-number">2.</span> <span class="nav-text">BeanUtils.copyProperties()方法源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">3.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将一个JavaBean对象的属性赋值给另一个JavaBean对象"><span class="nav-number">3.1.</span> <span class="nav-text">将一个JavaBean对象的属性赋值给另一个JavaBean对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意"><span class="nav-number">4.</span> <span class="nav-text">注意</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -640,6 +813,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -668,6 +845,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 

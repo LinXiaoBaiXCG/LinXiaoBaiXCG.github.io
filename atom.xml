@@ -37,6 +37,29 @@
   </entry>
   
   <entry>
+    <title>BeanUtils.copyProperties()方法的使用</title>
+    <link href="https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()方法的使用/</id>
+    <published>2019-03-28T08:34:53.000Z</published>
+    <updated>2019-04-23T09:13:28.243Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;BeanUtils简介：&quot;&gt;&lt;a href=&quot;#BeanUtils简介：&quot; class=&quot;headerlink&quot; title=&quot;BeanUtils简介：&quot;&gt;&lt;/a&gt;BeanUtils简介：&lt;/h2&gt;&lt;p&gt;一个JavaBean通常包含了大量的属性，很多情况下，对Ja
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="java" scheme="https://linxiaobaixcg.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>余华--活着 观后感</title>
     <link href="https://linxiaobaixcg.github.io/2019/03/18/2019-03-18-%5B%E4%BD%99%E5%8D%8E--%E6%B4%BB%E7%9D%80%5D%E8%A7%82%E5%90%8E%E6%84%9F/"/>
     <id>https://linxiaobaixcg.github.io/2019/03/18/2019-03-18-[余华--活着]观后感/</id>
