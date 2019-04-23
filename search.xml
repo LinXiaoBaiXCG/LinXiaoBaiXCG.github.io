@@ -15,12 +15,24 @@
   <entry>
     <title><![CDATA[BeanUtils.copyProperties()方法的使用]]></title>
     <url>%2F2019%2F03%2F28%2FBeanUtils.copyProperties()%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[BeanUtils简介：一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。 BeanUtils.copyProperties()方法源码123public static void copyProperties(Object source, Object target) throws BeansException &#123; copyProperties(source, target, (Class)null, (String[])null);&#125; Object source指的是来源对象，Object target指的是目标对象。意思是将Object source的属性拷贝到Object target。 实例将一个JavaBean对象的属性赋值给另一个JavaBean对象学生信息类 123456@Datapublic class Student &#123; private String name; private int age; private String sex;&#125; 教师信息类 12345@Datapublic class Teacher &#123; private String name; private Integer age; private String sexs; 1234567891011public static void main(String[] args) &#123; Student student = new Student(); student.setName(&quot;我是学生&quot;); System.out.println(student); Teacher teacher = new Teacher(); teacher.setName(&quot;我是教师&quot;); teacher.setAge(20); teacher.setSexs(&quot;女&quot;); BeanUtils.copyProperties(teacher,student); System.out.println(student);&#125; 控制台输出：Student(name=我是学生, age=0, sex=null) Student(name=我是教师, age=20, sex=null) 注意 不管目标对象（Student）是否有值，相同的属性都会被拷贝。 当来源对象（Teacher）中有属性值为null时，即使目标对象相同的属性有值，目标对象的属性同样被拷贝，值也为null。 只要两个JavaBean对象的属性名称名称相同就会赋值，不同的不赋值。]]></content>
+    <content type="text"><![CDATA[BeanUtils简介：一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。 BeanUtils.copyProperties()方法源码123public static void copyProperties(Object source, Object target) throws BeansException &#123; copyProperties(source, target, (Class)null, (String[])null);&#125; Object source指的是来源对象，Object target指的是目标对象。意思是将Object source的属性拷贝到Object target。 实例将一个JavaBean对象的属性赋值给另一个JavaBean对象学生信息类 123456@Datapublic class Student &#123; private String name; private int age; private String sex;&#125; 教师信息类 12345@Datapublic class Teacher &#123; private String name; private Integer age; private String sexs; 1234567891011public static void main(String[] args) &#123; Student student = new Student(); student.setName("我是学生"); System.out.println(student); Teacher teacher = new Teacher(); teacher.setName("我是教师"); teacher.setAge(20); teacher.setSexs("女"); BeanUtils.copyProperties(teacher,student); System.out.println(student);&#125; 控制台输出：Student(name=我是学生, age=0, sex=null) Student(name=我是教师, age=20, sex=null) 注意 不管目标对象（Student）是否有值，相同的属性都会被拷贝。 当来源对象（Teacher）中有属性值为null时，即使目标对象相同的属性有值，目标对象的属性同样被拷贝，值也为null。 只要两个JavaBean对象的属性名称名称相同就会赋值，不同的不赋值。]]></content>
       <categories>
         <category>编程</category>
       </categories>
       <tags>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[个人对于Vuex的理解]]></title>
+    <url>%2F2019%2F03%2F23%2F%E4%B8%AA%E4%BA%BA%E5%AF%B9%E4%BA%8EVuex%E7%9A%84%E7%90%86%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[Vuex简介Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 devtools extension，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。 官方文档：https://vuex.vuejs.org/zh/ 个人理解state:Vuex中的数据源，我们需要保存的数据就保存在这里。相当于vue中的data,用$store.state.modules名.xxx来获取 mutations:相当于vue中的methods,用this.$store.commit(‘事件名’)来获取 actions:vuex中的actions是支持异步的,可理解为当组件需要调用多次mutations中的事件时,可将事件写入actions中,用$store.dispatch(‘事件名’)来获取 getters:相当于vue中的computed计算属性。用于过滤,组合state。比如说state里面存了一个数组，数组有好多个数据，而我只想要用status：0的那些个，就可以用getters modules:将store分割成模块，避免混淆 Vuex:可看作是个在vue中创建全局变量的东西,Vuex提供了一些优雅的方法，可以让我们改变全局变量的值]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>node.js</tag>
+        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
