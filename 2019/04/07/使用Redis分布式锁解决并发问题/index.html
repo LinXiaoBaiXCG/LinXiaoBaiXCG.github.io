@@ -75,12 +75,10 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="redis,并发,">
 
 
 
-
-  
 
 
   <link rel="alternate" href="/atom.xml" title="Jayden's Blog" type="application/atom+xml">
@@ -90,17 +88,20 @@
 
 
 
-<meta name="description" content="关于博客 本博客基于GitHub Pages+Hexo搭建，感谢开源平台与开源软件开发者。  作用 记录在开发工程中遇到的问题和开发思路 在生活上的点滴 读书观后感和对于最近实事的看法  关于我职业 JAVA后端开发工程师  爱好 篮球、阅读  座右铭 爱的时候不辜负人，玩的时候不辜负风景，睡觉时不辜负床，一个人时不辜负自己。—-卢思浩  联系我 GitHub: https://github.co">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="https://linxiaobaixcg.github.io/about/index.html">
+<meta name="description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
+<meta name="keywords" content="redis,并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Redis分布式锁解决并发问题">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/index.html">
 <meta property="og:site_name" content="Jayden&#39;s Blog">
-<meta property="og:description" content="关于博客 本博客基于GitHub Pages+Hexo搭建，感谢开源平台与开源软件开发者。  作用 记录在开发工程中遇到的问题和开发思路 在生活上的点滴 读书观后感和对于最近实事的看法  关于我职业 JAVA后端开发工程师  爱好 篮球、阅读  座右铭 爱的时候不辜负人，玩的时候不辜负风景，睡觉时不辜负床，一个人时不辜负自己。—-卢思浩  联系我 GitHub: https://github.co">
+<meta property="og:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T09:49:04.733Z">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
+<meta property="og:updated_time" content="2019-04-28T15:13:01.406Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="关于博客 本博客基于GitHub Pages+Hexo搭建，感谢开源平台与开源软件开发者。  作用 记录在开发工程中遇到的问题和开发思路 在生活上的点滴 读书观后感和对于最近实事的看法  关于我职业 JAVA后端开发工程师  爱好 篮球、阅读  座右铭 爱的时候不辜负人，玩的时候不辜负风景，睡觉时不辜负床，一个人时不辜负自己。—-卢思浩  联系我 GitHub: https://github.co">
+<meta name="twitter:title" content="使用Redis分布式锁解决并发问题">
+<meta name="twitter:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
 
 
 
@@ -130,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="https://linxiaobaixcg.github.io/about/">
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/">
 
 
 
 
 
-  <title>关于 | Jayden's Blog</title>
+  <title>使用Redis分布式锁解决并发问题 | Jayden's Blog</title>
   
 
 
@@ -294,54 +295,258 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content>
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jayden's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">关于</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <h2 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h2><blockquote>
-<p>本博客基于GitHub Pages+Hexo搭建，感谢开源平台与开源软件开发者。</p>
-</blockquote>
-<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ul>
-<li>记录在开发工程中遇到的问题和开发思路</li>
-<li>在生活上的点滴</li>
-<li>读书观后感和对于最近实事的看法</li>
-</ul>
-<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><h3 id="职业"><a href="#职业" class="headerlink" title="职业"></a>职业</h3><blockquote>
-<p>JAVA后端开发工程师</p>
-</blockquote>
-<h4 id="爱好"><a href="#爱好" class="headerlink" title="爱好"></a>爱好</h4><blockquote>
-<p>篮球、阅读</p>
-</blockquote>
-<h3 id="座右铭"><a href="#座右铭" class="headerlink" title="座右铭"></a>座右铭</h3><blockquote>
-<p>爱的时候不辜负人，玩的时候不辜负风景，睡觉时不辜负床，一个人时不辜负自己。—-卢思浩</p>
-</blockquote>
-<h2 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h2><ul>
-<li>GitHub: <a href="https://github.com/LinXiaoBaiXCG/" target="_blank" rel="noopener">https://github.com/LinXiaoBaiXCG/</a></li>
-<li>E-mail: <a href="mailto:1203718422@qq.com" target="_blank" rel="noopener">1203718422@qq.com</a></li>
-</ul>
+          <h1 class="post-title" itemprop="name headline">使用Redis分布式锁解决并发问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-07T22:31:00+08:00">
+                2019-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i> 阅读次数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="synchronized处理并发"><a href="#synchronized处理并发" class="headerlink" title="synchronized处理并发"></a>synchronized处理并发</h2><p>首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。</p>
+<p>但是通过压测，发现请求变的很慢，因为：<br>synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。</p>
+<p>同时，使用synchronized还是存在一些问题的，首先，它无法做到细粒度的控制，比如同一时间有秒杀A商品和B商品的请求，都进入到了这个方法，虽然秒杀A商品的人很多，但是秒杀B商品的人很少，但是即使是买B商品，进入到了这个方法，也会一样的慢。</p>
+<p>最重要的是，它只适合单点的情况。如果以后程序水平扩展了，弄了个集群，很显然，负载均衡之后，不同的用户看到的结果一定是五花八门的。</p>
+<p>所以，还是使用更好的办法，使用redis分布式锁。</p>
+<h2 id="redis分布式锁"><a href="#redis分布式锁" class="headerlink" title="redis分布式锁"></a>redis分布式锁</h2><h3 id="两个redis的命令"><a href="#两个redis的命令" class="headerlink" title="两个redis的命令"></a>两个redis的命令</h3><p>setnx key value ：setnx就是，如果没有这个key，那么就set一个key-value, 但是如果这个key已经存在，那么将不会再次设置，get出来的value还是最开始set进去的那个value.<br>网站中还专门讲到可以使用!SETNX加锁，如果获得锁，返回1，如果返回0，那么该键已经被其他的客户端锁定。<br>并且也提到了如何处理死锁。</p>
+<p>参考地址：<a href="http://www.redis.cn/commands/setnx.html" target="_blank" rel="noopener">http://www.redis.cn/commands/setnx.html</a></p>
+<p>getset key value ：先通过key获取value，然后再将新的value set进去。</p>
+<p>参考地址：<a href="http://www.redis.cn/commands/getset.html" target="_blank" rel="noopener">http://www.redis.cn/commands/getset.html</a></p>
+<h3 id="redis分布式锁的实现"><a href="#redis分布式锁的实现" class="headerlink" title="redis分布式锁的实现"></a>redis分布式锁的实现</h3><p>我们希望的，无非就是这一段代码，能够单线程的去访问，因此在这段代码之前给他加锁，相应的，这段代码后面要给它解锁：</p>
+<p><img src="/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png" alt="需要解决的代码图"></p>
+<h4 id="引入redis依赖"><a href="#引入redis依赖" class="headerlink" title="引入redis依赖"></a>引入redis依赖</h4><dependency><br><groupid>org.springframework.boot</groupid><br><artifactid>spring-boot-starter-data-redis</artifactid><br></dependency>
+
+<h4 id="配置redis"><a href="#配置redis" class="headerlink" title="配置redis"></a>配置redis</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sprin<span class="variable">g:</span></span><br><span class="line">  <span class="keyword">redi</span><span class="variable">s:</span></span><br><span class="line">    hos<span class="variable">t:</span> localhost</span><br><span class="line">    por<span class="variable">t:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+<h3 id="编写加锁和解锁的方法"><a href="#编写加锁和解锁的方法" class="headerlink" title="编写加锁和解锁的方法"></a>编写加锁和解锁的方法</h3><pre><code>@Component
+public class RedisLock {
+Logger logger = LoggerFactory.getLogger(this.getClass());
+
+@Autowired
+private StringRedisTemplate redisTemplate;
+
+/**
+ * 加锁
+ * @param key   商品id
+ * @param value 当前时间+超时时间
+ * @return
+ */
+public boolean lock(String key, String value) {
+    if (redisTemplate.opsForValue().setIfAbsent(key, value)) {     //这个其实就是setnx命令，只不过在java这边稍有变化，返回的是boolea
+        return true;
+    }
+    //避免死锁，且只让一个线程拿到锁
+    String currentValue = redisTemplate.opsForValue().get(key);
+    //如果锁过期了
+    if (!StringUtils.isEmpty(currentValue) &amp;&amp; Long.parseLong(currentValue) &lt; System.currentTimeMillis()) {
+        //获取上一个锁的时间
+        String oldValues = redisTemplate.opsForValue().getAndSet(key, value);
+        /*
+           只会让一个线程拿到锁
+           如果旧的value和currentValue相等，只会有一个线程达成条件，因为第二个线程拿到的oldValue已经和currentValue不一样了
+         */
+        if (!StringUtils.isEmpty(oldValues) &amp;&amp; oldValues.equals(currentValue)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * 解锁
+ * @param key
+ * @param value
+ */
+public void unlock(String key, String value) {
+    try {
+        String currentValue = redisTemplate.opsForValue().get(key);
+        if (!StringUtils.isEmpty(currentValue) &amp;&amp; currentValue.equals(value)) {
+            redisTemplate.opsForValue().getOperations().delete(key);
+        }
+    } catch (Exception e) {
+        logger.error(&quot;『redis分布式锁』解锁异常，{}&quot;, e);
+    }
+}
+}
+</code></pre><p>为什么要有避免死锁的一步呢？<br>假设没有『避免死锁』这一步，结果在执行到下单代码的时候出了问题，毕竟操作数据库、网络、io的时候抛了个异常，这个异常是偶然抛出来的，就那么偶尔一次，那么会导致解锁步骤不去执行，这时候就没有解锁，后面的请求进来自然也或得不到锁，这就被称之为死锁。<br>而这里的『避免死锁』，就是给锁加了一个过期时间，如果锁超时了，就返回true，解开之前的那个死锁。</p>
+<h4 id="下单代码中引入加锁和解锁，确保只有一个线程操作"><a href="#下单代码中引入加锁和解锁，确保只有一个线程操作" class="headerlink" title="下单代码中引入加锁和解锁，确保只有一个线程操作"></a>下单代码中引入加锁和解锁，确保只有一个线程操作</h4><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line"><span class="keyword">private</span> RedisLock redisLock;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">@Transactional</span><br><span class="line"><span class="keyword">public</span> <span class="built_in">String</span> seckill(<span class="built_in">Integer</span> id)throws RuntimeException &#123;</span><br><span class="line">    <span class="comment">//加锁</span></span><br><span class="line">    long time = System.currentTimeMillis() + <span class="number">1000</span>*<span class="number">10</span>;  <span class="comment">//超时时间：10秒，最好设为常量</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">boolean</span> isLock = redisLock.lock(<span class="built_in">String</span>.valueOf(id), <span class="built_in">String</span>.valueOf(time));</span><br><span class="line">    <span class="keyword">if</span>(!isLock)&#123;</span><br><span class="line">        throw <span class="literal">new</span> RuntimeException(<span class="string">"人太多了，换个姿势再试试~"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查库存</span></span><br><span class="line">    Product product = productMapper.findById(id);</span><br><span class="line">    <span class="keyword">if</span>(product.getStock()==<span class="number">0</span>) throw <span class="literal">new</span> RuntimeException(<span class="string">"已经卖光"</span>);</span><br><span class="line">    <span class="comment">//写入订单表</span></span><br><span class="line">    <span class="keyword">Order</span> <span class="keyword">order</span>=<span class="literal">new</span> <span class="keyword">Order</span>();</span><br><span class="line">    <span class="keyword">order</span>.setProductId(product.getId());</span><br><span class="line">    <span class="keyword">order</span>.setProductName(product.getName());</span><br><span class="line">    orderMapper.add(<span class="keyword">order</span>);</span><br><span class="line">    <span class="comment">//减库存</span></span><br><span class="line">    product.setPrice(<span class="built_in">null</span>);</span><br><span class="line">    product.setName(<span class="built_in">null</span>);</span><br><span class="line">    product.setStock(product.getStock()<span class="number">-1</span>);</span><br><span class="line">    productMapper.update(product);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//解锁</span></span><br><span class="line">    redisLock.unlock(<span class="built_in">String</span>.valueOf(id),<span class="built_in">String</span>.valueOf(time));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> findProductInfo(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就能用redis分布式锁解决并发问题</p>
+
+      
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #636363;font-size:14px;letter-spacing: 10px">本文结束啦<i class="fa fa-bell"></i>感谢您的阅读</div>
+    
+</div>
 
         
       </div>
-      
-      
-      
     </div>
     
     
     
+    <div>
+      
+        
+
+      
+    </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"> </i> redis</a>
+          
+            <a href="/tags/并发/" rel="tag"><i class="fa fa-tag"> </i> 并发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/28/BeanUtils.copyProperties()方法的使用/" rel="next" title="BeanUtils.copyProperties()方法的使用">
+                <i class="fa fa-chevron-left"></i> BeanUtils.copyProperties()方法的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/19/Dubbo入门实战/" rel="prev" title="Dubbo入门实战">
+                Dubbo入门实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -502,7 +707,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于博客"><span class="nav-number">1.</span> <span class="nav-text">关于博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">1.1.</span> <span class="nav-text">作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于我"><span class="nav-number">2.</span> <span class="nav-text">关于我</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#职业"><span class="nav-number">2.1.</span> <span class="nav-text">职业</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#爱好"><span class="nav-number">2.1.1.</span> <span class="nav-text">爱好</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#座右铭"><span class="nav-number">2.2.</span> <span class="nav-text">座右铭</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联系我"><span class="nav-number">3.</span> <span class="nav-text">联系我</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized处理并发"><span class="nav-number">1.</span> <span class="nav-text">synchronized处理并发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis分布式锁"><span class="nav-number">2.</span> <span class="nav-text">redis分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个redis的命令"><span class="nav-number">2.1.</span> <span class="nav-text">两个redis的命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis分布式锁的实现"><span class="nav-number">2.2.</span> <span class="nav-text">redis分布式锁的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引入redis依赖"><span class="nav-number">2.2.1.</span> <span class="nav-text">引入redis依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置redis"><span class="nav-number">2.2.2.</span> <span class="nav-text">配置redis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写加锁和解锁的方法"><span class="nav-number">2.3.</span> <span class="nav-text">编写加锁和解锁的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下单代码中引入加锁和解锁，确保只有一个线程操作"><span class="nav-number">2.3.1.</span> <span class="nav-text">下单代码中引入加锁和解锁，确保只有一个线程操作</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
