@@ -97,7 +97,7 @@
 <meta property="og:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
-<meta property="og:updated_time" content="2019-04-28T15:13:01.406Z">
+<meta property="og:updated_time" content="2019-04-28T15:15:41.584Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Redis分布式锁解决并发问题">
 <meta name="twitter:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
@@ -412,8 +412,7 @@
 <p>参考地址：<a href="http://www.redis.cn/commands/getset.html" target="_blank" rel="noopener">http://www.redis.cn/commands/getset.html</a></p>
 <h3 id="redis分布式锁的实现"><a href="#redis分布式锁的实现" class="headerlink" title="redis分布式锁的实现"></a>redis分布式锁的实现</h3><p>我们希望的，无非就是这一段代码，能够单线程的去访问，因此在这段代码之前给他加锁，相应的，这段代码后面要给它解锁：</p>
 <p><img src="/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png" alt="需要解决的代码图"></p>
-<h4 id="引入redis依赖"><a href="#引入redis依赖" class="headerlink" title="引入redis依赖"></a>引入redis依赖</h4><dependency><br><groupid>org.springframework.boot</groupid><br><artifactid>spring-boot-starter-data-redis</artifactid><br></dependency>
-
+<h4 id="引入redis依赖"><a href="#引入redis依赖" class="headerlink" title="引入redis依赖"></a>引入redis依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h4 id="配置redis"><a href="#配置redis" class="headerlink" title="配置redis"></a>配置redis</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sprin<span class="variable">g:</span></span><br><span class="line">  <span class="keyword">redi</span><span class="variable">s:</span></span><br><span class="line">    hos<span class="variable">t:</span> localhost</span><br><span class="line">    por<span class="variable">t:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
 <h3 id="编写加锁和解锁的方法"><a href="#编写加锁和解锁的方法" class="headerlink" title="编写加锁和解锁的方法"></a>编写加锁和解锁的方法</h3><pre><code>@Component
 public class RedisLock {
