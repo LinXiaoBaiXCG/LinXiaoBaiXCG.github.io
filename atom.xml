@@ -6,10 +6,34 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2019-04-27T02:42:28.419Z</updated>
+  <updated>2019-05-16T14:43:42.653Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网络编程笔记</title>
+    <link href="https://linxiaobaixcg.github.io/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/"/>
+    <id>https://linxiaobaixcg.github.io/2019/05/16/网络编程笔记/</id>
+    <published>2019-05-16T13:53:00.000Z</published>
+    <updated>2019-05-16T14:43:42.653Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;网络编程简述&quot;&gt;&lt;a href=&quot;#网络编程简述&quot; class=&quot;headerlink&quot; title=&quot;网络编程简述&quot;&gt;&lt;/a&gt;网络编程简述&lt;/h1&gt;&lt;p&gt;网络编程就是在两个或两个以上的设备(例如计算机)之间传输数据，中间传输为物理线路的作用。&lt;/p&gt;
+&lt;h1 i
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="网络" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>路遥--平凡的世界 观后感</title>
