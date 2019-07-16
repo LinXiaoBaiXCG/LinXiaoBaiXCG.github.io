@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="redis,并发,">
+  <meta name="keywords" content="java,">
 
 
 
@@ -88,20 +88,18 @@
 
 
 
-<meta name="description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
-<meta name="keywords" content="redis,并发">
+<meta name="description" content="介绍动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Redis分布式锁解决并发问题">
-<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/index.html">
+<meta property="og:title" content="myBatis中$和#的区别">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/06/11/Mybatis中$和#的区别/index.html">
 <meta property="og:site_name" content="Jayden&#39;s Blog">
-<meta property="og:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
+<meta property="og:description" content="介绍动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
-<meta property="og:updated_time" content="2019-04-28T15:24:15.288Z">
+<meta property="og:updated_time" content="2019-07-16T13:40:12.179Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Redis分布式锁解决并发问题">
-<meta name="twitter:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
+<meta name="twitter:title" content="myBatis中$和#的区别">
+<meta name="twitter:description" content="介绍动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用">
 
 
 
@@ -131,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/">
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/06/11/Mybatis中$和#的区别/">
 
 
 
 
 
-  <title>使用Redis分布式锁解决并发问题 | Jayden's Blog</title>
+  <title>myBatis中$和#的区别 | Jayden's Blog</title>
   
 
 
@@ -307,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/">
+    <link itemprop="mainEntityOfPage" href="https://linxiaobaixcg.github.io/2019/06/11/Mybatis中$和#的区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content>
@@ -324,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用Redis分布式锁解决并发问题</h1>
+          <h1 class="post-title" itemprop="name headline">myBatis中$和#的区别</h1>
         
 
         <div class="post-meta">
@@ -336,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-07T22:31:00+08:00">
-                2019-04-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-11T23:00:00+08:00">
+                2019-06-11
               </time>
             
 
@@ -401,23 +399,51 @@
       
 
       
-        <h2 id="synchronized处理并发"><a href="#synchronized处理并发" class="headerlink" title="synchronized处理并发"></a>synchronized处理并发</h2><p>首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。</p>
-<p>但是通过压测，发现请求变的很慢，因为：<br>synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。</p>
-<p>同时，使用synchronized还是存在一些问题的，首先，它无法做到细粒度的控制，比如同一时间有秒杀A商品和B商品的请求，都进入到了这个方法，虽然秒杀A商品的人很多，但是秒杀B商品的人很少，但是即使是买B商品，进入到了这个方法，也会一样的慢。</p>
-<p>最重要的是，它只适合单点的情况。如果以后程序水平扩展了，弄了个集群，很显然，负载均衡之后，不同的用户看到的结果一定是五花八门的。</p>
-<p>所以，还是使用更好的办法，使用redis分布式锁。</p>
-<h2 id="redis分布式锁"><a href="#redis分布式锁" class="headerlink" title="redis分布式锁"></a>redis分布式锁</h2><h3 id="两个redis的命令"><a href="#两个redis的命令" class="headerlink" title="两个redis的命令"></a>两个redis的命令</h3><p>setnx key value ：setnx就是，如果没有这个key，那么就set一个key-value, 但是如果这个key已经存在，那么将不会再次设置，get出来的value还是最开始set进去的那个value.<br>网站中还专门讲到可以使用!SETNX加锁，如果获得锁，返回1，如果返回0，那么该键已经被其他的客户端锁定。<br>并且也提到了如何处理死锁。</p>
-<p>参考地址：<a href="http://www.redis.cn/commands/setnx.html" target="_blank" rel="noopener">http://www.redis.cn/commands/setnx.html</a></p>
-<p>getset key value ：先通过key获取value，然后再将新的value set进去。</p>
-<p>参考地址：<a href="http://www.redis.cn/commands/getset.html" target="_blank" rel="noopener">http://www.redis.cn/commands/getset.html</a></p>
-<h3 id="redis分布式锁的实现"><a href="#redis分布式锁的实现" class="headerlink" title="redis分布式锁的实现"></a>redis分布式锁的实现</h3><p>我们希望的，无非就是这一段代码，能够单线程的去访问，因此在这段代码之前给他加锁，相应的，这段代码后面要给它解锁：</p>
-<p><img src="/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png" alt="需要解决的代码图"></p>
-<h4 id="引入redis依赖"><a href="#引入redis依赖" class="headerlink" title="引入redis依赖"></a>引入redis依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="配置redis"><a href="#配置redis" class="headerlink" title="配置redis"></a>配置redis</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sprin<span class="variable">g:</span></span><br><span class="line">  <span class="keyword">redi</span><span class="variable">s:</span></span><br><span class="line">    hos<span class="variable">t:</span> localhost</span><br><span class="line">    por<span class="variable">t:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
-<h4 id="编写加锁和解锁的方法"><a href="#编写加锁和解锁的方法" class="headerlink" title="编写加锁和解锁的方法"></a>编写加锁和解锁的方法</h4><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line"><span class="keyword">public</span> class RedisLock &#123;</span><br><span class="line">Logger logger = LoggerFactory.getLogger(<span class="keyword">this</span>.getClass());</span><br><span class="line"></span><br><span class="line">@Autowired</span><br><span class="line"><span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 加锁</span></span><br><span class="line"><span class="comment"> * @param key   商品id</span></span><br><span class="line"><span class="comment"> * @param value 当前时间+超时时间</span></span><br><span class="line"><span class="comment"> * @return</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">boolean</span> lock(<span class="keyword">String</span> <span class="built_in">key</span>, <span class="keyword">String</span> value) &#123;</span><br><span class="line">    <span class="keyword">if</span> (redisTemplate.opsForValue().setIfAbsent(<span class="built_in">key</span>, value)) &#123;     <span class="comment">//这个其实就是setnx命令，只不过在java这边稍有变化，返回的是boolea</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//避免死锁，且只让一个线程拿到锁</span></span><br><span class="line">    <span class="keyword">String</span> currentValue = redisTemplate.opsForValue().<span class="built_in">get</span>(<span class="built_in">key</span>);</span><br><span class="line">    <span class="comment">//如果锁过期了</span></span><br><span class="line">    <span class="keyword">if</span> (!StringUtils.isEmpty(currentValue) &amp;&amp; Long.parseLong(currentValue) &lt; System.currentTimeMillis()) &#123;</span><br><span class="line">        <span class="comment">//获取上一个锁的时间</span></span><br><span class="line">        <span class="keyword">String</span> oldValues = redisTemplate.opsForValue().getAndSet(<span class="built_in">key</span>, value);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">           只会让一个线程拿到锁</span></span><br><span class="line"><span class="comment">           如果旧的value和currentValue相等，只会有一个线程达成条件，因为第二个线程拿到的oldValue已经和currentValue不一样了</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(oldValues) &amp;&amp; oldValues.equals(currentValue)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 解锁</span></span><br><span class="line"><span class="comment"> * @param key</span></span><br><span class="line"><span class="comment"> * @param value</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> unlock(<span class="keyword">String</span> <span class="built_in">key</span>, <span class="keyword">String</span> value) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">String</span> currentValue = redisTemplate.opsForValue().<span class="built_in">get</span>(<span class="built_in">key</span>);</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(currentValue) &amp;&amp; currentValue.equals(value)) &#123;</span><br><span class="line">            redisTemplate.opsForValue().getOperations().delete(<span class="built_in">key</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        logger.error(<span class="string">"『redis分布式锁』解锁异常，&#123;&#125;"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为什么要有避免死锁的一步呢？<br>假设没有『避免死锁』这一步，结果在执行到下单代码的时候出了问题，毕竟操作数据库、网络、io的时候抛了个异常，这个异常是偶然抛出来的，就那么偶尔一次，那么会导致解锁步骤不去执行，这时候就没有解锁，后面的请求进来自然也或得不到锁，这就被称之为死锁。<br>而这里的『避免死锁』，就是给锁加了一个过期时间，如果锁超时了，就返回true，解开之前的那个死锁。</p>
-<h4 id="下单代码中引入加锁和解锁，确保只有一个线程操作"><a href="#下单代码中引入加锁和解锁，确保只有一个线程操作" class="headerlink" title="下单代码中引入加锁和解锁，确保只有一个线程操作"></a>下单代码中引入加锁和解锁，确保只有一个线程操作</h4><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line"><span class="keyword">private</span> RedisLock redisLock;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">@Transactional</span><br><span class="line"><span class="keyword">public</span> <span class="built_in">String</span> seckill(<span class="built_in">Integer</span> id)throws RuntimeException &#123;</span><br><span class="line">    <span class="comment">//加锁</span></span><br><span class="line">    long time = System.currentTimeMillis() + <span class="number">1000</span>*<span class="number">10</span>;  <span class="comment">//超时时间：10秒，最好设为常量</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">boolean</span> isLock = redisLock.lock(<span class="built_in">String</span>.valueOf(id), <span class="built_in">String</span>.valueOf(time));</span><br><span class="line">    <span class="keyword">if</span>(!isLock)&#123;</span><br><span class="line">        throw <span class="literal">new</span> RuntimeException(<span class="string">"人太多了，换个姿势再试试~"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查库存</span></span><br><span class="line">    Product product = productMapper.findById(id);</span><br><span class="line">    <span class="keyword">if</span>(product.getStock()==<span class="number">0</span>) throw <span class="literal">new</span> RuntimeException(<span class="string">"已经卖光"</span>);</span><br><span class="line">    <span class="comment">//写入订单表</span></span><br><span class="line">    <span class="keyword">Order</span> <span class="keyword">order</span>=<span class="literal">new</span> <span class="keyword">Order</span>();</span><br><span class="line">    <span class="keyword">order</span>.setProductId(product.getId());</span><br><span class="line">    <span class="keyword">order</span>.setProductName(product.getName());</span><br><span class="line">    orderMapper.add(<span class="keyword">order</span>);</span><br><span class="line">    <span class="comment">//减库存</span></span><br><span class="line">    product.setPrice(<span class="built_in">null</span>);</span><br><span class="line">    product.setName(<span class="built_in">null</span>);</span><br><span class="line">    product.setStock(product.getStock()<span class="number">-1</span>);</span><br><span class="line">    productMapper.update(product);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//解锁</span></span><br><span class="line">    redisLock.unlock(<span class="built_in">String</span>.valueOf(id),<span class="built_in">String</span>.valueOf(time));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> findProductInfo(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样就能用redis分布式锁解决并发问题</p>
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。</p>
+<p>#{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’）</p>
+<p>${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需手动代码中过滤）</p>
+<p><strong>#{ }</strong></p>
+<p>例如，Mapper.xml中如下的 sql 语句：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user </span>where name = #&#123;name&#125;;</span><br></pre></td></tr></table></figure>
+<p>动态解析为：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user </span>where name = ?;</span><br></pre></td></tr></table></figure>
+<p>一个 #{ } 被解析为一个参数占位符 ? 。</p>
+<p><strong>${ } </strong></p>
+<p>例如，Mapper.xml中如下的 sql语句：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user </span>where name = <span class="variable">$&#123;name&#125;</span>;</span><br></pre></td></tr></table></figure>
+<p>当我们传递的参数为 “Java” 时，上述 sql 的解析为：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user </span>where name = <span class="string">"Java"</span>;</span><br></pre></td></tr></table></figure>
+<p>预编译之前的 SQL 语句已经不包含变量了，完全已经是常量数据了。</p>
+<p>综上所得， ${ } 变量的替换阶段是在动态 SQL 解析阶段，而 #{ }变量的替换是在 DBMS 中。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>#{}是预编译处理，${}是字符串替换。</p>
+<p>Mybatis在处理#{}时，会将SQL中的#{}替换为？，调用PreparedStatement的set方法来赋值。</p>
+<p>Mybatis在处理${}时，就是把${}替换成变量的值。</p>
+<p>使用#{}可以有效的防止SQL注入，提高系统安全性。</p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p><strong>1、能使用 #{ } 的地方就用 #{ }</strong></p>
+<ul>
+<li>首先这是为了性能考虑的，相同的预编译 sql 可以重复利用。</li>
+<li>其次，${ } 在预编译之前已经被变量替换了，这会存在 sql 注入问题。</li>
+</ul>
+<p>例如，如下的 sql：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> $&#123;tableName&#125; <span class="keyword">where</span> <span class="keyword">name</span> = <span class="comment">#&#123;name&#125;</span></span><br></pre></td></tr></table></figure>
+<p>假如，我们的参数 tableName 为 user; delete user; –，那么 SQL 动态解析阶段之后，预编译之前的 sql 将变为：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user; </span>delete<span class="built_in"> user; </span>-- where name = ?;</span><br></pre></td></tr></table></figure>
+<p>– 之后的语句将作为注释，不起作用，因此本来的一条查询语句偷偷的包含了一个删除表数据的 SQL。</p>
+<p><strong>2. 表名作为变量时，必须使用 ${ }</strong><br>这是因为，表名是字符串，使用 sql 占位符替换字符串时会带上单引号 ‘’，这会导致 sql 语法错误，例如：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span> #&#123;tableName&#125; <span class="keyword">where</span> name = #&#123;name&#125;;</span><br></pre></td></tr></table></figure>
+<p>预编译之后的sql 变为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> ? <span class="keyword">where</span> <span class="keyword">name</span> = ?;</span><br></pre></td></tr></table></figure>
+<p>假设我们传入的参数为 tableName = “user” , name = “Java”，那么在占位符进行变量替换后，sql 语句变为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">'user'</span> <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'Java'</span>;</span><br></pre></td></tr></table></figure>
+<p>上述 sql 语句是存在语法错误的</p>
+<h2 id="SQL预编译"><a href="#SQL预编译" class="headerlink" title="SQL预编译"></a>SQL预编译</h2><p><strong>1. 定义：</strong><br>sql 预编译指的是数据库驱动在发送 sql 语句和参数给 DBMS 之前对 sql 语句进行编译，这样 DBMS 执行 sql 时，就不需要重新编译。</p>
+<p><strong>2. 为什么需要预编译</strong></p>
+<ul>
+<li>JDBC 中使用对象 PreparedStatement 来抽象预编译语句，使用预编译。</li>
+<li>预编译阶段可以优化 sql 的执行。预编译之后的 sql 多数情况下可以直接执行，DBMS 不需要再次编译，越复杂的sql，编译的复杂度将越大，预编译阶段可以合并多次操作为一个操作。</li>
+<li>预编译语句对象可以重复利用。把一个 sql 预编译后产生的 PreparedStatement 对象缓存下来，下次对于同一个sql，可以直接使用这个缓存的 PreparedState 对象。</li>
+<li>mybatis 默认情况下，将对所有的 sql 进行预编译。</li>
+</ul>
 
       
       <div>
@@ -450,9 +476,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"> </i> redis</a>
-          
-            <a href="/tags/并发/" rel="tag"><i class="fa fa-tag"> </i> 并发</a>
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"> </i> java</a>
           
         </div>
       
@@ -465,8 +489,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/28/BeanUtils.copyProperties()方法的使用/" rel="next" title="BeanUtils.copyProperties()方法的使用">
-                <i class="fa fa-chevron-left"></i> BeanUtils.copyProperties()方法的使用
+              <a href="/2019/06/11/Java中深拷贝和浅拷贝的理解和区别/" rel="next" title="Java中深拷贝和浅拷贝的理解和区别">
+                <i class="fa fa-chevron-left"></i> Java中深拷贝和浅拷贝的理解和区别
               </a>
             
           </div>
@@ -474,10 +498,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/19/Dubbo入门实战/" rel="prev" title="Dubbo入门实战">
-                Dubbo入门实战 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -657,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized处理并发"><span class="nav-number">1.</span> <span class="nav-text">synchronized处理并发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis分布式锁"><span class="nav-number">2.</span> <span class="nav-text">redis分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个redis的命令"><span class="nav-number">2.1.</span> <span class="nav-text">两个redis的命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis分布式锁的实现"><span class="nav-number">2.2.</span> <span class="nav-text">redis分布式锁的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引入redis依赖"><span class="nav-number">2.2.1.</span> <span class="nav-text">引入redis依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置redis"><span class="nav-number">2.2.2.</span> <span class="nav-text">配置redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写加锁和解锁的方法"><span class="nav-number">2.2.3.</span> <span class="nav-text">编写加锁和解锁的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下单代码中引入加锁和解锁，确保只有一个线程操作"><span class="nav-number">2.2.4.</span> <span class="nav-text">下单代码中引入加锁和解锁，确保只有一个线程操作</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区别"><span class="nav-number">2.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-number">3.</span> <span class="nav-text">用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL预编译"><span class="nav-number">4.</span> <span class="nav-text">SQL预编译</span></a></li></ol></div>
             
 
           </div>
