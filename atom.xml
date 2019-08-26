@@ -6,10 +6,33 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2019-07-16T14:01:02.141Z</updated>
+  <updated>2019-08-26T14:18:17.183Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>解读SPDY协议</title>
+    <link href="https://linxiaobaixcg.github.io/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/"/>
+    <id>https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/</id>
+    <published>2019-08-26T14:16:00.000Z</published>
+    <updated>2019-08-26T14:18:17.183Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="网络" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>MyBatis中$和#的区别</title>

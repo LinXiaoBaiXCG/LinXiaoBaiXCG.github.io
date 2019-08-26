@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[解读SPDY协议]]></title>
+    <url>%2F2019%2F08%2F26%2F%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE%2F</url>
+    <content type="text"><![CDATA[简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。 特性 单个TCP连接支持并发的HTTP请求。 压缩报头和去掉不必要的头部来减少当前HTTP使用的带宽。 定义一个容易实现，在服务器端高效率的协议。通过减少边缘情况、定义易解析的消息格式来减少HTTP的复杂性。 强制使用SSL，让SSL协议在现存的网络设施下有更好的安全性和兼容性。 允许服务器在需要时发起对客户端的连接并推送数据。 原理SSL层上增加SPDY会话层]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[MyBatis中$和#的区别]]></title>
     <url>%2F2019%2F07%2F16%2FMyBatis%2F</url>
     <content type="text"><![CDATA[介绍动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需手动代码中过滤） #{ } 例如，Mapper.xml中如下的 sql 语句： 1select * from user where name = #&#123;name&#125;; 动态解析为： 1select * from user where name = ?; 一个 #{ } 被解析为一个参数占位符 ? 。 ${ } 例如，Mapper.xml中如下的 sql语句： 1select * from user where name = $&#123;name&#125;; 当我们传递的参数为 “Java” 时，上述 sql 的解析为： 1select * from user where name = "Java"; 预编译之前的 SQL 语句已经不包含变量了，完全已经是常量数据了。 综上所得， ${ } 变量的替换阶段是在动态 SQL 解析阶段，而 #{ }变量的替换是在 DBMS 中。 区别#{}是预编译处理，${}是字符串替换。 Mybatis在处理#{}时，会将SQL中的#{}替换为？，调用PreparedStatement的set方法来赋值。 Mybatis在处理${}时，就是把${}替换成变量的值。 使用#{}可以有效的防止SQL注入，提高系统安全性。 用法1、能使用 #{ } 的地方就用 #{ } 首先这是为了性能考虑的，相同的预编译 sql 可以重复利用。 其次，${ } 在预编译之前已经被变量替换了，这会存在 sql 注入问题。 例如，如下的 sql： 1select * from $&#123;tableName&#125; where name = #&#123;name&#125; 假如，我们的参数 tableName 为 user; delete user; –，那么 SQL 动态解析阶段之后，预编译之前的 sql 将变为： 1select * from user; delete user; -- where name = ?; – 之后的语句将作为注释，不起作用，因此本来的一条查询语句偷偷的包含了一个删除表数据的 SQL。 2. 表名作为变量时，必须使用 ${ }这是因为，表名是字符串，使用 sql 占位符替换字符串时会带上单引号 ‘’，这会导致 sql 语法错误，例如： 1select * from #&#123;tableName&#125; where name = #&#123;name&#125;; 预编译之后的sql 变为： 1select * from ? where name = ?; 假设我们传入的参数为 tableName = “user” , name = “Java”，那么在占位符进行变量替换后，sql 语句变为： 1select * from 'user' where name='Java'; 上述 sql 语句是存在语法错误的 SQL预编译1. 定义：sql 预编译指的是数据库驱动在发送 sql 语句和参数给 DBMS 之前对 sql 语句进行编译，这样 DBMS 执行 sql 时，就不需要重新编译。 2. 为什么需要预编译 JDBC 中使用对象 PreparedStatement 来抽象预编译语句，使用预编译。 预编译阶段可以优化 sql 的执行。预编译之后的 sql 多数情况下可以直接执行，DBMS 不需要再次编译，越复杂的sql，编译的复杂度将越大，预编译阶段可以合并多次操作为一个操作。 预编译语句对象可以重复利用。把一个 sql 预编译后产生的 PreparedStatement 对象缓存下来，下次对于同一个sql，可以直接使用这个缓存的 PreparedState 对象。 mybatis 默认情况下，将对所有的 sql 进行预编译。]]></content>
