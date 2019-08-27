@@ -88,19 +88,19 @@
 
 
 
-<meta name="description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。 特性 单个TCP连接支持并发的HTTP请求。 压">
+<meta name="description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。  注：该协议已弃用，可探究其特性和其底层原理进行">
 <meta name="keywords" content="网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解读SPDY协议">
 <meta property="og:url" content="https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/index.html">
 <meta property="og:site_name" content="Jayden&#39;s Blog">
-<meta property="og:description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。 特性 单个TCP连接支持并发的HTTP请求。 压">
+<meta property="og:description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。  注：该协议已弃用，可探究其特性和其底层原理进行">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png">
-<meta property="og:updated_time" content="2019-08-26T14:18:17.183Z">
+<meta property="og:updated_time" content="2019-08-27T14:13:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解读SPDY协议">
-<meta name="twitter:description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。 特性 单个TCP连接支持并发的HTTP请求。 压">
+<meta name="twitter:description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。  注：该协议已弃用，可探究其特性和其底层原理进行">
 <meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png">
 
 
@@ -402,7 +402,8 @@
 
       
         <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。</p>
-<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><ul>
+<ul>
+<li>注：该协议已弃用，可探究其特性和其底层原理进行学习<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1></li>
 <li>单个TCP连接支持并发的HTTP请求。</li>
 <li>压缩报头和去掉不必要的头部来减少当前HTTP使用的带宽。</li>
 <li>定义一个容易实现，在服务器端高效率的协议。通过减少边缘情况、定义易解析的消息格式来减少HTTP的复杂性。</li>

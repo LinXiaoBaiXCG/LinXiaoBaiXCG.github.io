@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2019-08-26T14:18:17.183Z</updated>
+  <updated>2019-08-27T14:13:13.000Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
@@ -16,7 +16,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/"/>
     <id>https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/</id>
     <published>2019-08-26T14:16:00.000Z</published>
-    <updated>2019-08-26T14:18:17.183Z</updated>
+    <updated>2019-08-27T14:13:13.000Z</updated>
     
     <summary type="html">
     
@@ -280,21 +280,21 @@
     <link href="https://linxiaobaixcg.github.io/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
     <id>https://linxiaobaixcg.github.io/2019/03/16/我的第一篇博客/</id>
     <published>2019-03-16T02:26:08.000Z</published>
-    <updated>2019-04-08T07:34:15.015Z</updated>
+    <updated>2019-08-27T14:20:00.799Z</updated>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;很高兴，在Github搭建的博客已经搭建完成了，这是我的第一篇博客。当我知道Github上可以搭建个人博客的时候，我发现了我的后花园。我并不喜欢在社交平台上分享自己的个人生活，当然包括自己足迹。现在主要的社交平台是微信，所以我经常被一些朋友吐槽我像消失了一样，或者说我半年才
+        &lt;p&gt;&lt;strong&gt;Hello,Blog!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2019/03/16/我的第一篇博客/1566915522(1&quot; alt=&quot;窗外的世界&quot;&gt;.jpg)&lt;/p&gt;
+
       
     
     </summary>
     
       <category term="博客" scheme="https://linxiaobaixcg.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
     
-    
-      <category term="github" scheme="https://linxiaobaixcg.github.io/tags/github/"/>
     
       <category term="blog" scheme="https://linxiaobaixcg.github.io/tags/blog/"/>
     
