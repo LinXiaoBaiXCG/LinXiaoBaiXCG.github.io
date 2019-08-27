@@ -35,6 +35,29 @@
   </entry>
   
   <entry>
+    <title>使用Spring AOP和自定义注解记录日志</title>
+    <link href="https://linxiaobaixcg.github.io/2019/07/18/%E4%BD%BF%E7%94%A8Spring%20AOP%E5%92%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/"/>
+    <id>https://linxiaobaixcg.github.io/2019/07/18/使用Spring AOP和自定义注解记录日志/</id>
+    <published>2019-07-18T13:57:00.000Z</published>
+    <updated>2019-08-27T14:07:53.111Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;自定义注解&quot;&gt;&lt;a href=&quot;#自定义注解&quot; class=&quot;headerlink&quot; title=&quot;自定义注解&quot;&gt;&lt;/a&gt;自定义注解&lt;/h1&gt;&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="java" scheme="https://linxiaobaixcg.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>MyBatis中$和#的区别</title>
     <link href="https://linxiaobaixcg.github.io/2019/07/16/MyBatis/"/>
     <id>https://linxiaobaixcg.github.io/2019/07/16/MyBatis/</id>
