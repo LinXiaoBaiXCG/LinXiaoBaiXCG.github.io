@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="Jayden&#39;s Blog">
 <meta property="og:description" content="Vuex简介Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 devtools extension，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。 官方文档：https://vuex.vuejs.org/zh/ 个">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-23T09:42:28.087Z">
+<meta property="og:updated_time" content="2019-08-29T14:56:11.842Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="个人对于Vuex的理解">
 <meta name="twitter:description" content="Vuex简介Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 devtools extension，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。 官方文档：https://vuex.vuejs.org/zh/ 个">
@@ -407,6 +407,7 @@
 <p>getters:相当于vue中的computed计算属性。用于过滤,组合state。比如说state里面存了一个数组，数组有好多个数据，而我只想要用status：0的那些个，就可以用getters</p>
 <p>modules:将store分割成模块，避免混淆</p>
 <p>Vuex:可看作是个在vue中创建全局变量的东西,Vuex提供了一些优雅的方法，可以让我们改变全局变量的值</p>
+<p>注:刷新页面Vuex会进行丢失数据，可配合session防止页面刷新丢失数据</p>
 
       
       <div>
