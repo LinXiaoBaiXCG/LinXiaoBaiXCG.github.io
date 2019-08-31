@@ -104,6 +104,35 @@
   </entry>
   
   <entry>
+    <title>Redis解读</title>
+    <link href="https://linxiaobaixcg.github.io/2019/05/26/Redis%E8%A7%A3%E8%AF%BB/"/>
+    <id>https://linxiaobaixcg.github.io/2019/05/26/Redis解读/</id>
+    <published>2019-05-26T14:55:00.000Z</published>
+    <updated>2019-08-31T14:55:30.608Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;高性能Key-Value服务器&lt;/li&gt;
+&lt;li&gt;支持多种数据结构&lt;/li&gt;
+&lt;li&gt;功能丰富&lt;/li&gt;
+&lt;li&gt;高可用分布式支
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="redis" scheme="https://linxiaobaixcg.github.io/tags/redis/"/>
+    
+      <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title>网络编程笔记</title>
     <link href="https://linxiaobaixcg.github.io/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/"/>
     <id>https://linxiaobaixcg.github.io/2019/05/16/网络编程笔记/</id>
