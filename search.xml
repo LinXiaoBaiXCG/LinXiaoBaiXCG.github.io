@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Dubbo高可用场景]]></title>
+    <url>%2F2019%2F09%2F03%2FDubbo%E9%AB%98%E5%8F%AF%E7%94%A8%E5%9C%BA%E6%99%AF%2F</url>
+    <content type="text"><![CDATA[Dubbo高可用场景zookeeper宕机与dubbo直连现象：zookeeper注册中心宕机，还可以消费dubbo暴露服务原因：健壮性 监控中心宕掉不影响使用，只是丢失部分采样数据 数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新的服务 注册中心对等集群，任意一台宕掉后，将自动切换到另一台 注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯 服务提供者无状态，任意一台宕掉后，不影响使用 服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复 集群下dubbo负载均衡配置在集群负载均衡时，Dubbo提供了多种均衡策略，默认为random随机调用负载均衡策略RandomLoadBalanceRoundRobinLoadBalanceLeastActiveLoadBalanceConsistentHashLoadBalance 服务降级什么是服务降级当服务器压力剧增的情况下，根据实际业务情况及流量，对一些服务和页面有策略的不出来或者换种简单的方式处理，从而释放服务器资源以保证核心交易正常运作或高效运作。 向注册中心写入动态配置覆盖规则：1234RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension();Registry registry = registryFactory.getRegistry(URL.valueOf("zookeeper://10.20.153.10:2181"));registry.register(URL.valueOf("override://0.0.0.0/com.foo.BarService?category=configurators&amp;dynamic=false&amp;application=consumer_app&amp;mock=force:return+null")); mock=force:return+null表示消费方对该服务的方法调用都直接返回 null 值，不发起远程调用。用来屏蔽不重要服务不可用时对调用方的影响。admin对消费者设置为屏蔽mock=fail:return+null表示消费方对该服务的方法调用在失败后，再返回 null 值，不抛异常。用来容忍不重要服务不稳定时对调用方的影响。admin对消费者设置为容错 dubbo 服务降级的真实含义：并不是对 provider 进行操作，而是告诉 consumer，调用服务时要做哪些动作。 集群容错模式Dubbo 主要提供了这样几种容错方式： Failover Cluster - 失败自动切换 Failfast Cluster - 快速失败 Failsafe Cluster - 失败安全 Failback Cluster - 失败自动恢复 Forking Cluster - 并行调用多个服务提供者 可整合Hystrix进行服务熔断]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[使用令牌桶算法限流]]></title>
+    <url>%2F2019%2F09%2F03%2F%E4%BD%BF%E7%94%A8%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95%E9%99%90%E6%B5%81%2F</url>
+    <content type="text"><![CDATA[限流限流是对某一时间窗口内的请求数进行限制，保持系统的可用性和稳定性，防止因流量暴增而导致的系统运行缓慢或宕机。常用的限流算法有令牌桶和和漏桶，而Google开源项目Guava中的RateLimiter使用的就是令牌桶控制算法。在开发高并发系统时有三把利器用来保护系统： 缓存：缓存的目的是提升系统访问速度和增大系统处理容量 降级：降级是当服务器压力剧增的情况下，根据当前业务情况及流量对一些服务和页面有策略的降级，以此释放服务器资源以保证核心任务的正常运行 限流的目的是通过对并发访问/请求进行限速，或者对一个时间窗口内的请求进行限速来保护系统，一旦达到限制速率则可以拒绝服务、排队或等待、降级等处理 限流算法漏桶算法漏桶(Leaky Bucket)算法思路很简单,水(请求)先进入到漏桶里,漏桶以一定的速度出水(接口有响应速率),当水流入速度过大会直接溢出(访问频率超过接口响应速率),然后就拒绝请求,可以看出漏桶算法能强行限制数据的传输速率.示意图如下:因为漏桶的漏出速率是固定的参数,所以,即使网络中不存在资源冲突(没有发生拥塞),漏桶算法也不能使流突发(burst)到端口速率.因此,漏桶算法对于存在突发特性的流量来说缺乏效率. 令牌桶算法令牌桶算法原理是系统会以一个恒定的速度往桶里放入令牌，而如果请求需要被处理，则需要先从桶里获取一个令牌，当桶里没有令牌可取时，则拒绝服务。示意图如下:令牌桶的好处是可以方便的改变速度. 一旦需要提高速率,则按需提高放入桶中的令牌的速率. 一般会定时(比如100毫秒)往桶中增加一定数量的令牌, 有些变种算法则实时的计算应该增加的令牌的数量. 令牌桶算法的使用RateLimiter简介Google开源工具包Guava提供了限流工具类RateLimiter,该类基于令牌桶算法(Token Bucket)来完成限流,非常易于使用。RateLimiter经常用于限制对一些物理资源或者逻辑资源的访问速率.它支持两种获取permits接口,一种是如果拿不到立刻返回false,一种会阻塞等待一段时间看能不能拿到。 RateLimiter的使用 maven 12345&lt;dependency&gt; &lt;groupId&gt;com.google.guava&lt;/groupId&gt; &lt;artifactId&gt;guava&lt;/artifactId&gt; &lt;version&gt;23.0&lt;/version&gt;&lt;/dependency&gt; 实例 12345678910public static void main(String[] args) &#123; // 这里的1表示每秒允许处理的量为1个 RateLimiter limiter = RateLimiter.create(1.0); for (int i = 1; i &lt;= 10; i++) &#123; // 请求RateLimiter, 超过permits会被阻塞 limiter.acquire(); String start = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()); System.out.println("time:" + start + "---------------" + +i); &#125;&#125; 结果12345678910time:2019-09-03 10:08:11---------------1time:2019-09-03 10:08:12---------------2time:2019-09-03 10:08:13---------------3time:2019-09-03 10:08:14---------------4time:2019-09-03 10:08:15---------------5time:2019-09-03 10:08:16---------------6time:2019-09-03 10:08:17---------------7time:2019-09-03 10:08:18---------------8time:2019-09-03 10:08:19---------------9time:2019-09-03 10:08:20---------------10 实际使用12345678910111213141516@Servicepublic class GuavaRateLimiterService &#123; /** * 每秒控制5个许可 */ RateLimiter rateLimiter = RateLimiter.create(5.0); /** * 获取令牌 * * @return */ public boolean tryAcquire() &#123; return rateLimiter.tryAcquire(); &#125;&#125; 123456789101112@Autowiredprivate GuavaRateLimiterService guavaRateLimiterService;@GetMapping(value = "/sayHello")public String sayHello() &#123; if (guavaRateLimiterService.tryAcquire()) &#123; log.info("获取许可成功"); return "hello"; &#125; log.info("获取许可失败"); return "hi";&#125; 亦可用自定义注解+切面的方式实现]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[解读SPDY协议]]></title>
     <url>%2F2019%2F08%2F26%2F%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE%2F</url>
     <content type="text"><![CDATA[简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。 注：该协议已弃用，可探究其特性和其底层原理进行学习特性 单个TCP连接支持并发的HTTP请求。 压缩报头和去掉不必要的头部来减少当前HTTP使用的带宽。 定义一个容易实现，在服务器端高效率的协议。通过减少边缘情况、定义易解析的消息格式来减少HTTP的复杂性。 强制使用SSL，让SSL协议在现存的网络设施下有更好的安全性和兼容性。 允许服务器在需要时发起对客户端的连接并推送数据。 原理SSL层上增加SPDY会话层]]></content>
