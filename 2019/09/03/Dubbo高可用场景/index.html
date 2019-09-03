@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="Jayden&#39;s Blog">
 <meta property="og:description" content="Dubbo高可用场景zookeeper宕机与dubbo直连现象：zookeeper注册中心宕机，还可以消费dubbo暴露服务原因：健壮性  监控中心宕掉不影响使用，只是丢失部分采样数据 数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新的服务 注册中心对等集群，任意一台宕掉后，将自动切换到另一台 注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯 服务提供者无状态，任意一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-03T13:38:12.884Z">
+<meta property="og:updated_time" content="2019-09-03T13:44:47.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubbo高可用场景">
 <meta name="twitter:description" content="Dubbo高可用场景zookeeper宕机与dubbo直连现象：zookeeper注册中心宕机，还可以消费dubbo暴露服务原因：健壮性  监控中心宕掉不影响使用，只是丢失部分采样数据 数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新的服务 注册中心对等集群，任意一台宕掉后，将自动切换到另一台 注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯 服务提供者无状态，任意一">
@@ -408,7 +408,7 @@
 <li>服务提供者无状态，任意一台宕掉后，不影响使用</li>
 <li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
 </ul>
-<h2 id="集群下dubbo负载均衡配置"><a href="#集群下dubbo负载均衡配置" class="headerlink" title="集群下dubbo负载均衡配置"></a>集群下dubbo负载均衡配置</h2><p>在集群负载均衡时，Dubbo提供了多种均衡策略，默认为random随机调用<br>负载均衡策略<br>RandomLoadBalance<br>RoundRobinLoadBalance<br>LeastActiveLoadBalance<br>ConsistentHashLoadBalance</p>
+<h2 id="集群下dubbo负载均衡配置"><a href="#集群下dubbo负载均衡配置" class="headerlink" title="集群下dubbo负载均衡配置"></a>集群下dubbo负载均衡配置</h2><p>在集群负载均衡时，Dubbo提供了多种均衡策略，默认为random随机调用<br>负载均衡策略<br>RandomLoadBalance<br>RoundRobinLoadBalance<br>LeastActiveLoadBalance<br>ConsistentHashLoadBalance<br>详解：<a href="http://dubbo.apache.org/zh-cn/docs/source_code_guide/loadbalance.html" target="_blank" rel="noopener">http://dubbo.apache.org/zh-cn/docs/source_code_guide/loadbalance.html</a></p>
 <h2 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h2><p>什么是服务降级<br>当服务器压力剧增的情况下，根据实际业务情况及流量，对一些服务和页面有策略的不出来或者换种简单的方式处理，从而释放服务器资源以保证核心交易正常运作或高效运作。</p>
 <p>向注册中心写入动态配置覆盖规则：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RegistryFactory registryFactory = </span><br><span class="line">    ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension()<span class="comment">;</span></span><br><span class="line">Registry registry = registryFactory.getRegistry(URL.valueOf(<span class="string">"zookeeper://10.20.153.10:2181"</span>))<span class="comment">;</span></span><br><span class="line">registry.register(URL.valueOf(<span class="string">"override://0.0.0.0/com.foo.BarService?category=configurators&amp;dynamic=false&amp;application=consumer_app&amp;mock=force:return+null"</span>))<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
 <p>mock=force:return+null<br>表示消费方对该服务的方法调用都直接返回 null 值，不发起远程调用。用来屏蔽不重要服务不可用时对调用方的影响。<br>admin对消费者设置为屏蔽<br>mock=fail:return+null<br>表示消费方对该服务的方法调用在失败后，再返回 null 值，不抛异常。用来容忍不重要服务不稳定时对调用方的影响。<br>admin对消费者设置为容错</p>
