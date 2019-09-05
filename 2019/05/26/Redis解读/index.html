@@ -98,7 +98,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/26/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/26/Redis解读/1567577211.jpg">
-<meta property="og:updated_time" content="2019-09-05T14:56:24.830Z">
+<meta property="og:updated_time" content="2019-09-05T14:59:05.304Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis解读">
 <meta name="twitter:description" content="简介 高性能Key-Value服务器 支持多种数据结构 功能丰富 高可用分布式支持  特性速度快官方：10W OPS数据存在内存使用C语言编写单线程模型 持久化（断电不丢数据）对数据更新将异步地保存的磁盘上 支持多种数据结构支持字符串、哈希、链表、集合、有序集合新版本支持位图（BitMaps）HyperLogLog：超小内存唯一值计数GEO:地理信息定位 支持多种编程语言javaphplua 功能">
@@ -568,18 +568,22 @@
 </li>
 <li><p>AOF重写配置</p>
 <ul>
-<li><p>配置</p>
-<p>| 配置名                      | 含义                  |<br>| ————————— | ——————— |<br>| auto-aof-rewrite-min-size   | AOF文件重写需要的尺寸 |<br>| auto-aof-rewrite-percentage | AOF文件增长率         |</p>
-</li>
+<li>配置</li>
 </ul>
 </li>
 </ol>
-<ul>
-<li><p>统计</p>
-<p>| 统计名           | 含义                                  |<br>| —————- | ————————————- |<br>| aof_current_size | AOF当前尺寸（单位：字节）             |<br>| aof_base_size    | AOF上次启动和重写的尺寸（单位：字节） |</p>
-</li>
+<pre><code>| 配置名                      | 含义                  |
+| --------------------------- | --------------------- |
+| auto-aof-rewrite-min-size   | AOF文件重写需要的尺寸 |
+| auto-aof-rewrite-percentage | AOF文件增长率         |
+</code></pre><ul>
+<li>统计</li>
 </ul>
-<h4 id="AOF重写流程"><a href="#AOF重写流程" class="headerlink" title="AOF重写流程"></a>AOF重写流程</h4><p><img src="/2019/05/26/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg" alt="AOF重写流程图"></p>
+<pre><code>| 统计名           | 含义                                  |
+| ---------------- | ------------------------------------- |
+| aof_current_size | AOF当前尺寸（单位：字节）             |
+| aof_base_size    | AOF上次启动和重写的尺寸（单位：字节） |
+</code></pre><h4 id="AOF重写流程"><a href="#AOF重写流程" class="headerlink" title="AOF重写流程"></a>AOF重写流程</h4><p><img src="/2019/05/26/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg" alt="AOF重写流程图"></p>
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>appendonly     yes</p>
 <h2 id="两种持久化的比较和选择"><a href="#两种持久化的比较和选择" class="headerlink" title="两种持久化的比较和选择"></a>两种持久化的比较和选择</h2><h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><table>
 <thead>
