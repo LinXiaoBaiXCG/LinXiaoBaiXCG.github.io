@@ -98,7 +98,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/26/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/26/Redis解读/1567577211.jpg">
-<meta property="og:updated_time" content="2019-09-05T14:59:05.304Z">
+<meta property="og:updated_time" content="2019-09-05T15:08:19.599Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis解读">
 <meta name="twitter:description" content="简介 高性能Key-Value服务器 支持多种数据结构 功能丰富 高可用分布式支持  特性速度快官方：10W OPS数据存在内存使用C语言编写单线程模型 持久化（断电不丢数据）对数据更新将异步地保存的磁盘上 支持多种数据结构支持字符串、哈希、链表、集合、有序集合新版本支持位图（BitMaps）HyperLogLog：超小内存唯一值计数GEO:地理信息定位 支持多种编程语言javaphplua 功能">
@@ -423,7 +423,9 @@
 <li>排行榜</li>
 <li>社交网络</li>
 <li>实时系统  </li>
-<li>限流<h2 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a>启动方式</h2></li>
+<li>限流</li>
+</ul>
+<h2 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a>启动方式</h2><ul>
 <li>生产环境选择配置启动</li>
 <li>单机多实例配置文件可以用端口区分开</li>
 </ul>
@@ -434,14 +436,15 @@
 <li>exists key（检查key是否存在1为存在2为不存在）</li>
 <li>del key [key …]</li>
 <li>expire key seconds</li>
-<li>type key<h2 id="Redis使用单线程还这么快？"><a href="#Redis使用单线程还这么快？" class="headerlink" title="Redis使用单线程还这么快？"></a>Redis使用单线程还这么快？</h2></li>
+<li>type key</li>
 </ul>
-<ol>
+<h2 id="Redis使用单线程还这么快？"><a href="#Redis使用单线程还这么快？" class="headerlink" title="Redis使用单线程还这么快？"></a>Redis使用单线程还这么快？</h2><ol>
 <li>纯内存</li>
 <li>非阻塞IO（使用epoll模型）</li>
-<li>避免线程切换和竞态消耗<h2 id="set-setnx-setxx"><a href="#set-setnx-setxx" class="headerlink" title="set setnx setxx"></a>set setnx setxx</h2>set key value:不管key是否存在，都设置<br>setnx key value:key不存在，才设置(可看做添加操作)<br>set key value xx :key存在，才设置(可看做编辑操作)<h1 id="Redis的扩展"><a href="#Redis的扩展" class="headerlink" title="Redis的扩展"></a>Redis的扩展</h1><h2 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h2></li>
+<li>避免线程切换和竞态消耗</li>
 </ol>
-<ul>
+<h2 id="set-setnx-setxx"><a href="#set-setnx-setxx" class="headerlink" title="set setnx setxx"></a>set setnx setxx</h2><p>set key value:不管key是否存在，都设置<br>setnx key value:key不存在，才设置(可看做添加操作)<br>set key value xx :key存在，才设置(可看做编辑操作)</p>
+<h1 id="Redis的扩展"><a href="#Redis的扩展" class="headerlink" title="Redis的扩展"></a>Redis的扩展</h1><h2 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h2><ul>
 <li>生命周期<br>客户端发送命令到服务端，此时服务端有多条命令在执行，因为redis是单线程的，所以得排队等待执行命令，等待过程中会消耗一定是时间，最后返回结果</li>
 <li>说明</li>
 </ul>
@@ -480,7 +483,10 @@
 <ol>
 <li>MySQL Binlog</li>
 <li>Hbase HLog</li>
-<li>Redis AOF<h2 id="Redis-RDB"><a href="#Redis-RDB" class="headerlink" title="Redis RDB"></a>Redis RDB</h2>RDB:redis创建RDB文件（二进制）选在硬盘中，类似备份<h3 id="触发机制"><a href="#触发机制" class="headerlink" title="触发机制"></a>触发机制</h3></li>
+<li>Redis AOF</li>
+</ol>
+<h2 id="Redis-RDB"><a href="#Redis-RDB" class="headerlink" title="Redis RDB"></a>Redis RDB</h2><p>RDB:redis创建RDB文件（二进制）选在硬盘中，类似备份</p>
+<h3 id="触发机制"><a href="#触发机制" class="headerlink" title="触发机制"></a>触发机制</h3><ol>
 <li>sava（同步）<br>介绍：执行sava命令会创建RDB文件（二进制）<br>缺点：会造成阻塞<br>注意：会覆盖旧的RDB文件<br>复杂度：O(N)</li>
 <li>bgsava（异步）<br>介绍：执行bgsava命令，redis会fork（）redis的子进程，由子进程去创建RDB文件</li>
 <li>自动<br>通过配置自动生成RDB</li>
@@ -491,9 +497,10 @@
 <ol>
 <li>全量复制</li>
 <li>debug reload</li>
-<li>shutdown<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3>耗时耗性能<h3 id="sava和bgsava的区别"><a href="#sava和bgsava的区别" class="headerlink" title="sava和bgsava的区别"></a>sava和bgsava的区别</h3></li>
+<li>shutdown</li>
 </ol>
-<table>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>耗时耗性能</p>
+<h3 id="sava和bgsava的区别"><a href="#sava和bgsava的区别" class="headerlink" title="sava和bgsava的区别"></a>sava和bgsava的区别</h3><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -533,9 +540,9 @@
 <h3 id="三种策略"><a href="#三种策略" class="headerlink" title="三种策略"></a>三种策略</h3><ol>
 <li>always<br>redis写命令刷新的缓冲区，然后再每条命令fsync到硬盘上</li>
 <li>everysec<br>redis写命令刷新的缓冲区，然后再每秒把缓冲区fsync到硬盘上</li>
-<li>no<br>由操作系统决定<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3></li>
+<li>no<br>由操作系统决定</li>
 </ol>
-<table>
+<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -561,29 +568,57 @@
 </table>
 <h3 id="AOF重写"><a href="#AOF重写" class="headerlink" title="AOF重写"></a>AOF重写</h3><h4 id="作用-1"><a href="#作用-1" class="headerlink" title="作用"></a>作用</h4><ul>
 <li>减少硬盘占用量</li>
-<li>加速恢复速度<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4></li>
+<li>加速恢复速度</li>
 </ul>
-<ol>
+<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><ol>
 <li><p>bgrewriteaof命令<br> fork子进程进行AOF重写</p>
 </li>
 <li><p>AOF重写配置</p>
+</li>
+</ol>
 <ul>
 <li>配置</li>
 </ul>
-</li>
-</ol>
-<pre><code>| 配置名                      | 含义                  |
-| --------------------------- | --------------------- |
-| auto-aof-rewrite-min-size   | AOF文件重写需要的尺寸 |
-| auto-aof-rewrite-percentage | AOF文件增长率         |
-</code></pre><ul>
+<table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auto-aof-rewrite-min-size</td>
+<td>AOF文件重写需要的尺寸</td>
+</tr>
+<tr>
+<td>auto-aof-rewrite-percentage</td>
+<td>AOF文件增长率</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li>统计</li>
 </ul>
-<pre><code>| 统计名           | 含义                                  |
-| ---------------- | ------------------------------------- |
-| aof_current_size | AOF当前尺寸（单位：字节）             |
-| aof_base_size    | AOF上次启动和重写的尺寸（单位：字节） |
-</code></pre><h4 id="AOF重写流程"><a href="#AOF重写流程" class="headerlink" title="AOF重写流程"></a>AOF重写流程</h4><p><img src="/2019/05/26/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg" alt="AOF重写流程图"></p>
+<table>
+<thead>
+<tr>
+<th>统计名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aof_current_size</td>
+<td>AOF当前尺寸（单位：字节）</td>
+</tr>
+<tr>
+<td>aof_base_size</td>
+<td>AOF上次启动和重写的尺寸（单位：字节）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="AOF重写流程"><a href="#AOF重写流程" class="headerlink" title="AOF重写流程"></a>AOF重写流程</h4><p><img src="/2019/05/26/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg" alt="AOF重写流程图"></p>
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>appendonly     yes</p>
 <h2 id="两种持久化的比较和选择"><a href="#两种持久化的比较和选择" class="headerlink" title="两种持久化的比较和选择"></a>两种持久化的比较和选择</h2><h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><table>
 <thead>
@@ -712,7 +747,9 @@
 <h3 id="解决方法2一布隆过滤器拦截"><a href="#解决方法2一布隆过滤器拦截" class="headerlink" title="解决方法2一布隆过滤器拦截"></a>解决方法2一布隆过滤器拦截</h3><h2 id="无底洞问题"><a href="#无底洞问题" class="headerlink" title="无底洞问题"></a>无底洞问题</h2><h2 id="热点key的重建优化"><a href="#热点key的重建优化" class="headerlink" title="热点key的重建优化"></a>热点key的重建优化</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><ol>
 <li>减少重缓存的次数</li>
 <li>数据尽可能一致</li>
-<li>减少潜在危险<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3></li>
+<li>减少潜在危险</li>
+</ol>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><ol>
 <li>互斥锁（mutex key）</li>
 <li>永不过去</li>
 </ol>
