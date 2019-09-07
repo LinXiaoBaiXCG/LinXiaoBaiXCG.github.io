@@ -154,6 +154,29 @@
   </entry>
   
   <entry>
+    <title>TCP的三次握手和四次挥手</title>
+    <link href="https://linxiaobaixcg.github.io/2019/06/11/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/"/>
+    <id>https://linxiaobaixcg.github.io/2019/06/11/TCP的三次握手和四次挥手/</id>
+    <published>2019-06-11T12:36:00.000Z</published>
+    <updated>2019-09-07T14:51:01.331Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;h1 id=&quot;过程&quot;&gt;&lt;a href=&quot;#过程&quot; class=&quot;headerlink&quot; title=&quot;过程&quot;&gt;&lt;/a&gt;过程&lt;/h1&gt;&lt;h2 id
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="网络" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Redis解读</title>
     <link href="https://linxiaobaixcg.github.io/2019/05/26/Redis%E8%A7%A3%E8%AF%BB/"/>
     <id>https://linxiaobaixcg.github.io/2019/05/26/Redis解读/</id>
