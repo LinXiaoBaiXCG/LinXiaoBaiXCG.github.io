@@ -98,7 +98,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/26/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/26/Redis解读/1567577211.jpg">
-<meta property="og:updated_time" content="2019-09-05T15:16:58.949Z">
+<meta property="og:updated_time" content="2019-09-13T14:33:49.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis解读">
 <meta name="twitter:description" content="简介 高性能Key-Value服务器 支持多种数据结构 功能丰富 高可用分布式支持  特性速度快官方：10W OPS数据存在内存使用C语言编写单线程模型 持久化（断电不丢数据）对数据更新将异步地保存的磁盘上 支持多种数据结构支持字符串、哈希、链表、集合、有序集合新版本支持位图（BitMaps）HyperLogLog：超小内存唯一值计数GEO:地理信息定位 支持多种编程语言javaphplua 功能">
@@ -418,9 +418,9 @@
 <h2 id="高可用、分布式"><a href="#高可用、分布式" class="headerlink" title="高可用、分布式"></a>高可用、分布式</h2><p>高可用—-Redis-Sentinel  支持高可用<br>分布式—-Redis-Cluster 支持分布式</p>
 <h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><ul>
 <li>缓存系统<br>提高响应速度</li>
-<li>计数器<br>转发数、评论数（微博）</li>
-<li>消息队列系统</li>
-<li>排行榜</li>
+<li>计数器<br>利用自增incr、decr可以实现计数器<br>转发数、评论数（微博）</li>
+<li>消息队列系统<br>利用pub、sub模式发布订阅消息系统</li>
+<li>排行榜<br>利用有序集合zset进行排序，得出排行榜</li>
 <li>社交网络</li>
 <li>实时系统  </li>
 <li>限流</li>
