@@ -301,6 +301,204 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxiaobaixcg.github.io/2019/11/29/数据库优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content>
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LinChuangQiong's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/29/数据库优化/" itemprop="url">数据库优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-29T19:17:00+08:00">
+                2019-11-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          什么影响了数据库性能
+sql查询速度
+服务器硬件
+网卡流量
+磁盘IO
+大表(10G)
+大事务
+
+大表对DDL操作的影响
+
+建立索引需要很长时间
+修改表结构需要长时间锁表
+
+如何处理数据库中的大表
+
+分库分表把一张表分成多个小表难点：分表主键的选择分表后跨分区数据的查询和统计
+历史数据归档难点：归档时间点的选择如何进行归档操作
+
+大事务的影响
+
+锁定太多的数据，造成大量的阻塞和锁超时
+回滚所需的时间比较长
+执行时间长，容易造成主从延迟
+
+RAID
+数据库索引优化策略
+索引列上不能使用表达式或函数
+前缀索引和索引列的选择性
+联合索引
+
+
+经常会被使用到的列优先
+选择性高的列优先
+宽度小的列优先
+
+
+覆盖索引
+
+
+优点
+可以优化缓存，减少磁盘IO操作
+可以减少随机IO，变随机IO操作变为顺序IO操作
+可以避免对Innodb主键索引的二次查询
+可以避免MyISAM表进行系统调用
+
+
+          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/29/数据库优化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+      <div>
+        
+      </div>
+    </div>
+    
+    
+    
+    <div>
+      
+    </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://linxiaobaixcg.github.io/2019/09/03/Dubbo高可用场景/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1802,159 +2000,6 @@ TCP(传输控制协议)方式TCP方式就类似于拨打电话，使用该种方
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxiaobaixcg.github.io/2019/04/27/[路遥--平凡的世界]观后感/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content>
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LinChuangQiong's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/27/[路遥--平凡的世界]观后感/" itemprop="url">路遥--平凡的世界 观后感</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-27T10:40:00+08:00">
-                2019-04-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/阅读/" itemprop="url" rel="index">
-                    <span itemprop="name">阅读</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          作者简介路遥（1949年12月3日—1992年11月17日），本名王卫国，出生于陕北榆林清涧县，中国当代作家，代表作有长篇小说《平凡的世界》、《人生》等。 [1]  曾任中国作家协会陕西分会党组成员、副主席。路遥1949年12月3日出生于陕西陕北山区清涧县一个贫困的农民家庭，7岁时因为家里困难被过继给延川县农村的伯父。曾在延川县立中学学习，1969年回乡务农。这段时间里他做过许多临时性的工作，并在农村一小学中教过一年书。1973年进入延安大学中文系学习，其间开始文学创作。大学毕业后，任《陕西文艺》（今为《延河》）编辑。1980年发表《惊人动魄的一幕》，获得第一届全国优秀中篇小说奖。1982年发表中篇小说《人生》，后被改编为电影。1991年完成百万字的长篇巨著《平凡的世界》，这部小说以其恢宏的气势和史诗般的品格，全景式地表现了改革时代中国城乡的社会生活和人们思想情感的巨大变迁，还未完成即在中央人民电台广播。路遥因此而荣获茅盾文学奖。1992年11月17日，路遥因肝硬化腹水医治无效在西安逝世
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/27/[路遥--平凡的世界]观后感/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-      <div>
-        
-      </div>
-    </div>
-    
-    
-    
-    <div>
-      
-    </div>
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2007,7 +2052,7 @@ TCP(传输控制协议)方式TCP方式就类似于拨打电话，使用该种方
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

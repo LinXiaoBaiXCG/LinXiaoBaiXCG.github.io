@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2019-09-03T13:44:47.862Z</updated>
+  <updated>2019-11-29T11:17:44.401Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据库优化</title>
+    <link href="https://linxiaobaixcg.github.io/2019/11/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/"/>
+    <id>https://linxiaobaixcg.github.io/2019/11/29/数据库优化/</id>
+    <published>2019-11-29T11:17:00.000Z</published>
+    <updated>2019-11-29T11:17:44.401Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;什么影响了数据库性能&quot;&gt;&lt;a href=&quot;#什么影响了数据库性能&quot; class=&quot;headerlink&quot; title=&quot;什么影响了数据库性能&quot;&gt;&lt;/a&gt;什么影响了数据库性能&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;sql查询速度&lt;/li&gt;
+&lt;li&gt;服务器硬件&lt;/li&gt;
+&lt;li&gt;
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
   
   <entry>
     <title>Dubbo高可用场景</title>

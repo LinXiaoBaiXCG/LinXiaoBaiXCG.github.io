@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[数据库优化]]></title>
+    <url>%2F2019%2F11%2F29%2F%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96%2F</url>
+    <content type="text"><![CDATA[什么影响了数据库性能 sql查询速度 服务器硬件 网卡流量 磁盘IO 大表(10G) 大事务 大表对DDL操作的影响 建立索引需要很长时间 修改表结构需要长时间锁表 如何处理数据库中的大表 分库分表把一张表分成多个小表难点：分表主键的选择分表后跨分区数据的查询和统计 历史数据归档难点：归档时间点的选择如何进行归档操作 大事务的影响 锁定太多的数据，造成大量的阻塞和锁超时 回滚所需的时间比较长 执行时间长，容易造成主从延迟 RAID 数据库索引优化策略 索引列上不能使用表达式或函数 前缀索引和索引列的选择性 联合索引 经常会被使用到的列优先 选择性高的列优先 宽度小的列优先 覆盖索引 优点 可以优化缓存，减少磁盘IO操作 可以减少随机IO，变随机IO操作变为顺序IO操作 可以避免对Innodb主键索引的二次查询 可以避免MyISAM表进行系统调用]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Dubbo高可用场景]]></title>
     <url>%2F2019%2F09%2F03%2FDubbo%E9%AB%98%E5%8F%AF%E7%94%A8%E5%9C%BA%E6%99%AF%2F</url>
     <content type="text"><![CDATA[Dubbo高可用场景zookeeper宕机与dubbo直连现象：zookeeper注册中心宕机，还可以消费dubbo暴露服务原因：健壮性 监控中心宕掉不影响使用，只是丢失部分采样数据 数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新的服务 注册中心对等集群，任意一台宕掉后，将自动切换到另一台 注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯 服务提供者无状态，任意一台宕掉后，不影响使用 服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复 集群下dubbo负载均衡配置在集群负载均衡时，Dubbo提供了多种均衡策略，默认为random随机调用负载均衡策略RandomLoadBalanceRoundRobinLoadBalanceLeastActiveLoadBalanceConsistentHashLoadBalance详解：http://dubbo.apache.org/zh-cn/docs/source_code_guide/loadbalance.html 服务降级什么是服务降级当服务器压力剧增的情况下，根据实际业务情况及流量，对一些服务和页面有策略的不出来或者换种简单的方式处理，从而释放服务器资源以保证核心交易正常运作或高效运作。 向注册中心写入动态配置覆盖规则：1234RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension();Registry registry = registryFactory.getRegistry(URL.valueOf("zookeeper://10.20.153.10:2181"));registry.register(URL.valueOf("override://0.0.0.0/com.foo.BarService?category=configurators&amp;dynamic=false&amp;application=consumer_app&amp;mock=force:return+null")); mock=force:return+null表示消费方对该服务的方法调用都直接返回 null 值，不发起远程调用。用来屏蔽不重要服务不可用时对调用方的影响。admin对消费者设置为屏蔽mock=fail:return+null表示消费方对该服务的方法调用在失败后，再返回 null 值，不抛异常。用来容忍不重要服务不稳定时对调用方的影响。admin对消费者设置为容错 dubbo 服务降级的真实含义：并不是对 provider 进行操作，而是告诉 consumer，调用服务时要做哪些动作。 集群容错模式Dubbo 主要提供了这样几种容错方式： Failover Cluster - 失败自动切换 Failfast Cluster - 快速失败 Failsafe Cluster - 失败安全 Failback Cluster - 失败自动恢复 Forking Cluster - 并行调用多个服务提供者 可整合Hystrix进行服务熔断]]></content>
