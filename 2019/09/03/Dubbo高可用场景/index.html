@@ -410,7 +410,7 @@
 </ul>
 <h2 id="集群下dubbo负载均衡配置"><a href="#集群下dubbo负载均衡配置" class="headerlink" title="集群下dubbo负载均衡配置"></a>集群下dubbo负载均衡配置</h2><p>在集群负载均衡时，Dubbo提供了多种均衡策略，默认为random随机调用<br>负载均衡策略<br>RandomLoadBalance<br>RoundRobinLoadBalance<br>LeastActiveLoadBalance<br>ConsistentHashLoadBalance<br>详解：<a href="http://dubbo.apache.org/zh-cn/docs/source_code_guide/loadbalance.html" target="_blank" rel="noopener">http://dubbo.apache.org/zh-cn/docs/source_code_guide/loadbalance.html</a></p>
 <h2 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h2><p>什么是服务降级<br>当服务器压力剧增的情况下，根据实际业务情况及流量，对一些服务和页面有策略的不出来或者换种简单的方式处理，从而释放服务器资源以保证核心交易正常运作或高效运作。</p>
-<p>向注册中心写入动态配置覆盖规则：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RegistryFactory registryFactory = </span><br><span class="line">    ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension()<span class="comment">;</span></span><br><span class="line">Registry registry = registryFactory.getRegistry(URL.valueOf(<span class="string">"zookeeper://10.20.153.10:2181"</span>))<span class="comment">;</span></span><br><span class="line">registry.register(URL.valueOf(<span class="string">"override://0.0.0.0/com.foo.BarService?category=configurators&amp;dynamic=false&amp;application=consumer_app&amp;mock=force:return+null"</span>))<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>向注册中心写入动态配置覆盖规则：<br><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RegistryFactory registryFactory = </span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">ExtensionLoader</span>.</span></span>get<span class="constructor">ExtensionLoader(RegistryFactory.<span class="params">class</span>)</span>.get<span class="constructor">AdaptiveExtension()</span>;</span><br><span class="line">Registry registry = registryFactory.get<span class="constructor">Registry(URL.<span class="params">valueOf</span>(<span class="string">"zookeeper://10.20.153.10:2181"</span>)</span>);</span><br><span class="line">registry.register(<span class="module-access"><span class="module"><span class="identifier">URL</span>.</span></span>value<span class="constructor">Of(<span class="string">"override://0.0.0.0/com.foo.BarService?category=configurators&amp;dynamic=false&amp;application=consumer_app&amp;mock=force:return+null"</span>)</span>);</span><br></pre></td></tr></table></figure></p>
 <p>mock=force:return+null<br>表示消费方对该服务的方法调用都直接返回 null 值，不发起远程调用。用来屏蔽不重要服务不可用时对调用方的影响。<br>admin对消费者设置为屏蔽<br>mock=fail:return+null<br>表示消费方对该服务的方法调用在失败后，再返回 null 值，不抛异常。用来容忍不重要服务不稳定时对调用方的影响。<br>admin对消费者设置为容错</p>
 <p>dubbo 服务降级的真实含义：并不是对 provider 进行操作，而是告诉 consumer，调用服务时要做哪些动作。</p>
 <h2 id="集群容错模式"><a href="#集群容错模式" class="headerlink" title="集群容错模式"></a>集群容错模式</h2><p>Dubbo 主要提供了这样几种容错方式：</p>
@@ -583,7 +583,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

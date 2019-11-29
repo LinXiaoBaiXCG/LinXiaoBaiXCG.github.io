@@ -425,12 +425,12 @@
 <li>其次，${ } 在预编译之前已经被变量替换了，这会存在 sql 注入问题。</li>
 </ul>
 <p>例如，如下的 sql：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> $&#123;tableName&#125; <span class="keyword">where</span> <span class="keyword">name</span> = <span class="comment">#&#123;name&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> $&#123;tableName&#125; <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;</span><br></pre></td></tr></table></figure>
 <p>假如，我们的参数 tableName 为 user; delete user; –，那么 SQL 动态解析阶段之后，预编译之前的 sql 将变为：</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user; </span>delete<span class="built_in"> user; </span>-- where name = ?;</span><br></pre></td></tr></table></figure>
 <p>– 之后的语句将作为注释，不起作用，因此本来的一条查询语句偷偷的包含了一个删除表数据的 SQL。</p>
 <p><strong>2. 表名作为变量时，必须使用 ${ }</strong><br>这是因为，表名是字符串，使用 sql 占位符替换字符串时会带上单引号 ‘’，这会导致 sql 语法错误，例如：</p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span> #&#123;tableName&#125; <span class="keyword">where</span> name = #&#123;name&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> #&#123;tableName&#125; <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>预编译之后的sql 变为：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> ? <span class="keyword">where</span> <span class="keyword">name</span> = ?;</span><br></pre></td></tr></table></figure>
 <p>假设我们传入的参数为 tableName = “user” , name = “Java”，那么在占位符进行变量替换后，sql 语句变为：</p>
@@ -607,7 +607,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
