@@ -185,6 +185,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Java知识点记录]]></title>
+    <url>%2F2019%2F03%2F16%2FJava%E7%9F%A5%E8%AF%86%E7%82%B9%E8%AE%B0%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[读《Java核心技术1》记录 基础 switch语句将从与选项值相匹配的 case 标签处开始执行直到遇到 break 语句，或者执行到switch i吾句的结束处为止。如果没有相匹配的 case 标签， 而有 default 子句， 就执行这个子句。 break和continue的区别？ 用break语句可以使流程跳出switch语句体，也可以用break语句在循环结构终止本层循环体，从而提前结束本层循环。 continue语句的作用是跳过本次循环体中余下尚未执行的语句，立即进行下一次的循环条件判定，可以理解为仅结束本次循环。 如果基本的整数和浮点数精度不能够满足需求， 那么可以使用 jaVa.math 包中的两个很有用的类： Biglnteger 和 BigDecimaL 这两个类可以处理包含任意长度数字序列的数值。Biglnteger 类实现了任意精度的整数运算， BigDecimal 实现了任意精度的浮点数运算。使用静态的 valueOf 方法可以将普通的数值转换为大数值：Biglnteger a = Biglnteger.valueOf(100);遗憾的是，不能使用人们熟悉的算术运算符（如：+ 和 *) 处理大数值。 而需要使用大数值类中的 add 和 multiply 方法。 数组是一种数据结构， 用来存储同一类型值的集合。 创建一个数字数组时， 所有元素都初始化为 0。boolean 数组的元素会初始化为 false。 对象数组的元素则初始化为一个特殊值 null, 这表示这些元素（还）未存放任何对象。 一旦创建了数组， 就不能再改变它的大小（尽管可以改变每一个数组元素）0 如果经常需要在运行过程中扩展数组的大小， 就应该使用另一种数据结构—数组列表（ array list) Arrays.toString(a), 返回一个包含数组元素的字符串 要想对数值型数组进行排序， 可以使用 Arrays 类中的 sort 方法 。这个方法使用了优化的快速排序算法。快速排序算法对于大多数数据集合来说都是效率比较高的 。 要想对数值型数组进行排序， 可以使用 Arrays 类中的 sort 方法。这个方法使用了优化的快速排序算法。快速排序算法对于大多数数据集合来说都是效率比较高的。 对象和类 类与类常见的关系：依赖、聚合、继承 类库设计者决定将保存时间与给时间点命名分开。所以标准 Java 类库分别包含了两个类：一个是用来表示时间点的 Date 类；另一个是用来表示大家熟悉的日历表示法的 LocalDate 类。 4.4]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[我的第一篇博客]]></title>
     <url>%2F2019%2F03%2F16%2F%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%2F</url>
     <content type="text"><![CDATA[Hello,Blog!]]></content>
