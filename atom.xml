@@ -42,7 +42,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/09/03/Dubbo%E9%AB%98%E5%8F%AF%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
     <id>https://linxiaobaixcg.github.io/2019/09/03/Dubbo高可用场景/</id>
     <published>2019-09-03T13:50:00.000Z</published>
-    <updated>2019-09-03T13:44:47.862Z</updated>
+    <updated>2019-12-14T15:31:24.071Z</updated>
     
     <summary type="html">
     
@@ -56,9 +56,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="java" scheme="https://linxiaobaixcg.github.io/tags/java/"/>
+      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
-      <category term="dubbo" scheme="https://linxiaobaixcg.github.io/tags/dubbo/"/>
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -67,7 +67,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/09/03/%E4%BD%BF%E7%94%A8%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95%E9%99%90%E6%B5%81/"/>
     <id>https://linxiaobaixcg.github.io/2019/09/03/使用令牌桶算法限流/</id>
     <published>2019-09-03T13:34:00.000Z</published>
-    <updated>2019-09-03T13:37:00.241Z</updated>
+    <updated>2019-12-14T15:36:03.957Z</updated>
     
     <summary type="html">
     
@@ -81,9 +81,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="java" scheme="https://linxiaobaixcg.github.io/tags/java/"/>
-    
       <category term="算法" scheme="https://linxiaobaixcg.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -134,29 +134,6 @@
   </entry>
   
   <entry>
-    <title>Java中深拷贝和浅拷贝的理解和区别</title>
-    <link href="https://linxiaobaixcg.github.io/2019/06/11/Java%E4%B8%AD%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E5%8C%BA%E5%88%AB/"/>
-    <id>https://linxiaobaixcg.github.io/2019/06/11/Java中深拷贝和浅拷贝的理解和区别/</id>
-    <published>2019-06-11T15:00:00.000Z</published>
-    <updated>2019-06-11T15:04:28.105Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;对象拷贝&quot;&gt;&lt;a href=&quot;#对象拷贝&quot; class=&quot;headerlink&quot; title=&quot;对象拷贝&quot;&gt;&lt;/a&gt;对象拷贝&lt;/h1&gt;&lt;p&gt;Java中的对象拷贝(Object Copy)指的是将一个对象的所有属性（成员变量）拷贝到另一个有着相同类类型的对象中去。举
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="java" scheme="https://linxiaobaixcg.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
     <title>TCP的三次握手和四次挥手</title>
     <link href="https://linxiaobaixcg.github.io/2019/06/11/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/"/>
     <id>https://linxiaobaixcg.github.io/2019/06/11/TCP的三次握手和四次挥手/</id>
@@ -184,7 +161,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/05/26/Redis%E8%A7%A3%E8%AF%BB/"/>
     <id>https://linxiaobaixcg.github.io/2019/05/26/Redis解读/</id>
     <published>2019-05-26T14:55:00.000Z</published>
-    <updated>2019-09-13T14:33:49.091Z</updated>
+    <updated>2019-12-14T15:34:49.856Z</updated>
     
     <summary type="html">
     
@@ -202,9 +179,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="redis" scheme="https://linxiaobaixcg.github.io/tags/redis/"/>
-    
       <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="Redis" scheme="https://linxiaobaixcg.github.io/tags/Redis/"/>
     
   </entry>
   
@@ -213,7 +190,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/"/>
     <id>https://linxiaobaixcg.github.io/2019/05/16/网络编程笔记/</id>
     <published>2019-05-16T13:53:00.000Z</published>
-    <updated>2019-05-16T14:46:30.727Z</updated>
+    <updated>2019-12-14T15:36:25.466Z</updated>
     
     <summary type="html">
     
@@ -228,7 +205,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="网络" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+      <category term="网络编程" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
@@ -287,7 +264,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/04/07/%E4%BD%BF%E7%94%A8Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E8%A7%A3%E5%86%B3%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/"/>
     <id>https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/</id>
     <published>2019-04-07T14:31:00.000Z</published>
-    <updated>2019-04-28T15:24:15.288Z</updated>
+    <updated>2019-12-14T15:35:42.526Z</updated>
     
     <summary type="html">
     
@@ -301,9 +278,32 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="redis" scheme="https://linxiaobaixcg.github.io/tags/redis/"/>
-    
       <category term="并发" scheme="https://linxiaobaixcg.github.io/tags/%E5%B9%B6%E5%8F%91/"/>
+    
+      <category term="Redis" scheme="https://linxiaobaixcg.github.io/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中深拷贝和浅拷贝的理解和区别</title>
+    <link href="https://linxiaobaixcg.github.io/2019/04/03/Java%E4%B8%AD%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E5%8C%BA%E5%88%AB/"/>
+    <id>https://linxiaobaixcg.github.io/2019/04/03/Java中深拷贝和浅拷贝的理解和区别/</id>
+    <published>2019-04-03T15:00:00.000Z</published>
+    <updated>2019-12-14T15:33:03.615Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;对象拷贝&quot;&gt;&lt;a href=&quot;#对象拷贝&quot; class=&quot;headerlink&quot; title=&quot;对象拷贝&quot;&gt;&lt;/a&gt;对象拷贝&lt;/h1&gt;&lt;p&gt;Java中的对象拷贝(Object Copy)指的是将一个对象的所有属性（成员变量）拷贝到另一个有着相同类类型的对象中去。举
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -312,7 +312,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <id>https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()方法的使用/</id>
     <published>2019-03-28T08:34:53.000Z</published>
-    <updated>2019-04-23T09:13:28.243Z</updated>
+    <updated>2019-12-14T15:31:10.286Z</updated>
     
     <summary type="html">
     
@@ -326,7 +326,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="java" scheme="https://linxiaobaixcg.github.io/tags/java/"/>
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -335,7 +335,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/03/26/%E4%BD%BF%E7%94%A8Spring%20AOP%E5%92%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/"/>
     <id>https://linxiaobaixcg.github.io/2019/03/26/使用Spring AOP和自定义注解记录日志/</id>
     <published>2019-03-26T13:57:00.000Z</published>
-    <updated>2019-12-14T15:22:45.706Z</updated>
+    <updated>2019-12-14T15:35:52.063Z</updated>
     
     <summary type="html">
     
@@ -349,7 +349,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="java" scheme="https://linxiaobaixcg.github.io/tags/java/"/>
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -404,21 +404,20 @@
   </entry>
   
   <entry>
-    <title>Java知识点记录</title>
+    <title>Java核心技术1-基本程序设计结构、对象和类</title>
     <link href="https://linxiaobaixcg.github.io/2019/03/17/Java%E7%9F%A5%E8%AF%86%E7%82%B9%E8%AE%B0%E5%BD%95/"/>
     <id>https://linxiaobaixcg.github.io/2019/03/17/Java知识点记录/</id>
     <published>2019-03-17T02:26:08.000Z</published>
-    <updated>2019-12-12T16:29:43.835Z</updated>
+    <updated>2019-12-14T15:32:55.522Z</updated>
     
     <summary type="html">
     
       
       
         &lt;blockquote&gt;
-&lt;p&gt;读《Java核心技术1》记录&lt;/p&gt;
+&lt;p&gt;读《Java核心技术1》知识点记录&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;基础&quot;&gt;&lt;a href=&quot;#基础&quot; class=&quot;headerlink&quot; title=&quot;基础&quot;&gt;&lt;/a&gt;基础&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;switch语句将从与选
+&lt;h1 id=&quot;基本程序设计结构&quot;&gt;&lt;a href=&quot;#基本程序设计结构&quot; class=&quot;headerlink&quot; title=&quot;基本程序设计结构&quot;&gt;&lt;/a&gt;基本程序设计结构&lt;/
       
     
     </summary>
@@ -427,6 +426,8 @@
     
     
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+      <category term="技术书籍" scheme="https://linxiaobaixcg.github.io/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/"/>
     
   </entry>
   
