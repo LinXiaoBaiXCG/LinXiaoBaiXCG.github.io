@@ -56,9 +56,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -415,9 +415,8 @@
       
       
         &lt;p&gt;&lt;strong&gt;Hello,Blog!&lt;/strong&gt;&lt;/p&gt;
-&lt;figure class=&quot;image-bubble&quot;&gt;
-                &lt;div class=&quot;img-lightbox&quot;&gt;
-                    &lt;div class=
+&lt;p&gt;&lt;img src=&quot;/2019/03/16/我的第一篇博客/1566915522.jpg&quot; alt=&quot;窗外的世界&quot;&gt;&lt;/p&gt;
+
       
     
     </summary>
