@@ -17,8 +17,6 @@
     <title>LinChuangQiong&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="theme-color" content="#3F51B5">
-    
     
     <meta name="keywords" content>
     <meta property="og:type" content="website">
@@ -31,8 +29,8 @@
     
         <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
     
-    <link rel="shortcut icon" href="/images/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="shortcut icon" href="/">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
     <script>window.lazyScripts=[]</script>
 
     <!-- custom head -->
@@ -48,54 +46,19 @@
     <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
         <i class="icon icon-lg icon-close"></i>
     </a>
-    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+    <div class="brand-wrap" style="background-image:url(/)">
       <div class="brand">
         <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+          <img src="/">
         </a>
         <hgroup class="introduce">
           <h5 class="nickname"></h5>
-          <a href="mailto:634206017@qq.com" title="634206017@qq.com" class="mail">634206017@qq.com</a>
-        </hgroup>
+          <a href="mailto:undefined" class="mail">
+        </a></hgroup>
       </div>
     </div>
     <div class="scroll-wrap flex-col">
       <ul class="nav">
-        
-            <li class="waves-block waves-effect">
-              <a href="/">
-                <i class="icon icon-lg icon-home"></i>
-                主页
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/archives">
-                <i class="icon icon-lg icon-archives"></i>
-                Archives
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/tags">
-                <i class="icon icon-lg icon-tags"></i>
-                Tags
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/categories">
-                <i class="icon icon-lg icon-th-list"></i>
-                Categories
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="https://github.com/yscoder" target="_blank">
-                <i class="icon icon-lg icon-github"></i>
-                Github
-              </a>
-            </li>
         
       </ul>
     </div>
@@ -120,10 +83,6 @@
             </a>
         </div>
         
-        
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
-            <i class="icon icon-lg icon-share-alt"></i>
-        </a>
         
     </div>
 </header>
@@ -175,9 +134,7 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。
-但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。
-同时，使用synchroni...
+        synchronized处理并发首先，synchron...
     
 
         <a href="/2019/04/07/使用Redis分布式锁解决并发问题/" class="post-more waves-effect waves-button">
@@ -223,9 +180,7 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        对象拷贝Java中的对象拷贝(Object Copy)指的是将一个对象的所有属性（成员变量）拷贝到另一个有着相同类类型的对象中去。举例说明：比如，对象A和对象B都属于类S，具有属性a和b。那么对对象A进行拷贝操作赋值给对象B就是：B.a=A.a;  B.b=A.b;
-在程序中拷贝对象是很常见的，主要是为了在新的上下文环境中复用现有对象的部分或全部数据。
-Java中的对象拷贝主要分为：浅拷贝(...
+        对象拷贝Java中的对象拷贝(Object Copy)...
     
 
         <a href="/2019/04/03/Java中深拷贝和浅拷贝的理解和区别/" class="post-more waves-effect waves-button">
@@ -271,8 +226,7 @@ Java中的对象拷贝主要分为：浅拷贝(...
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        BeanUtils简介：一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。
-BeanUtils.copyProperties()方法源码123public static void copyP...
+        BeanUtils简介：一个JavaBean通常包含了...
     
 
         <a href="/2019/03/28/BeanUtils.copyProperties()方法的使用/" class="post-more waves-effect waves-button">
@@ -318,9 +272,7 @@ BeanUtils.copyProperties()方法源码123public static void copyP...
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        自定义注解1234567//标示该注解用于方法上@Target(ElementType.METHOD)//标示该注解可以在运行时通过反射找到@Retention(RetentionPolicy.RUNTIME)public @interface Log &#123;	String value() default "";&#125;
-
-@Retention作用：标示注解在什么时候可见（运行时可...
+        自定义注解1234567//标示该注解用于方法上@Ta...
     
 
         <a href="/2019/03/26/使用Spring AOP和自定义注解记录日志/" class="post-more waves-effect waves-button">
@@ -366,8 +318,7 @@ BeanUtils.copyProperties()方法源码123public static void copyP...
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        Vuex简介Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 devtools extension，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。
-官方文档：https://vuex.vuejs.org/zh...
+        Vuex简介Vuex 是一个专为 Vue.js 应用程...
     
 
         <a href="/2019/03/23/个人对于Vuex的理解/" class="post-more waves-effect waves-button">
@@ -413,8 +364,7 @@ BeanUtils.copyProperties()方法源码123public static void copyP...
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        作者简介余华，1960年4月3日生于浙江杭州，当代作家。中国作家协会第九届全国委员会委员。
-1977年中学毕业后，进入北京鲁迅文学院进修深造。1983年开始创作，同年进入浙江省海盐县文化馆。1984年开始发表小说，《活着》和《许三观卖血记》同时入选百位批评家和文学编辑评选的九十年代最具有影响的十部作品。1998年获意大利格林扎纳·卡佛文学奖。2005年获得中华图书特殊贡献奖。现就职于杭州文联...
+        作者简介余华，1960年4月3日生于浙江杭州，当代作家...
     
 
         <a href="/2019/03/18/2019-03-18-[余华--活着]观后感/" class="post-more waves-effect waves-button">
@@ -462,12 +412,7 @@ BeanUtils.copyProperties()方法源码123public static void copyP...
     
         Hello,Blog!
 
-                
-                    
-                    
-                
-                窗外的世界
-            
+
     
 
         <a href="/2019/03/16/我的第一篇博客/" class="post-more waves-effect waves-button">
@@ -516,11 +461,7 @@ BeanUtils.copyProperties()方法源码123public static void copyP...
         
 读《Java核心技术1》记录知识点
 
-基本程序设计结构
-switch语句将从与选项值相匹配的 case 标签处开始执行直到遇到 break 语句，或者执行到switchi吾句的结束处为止。如果没有相匹配的 case 标签， 而有 default 子句， 就执行这个子句。 
-
-break和continue的区别？
-用break语句可以使流程跳出switch语句体，也可以用break语句在循环...
+基本程序设计结...
     
 
         <a href="/2019/03/16/Java核心技术1-基本程序设计结构、对象和类/" class="post-more waves-effect waves-button">
@@ -569,22 +510,7 @@ break和continue的区别？
         联系方式
 手机号码：18318789240
 
-E-mail：linchuangqiong66@163.com
-
-微信：linchuangqiong14
-
-
-个人信息
-林创琼|男|1996年
-专科|河源职业技术学院|软件技术专业
-求职意向：Java开发工程师|深圳
-工作年限：1.5年
-技术博客：linxiaobaixcg.github.io
-
-
-专业技能
-开发语言：Java
-框架：Spring...
+E-ma...
     
 
         <a href="/1996/10/14/resume/" class="post-more waves-effect waves-button">
@@ -617,15 +543,6 @@ E-mail：linchuangqiong66@163.com
         <footer class="footer">
     <div class="top">
         
-<p>
-    <span id="busuanzi_container_site_uv" style="display:none">
-        站点总访客数：<span id="busuanzi_value_site_uv"></span>
-    </span>
-    <span id="busuanzi_container_site_pv" style="display:none">
-        站点总访问量：<span id="busuanzi_value_site_pv"></span>
-    </span>
-</p>
-
 
         <p>
             
@@ -635,7 +552,7 @@ E-mail：linchuangqiong66@163.com
         </p>
     </div>
     <div class="bottom">
-        <p><span> &copy; 2015 - 2019</span>
+        <p><span> &copy; 2019</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
@@ -649,60 +566,14 @@ E-mail：linchuangqiong66@163.com
 <a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
 
 
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/page/2/&title=LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/page/2/&title=LinChuangQiong's Blog&source=" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/page/2/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/page/2/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/page/2/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/page/2/" alt="微信分享二维码">
-</div>
-
-
-
-
     <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+var BLOG = { ROOT: '/', SHARE: , REWARD: false };
 
 
 </script>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
 <div class="search-panel" id="search-panel">
@@ -722,33 +593,14 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 </li>
 </template>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+<script src="/js/search.min.js?v=1.7.2" async></script>
 
 
 
 
 
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-
-
-<script>
-(function() {
-    var OriginTitile = document.title, titleTime;
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            document.title = '死鬼去哪里了！';
-            clearTimeout(titleTime);
-        } else {
-            document.title = '(つェ⊂)咦!又好了!';
-            titleTime = setTimeout(function() {
-                document.title = OriginTitile;
-            },2000);
-        }
-    });
-})();
-</script>
 
 
 
