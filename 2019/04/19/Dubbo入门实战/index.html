@@ -1,137 +1,136 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hans">
+
+
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-  <meta name="renderer" content="webkit">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" , user-scalable="no"">
-  <title>Dubbo入门实战LinChuangQiong's Blog</title>
-  <link rel="shortcut icon" href="/images/favicon.ico">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    Dubbo入门实战 | LinChuangQiong&#39;s Blog
+  </title>
+  <meta name="description" content>
   
-    
-    
-      <link rel="stylesheet" href="/css/bootstrap.min.css">
-    
-      <link rel="stylesheet" href="/css/font-awesome.min.css">
-    
-      <link rel="stylesheet" href="/css/atom-one-dark.css">
-    
-      <link rel="stylesheet" href="/css/jquery.fancybox.css">
-    
-      <link rel="stylesheet" href="/css/nprogress.min.css">
-    
-      <link rel="stylesheet" href="/css/valine.css">
-    
-      <link rel="stylesheet" href="/css/life.css">
-    
+  <meta name="keywords" content="
+  Dubbo,Zookeeper
+  ">
+  
+  <meta name="author" content>
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
 
   
 
-  <!-- jQuery first, then Tether, then Bootstrap JS. -->
-  
-  
-  
-    <script src="/js/jquery-2.2.4.min.js"></script>
-  
-    <script src="https://cdn1.lncld.net/static/js/3.1.0/av-min.js"></script>
-  
-    <script src="/js/jquery.pjax.js"></script>
-  
-    <script src="/js/nprogress.min.js"></script>
-  
-    <script src="/js/tether.min.js"></script>
-  
-    <script src="/js/bootstrap.min.js"></script>
-  
-    <script src="/js/highlight.min.js"></script>
-  
-    <script src="/js/highlightjs-line-numbers.min.js"></script>
-  
-    <script src="/js/jquery.fancybox.js"></script>
-  
-    <script src="/js/jquery.qrcode.min.js"></script>
-  
-    <script src="/js/Valine.min.js"></script>
-  
-  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 </head>
-<body>
-<script>AV.init({appId:'',appKey:''});</script>
-<script type="text/javascript">
-      var config = {
-            ClasS: 'Counter',
-            el:'.views',
-            elP: '.views-post'
-      }
-</script>
-<div class="container">
-    <div class="row blog-box-shadow">
-        <!--博客主栏开始-->
-        <div class="col-xl-9 col-lg-12 blog-main" id="pjax-box">
-            <header class="blog-header">
-                <a href="https://linxiaobaixcg.github.io" class="blog-header-mobile-title">LinChuangQiong's Blog</a>
-                <a href="javascript:;" class="blog-header-navbar-btn"><i class="fa fa-bars"></i></a>
-                <nav class="blog-header-navbar blog-header-fixed">
-                    <ul class="blog-navbar-links">
-                        
-                          <li class="blog-nav-item"><a href="/" class="transition">首页</a></li>
-                        
-                          <li class="blog-nav-item"><a href="/about/" class="transition">关于</a></li>
-                        
-                        <div class="blog-navbar-right">
-                            <form action>
-                                <div class="input-group">
-                                    <input type="text" class="blog-header-search" placeholder="search...">
-                                    <buttn type="submit" class="blog-header-search-btn"><i class="fa fa-search"></i></buttn>
-                                </div>
-                            </form>
-                        </div>
-                    </ul>
-                </nav>
-            </header>
-                
-<header class="blog-post-page-title">
-    <h4>Dubbo入门实战</h4>
-    <time datetime="2019-04-19T05:18:20.000Z"><i class="fa fa-clock-o"></i>2019-04-19</time>
-    
-    
-    <span>
-        <i class="fa fa-eye"></i>
-        <span id="/2019/04/19/Dubbo入门实战/" class="views views-post" title="Dubbo入门实战"></span>
-    </span>
-    
-    
-    
-	
-        <span><i class="fa fa-folder-o"></i>
-    		
-    	       <a href="/categories/编程/" rel="categories" data-toggle="tooltip" data-placement="top" title="Linux">编程</a>
-    		
-        </span>
-	
-    
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives" class="header-toolbar-right"> 19 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i class="fa fa-tags"></i> Tags </a>
+        <a href="/tags" class="header-toolbar-right"> 18 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories" class="header-toolbar-right"> 3 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">LinChuangQiong&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
 </header>
-<div class="blog-main-post blog-post-page-box">
-    <article class="blog-post-block blog-post-page-content">
-        <section>
-            
-                <h2 id="Dubbo简介"><a href="#Dubbo简介" class="headerlink" title="Dubbo简介"></a>Dubbo简介</h2><p>Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。</p>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    
+
+    <span class="post-date float-right" title="{{moment(1555651100000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1555651100000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>Dubbo入门实战</h1>
+    <h2 id="Dubbo简介"><a href="#Dubbo简介" class="headerlink" title="Dubbo简介"></a>Dubbo简介</h2><p>Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。</p>
 <p>Dubbo是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案。</p>
 <p>文档：<a href="http://dubbo.apache.org/zh-cn/index.html" target="_blank" rel="noopener">http://dubbo.apache.org/zh-cn/index.html</a></p>
 <h2 id="RPC简介"><a href="#RPC简介" class="headerlink" title="RPC简介"></a>RPC简介</h2><p>RPC（Remote Procedure Call）—远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。RPC协议假定某些传输协议的存在，如TCP或UDP，为通信程序之间携带信息数据。在OSI网络通信模型中，RPC跨越了传输层和应用层。RPC使得开发包括网络分布式多程序在内的应用程序更加容易。<br>RPC采用客户机/服务器模式。请求程序就是一个客户机，而服务提供程序就是一个服务器。首先，客户机调用进程发送一个有进程参数的调用信息到服务进程，然后等待应答信息。在服务器端，进程保持睡眠状态直到调用信息到达为止。当一个调用信息到达，服务器获得进程参数，计算结果，发送答复信息，然后等待下一个调用信息，最后，客户端调用进程接收答复信息，获得进程结果，然后调用执行继续进行。<br>有多种 RPC模式和执行。最初由 Sun 公司提出。IETF ONC 宪章重新修订了 Sun 版本，使得 ONC RPC 协议成为 IETF 标准协议。现在使用最普遍的模式和执行是开放式软件基础的分布式计算环境（DCE）。</p>
@@ -163,275 +162,41 @@
 <p>访问：<a href="http://localhost:9091/sayHello/HelloWorld" target="_blank" rel="noopener">http://localhost:9091/sayHello/HelloWorld</a><br><img src="/2019/04/19/Dubbo入门实战/微信截图_20190419140359.png" alt="/Dubbo入门实战/微信截图_20190419140359.png"></p>
 <h3 id="github地址"><a href="#github地址" class="headerlink" title="github地址"></a>github地址</h3><p><a href="https://github.com/LinXiaoBaiXCG/dubbo-demo" target="_blank" rel="noopener">https://github.com/LinXiaoBaiXCG/dubbo-demo</a></p>
 
-            
-        </section>
-        <footer class="blog-post-page-tags">
-        
-			
-				
-			<a href="/tags/Dubbo/" rel="tag" data-toggle="tooltip" data-placement="top" title="Linux">Dubbo</a>
-				
-			<a href="/tags/Zookeeper/" rel="tag" data-toggle="tooltip" data-placement="top" title="Linux">Zookeeper</a>
-				
-			
-		
-        </footer>
-    </article>
-    <article class="blog-post-page-readmore">
-    	
-    	
-		
-			<a href="/2019/04/27/[路遥--平凡的世界]观后感/" class="blog-post-page-readmore-prev" data-toggle="tooltip" data-placement="top" title="路遥--平凡的世界 观后感">上一篇</a>
-		
+  </article>
+</div>
 
-		
-		
-			<a href="/2019/04/07/使用Redis分布式锁解决并发问题/" class="blog-post-page-readmore-next" data-toggle="tooltip" data-placement="top" title="使用Redis分布式锁解决并发问题">下一篇</a>
-		
 
-        <div style="clear: both;"></div>
-    </article>
-
-    <article class="blog-post-block blog-post-page-content">
-            <div class="row">
-            
-                <div class="col-md-4 col-sm-4 post-page-more-btn">
-                    <span data-toggle="modal" data-target="#post-donate-content">
-                        <span id="post-donate-btn" class="btn btn-danger btn-block" data-toggle="tooltip" data-placement="top" title="如果您觉得本文还不错或者对您有帮助，可以考虑打赏一下作者哦">打赏本文</span>
-                    </span>
-                </div>
-                <div class="col-md-4 col-sm-4 post-page-more-btn">
-                    <span data-toggle="modal" data-target="#post-qrcode-content">
-                        <span><span id="post-qrcode-btn" class="btn btn-success btn-block" data-toggle="tooltip" data-placement="top" title="微信扫描二维码手机端查看本文及分享本文">二维码</span></span>
-                    </span>
-                </div>
-            </div>
-        <div class="post-more-function-br"></div>
-
-        <div class="modal fade" id="post-donate-content" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">打赏本文</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row post-donate-content">
-                            <div class="col-md-4">
-                                <p>支付宝</p>
-                                <img class="post-donate-content-img no-lightbox" src>
-                            </div>
-                            <div class="col-md-4">
-                                <p>微信</p>
-                                <img class="post-donate-content-img no-lightbox" src>
-                            </div>
-                            <div class="col-md-4">
-                                <p>财付通</p>
-                                <img class="post-donate-content-img no-lightbox" src>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="post-qrcode-content" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">文章二维码</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row post-qrcode-content">
-                            <span class="post-qrcode-content-canvas"></span>
-                            <img class="post-qrcode-content-img no-lightbox" src>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <script>
-            // post QRcode
-            // 中文转码
-            function toUtf8(str) {
-                var out, i, len, c;
-                out = "";
-                len = str.length;
-                for (i = 0; i < len; i++) {
-                    c = str.charCodeAt(i);
-                    if ((c >= 0x0001) && (c <= 0x007F)) {
-                        out += str.charAt(i);
-                    } else if (c > 0x07FF) {
-                        out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
-                        out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
-                        out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
-                    } else {
-                        out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
-                        out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
-                    }
-                }
-                return out;
-            }
-            // 生成
-            var qrcode= $('.post-qrcode-content-canvas').qrcode({width: 150,height: 150,text: toUtf8("https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/")}).hide();
-            var canvas=qrcode.find('canvas').get(0);
-            $('.post-qrcode-content-img').attr('src',canvas.toDataURL('image/jpg'));
-        </script>
-
-        
-    </article>
     
+
+
+
+
 </div>
 
-                
-            <footer class="blog-footer">
-                <p class="blog-footer-left">Copyright ©  2019 <a href="https://linxiaobaixcg.github.io">LinChuangQiong's Blog</a></p>
-                <p class="blog-footer-right">Powered by <a href="https://hexo.io" target="_blank">Hexo</a>,Theme <a href="https://note.isweic.com/themes-life/" target="_blank">Life</a></p>
-            </footer>
-        </div><!--博客主栏结束-->
-        <!--博客侧边栏开始-->
-        <div class="col-xl-3 blog-sidebar">
-            <div class="blog-sidebar-title">
-                <a href="https://linxiaobaixcg.github.io">LinChuangQiong's Blog</a>
-            </div>
-            <div class="blog-sidebar-logo">
-                <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
-            </div>
-            <div class="blog-sidebar-count blog-sidebar-padding">
-                <div class="blog-sidebar-count-left">
-                    <p class="blog-sidebar-count-p">19</p>
-                    <span class="blog-sidebar-count-span">文章</span>
-                </div>
-                <div class="blog-sidebar-count-right">
-                    <p class="blog-sidebar-count-p">18</p>
-                    <span class="blog-sidebar-count-span">标签</span>
-                </div>
-                <div style="clear: both;"></div>
-            </div>
-            <div class="blog-sidebar-icon blog-sidebar-padding">
-                <ul>
-                    <li><a href="https://github.com/LinXiaoBaiXCG" class="icon-github" target="_blank" data-toggle="tooltip" data-placement="top" title="Github"><i class="fa fa-github"></i></a></li>
-                    <li><a href class="icon-weibo" target="_blank" data-toggle="tooltip" data-placement="top" title="新浪微博"><i class="fa fa-weibo"></i></a></li>
-                    <li><a href class="icon-twitter" target="_blank" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-                    <!--<li><a href="" class="icon-facebook" target="_blank" data-toggle="tooltip" data-placement="top" title="FaceBook"><i class="fa fa-facebook"></i></a></li>-->
-                    <li><a href="mailto:linchuangqiong66@163.com" class="icon-email" data-toggle="tooltip" data-placement="top" title="E-Mail"><i class="fa fa-envelope"></i></a></li>
-                    <li><a href class="icon-rss" data-toggle="tooltip" target="_blank" data-placement="top" title="RSS"><i class="fa fa-rss"></i></a></li>
-                </ul>
-            </div>
-            <div class="blog-sidebar-categories">
-                <h4 class="blog-sidebar-h4"><i class="fa fa-folder-open"></i>&nbsp;文章分类</h4>
-                <ul class="list-group blog-sidebar-padding">
-                  
-                    
-                      <li class="list-group-item justify-content-between">
-                          <a href="/categories/阅读/">阅读</a>
-                          <span class="badge badge-default badge-pill">2</span>
-                      </li>
-                    
-                      <li class="list-group-item justify-content-between">
-                          <a href="/categories/编程/">编程</a>
-                          <span class="badge badge-default badge-pill">15</span>
-                      </li>
-                    
-                      <li class="list-group-item justify-content-between">
-                          <a href="/categories/博客/">博客</a>
-                          <span class="badge badge-default badge-pill">2</span>
-                      </li>
-                    
-                  
-                </ul>
-            </div>
-            <div class="blog-sidebar-tags">
-                <h4 class="blog-sidebar-h4"><i class="fa fa-tag"></i>&nbsp;标签云</h4>
-                <ul class="blog-sidebar-tags-ul blog-sidebar-padding">
-                  
-                    
-                      <li><a href="/tags/观后感/" class="tag-could" data-toggle="tooltip" data-placement="top" title="观后感">观后感</a></li>
-                    
-                      <li><a href="/tags/余华/" class="tag-could" data-toggle="tooltip" data-placement="top" title="余华">余华</a></li>
-                    
-                      <li><a href="/tags/Java/" class="tag-could" data-toggle="tooltip" data-placement="top" title="Java">Java</a></li>
-                    
-                      <li><a href="/tags/Dubbo/" class="tag-could" data-toggle="tooltip" data-placement="top" title="Dubbo">Dubbo</a></li>
-                    
-                      <li><a href="/tags/Zookeeper/" class="tag-could" data-toggle="tooltip" data-placement="top" title="Zookeeper">Zookeeper</a></li>
-                    
-                      <li><a href="/tags/技术书籍/" class="tag-could" data-toggle="tooltip" data-placement="top" title="技术书籍">技术书籍</a></li>
-                    
-                      <li><a href="/tags/MyBatis/" class="tag-could" data-toggle="tooltip" data-placement="top" title="MyBatis">MyBatis</a></li>
-                    
-                      <li><a href="/tags/路遥/" class="tag-could" data-toggle="tooltip" data-placement="top" title="路遥">路遥</a></li>
-                    
-                      <li><a href="/tags/简历/" class="tag-could" data-toggle="tooltip" data-placement="top" title="简历">简历</a></li>
-                    
-                      <li><a href="/tags/网络/" class="tag-could" data-toggle="tooltip" data-placement="top" title="网络">网络</a></li>
-                    
-                      <li><a href="/tags/node-js/" class="tag-could" data-toggle="tooltip" data-placement="top" title="node.js">node.js</a></li>
-                    
-                      <li><a href="/tags/vue/" class="tag-could" data-toggle="tooltip" data-placement="top" title="vue">vue</a></li>
-                    
-                      <li><a href="/tags/Redis/" class="tag-could" data-toggle="tooltip" data-placement="top" title="Redis">Redis</a></li>
-                    
-                      <li><a href="/tags/并发/" class="tag-could" data-toggle="tooltip" data-placement="top" title="并发">并发</a></li>
-                    
-                      <li><a href="/tags/blog/" class="tag-could" data-toggle="tooltip" data-placement="top" title="blog">blog</a></li>
-                    
-                      <li><a href="/tags/算法/" class="tag-could" data-toggle="tooltip" data-placement="top" title="算法">算法</a></li>
-                    
-                      <li><a href="/tags/网络编程/" class="tag-could" data-toggle="tooltip" data-placement="top" title="网络编程">网络编程</a></li>
-                    
-                      <li><a href="/tags/数据库/" class="tag-could" data-toggle="tooltip" data-placement="top" title="数据库">数据库</a></li>
-                    
-                  
-                </ul>
-            </div>
-            <script>
-              // 博客侧栏标签云随机色
-              var tag_cloud = $('.tag-could');
-              tag_cloud.each(function () {
-                  var Cnum = 9;
-                  var Crand = parseInt(Math.random() * Cnum);
-                  $(this).addClass("tag-could" + Crand);
-              })
-            </script>
-            <!--返回顶部按钮-->
-            <div class="retop">
-                <i class="fa fa-angle-up"></i>
-            </div>
-        </div><!--博客侧边栏结束-->
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://linxiaobaixcg.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 </li>
+      <li><a href="https://linxiaobaixcg.github.io">Home</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
     </div>
+    </div>
+    
+  </footer>
 </div>
-<script src="/js/LeanStatistics.min.js"></script>
-<script src="/js/Life.js"></script>
-<script type="text/javascript">
-    hljs.initHighlightingOnLoad();
-    hljs.initLineNumbersOnLoad();
-    otherF();
-    LeanStatistics();
-    $(document).pjax('a', '#pjax-box', {fragment:'#pjax-box', timeout:8000}).on('pjax:complete', function() {
-      $('pre code').each(function(i, block){
-        hljs.highlightBlock(block);
-      })
-      $('code.hljs').each(function(i, block) {
-        hljs.lineNumbersBlock(block);
-      });
-      LeanStatistics();
-    }).on('pjax:start', function() { NProgress.start(); }).on('pjax:end',   function() {
-      NProgress.done();
-      otherF();
-    });
-</script>
+
+
+
+
+<script src="/js/main.js"></script>
+
 </body>
 </html>
