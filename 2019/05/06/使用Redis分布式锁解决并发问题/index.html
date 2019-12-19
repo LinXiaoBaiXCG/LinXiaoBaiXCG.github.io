@@ -37,16 +37,16 @@
 <meta name="keywords" content="Redis,并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Redis分布式锁解决并发问题">
-<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/index.html">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/index.html">
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
-<meta property="og:updated_time" content="2019-12-14T15:35:42.526Z">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
+<meta property="og:updated_time" content="2019-12-19T09:49:04.394Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Redis分布式锁解决并发问题">
 <meta name="twitter:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
     
         <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
     
@@ -159,8 +159,8 @@
         <h1 class="title">使用Redis分布式锁解决并发问题</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-04-07T14:31:00.000Z" itemprop="datePublished" class="page-time">
-  2019-04-07
+                <time datetime="2019-05-06T14:31:00.000Z" itemprop="datePublished" class="page-time">
+  2019-05-06
 </time>
 
 
@@ -191,7 +191,7 @@
     <div class="post-card">
         <h1 class="post-card-title">使用Redis分布式锁解决并发问题</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-04-07 22:31:00" datetime="2019-04-07T14:31:00.000Z" itemprop="datePublished">2019-04-07</time>
+            <time class="post-time" title="2019-05-06 22:31:00" datetime="2019-05-06T14:31:00.000Z" itemprop="datePublished">2019-05-06</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
@@ -219,7 +219,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2019/04/07/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png" alt="需要解决的代码图" title>
+                    <img src="/2019/05/06/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png" alt="需要解决的代码图" title>
                 </div>
                 <div class="image-caption">需要解决的代码图</div>
             </figure>
@@ -237,7 +237,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-12-14T15:35:42.526Z" itemprop="dateUpdated">2019-12-14 23:35:42</time>
+    Last updated: <time datetime="2019-12-19T09:49:04.394Z" itemprop="dateUpdated">2019-12-19 17:49:04</time>
 </span><br>
 
 
@@ -269,7 +269,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/&title=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/&title=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -279,22 +279,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/&title=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/&title=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -317,18 +317,18 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2019/04/19/Dubbo入门实战/" id="post-prev" class="post-nav-link">
+      <a href="/2019/05/16/网络编程笔记/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">Dubbo入门实战</h4>
+        <h4 class="title">网络编程笔记</h4>
       </a>
     </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/04/03/Java中深拷贝和浅拷贝的理解和区别/" id="post-next" class="post-nav-link">
+      <a href="/2019/04/27/[路遥--平凡的世界]观后感/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Java中深拷贝和浅拷贝的理解和区别</h4>
+        <h4 class="title">路遥--平凡的世界 观后感</h4>
       </a>
     </div>
   
@@ -411,7 +411,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/&title=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/&title=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -421,22 +421,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/&title=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/&title=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用Redis分布式锁解决并发问题》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -447,7 +447,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2019/04/07/使用Redis分布式锁解决并发问题/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/" alt="微信分享二维码">
 </div>
 
 

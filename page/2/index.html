@@ -216,10 +216,10 @@ RPC简介RPC（R...
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-使用Redis分布式锁解决并发问题" class="article-card article-type-post" itemprop="blogPost">
+            <article id="post-Redis解读" class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
-        <time class="post-time" title="2019-04-07 22:31:00" datetime="2019-04-07T14:31:00.000Z" itemprop="datePublished">2019-04-07</time>
+        <time class="post-time" title="2019-04-07 22:55:00" datetime="2019-04-07T14:55:00.000Z" itemprop="datePublished">2019-04-07</time>
 
         
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
@@ -233,7 +233,7 @@ RPC简介RPC（R...
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/04/07/使用Redis分布式锁解决并发问题/">使用Redis分布式锁解决并发问题</a>
+      <a class="post-title-link" href="/2019/04/07/Redis解读/">Redis解读</a>
     </h3>
   
 
@@ -243,19 +243,26 @@ RPC简介RPC（R...
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。
-但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。
-同时，使用synchroni...
+        简介
+高性能Key-Value服务器
+支持多种数据结构
+功能丰富
+高可用分布式支持
+
+特性速度快官方：10W OPS数据存在内存使用C语言编写单线程模型
+持久化（断电不丢数据）对数据更新将异步地保存的磁盘上
+支持多种数据结构支持字符串、哈希、链表、集合、有序集合新版本支持位图（BitMaps）HyperLogLog：超小内存唯一值计数GEO:地理信息定位
+支持多种编程语言javaphplua...
     
 
-        <a href="/2019/04/07/使用Redis分布式锁解决并发问题/" class="post-more waves-effect waves-button">
+        <a href="/2019/04/07/Redis解读/" class="post-more waves-effect waves-button">
             Continue reading...
         </a>
     </div>
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
 
     </div>
     
