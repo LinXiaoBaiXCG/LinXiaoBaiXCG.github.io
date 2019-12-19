@@ -157,6 +157,29 @@
   </entry>
   
   <entry>
+    <title>Java中接口幂等性的解决方案</title>
+    <link href="https://linxiaobaixcg.github.io/2019/05/25/Java%E4%B8%AD%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/</id>
+    <published>2019-05-24T16:00:00.000Z</published>
+    <updated>2019-12-19T09:54:23.210Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;什么是幂等性？&quot;&gt;&lt;a href=&quot;#什么是幂等性？&quot; class=&quot;headerlink&quot; title=&quot;什么是幂等性？&quot;&gt;&lt;/a&gt;什么是幂等性？&lt;/h1&gt;&lt;p&gt;在编程中，一个幂等操作的特点是其任意多次执行所产生的影响均与一次执行的影响相同。幂等函数，或幂等方法
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>网络编程笔记</title>
     <link href="https://linxiaobaixcg.github.io/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/"/>
     <id>https://linxiaobaixcg.github.io/2019/05/16/网络编程笔记/</id>
@@ -227,29 +250,6 @@
       <category term="观后感" scheme="https://linxiaobaixcg.github.io/tags/%E8%A7%82%E5%90%8E%E6%84%9F/"/>
     
       <category term="路遥" scheme="https://linxiaobaixcg.github.io/tags/%E8%B7%AF%E9%81%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java中接口幂等性的解决方案</title>
-    <link href="https://linxiaobaixcg.github.io/2019/04/21/Java%E4%B8%AD%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
-    <id>https://linxiaobaixcg.github.io/2019/04/21/Java中接口幂等性的解决方案/</id>
-    <published>2019-04-20T16:00:00.000Z</published>
-    <updated>2019-12-19T09:37:11.617Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;什么是幂等性？&quot;&gt;&lt;a href=&quot;#什么是幂等性？&quot; class=&quot;headerlink&quot; title=&quot;什么是幂等性？&quot;&gt;&lt;/a&gt;什么是幂等性？&lt;/h1&gt;&lt;p&gt;在编程中，一个幂等操作的特点是其任意多次执行所产生的影响均与一次执行的影响相同。幂等函数，或幂等方法
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
