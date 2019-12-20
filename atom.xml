@@ -6,10 +6,35 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2019-11-29T11:17:44.401Z</updated>
+  <updated>2019-12-20T13:25:38.972Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MongoDB-常用命令及操作</title>
+    <link href="https://linxiaobaixcg.github.io/2019/12/08/MongoDB-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E6%93%8D%E4%BD%9C/"/>
+    <id>https://linxiaobaixcg.github.io/2019/12/08/MongoDB-常用命令及操作/</id>
+    <published>2019-12-07T16:00:00.000Z</published>
+    <updated>2019-12-20T13:25:38.972Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;MongoDB&quot;&gt;&lt;a href=&quot;#MongoDB&quot; class=&quot;headerlink&quot; title=&quot;MongoDB&quot;&gt;&lt;/a&gt;MongoDB&lt;/h1&gt;&lt;p&gt;MongoDB 是一个跨平台的，面向文档的数据库，是当前 NoSQL 数据库产品中最热门的一种。它介
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="MongoDB" scheme="https://linxiaobaixcg.github.io/tags/MongoDB/"/>
+    
+      <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
   
   <entry>
     <title>数据库优化</title>
@@ -278,9 +303,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Redis" scheme="https://linxiaobaixcg.github.io/tags/Redis/"/>
-    
       <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="Redis" scheme="https://linxiaobaixcg.github.io/tags/Redis/"/>
     
   </entry>
   
