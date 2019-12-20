@@ -41,7 +41,7 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="MongoDBMongoDB 是一个跨平台的，面向文档的数据库，是当前 NoSQL 数据库产品中最热门的一种。它介于关系数据库和非关系数据库之间，是非关系数据库当中功能最丰富，最像关系数据库的产品。它支持的数据结构非常松散，是类似 JSON 的 BSON 格式，因此可以存储比较复杂的数据类型。​ MongoDB 的官方网站地址是：http://www.mongodb.org/ MongoDB的体系">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-20T13:25:38.972Z">
+<meta property="og:updated_time" content="2019-12-20T13:31:34.443Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB-常用命令及操作">
 <meta name="twitter:description" content="MongoDBMongoDB 是一个跨平台的，面向文档的数据库，是当前 NoSQL 数据库产品中最热门的一种。它介于关系数据库和非关系数据库之间，是非关系数据库当中功能最丰富，最像关系数据库的产品。它支持的数据结构非常松散，是类似 JSON 的 BSON 格式，因此可以存储比较复杂的数据类型。​ MongoDB 的官方网站地址是：http://www.mongodb.org/ MongoDB的体系">
@@ -138,7 +138,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -284,7 +284,7 @@
 <li>show collections 或 show tables – 查看已有集合</li>
 <li><p>db.COLLECTION_NAME.insert(document) 或 db.COLLECTION_NAME.save(document)  – 插入文档<br>注意：插入文档你也可以使用 db.col.save(document) 命令。如果不指定 _id 字段 save() 方法类似于 insert() 方法。如果指定 _id 字段，则会更新该 _id 的数据。</p>
 </li>
-<li><p>db.collection.update(<br><query>,<br><update>,<br>{<br>  upsert: <boolean>,<br>  multi: <boolean>,<br>  writeConcern: <document><br>}） – 用于更新已存在的文档</document></boolean></boolean></update></query></p>
+<li><p>db.collection.update(<br>query,<br>update,<br>{<br>  upsert: boolean,<br>  multi: boolean,<br>  writeConcern: document<br>}） – 用于更新已存在的文档</p>
 </li>
 </ol>
 <p>参数说明：</p>
@@ -296,7 +296,7 @@
 <li>writeConcern :可选，抛出异常的级别。</li>
 </ul>
 <ol start="10">
-<li>db.collection.remove(<br>   <query>,<br>   <justone><br>) –删除文档</justone></query></li>
+<li>db.collection.remove(<br>   query,<br>   justOne<br>) –删除文档</li>
 </ol>
 <p>参数说明：</p>
 <ul>
@@ -332,7 +332,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-12-20T13:25:38.972Z" itemprop="dateUpdated">2019-12-20 21:25:38</time>
+    最終更新：<time datetime="2019-12-20T13:31:34.443Z" itemprop="dateUpdated">2019-12-20 21:31:34</time>
 </span><br>
 
 
@@ -477,7 +477,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
