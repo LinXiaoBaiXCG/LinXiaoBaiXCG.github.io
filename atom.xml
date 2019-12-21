@@ -81,9 +81,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -429,6 +429,34 @@
   </entry>
   
   <entry>
+    <title>Java核心技术1-继承、接口</title>
+    <link href="https://linxiaobaixcg.github.io/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E7%BB%A7%E6%89%BF%E3%80%81%E6%8E%A5%E5%8F%A3/"/>
+    <id>https://linxiaobaixcg.github.io/2019/03/17/Java核心技术1-继承、接口/</id>
+    <published>2019-03-17T14:34:00.000Z</published>
+    <updated>2019-12-21T14:34:36.845Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;读《Java核心技术1》记录知识点&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;继承&quot;&gt;&lt;a href=&quot;#继承&quot; class=&quot;headerlink&quot; title=&quot;继承&quot;&gt;&lt;/a&gt;继承&lt;/h1&gt;&lt;h2 id=&quot;类、超类和子类&quot;&gt;&lt;a h
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+      <category term="技术书籍" scheme="https://linxiaobaixcg.github.io/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Java核心技术1-基本程序设计结构、对象和类</title>
     <link href="https://linxiaobaixcg.github.io/2019/03/16/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84%E3%80%81%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB/"/>
     <id>https://linxiaobaixcg.github.io/2019/03/16/Java核心技术1-基本程序设计结构、对象和类/</id>
@@ -479,32 +507,6 @@
     
     
       <category term="blog" scheme="https://linxiaobaixcg.github.io/tags/blog/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>林创琼个人简历</title>
-    <link href="https://linxiaobaixcg.github.io/1996/10/14/resume/"/>
-    <id>https://linxiaobaixcg.github.io/1996/10/14/resume/</id>
-    <published>1996-10-14T05:37:00.000Z</published>
-    <updated>2019-11-29T06:10:04.982Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;联系方式&quot;&gt;&lt;a href=&quot;#联系方式&quot; class=&quot;headerlink&quot; title=&quot;联系方式&quot;&gt;&lt;/a&gt;联系方式&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;手机号码：18318789240&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;E-mail：&lt;a href=&quot;mai
-      
-    
-    </summary>
-    
-      <category term="博客" scheme="https://linxiaobaixcg.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
-    
-    
-      <category term="简历" scheme="https://linxiaobaixcg.github.io/tags/%E7%AE%80%E5%8E%86/"/>
     
   </entry>
   
