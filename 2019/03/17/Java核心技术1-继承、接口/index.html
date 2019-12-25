@@ -41,7 +41,7 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="读《Java核心技术1》记录知识点  继承类、超类和子类 利用继承，人们可以基于已存在的类构造一个新类。继承已存在的类就是复用（继承）这些类的方法和域。在此基础上，还可以添加一些新的方法和域， 以满足新的需求。这是 Java 程序设计中的一项核心技术。    反射是指在程序运行期间发现更多的类及其属性的能力。   可以使用特定的关键字 super调用父类的方法。  可以通过 super 实现对超">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-25T07:23:05.807Z">
+<meta property="og:updated_time" content="2019-12-25T08:22:55.386Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java核心技术1-继承、接口">
 <meta name="twitter:description" content="读《Java核心技术1》记录知识点  继承类、超类和子类 利用继承，人们可以基于已存在的类构造一个新类。继承已存在的类就是复用（继承）这些类的方法和域。在此基础上，还可以添加一些新的方法和域， 以满足新的需求。这是 Java 程序设计中的一项核心技术。    反射是指在程序运行期间发现更多的类及其属性的能力。   可以使用特定的关键字 super调用父类的方法。  可以通过 super 实现对超">
@@ -179,7 +179,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#继承"><span class="post-toc-number">1.</span> <span class="post-toc-text">继承</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类、超类和子类"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">类、超类和子类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Object：所有类的超类"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Object：所有类的超类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型数组列表（ArrayList）"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">泛型数组列表（ArrayList）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对象的包装器与自动装箱"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">对象的包装器与自动装箱</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参数数量可变的方法"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">参数数量可变的方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#枚举类"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">枚举类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反射"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">反射</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#接口"><span class="post-toc-number">2.</span> <span class="post-toc-text">接口</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#继承"><span class="post-toc-number">1.</span> <span class="post-toc-text">继承</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类、超类和子类"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">类、超类和子类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Object：所有类的超类"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Object：所有类的超类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型数组列表（ArrayList）"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">泛型数组列表（ArrayList）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对象的包装器与自动装箱"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">对象的包装器与自动装箱</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参数数量可变的方法"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">参数数量可变的方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#枚举类"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">枚举类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反射"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">反射</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#接口"><span class="post-toc-number">2.</span> <span class="post-toc-text">接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接口-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接口示例"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">接口示例</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -338,7 +338,22 @@
 7. 不要过多地使用反射 
 </code></pre></li>
 </ol>
-<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="接口-1"><a href="#接口-1" class="headerlink" title="接口"></a>接口</h2><ol>
+<li>在 Java 程序设计语言中， 接口不是类，而是对类的一组需求描述，这些类要遵从接口描述的统一格式进行定义。</li>
+<li>接口中的所有方法自动地属于 public。 因此， 在接口中声明方法时， 不必提供关键字public。</li>
+<li>提供实例域和方法实现的任务应该由实现接口的那个类来完成。因此， 可以将接口看成是没有实例域的抽象类 。</li>
+<li>接口不是类，尤其不能使用 new 运算符实例化一个接口 。但却能声明接口的变量 。</li>
+<li>接口变量必须弓I用实现了接口的类对象 。</li>
+<li>同使用 instanceof检查一个对象是否属于某个特定类一样， 也可以使用instance 检查一个对象是否实现了某个特定的接口 。</li>
+<li>与可以建立类的继承关系一样，接口也可以被扩展。这里允许存在多条从具有较高通用性的接口到较高专用性的接口的链。  </li>
+<li>在接口中不能包含实例域或静态方法，但却可以包含常量。  </li>
+<li>尽管每个类只能够拥有一个超类， 但却可以实现多个接口。这就为定义类的行为提供了极大的灵活性。  </li>
+<li>为什么已经有抽象类了，Java还要引入接口？因为每个类只能继承一个类 ，但可以实现多个接口。</li>
+<li>可以为接口方法提供一个默认实现。 必须用 default 修饰符标记这样一个方法。</li>
+<li>默认实现可用于接口升级，是一种接口演化。<h2 id="接口示例"><a href="#接口示例" class="headerlink" title="接口示例"></a>接口示例</h2></li>
+<li>回调（ callback) 是一种常见的程序设计模式。在这种模式中， 可以指出某个特定事件发生时应该采取的动作。</li>
+</ol>
+
         </div>
 
         <blockquote class="post-copyright">
@@ -346,7 +361,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-12-25T07:23:05.807Z" itemprop="dateUpdated">2019-12-25 15:23:05</time>
+    Last updated: <time datetime="2019-12-25T08:22:55.386Z" itemprop="dateUpdated">2019-12-25 16:22:55</time>
 </span><br>
 
 
