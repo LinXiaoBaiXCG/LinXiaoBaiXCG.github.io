@@ -41,7 +41,7 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="读《Java核心技术1》记录知识点  继承类、超类和子类 利用继承，人们可以基于已存在的类构造一个新类。继承已存在的类就是复用（继承）这些类的方法和域。在此基础上，还可以添加一些新的方法和域， 以满足新的需求。这是 Java 程序设计中的一项核心技术。    反射是指在程序运行期间发现更多的类及其属性的能力。   可以使用特定的关键字 super调用父类的方法。  可以通过 super 实现对超">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-27T14:15:28.695Z">
+<meta property="og:updated_time" content="2019-12-27T16:05:13.546Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java核心技术1-继承、接口">
 <meta name="twitter:description" content="读《Java核心技术1》记录知识点  继承类、超类和子类 利用继承，人们可以基于已存在的类构造一个新类。继承已存在的类就是复用（继承）这些类的方法和域。在此基础上，还可以添加一些新的方法和域， 以满足新的需求。这是 Java 程序设计中的一项核心技术。    反射是指在程序运行期间发现更多的类及其属性的能力。   可以使用特定的关键字 super调用父类的方法。  可以通过 super 实现对超">
@@ -138,7 +138,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -230,23 +230,22 @@
 </li>
 <li><p>类即使不含抽象方法，也可以将类声明为抽象类。<br>抽象类不能被实例化。也就是说， 如果将一个类声明为 abstract, 就不能创建这个类的对象 </p>
 </li>
-<li><p>归纳一下 Java 用于控制可见性的 4 个访问修饰符：<br>1 ) 仅对本类可见 private。 </p>
-<p>2 ) 对所有类可见 public：<br>3 ) 对本包和所有子类可见 protected。<br>4 ) 对本包可见—默认（很遗憾，) 不需要修饰符。</p>
+<li><p>归纳一下 Java 用于控制可见性的 4 个访问修饰符：<br>1 ) 仅对本类可见 private。<br>2 ) 对所有类可见 public。<br>3 ) 对本包和所有子类可见 protected。<br>4 ) 对本包可见—默认（很遗憾，) 不需要修饰符。</p>
 </li>
 </ol>
 <h2 id="Object：所有类的超类"><a href="#Object：所有类的超类" class="headerlink" title="Object：所有类的超类"></a>Object：所有类的超类</h2><ol>
 <li>Object 类是 Java 中所有类的始祖， 在 Java 中每个类都是由它扩展而来的。</li>
-<li>在 Java 中， 只有基本类型 （ primitive types) 不是对象， 例如，数值、 字符和布尔类型的<br>值都不是对象。 </li>
+<li>在 Java 中， 只有基本类型 （ primitive types) 不是对象， 例如，数值、 字符和布尔类型的值都不是对象。 </li>
 <li>Object 类中的 equals 方法用于检测一个对象是否等于另外一个对象。  </li>
 <li>散列码（ hash code ) 是由对象导出的一个整型值。 散列码是没有规律的。如果 x 和 y 是两个不同的对象， x.hashCode( ) 与 y.hashCode( ) 基本上不会相同。</li>
-<li>如果重新定义 equals方法， 就必须重新定义 hashCode 方法， 以便用户可以将对象插人<br>到散列表中。</li>
+<li>如果重新定义 equals方法， 就必须重新定义 hashCode 方法， 以便用户可以将对象插入到散列表中。</li>
 </ol>
 <h2 id="泛型数组列表（ArrayList）"><a href="#泛型数组列表（ArrayList）" class="headerlink" title="泛型数组列表（ArrayList）"></a>泛型数组列表（ArrayList）</h2><ol>
 <li><p>ArrayList在添加或删除元素时， 具有自动调节数组容量的功能，而不需要为此编写任何代码。 </p>
 </li>
 <li><p>数组列表管理着对象引用的一个内部数组。最终， 数组的全部空间有可能被用尽。这就显现出数组列表的操作魅力： 如果调用 add 且内部数组已经满了，数组列表就将自动地创建一个更大的数组，并将所有的对象从较小的数组中拷贝到较大的数组中。 </p>
 </li>
-<li><p>如果已经清楚或能够估计出数组可能存储的元素数量， 就可以在填充数组之前调用<br>ensureCapacity方法：<br>staff.ensureCapacity(lOO);<br>这个方法调用将分配一个包含 100 个对象的内部数组。然后调用 100 次 add, 而不用重新分<br>配空间。<br>另外，还可以把初始容量传递给 ArrayList 构造器：<br>ArrayList<employee> staff = new ArrayListo(100) ; </employee></p>
+<li><p>如果已经清楚或能够估计出数组可能存储的元素数量， 就可以在填充数组之前调用<br>ensureCapacity方法：<br>staff.ensureCapacity(lOO);<br>这个方法调用将分配一个包含 100 个对象的内部数组。然后调用 100 次 add, 而不用重新分配空间。<br>另外，还可以把初始容量传递给 ArrayList 构造器：<br>ArrayList<employee> staff = new ArrayListo(100) ; </employee></p>
 </li>
 <li><p>一旦能够确认数组列表的大小不再发生变化， 就可以调用 trimToSize 方法。这个方法将存储区域的大小调整为当前元素数量所需要的存储空间数目。垃圾回收器将回收多余的存储空间。<br>一旦整理了数组列表的大小，添加新元素就需要花时间再次移动存储块，所以应该在确认不会添加任何元素时， 再调用 trimToSize。  </p>
 </li>
@@ -286,16 +285,11 @@
 </ol>
 <h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><ol>
 <li>能够分析类能力的程序称为反射（ reflective )。 </li>
-<li><p>反射机制可以用来： </p>
-<ul>
-<li><p>在运行时分析类的能力。 </p>
-</li>
-<li><p>在运行时查看对象， 例如， 编写一个 toString 方法供所有类使用。</p>
-</li>
-<li><p>实现通用的数组操作代码。</p>
-</li>
-<li><p>利用 Method 对象， 这个对象很像C++中的函数指针。 </p>
-</li>
+<li>反射机制可以用来： <ul>
+<li>在运行时分析类的能力。 </li>
+<li>在运行时查看对象， 例如， 编写一个 toString 方法供所有类使用。</li>
+<li>实现通用的数组操作代码。</li>
+<li>利用 Method 对象， 这个对象很像C++中的函数指针。 </li>
 </ul>
 </li>
 <li>在程序运行期间，Java 运行时系统始终为所有的对象维护一个被称为运行时的类型标识。这个信息跟踪着每个对象所属的类。 虚拟机利用运行时类型信息选择相应的方法执行。 </li>
@@ -400,7 +394,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-12-27T14:15:28.695Z" itemprop="dateUpdated">2019-12-27 22:15:28</time>
+    最終更新：<time datetime="2019-12-27T16:05:13.546Z" itemprop="dateUpdated">2019-12-28 00:05:13</time>
 </span><br>
 
 
@@ -552,7 +546,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
