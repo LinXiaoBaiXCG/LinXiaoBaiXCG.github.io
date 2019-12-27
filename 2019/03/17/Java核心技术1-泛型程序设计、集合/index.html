@@ -41,7 +41,7 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="读《Java核心技术1》记录知识点  泛型程序设计为什么要使用泛型设计 泛型正是我们需要的程序设计手段。使用泛型机制编写的程序代码要比那些杂乱地使用Object 变量，然后再进行强制类型转换的代码具有更好的安全性和可读性。  泛型程序设计（Generic programming) 意味着编写的代码可以被很多不同类型的对象所重用。  泛型提供了一个更好的解决方案： 类型参数 （ type para">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-26T15:21:19.026Z">
+<meta property="og:updated_time" content="2019-12-27T07:44:50.668Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java核心技术1-泛型程序设计、集合">
 <meta name="twitter:description" content="读《Java核心技术1》记录知识点  泛型程序设计为什么要使用泛型设计 泛型正是我们需要的程序设计手段。使用泛型机制编写的程序代码要比那些杂乱地使用Object 变量，然后再进行强制类型转换的代码具有更好的安全性和可读性。  泛型程序设计（Generic programming) 意味着编写的代码可以被很多不同类型的对象所重用。  泛型提供了一个更好的解决方案： 类型参数 （ type para">
@@ -138,7 +138,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -179,7 +179,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#泛型程序设计"><span class="post-toc-number">1.</span> <span class="post-toc-text">泛型程序设计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么要使用泛型设计"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">为什么要使用泛型设计</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义简单泛型类"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">定义简单泛型类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型方法"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">泛型方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型代码和虚拟机"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">泛型代码和虚拟机</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#约束与局限性"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">约束与局限性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型类型的继承规则"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">泛型类型的继承规则</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通配符类型"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">通配符类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反射和泛型"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">反射和泛型</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#集合"><span class="post-toc-number">2.</span> <span class="post-toc-text">集合</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java集合框架"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Java集合框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#具体的集合"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">具体的集合</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#映射"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">映射</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#泛型程序设计"><span class="post-toc-number">1.</span> <span class="post-toc-text">泛型程序设计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么要使用泛型设计"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">为什么要使用泛型设计</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义简单泛型类"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">定义简单泛型类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型方法"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">泛型方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型代码和虚拟机"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">泛型代码和虚拟机</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#约束与局限性"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">约束与局限性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型类型的继承规则"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">泛型类型的继承规则</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通配符类型"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">通配符类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反射和泛型"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">反射和泛型</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#集合"><span class="post-toc-number">2.</span> <span class="post-toc-text">集合</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java集合框架"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Java集合框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#具体的集合"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">具体的集合</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#映射"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">映射</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#视图与包装器"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">视图与包装器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#算法"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#遗留的集合"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">遗留的集合</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -335,6 +335,36 @@
 <li>有 3 种视图： 键集、 值集合（不是一个集） 以及键 / 值对集。键和键 / 值对可以构成一个集， 因为映射中一个键只能有一个副本。  </li>
 <li>LinkedHashSet 和 LinkedHashMap类用来记住插人元素项的顺序。这样就可以避免在散歹IJ表中的项从表面上看是随机排列的。当条目插入到表中时，就会并人到双向链表中  </li>
 </ol>
+<h2 id="视图与包装器"><a href="#视图与包装器" class="headerlink" title="视图与包装器"></a>视图与包装器</h2><ol>
+<li>keySet 方法返回一个实现 Set接口的类对象， 这个类的方法对原映射进行操作。这种集合称为视图。  </li>
+<li>Arrays 类的静态方法 asList 将返回一个包装了普通 Java 数组的 List 包装器。这个方法可以将数组传递给一个期望得到列表或集合参数的方法。  </li>
+<li>Arrays.asList返回的对象不是 ArrayList。它是一个视图对象， 带有访问底层数组的 get 和 set方法。改变数组大小的所有方法（例如，与迭代器相关的 add 和 remove 方法）都会抛出一个Unsupported OperationException 异常。  </li>
+<li>如果由多个线程访问集合，就必须确保集不会被意外地破坏。例如， 如果一个线程试图将元素添加到散列表中，同时另一个线程正在对散列表进行再散列，其结果将是灾难性的。类库的设计者使用视图机制来确保常规集合的线程安全， 而不是实现线程安全的集合类。例如， Collections 类的静态 synchronizedMap方法可以将任何一个映射表转换成具有同步访问方法的 Map 。</li>
+<li>现在， 就可以由多线程访问 map 对象了。像 get 和 put 这类方法都是同步操作的， 即在另一个线程调用另一个方法之前，刚才的方法调用必须彻底完成。  </li>
+</ol>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><ol>
+<li>泛型集合接口有一个很大的优点， 即算法只需要实现一次。</li>
+<li>Collections 类中的 sort 方法可以对实现了 List 接口的集合进行排序。  </li>
+<li>对列表进行随机访问的效率很低。实际上， 可以使用归并排序对列表进行高效的排序。然而，Java 程序设计语言并不是这样实现的。它直接将所有元素转人一个数组， 对数组进行排序，然后，再将排序后的序列复制回列表。  </li>
+<li>集合类库中使用的排序算法比快速排序要慢一些， 快速排序是通用排序算法的传统选择。但是， 归并排序有一个主要的优点：稳定， 即不需要交换相同的元素。 为什么要关注相同元素的顺序呢？ 下面是一种常见的情况。 假设有一个已经按照姓名排列的员工列表。现在，要按照工资再进行排序。 如果两个雇员的工资相等发生什么情况呢？ 如果采用稳定的排序算法， 将会保留按名字排列的顺序。换句话说， 排序的结果将会产生这样一个列表， 首先按照工资排序， 工资相同者再按照姓名排序。  </li>
+<li>Collections 类有一个算法 shuffle, 其功能与排序刚好相反， 即随机地混排列表中元素的顺序。  </li>
+<li>shuffle 方法将元素复制到数组中，然后打乱数组元素的顺序，最后再将打乱顺序后的元素复制回列表。  </li>
+<li>要想在数组中査找一个对象， 通常要依次访问数组中的每个元素，直到找到匹配的元素为止。然而， 如果数组是有序的， 就可以直接査看位于数组中间的元素， 看一看是否大于要查找的元素。如果是， 用同样的方法在数组的前半部分继续查找； 否则， 用同样的方法在数组的后半部分继续查找。这样就可以将查找范围缩减一半。一直用这种方式査找下去。  </li>
+<li>Collections 类的 binarySearch方法实现了这个算法。 注意， 集合必须是排好序的， 否则算法将返回错误的答案。要想查找某个元素， 必须提供集合（这个集合要实现 List 接口， 下面还要更加详细地介绍这个问题）以及要查找的元素。 如果集合没有采用 Comparable 接口的compareTo 方法进行排序， 就还要提供一个比较器对象。  </li>
+</ol>
+<h2 id="遗留的集合"><a href="#遗留的集合" class="headerlink" title="遗留的集合"></a>遗留的集合</h2><ol>
+<li>Hashtable 类与 HashMap 类的作用一样，实际上，它们拥有相同的接口。与 Vector 类的方法一样。Hashtable 的方法也是同步的。如果对同步性或与遗留代码的兼容性没有任何要求，就应该使用 HashMap。如果需要并发访问， 则要使用 ConcurrentHashMap  </li>
+<li>遗留集合使用 Enumeration 接口对元素序列进行遍历。 Enumeration 接口有两个方法， 即hasMoreElements 和 nextElement。 这两个方法与 Iterator 接口的 hasNext 方法和 next 方法十分类似。  </li>
+<li>属性映射（property map) 是一个类型非常特殊的映射结构。它有下面 3 个特性：  </li>
+</ol>
+<ul>
+<li>键与值都是字符串。  </li>
+<li>表可以保存到一个文件中， 也可以从文件中加载。  </li>
+<li>使用一个默认的辅助表。  </li>
+</ul>
+<ol start="4">
+<li>实现属性映射的 Java 平台类称为 Properties。  </li>
+</ol>
 
         </div>
 
@@ -343,7 +373,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-12-26T15:21:19.026Z" itemprop="dateUpdated">2019-12-26 23:21:19</time>
+    最終更新：<time datetime="2019-12-27T07:44:50.668Z" itemprop="dateUpdated">2019-12-27 15:44:50</time>
 </span><br>
 
 
@@ -495,7 +525,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
