@@ -135,9 +135,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
-    
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
   </entry>
   
@@ -186,6 +186,32 @@
     
     
       <category term="网络" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mybatis中的方法和DAO接口方法是怎么绑定到一起的</title>
+    <link href="https://linxiaobaixcg.github.io/2019/08/13/Mybatis%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8CDAO%E6%8E%A5%E5%8F%A3%E6%96%B9%E6%B3%95%E6%98%AF%E6%80%8E%E4%B9%88%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%80%E8%B5%B7%E7%9A%84/"/>
+    <id>https://linxiaobaixcg.github.io/2019/08/13/Mybatis中的方法和DAO接口方法是怎么绑定到一起的/</id>
+    <published>2019-08-13T14:00:00.000Z</published>
+    <updated>2020-03-07T15:58:01.387Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;在未理解代理前，一直有个疑问，Mybatis中DAO层接口没有写实现类，Mapper中的方法和DAO接口方法是怎么绑定到一起的，其内部是怎么实现的&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;原理&quot;&gt;&lt;a href=&quot;#原理&quot; class=
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Mybatis" scheme="https://linxiaobaixcg.github.io/tags/Mybatis/"/>
     
   </entry>
   
@@ -482,31 +508,6 @@
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
       <category term="技术书籍" scheme="https://linxiaobaixcg.github.io/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>余华--活着 观后感</title>
-    <link href="https://linxiaobaixcg.github.io/2019/03/18/2019-03-18-%5B%E4%BD%99%E5%8D%8E--%E6%B4%BB%E7%9D%80%5D%E8%A7%82%E5%90%8E%E6%84%9F/"/>
-    <id>https://linxiaobaixcg.github.io/2019/03/18/2019-03-18-[余华--活着]观后感/</id>
-    <published>2019-03-18T12:16:35.000Z</published>
-    <updated>2019-04-17T06:30:07.350Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;作者简介&quot;&gt;&lt;a href=&quot;#作者简介&quot; class=&quot;headerlink&quot; title=&quot;作者简介&quot;&gt;&lt;/a&gt;作者简介&lt;/h2&gt;&lt;p&gt;余华，1960年4月3日生于浙江&lt;a href=&quot;https://baike.baidu.com/item/%E6%9D%A
-      
-    
-    </summary>
-    
-      <category term="阅读" scheme="https://linxiaobaixcg.github.io/categories/%E9%98%85%E8%AF%BB/"/>
-    
-    
-      <category term="观后感" scheme="https://linxiaobaixcg.github.io/tags/%E8%A7%82%E5%90%8E%E6%84%9F/"/>
-    
-      <category term="余华" scheme="https://linxiaobaixcg.github.io/tags/%E4%BD%99%E5%8D%8E/"/>
     
   </entry>
   

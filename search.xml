@@ -54,8 +54,8 @@
         <category>编程</category>
       </categories>
       <tags>
-        <tag>Dubbo</tag>
         <tag>Java</tag>
+        <tag>Dubbo</tag>
       </tags>
   </entry>
   <entry>
@@ -79,6 +79,17 @@
       </categories>
       <tags>
         <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Mybatis中的方法和DAO接口方法是怎么绑定到一起的]]></title>
+    <url>%2F2019%2F08%2F13%2FMybatis%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8CDAO%E6%8E%A5%E5%8F%A3%E6%96%B9%E6%B3%95%E6%98%AF%E6%80%8E%E4%B9%88%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%80%E8%B5%B7%E7%9A%84%2F</url>
+    <content type="text"><![CDATA[在未理解代理前，一直有个疑问，Mybatis中DAO层接口没有写实现类，Mapper中的方法和DAO接口方法是怎么绑定到一起的，其内部是怎么实现的 原理根据网上的一些知识点，讲一下原理: mybatis通过JDK的动态代理方式，在启动加载配置文件时，根据配置mapper的xml去生成Dao的实现。 session.getMapper()使用了代理，当调用一次此方法，都会产生一个代理class的instance,看看这个代理class的实现。 123456789101112131415161718192021public class MapperProxy implements InvocationHandler &#123; ... public static &lt;T&gt; T newMapperProxy(Class&lt;T&gt; mapperInterface, SqlSession sqlSession) &#123; ClassLoader classLoader = mapperInterface.getClassLoader(); Class&lt;?&gt;[] interfaces = new Class[]&#123;mapperInterface&#125;; MapperProxy proxy = new MapperProxy(sqlSession); return (T) Proxy.newProxyInstance(classLoader, interfaces, proxy); &#125; public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123; if (!OBJECT_METHODS.contains(method.getName())) &#123; final Class&lt;?&gt; declaringInterface = findDeclaringInterface(proxy, method); final MapperMethod mapperMethod = new MapperMethod(declaringInterface, method, sqlSession); final Object result = mapperMethod.execute(args); if (result == null &amp;&amp; method.getReturnType().isPrimitive()) &#123; throw new BindingException("Mapper method '" + method.getName() + "' (" + method.getDeclaringClass() + ") attempted to return null from a method with a primitive return type (" + method.getReturnType() + ")."); &#125; return result; &#125; return null; &#125; 这里是用到了JDK的代理。 newMapperProxy()可以取得实现interfaces 的class的代理类的实例。 当执行interfaces中的方法的时候，会自动执行invoke()方法，其中public Object invoke(Object proxy, Method method, Object[] args)中 method参数就代表你要执行的方法. MapperMethod类会使用method方法的methodName 和declaringInterface去取 sqlMapxml 取得对应的sql，也就是拿declaringInterface的类全名加上 sql-id]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>Mybatis</tag>
       </tags>
   </entry>
   <entry>
