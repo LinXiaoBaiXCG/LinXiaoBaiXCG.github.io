@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2020-01-02T12:27:36.686Z</updated>
+  <updated>2020-03-07T15:39:11.187Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>TCP粘包拆包及解决方法</title>
+    <link href="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
+    <id>https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/</id>
+    <published>2020-02-11T12:00:00.000Z</published>
+    <updated>2020-03-07T15:39:11.187Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;粘包拆包问题是处于网络比较底层的问题，在数据链路层、网络层以及传输层都有可能发生。我们日常的网络应用开发大都在传输层进行，由于UDP有消息保护边界，不会发生粘包拆包问题，因此粘包拆包问题只发生在TCP协议中。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="网络编程" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>深入理解Java虚拟机-自动内存管理机制</title>
@@ -109,9 +135,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -481,34 +507,6 @@
       <category term="观后感" scheme="https://linxiaobaixcg.github.io/tags/%E8%A7%82%E5%90%8E%E6%84%9F/"/>
     
       <category term="余华" scheme="https://linxiaobaixcg.github.io/tags/%E4%BD%99%E5%8D%8E/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java核心技术1-泛型程序设计、集合</title>
-    <link href="https://linxiaobaixcg.github.io/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/"/>
-    <id>https://linxiaobaixcg.github.io/2019/03/17/Java核心技术1-泛型程序设计、集合/</id>
-    <published>2019-03-17T15:40:00.000Z</published>
-    <updated>2019-12-27T07:44:50.668Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;读《Java核心技术1》记录知识点&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;泛型程序设计&quot;&gt;&lt;a href=&quot;#泛型程序设计&quot; class=&quot;headerlink&quot; title=&quot;泛型程序设计&quot;&gt;&lt;/a&gt;泛型程序设计&lt;/h1&gt;&lt;h2 i
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
-      <category term="技术书籍" scheme="https://linxiaobaixcg.github.io/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/"/>
     
   </entry>
   
