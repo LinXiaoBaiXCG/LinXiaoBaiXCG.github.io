@@ -135,9 +135,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
-    
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
   </entry>
   
@@ -220,13 +220,13 @@
     <link href="https://linxiaobaixcg.github.io/2019/07/16/MyBatis/"/>
     <id>https://linxiaobaixcg.github.io/2019/07/16/MyBatis/</id>
     <published>2019-07-16T15:00:00.000Z</published>
-    <updated>2019-07-16T14:01:02.141Z</updated>
+    <updated>2020-03-08T02:53:37.289Z</updated>
     
     <summary type="html">
     
       
       
-        &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行
+        &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybat
       
     
     </summary>

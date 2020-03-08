@@ -33,18 +33,18 @@
     
     
     <meta name="keywords" content="MyBatis">
-    <meta name="description" content="介绍动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用">
+    <meta name="description" content="介绍动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybatis为我们提供了两种支持动态SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需">
 <meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MyBatis中$和#的区别">
 <meta property="og:url" content="https://linxiaobaixcg.github.io/2019/07/16/MyBatis/index.html">
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
-<meta property="og:description" content="介绍动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用">
+<meta property="og:description" content="介绍动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybatis为我们提供了两种支持动态SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-16T14:01:02.141Z">
+<meta property="og:updated_time" content="2020-03-08T02:53:37.289Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MyBatis中$和#的区别">
-<meta name="twitter:description" content="介绍动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用">
+<meta name="twitter:description" content="介绍动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybatis为我们提供了两种支持动态SQL 的语法：#{} 以及 ${}。 #{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’） ${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需">
     
         <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
     
@@ -204,7 +204,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>动态 SQL 是 mybatis 的主要特性之一，在 mapper 中定义的参数传到 xml 中之后，在查询之前 mybatis 会对其进行动态解析。mybatis 为我们提供了两种支持动态 SQL 的语法：#{} 以及 ${}。</p>
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybatis为我们提供了两种支持动态SQL 的语法：#{} 以及 ${}。</p>
 <p>#{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’）</p>
 <p>${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需手动代码中过滤）</p>
 <p><strong>#{ }</strong></p>
@@ -257,7 +257,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-16T14:01:02.141Z" itemprop="dateUpdated">2019-07-16 22:01:02</time>
+    Last updated: <time datetime="2020-03-08T02:53:37.289Z" itemprop="dateUpdated">2020-03-08 10:53:37</time>
 </span><br>
 
 
