@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://linxiaobaixcg.github.io/2019/06/16/MyBatis/</loc>
+    
+    <lastmod>2020-03-08T13:35:48.312Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/</loc>
     
     <lastmod>2020-03-08T13:33:38.778Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>https://linxiaobaixcg.github.io/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</loc>
     
     <lastmod>2020-03-08T13:31:09.779Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://linxiaobaixcg.github.io/2019/07/16/MyBatis/</loc>
-    
-    <lastmod>2020-03-08T02:53:37.289Z</lastmod>
     
   </url>
   
