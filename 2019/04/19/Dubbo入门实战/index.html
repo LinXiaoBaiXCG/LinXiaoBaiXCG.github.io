@@ -45,7 +45,7 @@
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/微信截图_20190419135018.png">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/微信截图_20190419135540.png">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/微信截图_20190419140359.png">
-<meta property="og:updated_time" content="2019-04-19T07:38:58.269Z">
+<meta property="og:updated_time" content="2020-03-10T15:54:26.444Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubbo入门实战">
 <meta name="twitter:description" content="Dubbo简介Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。 Dubbo是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案。 文档：http://dubbo.apache.org/zh-cn/index.html RPC简介RPC（Remo">
@@ -238,9 +238,9 @@
 <h2 id="Dubbo实战"><a href="#Dubbo实战" class="headerlink" title="Dubbo实战"></a>Dubbo实战</h2><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2019/04/19/Dubbo入门实战/微信截图_20190419135018.png" alt="/Dubbo入门实战/微信截图_20190419135018.png" title>
+                    <img src="/2019/04/19/Dubbo入门实战/微信截图_20190419135018.png" alt title>
                 </div>
-                <div class="image-caption">/Dubbo入门实战/微信截图_20190419135018.png</div>
+                <div class="image-caption"></div>
             </figure>
 <p>服务提供者模块：dubbo-provider</p>
 <p>消费者模块：dubbo-consumer</p>
@@ -248,9 +248,9 @@
 <h3 id="结构："><a href="#结构：" class="headerlink" title="结构："></a>结构：</h3><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2019/04/19/Dubbo入门实战/微信截图_20190419135540.png" alt="/Dubbo入门实战/微信截图_20190419135540.png" title>
+                    <img src="/2019/04/19/Dubbo入门实战/微信截图_20190419135540.png" alt title>
                 </div>
-                <div class="image-caption">/Dubbo入门实战/微信截图_20190419135540.png</div>
+                <div class="image-caption"></div>
             </figure>
 <p>dubbo-provider模块下的application.properties配置如下：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spring<span class="selector-class">.application</span><span class="selector-class">.name</span> = dubbo-provider</span><br><span class="line">server<span class="selector-class">.port</span> = <span class="number">9090</span></span><br><span class="line"></span><br><span class="line">#指定当前服务/应用的名字（同样的服务名字相同，不要和别的服务同名）</span><br><span class="line">dubbo<span class="selector-class">.application</span><span class="selector-class">.name</span> = dubbo-provider</span><br><span class="line"></span><br><span class="line">demo<span class="selector-class">.service</span><span class="selector-class">.version</span> = <span class="number">1.0</span>.<span class="number">0</span></span><br><span class="line"></span><br><span class="line">dubbo<span class="selector-class">.protocol</span><span class="selector-class">.name</span> = dubbo</span><br><span class="line">dubbo<span class="selector-class">.protocol</span><span class="selector-class">.port</span> = <span class="number">20880</span></span><br><span class="line"></span><br><span class="line">#指定注册中心的位置</span><br><span class="line">dubbo<span class="selector-class">.registry</span><span class="selector-class">.address</span> = zookeeper:<span class="comment">//localhost:2181</span></span><br><span class="line"></span><br><span class="line">#统一设置服务提供方的规则</span><br><span class="line">dubbo<span class="selector-class">.provider</span><span class="selector-class">.timeout</span> = <span class="number">1000</span></span><br></pre></td></tr></table></figure>
@@ -260,9 +260,9 @@
 <p>访问：<a href="http://localhost:9091/sayHello/HelloWorld" target="_blank" rel="noopener">http://localhost:9091/sayHello/HelloWorld</a><br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2019/04/19/Dubbo入门实战/微信截图_20190419140359.png" alt="/Dubbo入门实战/微信截图_20190419140359.png" title>
+                    <img src="/2019/04/19/Dubbo入门实战/微信截图_20190419140359.png" alt title>
                 </div>
-                <div class="image-caption">/Dubbo入门实战/微信截图_20190419140359.png</div>
+                <div class="image-caption"></div>
             </figure></p>
 <h3 id="github地址"><a href="#github地址" class="headerlink" title="github地址"></a>github地址</h3><p><a href="https://github.com/LinXiaoBaiXCG/dubbo-demo" target="_blank" rel="noopener">https://github.com/LinXiaoBaiXCG/dubbo-demo</a></p>
 
@@ -273,7 +273,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-04-19T07:38:58.269Z" itemprop="dateUpdated">2019-04-19 15:38:58</time>
+    Last updated: <time datetime="2020-03-10T15:54:26.444Z" itemprop="dateUpdated">2020-03-10 23:54:26</time>
 </span><br>
 
 
