@@ -219,7 +219,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/08/13/Mybatis%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8CDAO%E6%8E%A5%E5%8F%A3%E6%96%B9%E6%B3%95%E6%98%AF%E6%80%8E%E4%B9%88%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%80%E8%B5%B7%E7%9A%84/"/>
     <id>https://linxiaobaixcg.github.io/2019/08/13/Mybatis中的方法和DAO接口方法是怎么绑定到一起的/</id>
     <published>2019-08-13T14:00:00.000Z</published>
-    <updated>2020-03-08T02:49:48.262Z</updated>
+    <updated>2020-03-11T09:06:52.223Z</updated>
     
     <summary type="html">
     
@@ -236,7 +236,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Mybatis" scheme="https://linxiaobaixcg.github.io/tags/Mybatis/"/>
+      <category term="MyBatis" scheme="https://linxiaobaixcg.github.io/tags/MyBatis/"/>
     
   </entry>
   

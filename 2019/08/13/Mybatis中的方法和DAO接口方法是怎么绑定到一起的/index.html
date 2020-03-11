@@ -32,16 +32,16 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Mybatis">
+    <meta name="keywords" content="MyBatis">
     <meta name="description" content="在未理解代理前，一直有个疑问，Mybatis中DAO层接口没有写实现类，Mapper中的方法和DAO接口方法是怎么绑定到一起的，其内部是怎么实现的  原理根据网上的一些知识点，讲一下原理: Mybatis通过JDK的动态代理方式，在启动加载配置文件时，根据配置mapper的xml去生成Dao的实现。 session.getMapper()使用了代理，当调用一次此方法，都会产生一个代理class的">
-<meta name="keywords" content="Mybatis">
+<meta name="keywords" content="MyBatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mybatis中的方法和DAO接口方法是怎么绑定到一起的">
 <meta property="og:url" content="https://linxiaobaixcg.github.io/2019/08/13/Mybatis中的方法和DAO接口方法是怎么绑定到一起的/index.html">
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="在未理解代理前，一直有个疑问，Mybatis中DAO层接口没有写实现类，Mapper中的方法和DAO接口方法是怎么绑定到一起的，其内部是怎么实现的  原理根据网上的一些知识点，讲一下原理: Mybatis通过JDK的动态代理方式，在启动加载配置文件时，根据配置mapper的xml去生成Dao的实现。 session.getMapper()使用了代理，当调用一次此方法，都会产生一个代理class的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-08T02:49:48.262Z">
+<meta property="og:updated_time" content="2020-03-11T09:06:52.223Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mybatis中的方法和DAO接口方法是怎么绑定到一起的">
 <meta name="twitter:description" content="在未理解代理前，一直有个疑问，Mybatis中DAO层接口没有写实现类，Mapper中的方法和DAO接口方法是怎么绑定到一起的，其内部是怎么实现的  原理根据网上的一些知识点，讲一下原理: Mybatis通过JDK的动态代理方式，在启动加载配置文件时，根据配置mapper的xml去生成Dao的实现。 session.getMapper()使用了代理，当调用一次此方法，都会产生一个代理class的">
@@ -138,7 +138,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -222,7 +222,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-03-08T02:49:48.262Z" itemprop="dateUpdated">2020-03-08 10:49:48</time>
+    最終更新：<time datetime="2020-03-11T09:06:52.223Z" itemprop="dateUpdated">2020-03-11 17:06:52</time>
 </span><br>
 
 
@@ -244,7 +244,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybatis/">Mybatis</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MyBatis/">MyBatis</a></li></ul>
 
 
             
@@ -374,7 +374,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
