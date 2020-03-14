@@ -33,18 +33,18 @@
     
     
     <meta name="keywords" content="Java,技术书籍">
-    <meta name="description" content="读《深入理解Java虚拟机》记录知识点  Java内存区域与内存溢出异常运行时数据区域程序计数器 程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。Java字节码解释器工作时是通过改变计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。 每一个线程都需要有一个独立的线程计数器，各条线程之间计数器互不影">
+    <meta name="description" content="读《深入理解Java虚拟机》记录知识点–Page 62  Java内存区域与内存溢出异常运行时数据区域程序计数器 程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。Java字节码解释器工作时是通过改变计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。 每一个线程都需要有一个独立的线程计数器，各条线程">
 <meta name="keywords" content="Java,技术书籍">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解Java虚拟机-自动内存管理机制">
 <meta property="og:url" content="https://linxiaobaixcg.github.io/2019/12/31/深入理解Java虚拟机-自动内存管理机制/index.html">
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
-<meta property="og:description" content="读《深入理解Java虚拟机》记录知识点  Java内存区域与内存溢出异常运行时数据区域程序计数器 程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。Java字节码解释器工作时是通过改变计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。 每一个线程都需要有一个独立的线程计数器，各条线程之间计数器互不影">
+<meta property="og:description" content="读《深入理解Java虚拟机》记录知识点–Page 62  Java内存区域与内存溢出异常运行时数据区域程序计数器 程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。Java字节码解释器工作时是通过改变计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。 每一个线程都需要有一个独立的线程计数器，各条线程">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-02T12:27:36.686Z">
+<meta property="og:updated_time" content="2020-03-14T15:29:57.399Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解Java虚拟机-自动内存管理机制">
-<meta name="twitter:description" content="读《深入理解Java虚拟机》记录知识点  Java内存区域与内存溢出异常运行时数据区域程序计数器 程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。Java字节码解释器工作时是通过改变计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。 每一个线程都需要有一个独立的线程计数器，各条线程之间计数器互不影">
+<meta name="twitter:description" content="读《深入理解Java虚拟机》记录知识点–Page 62  Java内存区域与内存溢出异常运行时数据区域程序计数器 程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。Java字节码解释器工作时是通过改变计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。 每一个线程都需要有一个独立的线程计数器，各条线程">
     
         <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
     
@@ -138,7 +138,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -205,12 +205,11 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <blockquote>
-<p>读《深入理解Java虚拟机》记录知识点</p>
+<p>读《深入理解Java虚拟机》记录知识点–Page 62</p>
 </blockquote>
 <h1 id="Java内存区域与内存溢出异常"><a href="#Java内存区域与内存溢出异常" class="headerlink" title="Java内存区域与内存溢出异常"></a>Java内存区域与内存溢出异常</h1><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><ol>
 <li>程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。Java字节码解释器工作时是通过改变计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</li>
 <li>每一个线程都需要有一个独立的线程计数器，各条线程之间计数器互不影响，独立存储。</li>
-<li></li>
 </ol>
 
         </div>
@@ -220,7 +219,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-01-02T12:27:36.686Z" itemprop="dateUpdated">2020-01-02 20:27:36</time>
+    Last updated: <time datetime="2020-03-14T15:29:57.399Z" itemprop="dateUpdated">2020-03-14 23:29:57</time>
 </span><br>
 
 
@@ -372,7 +371,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">

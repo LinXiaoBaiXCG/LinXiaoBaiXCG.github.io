@@ -66,16 +66,16 @@
     <link href="https://linxiaobaixcg.github.io/2019/12/31/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E8%87%AA%E5%8A%A8%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6/"/>
     <id>https://linxiaobaixcg.github.io/2019/12/31/深入理解Java虚拟机-自动内存管理机制/</id>
     <published>2019-12-31T15:34:00.000Z</published>
-    <updated>2020-01-02T12:27:36.686Z</updated>
+    <updated>2020-03-14T15:29:57.399Z</updated>
     
     <summary type="html">
     
       
       
         &lt;blockquote&gt;
-&lt;p&gt;读《深入理解Java虚拟机》记录知识点&lt;/p&gt;
+&lt;p&gt;读《深入理解Java虚拟机》记录知识点–Page 62&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;Java内存区域与内存溢出异常&quot;&gt;&lt;a href=&quot;#Java内存区域与内存溢出异常&quot; class=&quot;headerlink&quot; title=&quot;Java内存区域
+&lt;h1 id=&quot;Java内存区域与内存溢出异常&quot;&gt;&lt;a href=&quot;#Java内存区域与内存溢出异常&quot; class=&quot;headerlink&quot; title=&quot;
       
     
     </summary>
