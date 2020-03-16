@@ -26,7 +26,7 @@
     
     
     
-    <title>Java中接口幂等性的解决方案 | LinChuangQiong&#39;s Blog</title>
+    <title>接口幂等性的解决方案 | LinChuangQiong&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -36,14 +36,14 @@
     <meta name="description" content="什么是幂等性？在编程中，一个幂等操作的特点是其任意多次执行所产生的影响均与一次执行的影响相同。幂等函数，或幂等方法，是指可以使用相同参数重复执行，并能获得相同结果的函数。这些函数不会影响系统状态，也不用担心重复执行会对系统造成改变。 总结：幂等就是一个操作，不论执行多少次，产生的效果和返回的结果都是一样的 。 什么操作会破坏幂等性？ 前端重复提交数据 网络重发或系统bug重发  解决方案 查询操作">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java中接口幂等性的解决方案">
+<meta property="og:title" content="接口幂等性的解决方案">
 <meta property="og:url" content="https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/index.html">
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="什么是幂等性？在编程中，一个幂等操作的特点是其任意多次执行所产生的影响均与一次执行的影响相同。幂等函数，或幂等方法，是指可以使用相同参数重复执行，并能获得相同结果的函数。这些函数不会影响系统状态，也不用担心重复执行会对系统造成改变。 总结：幂等就是一个操作，不论执行多少次，产生的效果和返回的结果都是一样的 。 什么操作会破坏幂等性？ 前端重复提交数据 网络重发或系统bug重发  解决方案 查询操作">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-19T09:54:23.210Z">
+<meta property="og:updated_time" content="2020-03-16T12:13:03.772Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java中接口幂等性的解决方案">
+<meta name="twitter:title" content="接口幂等性的解决方案">
 <meta name="twitter:description" content="什么是幂等性？在编程中，一个幂等操作的特点是其任意多次执行所产生的影响均与一次执行的影响相同。幂等函数，或幂等方法，是指可以使用相同参数重复执行，并能获得相同结果的函数。这些函数不会影响系统状态，也不用担心重复执行会对系统造成改变。 总结：幂等就是一个操作，不论执行多少次，产生的效果和返回的结果都是一样的 。 什么操作会破坏幂等性？ 前端重复提交数据 网络重发或系统bug重发  解决方案 查询操作">
     
         <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
@@ -132,13 +132,13 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Java中接口幂等性的解决方案</div>
+        <div class="flex-col header-title ellipsis">接口幂等性的解决方案</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -154,7 +154,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Java中接口幂等性的解决方案</h1>
+        <h1 class="title">接口幂等性的解决方案</h1>
         <h5 class="subtitle">
             
                 <time datetime="2019-05-24T16:00:00.000Z" itemprop="datePublished" class="page-time">
@@ -187,7 +187,7 @@
 <article id="post-Java中接口幂等性的解决方案" class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">Java中接口幂等性的解决方案</h1>
+        <h1 class="post-card-title">接口幂等性的解决方案</h1>
         <div class="post-meta">
             <time class="post-time" title="2019-05-25 00:00:00" datetime="2019-05-24T16:00:00.000Z" itemprop="datePublished">2019-05-25</time>
 
@@ -256,7 +256,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-12-19T09:54:23.210Z" itemprop="dateUpdated">2019-12-19 17:54:23</time>
+    最終更新：<time datetime="2020-03-16T12:13:03.772Z" itemprop="dateUpdated">2020-03-16 20:13:03</time>
 </span><br>
 
 
@@ -288,7 +288,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&title=《Java中接口幂等性的解决方案》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&title=《接口幂等性的解决方案》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -298,7 +298,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&title=《Java中接口幂等性的解决方案》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&title=《接口幂等性的解决方案》 — LinChuangQiong's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -308,7 +308,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java中接口幂等性的解决方案》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《接口幂等性的解决方案》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -408,7 +408,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
@@ -430,7 +430,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&title=《Java中接口幂等性的解决方案》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&title=《接口幂等性的解决方案》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -440,7 +440,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&title=《Java中接口幂等性的解决方案》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&title=《接口幂等性的解决方案》 — LinChuangQiong's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -450,7 +450,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java中接口幂等性的解决方案》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《接口幂等性的解决方案》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/05/25/Java中接口幂等性的解决方案/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
