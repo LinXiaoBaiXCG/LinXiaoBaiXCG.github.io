@@ -26,27 +26,25 @@
     
     
     
-    <title>解读SPDY协议 | LinChuangQiong&#39;s Blog</title>
+    <title>Spring的容器 | LinChuangQiong&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="网络">
-    <meta name="description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。  注：该协议已弃用，可探究其特性和其底层原理进行">
-<meta name="keywords" content="网络">
+    <meta name="keywords" content="Java">
+    <meta name="description" content="Spring提供了两种容器类型： BeanFactory和ApplicationContext。 BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延迟初始化策略（lazy-load）。只有当客户端对象需要访问容器中的某个受管对象的时候，才对该受管对象进行初始化以及依赖注入操作。所以，相对来说，容器启动初期速度较快，所需要的资源有限。对于资源有限，并">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解读SPDY协议">
-<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/index.html">
+<meta property="og:title" content="Spring的容器">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/index.html">
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
-<meta property="og:description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。  注：该协议已弃用，可探究其特性和其底层原理进行">
+<meta property="og:description" content="Spring提供了两种容器类型： BeanFactory和ApplicationContext。 BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延迟初始化策略（lazy-load）。只有当客户端对象需要访问容器中的某个受管对象的时候，才对该受管对象进行初始化以及依赖注入操作。所以，相对来说，容器启动初期速度较快，所需要的资源有限。对于资源有限，并">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png">
-<meta property="og:updated_time" content="2019-08-27T14:13:13.000Z">
+<meta property="og:updated_time" content="2020-04-18T04:20:00.044Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解读SPDY协议">
-<meta name="twitter:description" content="简介SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。  注：该协议已弃用，可探究其特性和其底层原理进行">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png">
+<meta name="twitter:title" content="Spring的容器">
+<meta name="twitter:description" content="Spring提供了两种容器类型： BeanFactory和ApplicationContext。 BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延迟初始化策略（lazy-load）。只有当客户端对象需要访问容器中的某个受管对象的时候，才对该受管对象进行初始化以及依赖注入操作。所以，相对来说，容器启动初期速度较快，所需要的资源有限。对于资源有限，并">
     
         <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
     
@@ -134,7 +132,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">解读SPDY协议</div>
+        <div class="flex-col header-title ellipsis">Spring的容器</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -156,11 +154,11 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">解读SPDY协议</h1>
+        <h1 class="title">Spring的容器</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-08-26T14:16:00.000Z" itemprop="datePublished" class="page-time">
-  2019-08-26
+                <time datetime="2019-04-18T04:00:00.000Z" itemprop="datePublished" class="page-time">
+  2019-04-18
 </time>
 
 
@@ -178,20 +176,13 @@
 
 <div class="container body-wrap">
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#特性"><span class="post-toc-number">2.</span> <span class="post-toc-text">特性</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">原理</span></a></li></ol>
-        </nav>
-    </aside>
 
-
-<article id="post-解读SPDY协议" class="post-article article-type-post fade" itemprop="blogPost">
+<article id="post-Spring的容器" class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">解读SPDY协议</h1>
+        <h1 class="post-card-title">Spring的容器</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-08-26 22:16:00" datetime="2019-08-26T14:16:00.000Z" itemprop="datePublished">2019-08-26</time>
+            <time class="post-time" title="2019-04-18 12:00:00" datetime="2019-04-18T04:00:00.000Z" itemprop="datePublished">2019-04-18</time>
 
             
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
@@ -206,22 +197,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。</p>
-<ul>
-<li>注：该协议已弃用，可探究其特性和其底层原理进行学习<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1></li>
-<li>单个TCP连接支持并发的HTTP请求。</li>
-<li>压缩报头和去掉不必要的头部来减少当前HTTP使用的带宽。</li>
-<li>定义一个容易实现，在服务器端高效率的协议。通过减少边缘情况、定义易解析的消息格式来减少HTTP的复杂性。</li>
-<li>强制使用SSL，让SSL协议在现存的网络设施下有更好的安全性和兼容性。</li>
-<li>允许服务器在需要时发起对客户端的连接并推送数据。</li>
-</ul>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>SSL层上增加SPDY会话层<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/2019/08/26/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png" alt="SPDY原理图" title>
-                </div>
-                <div class="image-caption">SPDY原理图</div>
-            </figure></p>
+            <p>Spring提供了两种容器类型： BeanFactory和ApplicationContext。<br> BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延<br>迟初始化策略（lazy-load）。只有当客户端对象需要访问容器中的某个受管对象的时候，才对<br>该受管对象进行初始化以及依赖注入操作。所以，相对来说，容器启动初期速度较快，所需<br>要的资源有限。对于资源有限，并且功能要求不是很严格的场景， BeanFactory是比较合适的<br>IoC容器选择。<br>ApplicationContext。 ApplicationContext在BeanFactory的基础上构建，是相对比较高<br>级的容器实现，除了拥有BeanFactory的所有支持， ApplicationContext还提供了其他高级  特性，比如事件发布、国际化信息支持等，这些会在后面详述。 ApplicationContext所管理<br>的对象，在该类型容器启动之后，默认全部初始化并绑定完成。所以，相对于BeanFactory来<br>说， ApplicationContext要求更多的系统资源，同时，因为在启动时就完成所有初始化，容<br>器启动时间较之BeanFactory也会长一些。在那些系统资源充足，并且要求更多功能的场景中，<br>ApplicationContext类型的容器是比较合适的选择。  </p>
 
         </div>
 
@@ -230,7 +206,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-08-27T14:13:13.000Z" itemprop="dateUpdated">2019-08-27 22:13:13</time>
+    Last updated: <time datetime="2020-04-18T04:20:00.044Z" itemprop="dateUpdated">2020-04-18 12:20:00</time>
 </span><br>
 
 
@@ -252,7 +228,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
 
             
@@ -262,7 +238,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/&title=《解读SPDY协议》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/&title=《Spring的容器》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -272,22 +248,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/&title=《解读SPDY协议》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/&title=《Spring的容器》 — LinChuangQiong's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《解读SPDY协议》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring的容器》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -310,18 +286,18 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2019/09/03/使用令牌桶算法限流/" id="post-prev" class="post-nav-link">
+      <a href="/2019/04/19/Dubbo入门实战/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">使用令牌桶算法限流</h4>
+        <h4 class="title">Dubbo入门实战</h4>
       </a>
     </div>
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/08/13/Mybatis中的方法和DAO接口方法是怎么绑定到一起的/" id="post-next" class="post-nav-link">
+      <a href="/2019/04/07/Redis解读/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Mybatis中的方法和DAO接口方法是怎么绑定到一起的</h4>
+        <h4 class="title">Redis知识总结</h4>
       </a>
     </div>
   
@@ -404,7 +380,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/&title=《解读SPDY协议》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/&title=《Spring的容器》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -414,22 +390,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/&title=《解读SPDY协议》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/&title=《Spring的容器》 — LinChuangQiong's Blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《解读SPDY协议》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Spring的容器》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -440,7 +416,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/" alt="微信分享二维码">
 </div>
 
 

@@ -184,9 +184,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -409,6 +409,29 @@
   </entry>
   
   <entry>
+    <title>Spring的容器</title>
+    <link href="https://linxiaobaixcg.github.io/2019/04/18/Spring%E7%9A%84%E5%AE%B9%E5%99%A8/"/>
+    <id>https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/</id>
+    <published>2019-04-18T04:00:00.000Z</published>
+    <updated>2020-04-18T04:20:00.044Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Spring提供了两种容器类型： BeanFactory和ApplicationContext。&lt;br&gt; BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延&lt;br&gt;迟初始化策略（lazy-load）。只有当客户端对象需要访问
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Redis知识总结</title>
     <link href="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/"/>
     <id>https://linxiaobaixcg.github.io/2019/04/07/Redis解读/</id>
@@ -472,29 +495,6 @@
       
       
         &lt;h2 id=&quot;BeanUtils简介：&quot;&gt;&lt;a href=&quot;#BeanUtils简介：&quot; class=&quot;headerlink&quot; title=&quot;BeanUtils简介：&quot;&gt;&lt;/a&gt;BeanUtils简介：&lt;/h2&gt;&lt;p&gt;一个JavaBean通常包含了大量的属性，很多情况下，对Ja
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用Spring AOP和自定义注解记录日志</title>
-    <link href="https://linxiaobaixcg.github.io/2019/03/26/%E4%BD%BF%E7%94%A8Spring%20AOP%E5%92%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/"/>
-    <id>https://linxiaobaixcg.github.io/2019/03/26/使用Spring AOP和自定义注解记录日志/</id>
-    <published>2019-03-26T13:57:00.000Z</published>
-    <updated>2019-12-14T15:35:52.063Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;自定义注解&quot;&gt;&lt;a href=&quot;#自定义注解&quot; class=&quot;headerlink&quot; title=&quot;自定义注解&quot;&gt;&lt;/a&gt;自定义注解&lt;/h1&gt;&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter
       
     
     </summary>
