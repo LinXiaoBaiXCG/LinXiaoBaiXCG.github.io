@@ -184,9 +184,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
-    
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
   </entry>
   
@@ -384,6 +384,32 @@
   </entry>
   
   <entry>
+    <title>MongoDB-持久化</title>
+    <link href="https://linxiaobaixcg.github.io/2019/04/20/MongoDB-%E6%8C%81%E4%B9%85%E5%8C%96/"/>
+    <id>https://linxiaobaixcg.github.io/2019/04/20/MongoDB-持久化/</id>
+    <published>2019-04-19T16:00:00.000Z</published>
+    <updated>2020-04-20T08:28:54.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;Mongodb在1.8版本之后开始支持journal，就是我们常说的redo log，用于故障恢复和持久化。&lt;br&gt;MongoDB可以保证当服务器崩溃或服务器硬关机或硬盘故障时的数据完整性&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;Mon
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="MongoDB" scheme="https://linxiaobaixcg.github.io/tags/MongoDB/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Dubbo入门实战</title>
     <link href="https://linxiaobaixcg.github.io/2019/04/19/Dubbo%E5%85%A5%E9%97%A8%E5%AE%9E%E6%88%98/"/>
     <id>https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/</id>
@@ -472,29 +498,6 @@
       
       
         &lt;h1 id=&quot;对象拷贝&quot;&gt;&lt;a href=&quot;#对象拷贝&quot; class=&quot;headerlink&quot; title=&quot;对象拷贝&quot;&gt;&lt;/a&gt;对象拷贝&lt;/h1&gt;&lt;p&gt;Java中的对象拷贝(Object Copy)指的是将一个对象的所有属性（成员变量）拷贝到另一个有着相同类类型的对象中去。举
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BeanUtils.copyProperties()方法的使用</title>
-    <link href="https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>https://linxiaobaixcg.github.io/2019/03/28/BeanUtils.copyProperties()方法的使用/</id>
-    <published>2019-03-28T08:34:53.000Z</published>
-    <updated>2019-12-14T15:31:10.286Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;BeanUtils简介：&quot;&gt;&lt;a href=&quot;#BeanUtils简介：&quot; class=&quot;headerlink&quot; title=&quot;BeanUtils简介：&quot;&gt;&lt;/a&gt;BeanUtils简介：&lt;/h2&gt;&lt;p&gt;一个JavaBean通常包含了大量的属性，很多情况下，对Ja
       
     
     </summary>
