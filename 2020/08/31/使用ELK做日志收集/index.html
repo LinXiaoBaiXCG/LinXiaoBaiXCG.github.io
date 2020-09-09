@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66501564"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?40c5e7ebd8bc86f0bc6e55f457b6489e"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>使用ELK做日志收集 | LinChuangQiong&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="微服务">
+    <meta name="description" content="微服务系统的日志都保存在各自指定的目录中，如果这些微服务部署在不同的服务器上，那么日志文件也是分散在各自的服务器上。分散的日志不利于我们快速通过日志定位问题，我们可以借助ELK来收集各个微服务系统的日志并集中展示。ELK即Elasticsearch、Logstash和Kibana首字母缩写。Elasticsearch用于存储日志信息，Logstash用于收集日志，Kibana用于图形化展示。">
+<meta name="keywords" content="微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用ELK做日志收集">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="微服务系统的日志都保存在各自指定的目录中，如果这些微服务部署在不同的服务器上，那么日志文件也是分散在各自的服务器上。分散的日志不利于我们快速通过日志定位问题，我们可以借助ELK来收集各个微服务系统的日志并集中展示。ELK即Elasticsearch、Logstash和Kibana首字母缩写。Elasticsearch用于存储日志信息，Logstash用于收集日志，Kibana用于图形化展示。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-31T11:33:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用ELK做日志收集">
+<meta name="twitter:description" content="微服务系统的日志都保存在各自指定的目录中，如果这些微服务部署在不同的服务器上，那么日志文件也是分散在各自的服务器上。分散的日志不利于我们快速通过日志定位问题，我们可以借助ELK来收集各个微服务系统的日志并集中展示。ELK即Elasticsearch、Logstash和Kibana首字母缩写。Elasticsearch用于存储日志信息，Logstash用于收集日志，Kibana用于图形化展示。">
+    
+        <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname"></h5>
+          <a href="mailto:linchuangqiong66@163.com" title="linchuangqiong66@163.com" class="mail">linchuangqiong66@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about">
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/linxiaobaixcg" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">使用ELK做日志收集</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">使用ELK做日志收集</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-08-30T16:00:00.000Z" itemprop="datePublished" class="page-time">
+  2020-08-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建ELK环境"><span class="post-toc-number">1.</span> <span class="post-toc-text">搭建ELK环境</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装docker"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">安装docker</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装Docker所需要的包"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">安装Docker所需要的包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#设置稳定的仓库"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">设置稳定的仓库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装最新版的Docker引擎"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">安装最新版的Docker引擎</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#启动Docker"><span class="post-toc-number">1.1.4.</span> <span class="post-toc-text">启动Docker</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查看是否安装成功"><span class="post-toc-number">1.1.5.</span> <span class="post-toc-text">查看是否安装成功</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装Docker-Compose"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">安装Docker Compose</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#获取Docker-Compose的最新稳定版本"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">获取Docker Compose的最新稳定版本</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对二进制文件授予可执行权限"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">对二进制文件授予可执行权限</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建link"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">创建link</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查看是否安装成功-1"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">查看是否安装成功</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Docker-Compose搭建ELK"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">Docker Compose搭建ELK</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建Elasticsearch数据挂载路径"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">创建Elasticsearch数据挂载路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对该路径授予777权限"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">对该路径授予777权限</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建Elasticsearch插件挂载路径"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">创建Elasticsearch插件挂载路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建Logstash配置文件存储路径"><span class="post-toc-number">1.3.4.</span> <span class="post-toc-text">创建Logstash配置文件存储路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建ELK-Docker-Compose文件存储路径"><span class="post-toc-number">1.3.5.</span> <span class="post-toc-text">创建ELK Docker Compose文件存储路径</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Logstash中安装json-lines插件"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">Logstash中安装json_lines插件</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#修改微服务日志配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">修改微服务日志配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引入依赖"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">引入依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置修改"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">配置修改</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-使用ELK做日志收集" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">使用ELK做日志收集</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-08-31 00:00:00" datetime="2020-08-30T16:00:00.000Z" itemprop="datePublished">2020-08-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p> 微服务系统的日志都保存在各自指定的目录中，如果这些微服务部署在不同的服务器上，那么日志文件也是分散在各自的服务器上。分散的日志不利于我们快速通过日志定位问题，我们可以借助ELK来收集各个微服务系统的日志并集中展示。<br>ELK即Elasticsearch、Logstash和Kibana首字母缩写。Elasticsearch用于存储日志信息，Logstash用于收集日志，Kibana用于图形化展示。 </p>
+</blockquote>
+<h1 id="搭建ELK环境"><a href="#搭建ELK环境" class="headerlink" title="搭建ELK环境"></a>搭建ELK环境</h1><p> 在Windwos上搭建ELK环境较为麻烦，这里我选择在CentOS7 上通过Docker来搭建ELK环境。</p>
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><h3 id="安装Docker所需要的包"><a href="#安装Docker所需要的包" class="headerlink" title="安装Docker所需要的包"></a>安装Docker所需要的包</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">yum</span> <span class="string">install -y yum-utils \</span></span><br><span class="line">  <span class="meta">device-mapper-persistent-data</span> <span class="string">\</span></span><br><span class="line">  <span class="attr">lvm2</span></span><br></pre></td></tr></table></figure>
+<h3 id="设置稳定的仓库"><a href="#设置稳定的仓库" class="headerlink" title="设置稳定的仓库"></a>设置稳定的仓库</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">    --<span class="built_in">add</span>-repo \</span><br><span class="line">    http<span class="variable">s:</span>//download.docker.<span class="keyword">com</span>/linux/centos/docker-<span class="keyword">ce</span>.repo</span><br></pre></td></tr></table></figure>
+<h3 id="安装最新版的Docker引擎"><a href="#安装最新版的Docker引擎" class="headerlink" title="安装最新版的Docker引擎"></a>安装最新版的Docker引擎</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker-<span class="keyword">ce</span> docker-<span class="keyword">ce</span>-cli containerd.io</span><br></pre></td></tr></table></figure>
+<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> docker</span><br></pre></td></tr></table></figure>
+<h3 id="查看是否安装成功"><a href="#查看是否安装成功" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker -v</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装Docker-Compose"><a href="#安装Docker-Compose" class="headerlink" title="安装Docker Compose"></a>安装Docker Compose</h2><p> 安装好Docker后，我们接着安装Docker Compose，官方安装教程<a href="https://docs.docker.com/compose/install/，主要步骤为：" target="_blank" rel="noopener">https://docs.docker.com/compose/install/，主要步骤为：</a> </p>
+<h3 id="获取Docker-Compose的最新稳定版本"><a href="#获取Docker-Compose的最新稳定版本" class="headerlink" title="获取Docker Compose的最新稳定版本"></a>获取Docker Compose的最新稳定版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L <span class="string">"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-<span class="variable">$(uname -s)</span>-<span class="variable">$(uname -m)</span>"</span> -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="对二进制文件授予可执行权限"><a href="#对二进制文件授予可执行权限" class="headerlink" title="对二进制文件授予可执行权限"></a>对二进制文件授予可执行权限</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="创建link"><a href="#创建link" class="headerlink" title="创建link"></a>创建link</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose <span class="regexp">/usr/</span>bin<span class="regexp">/docker-compose</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看是否安装成功-1"><a href="#查看是否安装成功-1" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose -v</span></span><br></pre></td></tr></table></figure>
+<h2 id="Docker-Compose搭建ELK"><a href="#Docker-Compose搭建ELK" class="headerlink" title="Docker Compose搭建ELK"></a>Docker Compose搭建ELK</h2><p>在搭建ELK之前，我们需要做一些准备工作。</p>
+<p>正如官方所说的那样 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：</a></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w vm.<span class="attribute">max_map_count</span>=262144</span><br></pre></td></tr></table></figure>
+<h3 id="创建Elasticsearch数据挂载路径"><a href="#创建Elasticsearch数据挂载路径" class="headerlink" title="创建Elasticsearch数据挂载路径"></a>创建Elasticsearch数据挂载路径</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">mkdir</span> -p /lxb/elasticsearch/<span class="class"><span class="keyword">data</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="对该路径授予777权限"><a href="#对该路径授予777权限" class="headerlink" title="对该路径授予777权限"></a>对该路径授予777权限</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">chmod</span> <span class="number">777</span> /lxb/elasticsearch/<span class="class"><span class="keyword">data</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="创建Elasticsearch插件挂载路径"><a href="#创建Elasticsearch插件挂载路径" class="headerlink" title="创建Elasticsearch插件挂载路径"></a>创建Elasticsearch插件挂载路径</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -<span class="selector-tag">p</span> /lxb/elasticsearch/plugins</span><br></pre></td></tr></table></figure>
+<h3 id="创建Logstash配置文件存储路径"><a href="#创建Logstash配置文件存储路径" class="headerlink" title="创建Logstash配置文件存储路径"></a>创建Logstash配置文件存储路径</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -<span class="selector-tag">p</span> /lxb/logstash</span><br></pre></td></tr></table></figure>
+<p>在该路径下创建<code>logstash-lxb.conf</code>配置文件（没有安装vim的话可以使用<code>yum install vim</code>命令安装)</p>
+<p>内容如下所示:</p>
+<figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">input</span> &#123;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    <span class="attr">mode</span> =&gt; <span class="string">"server"</span></span><br><span class="line">    <span class="attr">host</span> =&gt; <span class="string">"0.0.0.0"</span></span><br><span class="line">    <span class="attr">port</span> =&gt; <span class="number">4560</span></span><br><span class="line">    <span class="attr">codec</span> =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">output</span> &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    <span class="attr">hosts</span> =&gt; <span class="string">"es:9200"</span></span><br><span class="line">    <span class="attr">index</span> =&gt; <span class="string">"lxb-logstash-%&#123;+YYYY.MM.dd&#125;"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建ELK-Docker-Compose文件存储路径"><a href="#创建ELK-Docker-Compose文件存储路径" class="headerlink" title="创建ELK Docker Compose文件存储路径"></a>创建ELK Docker Compose文件存储路径</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -<span class="selector-tag">p</span> /lxb/elk</span><br></pre></td></tr></table></figure>
+<p> 在该目录下创建<code>docker-compose.yml</code>文件： </p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="regexp">/lxb/</span>elk<span class="regexp">/docker-compose.yml</span></span><br></pre></td></tr></table></figure>
+<p> 内容如下所示： </p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="symbol">services:</span></span><br><span class="line"><span class="symbol">  elasticsearch:</span></span><br><span class="line"><span class="symbol">    image:</span> elasticsearch:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">"cluster.name=elasticsearch"</span> <span class="meta">#集群名称为elasticsearch</span></span><br><span class="line">      - <span class="string">"discovery.type=single-node"</span> <span class="meta">#单节点启动</span></span><br><span class="line">      - <span class="string">"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span> <span class="meta">#jvm内存分配为512MB</span></span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/plugins:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>plugins</span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/data:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>data</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">9200</span>:<span class="number">9200</span></span><br><span class="line"><span class="symbol">  kibana:</span></span><br><span class="line"><span class="symbol">    image:</span> kibana:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> kibana</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es <span class="meta">#配置elasticsearch域名为es</span></span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">"elasticsearch.hosts=http://es:9200"</span> <span class="meta">#因为上面配置了域名，所以这里可以简写为http:<span class="comment">//es:9200</span></span></span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">5601</span>:<span class="number">5601</span></span><br><span class="line"><span class="symbol">  logstash:</span></span><br><span class="line"><span class="symbol">    image:</span> logstash:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> logstash</span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>logstash/logstash-febs.conf:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/logstash/</span>pipeline/logstash.conf</span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">4560</span>:<span class="number">4560</span></span><br></pre></td></tr></table></figure>
+<p> 切换到<code>/lxb/elk</code>目录下，使用如下命令启动： </p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose up -d</span></span><br></pre></td></tr></table></figure>
+<p> 第一次启动的时候，Docker需要拉取ELK镜像，过程可能稍慢，耐心等待即可。 </p>
+<h2 id="Logstash中安装json-lines插件"><a href="#Logstash中安装json-lines插件" class="headerlink" title="Logstash中安装json_lines插件"></a>Logstash中安装json_lines插件</h2><p> 使用如下命令进入到Logstash容器中 </p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -<span class="keyword">it</span> logstash /bin/bash</span><br></pre></td></tr></table></figure>
+<p> 切换到/bin目录，安装json_lines插件，然后退出： </p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> exec -<span class="keyword">it </span>logstash /<span class="keyword">bin/bash</span></span><br><span class="line"><span class="keyword">cd </span>/<span class="keyword">bin/</span></span><br><span class="line"><span class="keyword">logstash-plugin </span>install logstash-codec-json_lines</span><br></pre></td></tr></table></figure>
+<p> 使用浏览器访问<a href="http://localhost:5601/" target="_blank" rel="noopener">http://localhost:5601</a>便可以看到Kibana管理界面</p>
+<h1 id="修改微服务日志配置"><a href="#修改微服务日志配置" class="headerlink" title="修改微服务日志配置"></a>修改微服务日志配置</h1><h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.logstash.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logstash-logback-encoder<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置修改"><a href="#配置修改" class="headerlink" title="配置修改"></a>配置修改</h2><p> 日志配置文件<code>logback-spring.xml</code>里添加如下配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--输出到 logstash的 appender--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"logstash"</span> <span class="attr">class</span>=<span class="string">"net.logstash.logback.appender.LogstashTcpSocketAppender"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">destination</span>&gt;</span>192.168.33.10:4560<span class="tag">&lt;/<span class="name">destination</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">encoder</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> <span class="attr">class</span>=<span class="string">"net.logstash.logback.encoder.LogstashEncoder"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"><span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"info"</span>&gt;</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"logstash"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> <code>192.168.33.10:4560</code>对应我们刚刚搭建的Logstash地址。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-08-31T11:33:42.000Z" itemprop="dateUpdated">2020-08-31 19:33:42</time>
+</span><br>
+
+
+        
+        ----本文结束,谢谢阅读----
+        
+    </div>
+    
+    <footer>
+        <a href="https://linxiaobaixcg.github.io">
+            <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" alt>
+            
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微服务/">微服务</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/&title=《使用ELK做日志收集》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/&title=《使用ELK做日志收集》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用ELK做日志收集》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/02/11/TCP粘包拆包及解决方法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">TCP粘包拆包及解决方法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span> &copy; 2018 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/&title=《使用ELK做日志收集》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/&title=《使用ELK做日志收集》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用ELK做日志收集》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
