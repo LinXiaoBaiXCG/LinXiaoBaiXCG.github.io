@@ -12,6 +12,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[ElasticSearch使用Logstash从MySQL中同步数据]]></title>
+    <url>%2F2020%2F08%2F16%2FElasticSearch%E4%BD%BF%E7%94%A8Logstash%E4%BB%8EMySQL%E4%B8%AD%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE%2F</url>
+    <content type="text"><![CDATA[项目中的搜索功能需要使用ElasticSearch，现需使用Logstash来导入数据到ElasticSearch中。 安装ElasticSearch 下载安装包并解压，亦可用Docker安装 进入装目录下的config文件夹中，修改elasticsearch.yml 文件，Docker安装进入容器内进行配置即可 修改的主要内容 1234567891011121314#配置es的集群名称，默认是elasticsearch，es会自动发现在同一网段下的es，如果在同一网段下有多个集群，就可以用这个属性来区分不同的集群。cluster.name: my-es#节点名称node.name: node-1#设置索引数据的存储路径path.data: /usr/local/elasticsearch/data#设置日志的存储路径path.logs: /usr/local/elasticsearch/logs#设置当前的ip地址,通过指定相同网段的其他节点会加入该集群中network.host: 0.0.0.0#设置对外服务的http端口http.port: 9200#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点discovery.zen.ping.unicast.hosts: ["127.0.0.1","10.10.10.34:9200"] 安装Logstash同样也是下载压缩到后解压即可，然后到解压目录执行 1./bin/logstash -e 查看日志能正常启动说明安装成功 编写同步脚本同步数据需要使用logstash-input-jdbc插件，在logstash-6.1.1以后已经默认支持 logstash-input-jdbc插件，所以不需要再单独安装了。 在安装目录下新建connector、script文件夹用于分别存放MySQL 的驱动文件和同步脚本 编写脚本 123456789101112131415161718192021222324252627282930313233343536input &#123; jdbc &#123; # mysql 数据库链接 jdbc_connection_string =&gt; "jdbc:mysql://host：port/database" # 用户名和密码 jdbc_user =&gt; "xxxx" jdbc_password =&gt; "xxxx" # MySQL的驱动文件地址 jdbc_driver_library =&gt; "/usr/local/logstash-6.5.4/connector/mysql-connector-java-5.1.45.jar" # 驱动类名 jdbc_driver_class =&gt; "com.mysql.jdbc.Driver" #直接执行sql语句, sql_last_value 是内置的变量，表示上一次 sql 执行中 update_time 的值,and update_time&lt;now()解决临界点数据问题 statement =&gt;"select * from blzq_article_v3 where is_show = 1 and update_time &gt;= :sql_last_value and update_time&lt;now()" # 执行的sql 文件路径+名称 #statement_filepath =&gt; "/usr/local/logstash-6.5.4/xxxx" #设置监听间隔 各字段含义（由左至右）分、时、天、月、年，全部为*默认含义为每分钟都更新 schedule =&gt; "* * * * *" # 索引类型 #type =&gt; "article" &#125;&#125;# 输出到elastsicearchoutput &#123; elasticsearch &#123; #elasticsearch集群地址 hosts =&gt; ["127.0.0.1:9200","127.0.0.1:8200","127.0.0.1:8000"] # 索引值，查询的时候会用到；需要先在elasticsearch中创建对应的mapping，也可以采用默认的mapping index =&gt; "article" document_type =&gt; "article" #指定插入elasticsearch文档ID，对应input中sql字段id document_id =&gt; "%&#123;id&#125;" &#125; stdout &#123; codec =&gt; json_lines &#125;&#125; 使用命令 ./bin/logstash -f ./script/mysql.conf 执行导入脚本。 总结 使用Logstash同步数据环境的安装相对简单，主要是配置导入脚本 上面的导入配置脚本使用的是update_time方式的增量同步，该方式在数据库中物理删除是无法实时更新，可在项目中执行删除MySQL数据的时候同步删除ES中的数据 当对实时性和数据一致性有高要求时，可使用MQ进行同步 亦可使用ali的canal进行同步数据。项目地址：https://github.com/alibaba/canal]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[TCP粘包拆包及解决方法]]></title>
     <url>%2F2020%2F02%2F11%2FTCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[粘包拆包问题是处于网络比较底层的问题，在数据链路层、网络层以及传输层都有可能发生。我们日常的网络应用开发大都在传输层进行，由于UDP有消息保护边界，不会发生粘包拆包问题，因此粘包拆包问题只发生在TCP协议中。 什么是粘包、拆包？假设客户端向服务端连续发送了两个数据包，用packet1和packet2来表示，那么服务端收到的数据可以分为三种，现列举如下： 第一种情况：接收端正常收到两个数据包，即没有发生拆包和粘包的现象，此种情况不在本文的讨论范围内。 第二种情况：接收端只收到一个数据包，由于TCP是不会出现丢包的，所以这一个数据包中包含了发送端发送的两个数据包的信息，这种现象即为粘包。这种情况由于接收端不知道这两个数据包的界限，所以对于接收端来说很难处理。 第三种情况：这种情况有两种表现形式，如下图。接收端收到了两个数据包，但是这两个数据包要么是不完整的，要么就是多出来一块，这种情况即发生了拆包和粘包。这两种情况如果不加特殊处理，对于接收端同样是不好处理的。 为什么会发生TCP粘包、拆包？发生TCP粘包、拆包主要是由于下面一些原因： 应用程序写入的数据大于套接字缓冲区大小，这将会发生拆包。 应用程序写入数据小于套接字缓冲区大小，网卡将应用多次写入的数据发送到网络上，这将会发生粘包。 进行MSS（最大报文长度）大小的TCP分段，当TCP报文长度-TCP头部长度&gt;MSS的时候将发生拆包。 接收方法不及时读取套接字缓冲区数据，这将发生粘包。 粘包、拆包解决办法TCP本身是面向流的，作为网络服务器，如何从这源源不断涌来的数据流中拆分出或者合并出有意义的信息呢？通常会有以下一些常用的方法： 发送端给每个数据包添加包首部，首部中应该至少包含数据包的长度，这样接收端在接收到数据后，通过读取包首部的长度字段，便知道每一个数据包的实际长度了。 发送端将每个数据包封装为固定长度（不够的可以通过补0填充），这样接收端每次从接收缓冲区中读取固定长度的数据就自然而然的把每个数据包拆分开来。 可以在数据包之间设置边界，如添加特殊符号，这样，接收端通过这个边界就可以将不同的数据包拆分开。]]></content>
@@ -232,17 +243,6 @@
     <title><![CDATA[Java中深拷贝和浅拷贝的理解和区别]]></title>
     <url>%2F2019%2F04%2F03%2FJava%E4%B8%AD%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[对象拷贝Java中的对象拷贝(Object Copy)指的是将一个对象的所有属性（成员变量）拷贝到另一个有着相同类类型的对象中去。举例说明：比如，对象A和对象B都属于类S，具有属性a和b。那么对对象A进行拷贝操作赋值给对象B就是：B.a=A.a; B.b=A.b; 在程序中拷贝对象是很常见的，主要是为了在新的上下文环境中复用现有对象的部分或全部数据。 Java中的对象拷贝主要分为：浅拷贝(Shallow Copy)、深拷贝(Deep Copy)。 浅拷贝被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象。 浅拷贝是地址拷贝 深拷贝被复制对象的所有变量都含有与原来的对象相同的值，除去那些引用其他对象的变量。 那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。 深拷贝是内容拷贝 浅拷贝和深拷贝的区别深拷贝会创建一个新的内存空间，拷贝的值是一样的，但是内存地址不一样。浅拷贝只是拷贝指向原来对象的地址，使原对象的引用计数+1]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[BeanUtils.copyProperties()方法的使用]]></title>
-    <url>%2F2019%2F03%2F28%2FBeanUtils.copyProperties()%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[BeanUtils简介：一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。 BeanUtils.copyProperties()方法源码123public static void copyProperties(Object source, Object target) throws BeansException &#123; copyProperties(source, target, (Class)null, (String[])null);&#125; Object source指的是来源对象，Object target指的是目标对象。意思是将Object source的属性拷贝到Object target。 实例将一个JavaBean对象的属性赋值给另一个JavaBean对象学生信息类 123456@Datapublic class Student &#123; private String name; private int age; private String sex;&#125; 教师信息类 12345@Datapublic class Teacher &#123; private String name; private Integer age; private String sexs; 1234567891011public static void main(String[] args) &#123; Student student = new Student(); student.setName("我是学生"); System.out.println(student); Teacher teacher = new Teacher(); teacher.setName("我是教师"); teacher.setAge(20); teacher.setSexs("女"); BeanUtils.copyProperties(teacher,student); System.out.println(student);&#125; 控制台输出：Student(name=我是学生, age=0, sex=null) Student(name=我是教师, age=20, sex=null) 注意 不管目标对象（Student）是否有值，相同的属性都会被拷贝。 当来源对象（Teacher）中有属性值为null时，即使目标对象相同的属性有值，目标对象的属性同样被拷贝，值也为null。 只要两个JavaBean对象的属性名称名称相同就会赋值，不同的不赋值。]]></content>
       <categories>
         <category>编程</category>
       </categories>
