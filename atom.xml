@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2020-08-31T11:33:42.000Z</updated>
+  <updated>2020-09-28T05:54:38.000Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Nginx配置HTTPS和前端多目录部署</title>
+    <link href="https://linxiaobaixcg.github.io/2020/09/28/%E4%BD%BF%E7%94%A8Nginx%E9%85%8D%E7%BD%AEHTTPS%E5%92%8C%E5%89%8D%E7%AB%AF%E5%A4%9A%E7%9B%AE%E5%BD%95%E9%83%A8%E7%BD%B2/"/>
+    <id>https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/</id>
+    <published>2020-09-28T12:00:00.000Z</published>
+    <updated>2020-09-28T05:54:38.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; Nginx的实践 &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;开启Nginx的SSL模块&quot;&gt;&lt;a href=&quot;#开启Nginx的SSL模块&quot; class=&quot;headerlink&quot; title=&quot;开启Nginx的SSL模块&quot;&gt;&lt;/a&gt;开启
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Nginx" scheme="https://linxiaobaixcg.github.io/tags/Nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>使用ELK做日志收集</title>
@@ -234,9 +260,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -481,29 +507,6 @@
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
       <category term="Zookeeper" scheme="https://linxiaobaixcg.github.io/tags/Zookeeper/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring的容器</title>
-    <link href="https://linxiaobaixcg.github.io/2019/04/18/Spring%E7%9A%84%E5%AE%B9%E5%99%A8/"/>
-    <id>https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/</id>
-    <published>2019-04-18T04:00:00.000Z</published>
-    <updated>2020-04-18T04:20:00.044Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Spring提供了两种容器类型： BeanFactory和ApplicationContext。&lt;br&gt; BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延&lt;br&gt;迟初始化策略（lazy-load）。只有当客户端对象需要访问
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
