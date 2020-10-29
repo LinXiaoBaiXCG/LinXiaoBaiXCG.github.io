@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66501564"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?40c5e7ebd8bc86f0bc6e55f457b6489e"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>使用Nginx配置HTTPS和前端多目录部署 | LinChuangQiong&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Nginx">
+    <meta name="description" content="Nginx的实践   开启Nginx的SSL模块Nginx如果未开启SSL模块，配置Https时提示如下错误： 1nginx: [emerg] the &quot;ssl&quot; parameter requires ngx_http_ssl_module in /usr/local/nginx/conf/nginx.conf Nginx配置HTTPS并做自动转发 将证书放到服务器目录中 在server模块中">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Nginx配置HTTPS和前端多目录部署">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="Nginx的实践   开启Nginx的SSL模块Nginx如果未开启SSL模块，配置Https时提示如下错误： 1nginx: [emerg] the &quot;ssl&quot; parameter requires ngx_http_ssl_module in /usr/local/nginx/conf/nginx.conf Nginx配置HTTPS并做自动转发 将证书放到服务器目录中 在server模块中">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-10-29T14:33:01.956Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Nginx配置HTTPS和前端多目录部署">
+<meta name="twitter:description" content="Nginx的实践   开启Nginx的SSL模块Nginx如果未开启SSL模块，配置Https时提示如下错误： 1nginx: [emerg] the &quot;ssl&quot; parameter requires ngx_http_ssl_module in /usr/local/nginx/conf/nginx.conf Nginx配置HTTPS并做自动转发 将证书放到服务器目录中 在server模块中">
+    
+        <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname"></h5>
+          <a href="mailto:linchuangqiong66@163.com" title="linchuangqiong66@163.com" class="mail">linchuangqiong66@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about">
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/linxiaobaixcg" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">使用Nginx配置HTTPS和前端多目录部署</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">使用Nginx配置HTTPS和前端多目录部署</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-09-28T12:00:00.000Z" itemprop="datePublished" class="page-time">
+  2020-09-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#开启Nginx的SSL模块"><span class="post-toc-number">1.</span> <span class="post-toc-text">开启Nginx的SSL模块</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Nginx配置HTTPS并做自动转发"><span class="post-toc-number">2.</span> <span class="post-toc-text">Nginx配置HTTPS并做自动转发</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#多目录部署前端项目"><span class="post-toc-number">3.</span> <span class="post-toc-text">多目录部署前端项目</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Nginx中root和alias的区别"><span class="post-toc-number">4.</span> <span class="post-toc-text">Nginx中root和alias的区别</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-使用Nginx配置HTTPS和前端多目录部署" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">使用Nginx配置HTTPS和前端多目录部署</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-09-28 20:00:00" datetime="2020-09-28T12:00:00.000Z" itemprop="datePublished">2020-09-28</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p> Nginx的实践 </p>
+</blockquote>
+<h1 id="开启Nginx的SSL模块"><a href="#开启Nginx的SSL模块" class="headerlink" title="开启Nginx的SSL模块"></a>开启Nginx的SSL模块</h1><p>Nginx如果未开启SSL模块，配置Https时提示如下错误：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">nginx:</span> [emerg] the <span class="string">"ssl"</span> parameter requires ngx_http_ssl_module <span class="keyword">in</span> <span class="regexp">/usr/</span>local<span class="regexp">/nginx/</span>conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<h1 id="Nginx配置HTTPS并做自动转发"><a href="#Nginx配置HTTPS并做自动转发" class="headerlink" title="Nginx配置HTTPS并做自动转发"></a>Nginx配置HTTPS并做自动转发</h1><ol>
+<li>将证书放到服务器目录中</li>
+<li>在server模块中配置HTTPS</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">443</span> ssl;</span><br><span class="line">        <span class="attribute">server_name</span>  xxxx.com;</span><br><span class="line">		<span class="attribute">root</span> html;</span><br><span class="line">		<span class="attribute">index</span> index.html index.htm;</span><br><span class="line">		<span class="attribute">ssl_certificate</span> cert/xxxx.com.pem; <span class="comment">#证书中pem文件地址</span></span><br><span class="line">		<span class="attribute">ssl_certificate_key</span> cert/xxxx.com.key;  <span class="comment">#证书中key文件地址</span></span><br><span class="line">		<span class="attribute">ssl_session_timeout</span> <span class="number">5m</span>;</span><br><span class="line">		<span class="attribute">ssl_ciphers</span> ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">		<span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line">		<span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>; </span><br><span class="line"></span><br><span class="line">        <span class="comment">#charset koi8-r;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#access_log  logs/host.access.log  main;</span></span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">            <span class="attribute">root</span>   /usr/local/test_project/admin-web/dist;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	    <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#error_page  404              /404.html;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># redirect server error pages to the static page /50x.html</span></span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">        <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">            <span class="attribute">root</span>   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>HTTP自动转发HTTPS</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span>  xxxx.com; <span class="comment">#多域名用空格分开</span></span><br><span class="line">		<span class="attribute">rewrite</span><span class="regexp"> ^(.*)$</span> https://<span class="variable">$host</span><span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#charset koi8-r;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#access_log  logs/host.access.log  main;</span></span><br><span class="line">		</span><br><span class="line">		<span class="attribute">location</span> / &#123;</span><br><span class="line">            <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#error_page  404              /404.html;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># redirect server error pages to the static page /50x.html</span></span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">        <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">            <span class="attribute">root</span>   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="多目录部署前端项目"><a href="#多目录部署前端项目" class="headerlink" title="多目录部署前端项目"></a>多目录部署前端项目</h1><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">server</span> &#123;</span><br><span class="line">        <span class="keyword">listen</span> <span class="number">80</span>;</span><br><span class="line">        server_name  xxxx.com;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">location</span> /aaa &#123; </span><br><span class="line">                <span class="keyword">alias</span> /data/web-a/dist/; </span><br><span class="line">                <span class="keyword">index</span> <span class="keyword">index</span>.html;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">location</span> /bbb &#123; </span><br><span class="line">                <span class="keyword">alias</span> /data/web-b/dist/;</span><br><span class="line">                <span class="keyword">index</span> <span class="keyword">index</span>.html;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Nginx中root和alias的区别"><a href="#Nginx中root和alias的区别" class="headerlink" title="Nginx中root和alias的区别"></a>Nginx中root和alias的区别</h1><p>root配置：nginx直接转发至 root后面地址+location 后面地址（返回的时候回带上location后面的地址）</p>
+<p>alias配置： nginx直接转发至 alias的地址，不会加上location后的内容</p>
+<p>注意：alias配置最后一定要 “/” 结尾 ，root随意</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-10-29T14:33:01.956Z" itemprop="dateUpdated">2020-10-29 22:33:01</time>
+</span><br>
+
+
+        
+        ----本文结束,谢谢阅读----
+        
+    </div>
+    
+    <footer>
+        <a href="https://linxiaobaixcg.github.io">
+            <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" alt>
+            
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/&title=《使用Nginx配置HTTPS和前端多目录部署》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/&title=《使用Nginx配置HTTPS和前端多目录部署》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用Nginx配置HTTPS和前端多目录部署》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/10/10/软件系统中常见的加密算法/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">软件系统中常见的加密算法和实现</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/08/31/使用ELK做日志收集/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">使用ELK做日志收集</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span> &copy; 2018 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/&title=《使用Nginx配置HTTPS和前端多目录部署》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/&title=《使用Nginx配置HTTPS和前端多目录部署》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用Nginx配置HTTPS和前端多目录部署》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

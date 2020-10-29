@@ -38,6 +38,32 @@
   </entry>
   
   <entry>
+    <title>使用Nginx配置HTTPS和前端多目录部署</title>
+    <link href="https://linxiaobaixcg.github.io/2020/09/28/%E4%BD%BF%E7%94%A8Nginx%E9%85%8D%E7%BD%AEHTTPS%E5%92%8C%E5%89%8D%E7%AB%AF%E5%A4%9A%E7%9B%AE%E5%BD%95%E9%83%A8%E7%BD%B2/"/>
+    <id>https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/</id>
+    <published>2020-09-28T12:00:00.000Z</published>
+    <updated>2020-10-29T14:33:01.956Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; Nginx的实践 &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;开启Nginx的SSL模块&quot;&gt;&lt;a href=&quot;#开启Nginx的SSL模块&quot; class=&quot;headerlink&quot; title=&quot;开启Nginx的SSL模块&quot;&gt;&lt;/a&gt;开启
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Nginx" scheme="https://linxiaobaixcg.github.io/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
     <title>使用ELK做日志收集</title>
     <link href="https://linxiaobaixcg.github.io/2020/08/31/%E4%BD%BF%E7%94%A8ELK%E5%81%9A%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"/>
     <id>https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/</id>
@@ -476,35 +502,6 @@
     
     
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Redis知识总结</title>
-    <link href="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/"/>
-    <id>https://linxiaobaixcg.github.io/2019/04/07/Redis解读/</id>
-    <published>2019-04-07T14:55:00.000Z</published>
-    <updated>2020-03-08T13:33:38.778Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;高性能Key-Value服务器&lt;/li&gt;
-&lt;li&gt;支持多种数据结构&lt;/li&gt;
-&lt;li&gt;功能丰富&lt;/li&gt;
-&lt;li&gt;高可用分布式支
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="Redis" scheme="https://linxiaobaixcg.github.io/tags/Redis/"/>
     
   </entry>
   
