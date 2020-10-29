@@ -6,26 +6,26 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2020-09-28T05:54:38.000Z</updated>
+  <updated>2020-10-20T07:14:35.000Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>使用Nginx配置HTTPS和前端多目录部署</title>
-    <link href="https://linxiaobaixcg.github.io/2020/09/28/%E4%BD%BF%E7%94%A8Nginx%E9%85%8D%E7%BD%AEHTTPS%E5%92%8C%E5%89%8D%E7%AB%AF%E5%A4%9A%E7%9B%AE%E5%BD%95%E9%83%A8%E7%BD%B2/"/>
-    <id>https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/</id>
-    <published>2020-09-28T12:00:00.000Z</published>
-    <updated>2020-09-28T05:54:38.000Z</updated>
+    <title>软件系统中常见的加密算法和实现</title>
+    <link href="https://linxiaobaixcg.github.io/2020/10/10/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/"/>
+    <id>https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/</id>
+    <published>2020-10-10T12:00:00.000Z</published>
+    <updated>2020-10-20T07:14:35.000Z</updated>
     
     <summary type="html">
     
       
       
         &lt;blockquote&gt;
-&lt;p&gt; Nginx的实践 &lt;/p&gt;
+&lt;p&gt; 数字签名、信息加密是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;开启Nginx的SSL模块&quot;&gt;&lt;a href=&quot;#开启Nginx的SSL模块&quot; class=&quot;headerlink&quot; title=&quot;开启Nginx的SSL模块&quot;&gt;&lt;/a&gt;开启
+&lt;h1 id=&quot;数字签名&quot;&gt;&lt;a href=&quot;#
       
     
     </summary>
@@ -33,7 +33,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Nginx" scheme="https://linxiaobaixcg.github.io/tags/Nginx/"/>
+      <category term="算法" scheme="https://linxiaobaixcg.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -58,32 +58,6 @@
     
     
       <category term="微服务" scheme="https://linxiaobaixcg.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ElasticSearch使用Logstash从MySQL中同步数据</title>
-    <link href="https://linxiaobaixcg.github.io/2020/08/16/ElasticSearch%E4%BD%BF%E7%94%A8Logstash%E4%BB%8EMySQL%E4%B8%AD%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/"/>
-    <id>https://linxiaobaixcg.github.io/2020/08/16/ElasticSearch使用Logstash从MySQL中同步数据/</id>
-    <published>2020-08-15T16:00:00.000Z</published>
-    <updated>2020-09-28T07:49:13.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt; 项目中的搜索功能需要使用ElasticSearch，现需使用Logstash来导入数据到ElasticSearch中。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;安装ElasticSearch&quot;&gt;&lt;a href=&quot;#安装ElasticS
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="ElasticSearch" scheme="https://linxiaobaixcg.github.io/tags/ElasticSearch/"/>
     
   </entry>
   
@@ -260,9 +234,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
-    
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
   </entry>
   
@@ -507,6 +481,29 @@
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
       <category term="Zookeeper" scheme="https://linxiaobaixcg.github.io/tags/Zookeeper/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring的容器</title>
+    <link href="https://linxiaobaixcg.github.io/2019/04/18/Spring%E7%9A%84%E5%AE%B9%E5%99%A8/"/>
+    <id>https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/</id>
+    <published>2019-04-18T04:00:00.000Z</published>
+    <updated>2020-04-18T04:20:00.044Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Spring提供了两种容器类型： BeanFactory和ApplicationContext。&lt;br&gt; BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延&lt;br&gt;迟初始化策略（lazy-load）。只有当客户端对象需要访问
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   

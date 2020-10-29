@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66501564"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?40c5e7ebd8bc86f0bc6e55f457b6489e"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>软件系统中常见的加密算法和实现 | LinChuangQiong&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="算法">
+    <meta name="description" content="数字签名、信息加密是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法。  数字签名数字签名，简单来说就是通过提供 可鉴别 的 数字信息 验证 自身身份 的一种方式。一套 数字签名 通常定义两种 互补 的运算，一个用于 签名，另一个用于 验证。分别由 发送者 持有能够 代表自己身份 的 私钥 (私钥不可泄露">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件系统中常见的加密算法和实现">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="数字签名、信息加密是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法。  数字签名数字签名，简单来说就是通过提供 可鉴别 的 数字信息 验证 自身身份 的一种方式。一套 数字签名 通常定义两种 互补 的运算，一个用于 签名，另一个用于 验证。分别由 发送者 持有能够 代表自己身份 的 私钥 (私钥不可泄露">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/软件系统中常见的加密算法/16493f2bfa18df72.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/软件系统中常见的加密算法/16493f2bfa02dbcd.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/软件系统中常见的加密算法和实现/16493f2bfa06e955.png">
+<meta property="og:updated_time" content="2020-10-20T07:14:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="软件系统中常见的加密算法和实现">
+<meta name="twitter:description" content="数字签名、信息加密是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法。  数字签名数字签名，简单来说就是通过提供 可鉴别 的 数字信息 验证 自身身份 的一种方式。一套 数字签名 通常定义两种 互补 的运算，一个用于 签名，另一个用于 验证。分别由 发送者 持有能够 代表自己身份 的 私钥 (私钥不可泄露">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/软件系统中常见的加密算法/16493f2bfa18df72.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname"></h5>
+          <a href="mailto:linchuangqiong66@163.com" title="linchuangqiong66@163.com" class="mail">linchuangqiong66@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about">
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/linxiaobaixcg" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">软件系统中常见的加密算法和实现</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">软件系统中常见的加密算法和实现</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-10-10T12:00:00.000Z" itemprop="datePublished" class="page-time">
+  2020-10-10
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#数字签名"><span class="post-toc-number">1.</span> <span class="post-toc-text">数字签名</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#加密和解密"><span class="post-toc-number">2.</span> <span class="post-toc-text">加密和解密</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加密"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">加密</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解密"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">解密</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#对称加密和非对称加密"><span class="post-toc-number">3.</span> <span class="post-toc-text">对称加密和非对称加密</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对称加密"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">对称加密</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#非对称加密"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">非对称加密</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#常见的签名加密算法"><span class="post-toc-number">4.</span> <span class="post-toc-text">常见的签名加密算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MD5算法"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">MD5算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#SHA1算法"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">SHA1算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HMAC算法"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">HMAC算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#AES-DES-3DES算法"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">AES/DES/3DES算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DES算法"><span class="post-toc-number">4.4.0.1.</span> <span class="post-toc-text">DES算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3DES算法"><span class="post-toc-number">4.4.0.2.</span> <span class="post-toc-text">3DES算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#AES算法"><span class="post-toc-number">4.4.0.3.</span> <span class="post-toc-text">AES算法</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RSA算法"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">RSA算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ECC算法"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">ECC算法</span></a></li></ol><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#各种加密算法对比"><span class="post-toc-number">5.</span> <span class="post-toc-text">各种加密算法对比</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#散列算法比较"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">散列算法比较</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对称加密算法比较"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">对称加密算法比较</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#非对称加密算法比较"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">非对称加密算法比较</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对称算法与非对称加密算法"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">对称算法与非对称加密算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对称算法"><span class="post-toc-number">5.4.1.</span> <span class="post-toc-text">对称算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#非对称算法"><span class="post-toc-number">5.4.2.</span> <span class="post-toc-text">非对称算法</span></a></li></ol></li></ol></li>
+        </nav>
+    </aside>
+
+
+<article id="post-软件系统中常见的加密算法" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">软件系统中常见的加密算法和实现</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-10-10 20:00:00" datetime="2020-10-10T12:00:00.000Z" itemprop="datePublished">2020-10-10</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p> 数字签名、信息加密是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法。</p>
+</blockquote>
+<h1 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h1><p><strong>数字签名</strong>，简单来说就是通过提供 <strong>可鉴别</strong> 的 <strong>数字信息</strong> 验证 <strong>自身身份</strong> 的一种方式。一套 <strong>数字签名</strong> 通常定义两种 <strong>互补</strong> 的运算，一个用于 <strong>签名</strong>，另一个用于 <strong>验证</strong>。分别由 <strong>发送者</strong> 持有能够 <strong>代表自己身份</strong> 的 <strong>私钥</strong> (私钥不可泄露),由 <strong>接受者</strong> 持有与私钥对应的 <strong>公钥</strong> ，能够在 <strong>接受</strong> 到来自发送者信息时用于 <strong>验证</strong> 其身份。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/10/10/软件系统中常见的加密算法/软件系统中常见的加密算法\16493f2bfa18df72.png" alt="16493f2bfa18df72" title>
+                </div>
+                <div class="image-caption">16493f2bfa18df72</div>
+            </figure></p>
+<blockquote>
+<p><strong>注意</strong>：图中 <strong>加密过程</strong> 有别于 <strong>公钥加密</strong>，<strong>签名</strong> 最根本的用途是要能够唯一 <strong>证明发送方的身份</strong>，防止 <strong>中间人攻击</strong>、<code>CSRF</code> <strong>跨域身份伪造</strong>。基于这一点在诸如 <strong>设备认证</strong>、<strong>用户认证</strong>、<strong>第三方认证</strong> 等认证体系中都会使用到 <strong>签名算法</strong> (彼此的实现方式可能会有差异)。</p>
+</blockquote>
+<h1 id="加密和解密"><a href="#加密和解密" class="headerlink" title="加密和解密"></a>加密和解密</h1><h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>数据加密的基本过程，就是对原来为明文的文件或数据按某种算法进行处理，使其成为 不可读的一段代码，通常称为“密文”。通过这样的途径，来达到保护数据不被 非法人窃取、阅读的目的。</p>
+<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>加密的逆过程为解密，即将该编码信息转化为其原来数据的过程。</p>
+<h1 id="对称加密和非对称加密"><a href="#对称加密和非对称加密" class="headerlink" title="对称加密和非对称加密"></a>对称加密和非对称加密</h1><p>加密算法分 <strong>对称加密</strong> 和 <strong>非对称加密</strong>，其中对称加密算法的加密与解密 <strong>密钥相同</strong>，非对称加密算法的加密密钥与解密 <strong>密钥不同</strong>，此外，还有一类 <strong>不需要密钥</strong> 的 <strong>散列算法</strong>。</p>
+<blockquote>
+<p>常见的 <strong>对称加密</strong> 算法主要有 <code>DES</code>、<code>3DES</code>、<code>AES</code> 等，常见的 <strong>非对称算法</strong> 主要有 <code>RSA</code>、<code>DSA</code> 等，<strong>散列算法</strong> 主要有 <code>SHA-1</code>、<code>MD5</code> 等。</p>
+</blockquote>
+<h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><p><strong>对称加密算法</strong> 是应用较早的加密算法，又称为 <strong>共享密钥加密算法</strong>。在 <strong>对称加密算法</strong> 中，使用的密钥只有一个，<strong>发送</strong> 和 <strong>接收</strong> 双方都使用这个密钥对数据进行 <strong>加密</strong> 和 <strong>解密</strong>。这就要求加密和解密方事先都必须知道加密的密钥。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/10/10/软件系统中常见的加密算法/软件系统中常见的加密算法\16493f2bfa02dbcd.png" alt="16493f2bfa02dbcd" title>
+                </div>
+                <div class="image-caption">16493f2bfa02dbcd</div>
+            </figure>
+<ol>
+<li>数据加密过程：在对称加密算法中，<strong>数据发送方</strong> 将 <strong>明文</strong> (原始数据) 和 <strong>加密密钥</strong> 一起经过特殊 <strong>加密处理</strong>，生成复杂的 <strong>加密密文</strong> 进行发送。</li>
+<li>数据解密过程：<strong>数据接收方</strong> 收到密文后，若想读取原数据，则需要使用 <strong>加密使用的密钥</strong> 及相同算法的 <strong>逆算法</strong> 对加密的密文进行解密，才能使其恢复成 <strong>可读明文</strong>。</li>
+</ol>
+<h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><p><strong>非对称加密算法</strong>，又称为 <strong>公开密钥加密算法</strong>。它需要两个密钥，一个称为 <strong>公开密钥</strong> (<code>public key</code>)，即 <strong>公钥</strong>，另一个称为 <strong>私有密钥</strong> (<code>private key</code>)，即 <strong>私钥</strong>。</p>
+<p>因为 <strong>加密</strong> 和 <strong>解密</strong> 使用的是两个不同的密钥，所以这种算法称为 <strong>非对称加密算法</strong>。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/10/10/软件系统中常见的加密算法/软件系统中常见的加密算法和实现\16493f2bfa06e955.png" alt="16493f2bfa06e955" title>
+                </div>
+                <div class="image-caption">16493f2bfa06e955</div>
+            </figure></p>
+<ol>
+<li>如果使用<strong>公钥</strong>对数据<strong>进行加密</strong>，只有用对应的<strong>私钥</strong>才能<strong>进行解密</strong>。</li>
+<li>如果使用<strong>私钥</strong>对数据<strong>进行加密</strong>，只有用对应的<strong>公钥</strong>才能<strong>进行解密</strong>。</li>
+</ol>
+<blockquote>
+<p><strong>例子</strong>：甲方生成 <strong>一对密钥</strong> 并将其中的一把作为 <strong>公钥</strong> 向其它人公开，得到该公钥的 <strong>乙方</strong> 使用该密钥对机密信息 <strong>进行加密</strong> 后再发送给甲方，甲方再使用自己保存的另一把 <strong>专用密钥</strong> (<strong>私钥</strong>)，对 <strong>加密</strong> 后的信息 <strong>进行解密</strong>。</p>
+</blockquote>
+<h1 id="常见的签名加密算法"><a href="#常见的签名加密算法" class="headerlink" title="常见的签名加密算法"></a>常见的签名加密算法</h1><h2 id="MD5算法"><a href="#MD5算法" class="headerlink" title="MD5算法"></a>MD5算法</h2><p><code>MD5</code> 用的是 <strong>哈希函数</strong>，它的典型应用是对一段信息产生 <strong>信息摘要</strong>，以 <strong>防止被篡改</strong>。严格来说，<code>MD5</code> 不是一种 <strong>加密算法</strong> 而是 <strong>摘要算法</strong>。无论是多长的输入，<code>MD5</code> 都会输出长度为 <code>128bits</code> 的一个串 (通常用 <code>16</code> <strong>进制</strong> 表示为 <code>32</code> 个字符)。</p>
+<h2 id="SHA1算法"><a href="#SHA1算法" class="headerlink" title="SHA1算法"></a>SHA1算法</h2><p><code>SHA1</code> 是和 <code>MD5</code> 一样流行的 <strong>消息摘要算法</strong>，然而 <code>SHA1</code> 比 <code>MD5</code> 的 <strong>安全性更强</strong>。对于长度小于 <code>2 ^ 64</code> 位的消息，<code>SHA1</code> 会产生一个 <code>160</code> 位的 <strong>消息摘要</strong>。基于 <code>MD5</code>、<code>SHA1</code> 的信息摘要特性以及 <strong>不可逆</strong> (一般而言)，可以被应用在检查 <strong>文件完整性</strong> 以及 <strong>数字签名</strong> 等场景。</p>
+<h2 id="HMAC算法"><a href="#HMAC算法" class="headerlink" title="HMAC算法"></a>HMAC算法</h2><p><code>HMAC</code> 是密钥相关的 <strong>哈希运算消息认证码</strong>（Hash-based Message Authentication Code），<code>HMAC</code> 运算利用 <strong>哈希算法</strong> (<code>MD5</code>、<code>SHA1</code> 等)，以 <strong>一个密钥</strong> 和 <strong>一个消息</strong> 为输入，生成一个 <strong>消息摘要</strong> 作为 <strong>输出</strong>。</p>
+<p><code>HMAC</code> <strong>发送方</strong> 和 <strong>接收方</strong> 都有的 <code>key</code> 进行计算，而没有这把 <code>key</code> 的第三方，则是 <strong>无法计算</strong> 出正确的 <strong>散列值</strong>的，这样就可以 <strong>防止数据被篡改</strong>。</p>
+<h2 id="AES-DES-3DES算法"><a href="#AES-DES-3DES算法" class="headerlink" title="AES/DES/3DES算法"></a>AES/DES/3DES算法</h2><p><code>AES</code>、<code>DES</code>、<code>3DES</code> 都是 <strong>对称</strong> 的 <strong>块加密算法</strong>，<strong>加解密</strong> 的过程是 <strong>可逆的</strong>。常用的有 <code>AES128</code>、<code>AES192</code>、<code>AES256</code> (默认安装的 <code>JDK</code> 尚不支持 <code>AES256</code>，需要安装对应的 <code>jce</code> 补丁进行升级 <code>jce1.7</code>，<code>jce1.8</code>)。</p>
+<h4 id="DES算法"><a href="#DES算法" class="headerlink" title="DES算法"></a>DES算法</h4><p><code>DES</code> 加密算法是一种 <strong>分组密码</strong>，以 <code>64</code> 位为 <strong>分组对数据</strong> 加密，它的 <strong>密钥长度</strong> 是 <code>56</code> 位，<strong>加密解密</strong> 用 <strong>同一算法</strong>。</p>
+<p><code>DES</code> 加密算法是对 <strong>密钥</strong> 进行保密，而 <strong>公开算法</strong>，包括加密和解密算法。这样，只有掌握了和发送方 <strong>相同密钥</strong> 的人才能解读由 <code>DES</code>加密算法加密的密文数据。因此，破译 <code>DES</code> 加密算法实际上就是 <strong>搜索密钥的编码</strong>。对于 <code>56</code> 位长度的 <strong>密钥</strong> 来说，如果用 <strong>穷举法</strong> 来进行搜索的话，其运算次数为 <code>2 ^ 56</code> 次。</p>
+<h4 id="3DES算法"><a href="#3DES算法" class="headerlink" title="3DES算法"></a>3DES算法</h4><p>是基于 <code>DES</code> 的 <strong>对称算法</strong>，对 <strong>一块数据</strong> 用 <strong>三个不同的密钥</strong> 进行 <strong>三次加密</strong>，<strong>强度更高</strong>。</p>
+<h4 id="AES算法"><a href="#AES算法" class="headerlink" title="AES算法"></a>AES算法</h4><p><code>AES</code> 加密算法是密码学中的 <strong>高级加密标准</strong>，该加密算法采用 <strong>对称分组密码体制</strong>，密钥长度的最少支持为 <code>128</code> 位、 <code>192</code> 位、<code>256</code> 位，分组长度 <code>128</code> 位，算法应易于各种硬件和软件实现。这种加密算法是美国联邦政府采用的 <strong>区块加密标准</strong>。</p>
+<h2 id="RSA算法"><a href="#RSA算法" class="headerlink" title="RSA算法"></a>RSA算法</h2><p><code>RSA</code> 加密算法是目前最有影响力的 <strong>公钥加密算法</strong>，并且被普遍认为是目前 <strong>最优秀的公钥方案</strong> 之一。<code>RSA</code> 是第一个能同时用于 <strong>加密</strong> 和 <strong>数字签名</strong> 的算法，它能够 <strong>抵抗</strong> 到目前为止已知的 <strong>所有密码攻击</strong>，已被 <code>ISO</code> 推荐为公钥数据加密标准。</p>
+<h2 id="ECC算法"><a href="#ECC算法" class="headerlink" title="ECC算法"></a>ECC算法</h2><p><code>ECC</code> 也是一种 <strong>非对称加密算法</strong>，主要优势是在某些情况下，它比其他的方法使用 <strong>更小的密钥</strong>，比如 <code>RSA</code> <strong>加密算法</strong>，提供 <strong>相当的或更高等级</strong> 的安全级别。不过一个缺点是 <strong>加密和解密操作</strong> 的实现比其他机制 <strong>时间长</strong> (相比 <code>RSA</code> 算法，该算法对 <code>CPU</code> 消耗严重)。</p>
+<h1 id="各种加密算法对比"><a href="#各种加密算法对比" class="headerlink" title="各种加密算法对比"></a>各种加密算法对比</h1><h2 id="散列算法比较"><a href="#散列算法比较" class="headerlink" title="散列算法比较"></a>散列算法比较</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">安全性</th>
+<th style="text-align:left">速度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">SHA-1</td>
+<td style="text-align:left">高</td>
+<td style="text-align:left">慢</td>
+</tr>
+<tr>
+<td style="text-align:left">MD5</td>
+<td style="text-align:left">中</td>
+<td style="text-align:left">快</td>
+</tr>
+</tbody>
+</table>
+<h2 id="对称加密算法比较"><a href="#对称加密算法比较" class="headerlink" title="对称加密算法比较"></a>对称加密算法比较</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">密钥名称</th>
+<th style="text-align:left">运行速度</th>
+<th style="text-align:left">安全性</th>
+<th style="text-align:left">资源消耗</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DES</td>
+<td style="text-align:left">56位</td>
+<td style="text-align:left">较快</td>
+<td style="text-align:left">低</td>
+<td style="text-align:left">中</td>
+</tr>
+<tr>
+<td style="text-align:left">3DES</td>
+<td style="text-align:left">112位或168位</td>
+<td style="text-align:left">慢</td>
+<td style="text-align:left">中</td>
+<td style="text-align:left">高</td>
+</tr>
+<tr>
+<td style="text-align:left">AES</td>
+<td style="text-align:left">128、192、256位</td>
+<td style="text-align:left">快</td>
+<td style="text-align:left">高</td>
+<td style="text-align:left">低</td>
+</tr>
+</tbody>
+</table>
+<h2 id="非对称加密算法比较"><a href="#非对称加密算法比较" class="headerlink" title="非对称加密算法比较"></a>非对称加密算法比较</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">成熟度</th>
+<th style="text-align:left">安全性</th>
+<th style="text-align:left">运算速度</th>
+<th style="text-align:left">资源消耗</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">RSA</td>
+<td style="text-align:left">高</td>
+<td style="text-align:left">高</td>
+<td style="text-align:left">中</td>
+<td style="text-align:left">中</td>
+</tr>
+<tr>
+<td style="text-align:left">ECC</td>
+<td style="text-align:left">高</td>
+<td style="text-align:left">高</td>
+<td style="text-align:left">慢</td>
+<td style="text-align:left">高</td>
+</tr>
+</tbody>
+</table>
+<h2 id="对称算法与非对称加密算法"><a href="#对称算法与非对称加密算法" class="headerlink" title="对称算法与非对称加密算法"></a>对称算法与非对称加密算法</h2><h3 id="对称算法"><a href="#对称算法" class="headerlink" title="对称算法"></a>对称算法</h3><ol>
+<li><strong>密钥管理</strong>：比较难，不适合互联网，一般用于内部系统</li>
+<li><strong>安全性</strong>：中</li>
+<li><strong>加密速度</strong>：快好 <strong>几个数量级</strong> (软件加解密速度至少快 <code>100</code> 倍，每秒可以加解密数 <code>M</code> <strong>比特</strong> 数据)，适合大数据量的加解密处理</li>
+</ol>
+<h3 id="非对称算法"><a href="#非对称算法" class="headerlink" title="非对称算法"></a>非对称算法</h3><ol>
+<li><strong>密钥管理</strong>：密钥容易管理</li>
+<li><strong>安全性</strong>：高</li>
+<li><strong>加密速度</strong>：比较慢，适合 <strong>小数据量</strong> 加解密或数据签名</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-10-20T07:14:35.000Z" itemprop="dateUpdated">2020-10-20 15:14:35</time>
+</span><br>
+
+
+        
+        ----本文结束,谢谢阅读----
+        
+    </div>
+    
+    <footer>
+        <a href="https://linxiaobaixcg.github.io">
+            <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" alt>
+            
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/&title=《软件系统中常见的加密算法和实现》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/&title=《软件系统中常见的加密算法和实现》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《软件系统中常见的加密算法和实现》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/08/31/使用ELK做日志收集/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">使用ELK做日志收集</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span> &copy; 2018 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/&title=《软件系统中常见的加密算法和实现》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/&title=《软件系统中常见的加密算法和实现》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《软件系统中常见的加密算法和实现》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2020/10/10/软件系统中常见的加密算法/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[使用Nginx配置HTTPS和前端多目录部署]]></title>
-    <url>%2F2020%2F09%2F28%2F%E4%BD%BF%E7%94%A8Nginx%E9%85%8D%E7%BD%AEHTTPS%E5%92%8C%E5%89%8D%E7%AB%AF%E5%A4%9A%E7%9B%AE%E5%BD%95%E9%83%A8%E7%BD%B2%2F</url>
-    <content type="text"><![CDATA[Nginx的实践 开启Nginx的SSL模块Nginx如果未开启SSL模块，配置Https时提示如下错误： 1nginx: [emerg] the "ssl" parameter requires ngx_http_ssl_module in /usr/local/nginx/conf/nginx.conf Nginx配置HTTPS并做自动转发 将证书放到服务器目录中 在server模块中配置HTTPS 12345678910111213141516171819202122232425262728293031server &#123; listen 443 ssl; server_name xxxx.com; root html; index index.html index.htm; ssl_certificate cert/xxxx.com.pem; #证书中pem文件地址 ssl_certificate_key cert/xxxx.com.key; #证书中key文件地址 ssl_session_timeout 5m; ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4; ssl_protocols TLSv1 TLSv1.1 TLSv1.2; ssl_prefer_server_ciphers on; #charset koi8-r; #access_log logs/host.access.log main; location / &#123; root /usr/local/test_project/admin-web/dist; index index.html index.htm; try_files $uri $uri/ /index.html; &#125; #error_page 404 /404.html; # redirect server error pages to the static page /50x.html # error_page 500 502 503 504 /50x.html; location = /50x.html &#123; root html; &#125; &#125; HTTP自动转发HTTPS 12345678910111213141516171819202122server &#123; listen 80; server_name xxxx.com; #多域名用空格分开 rewrite ^(.*)$ https://$host$1 permanent; #charset koi8-r; #access_log logs/host.access.log main; location / &#123; index index.html index.htm; &#125; #error_page 404 /404.html; # redirect server error pages to the static page /50x.html # error_page 500 502 503 504 /50x.html; location = /50x.html &#123; root html; &#125; &#125; 多目录部署前端项目1234567891011121314server &#123; listen 80; server_name xxxx.com; location /aaa &#123; alias /data/web-a/dist/; index index.html; &#125; location /bbb &#123; alias /data/web-b/dist/; index index.html; &#125;&#125; Nginx中root和alias的区别root配置：nginx直接转发至 root后面地址+location 后面地址（返回的时候回带上location后面的地址） alias配置： nginx直接转发至 alias的地址，不会加上location后的内容 注意：alias配置最后一定要 “/” 结尾 ，root随意]]></content>
+    <title><![CDATA[软件系统中常见的加密算法和实现]]></title>
+    <url>%2F2020%2F10%2F10%2F%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[数字签名、信息加密是前后端开发都经常需要使用到的技术，应用场景包括了用户登入、交易、信息通讯、oauth 等等，不同的应用场景也会需要使用到不同的签名加密算法。 数字签名数字签名，简单来说就是通过提供 可鉴别 的 数字信息 验证 自身身份 的一种方式。一套 数字签名 通常定义两种 互补 的运算，一个用于 签名，另一个用于 验证。分别由 发送者 持有能够 代表自己身份 的 私钥 (私钥不可泄露),由 接受者 持有与私钥对应的 公钥 ，能够在 接受 到来自发送者信息时用于 验证 其身份。 16493f2bfa18df72 注意：图中 加密过程 有别于 公钥加密，签名 最根本的用途是要能够唯一 证明发送方的身份，防止 中间人攻击、CSRF 跨域身份伪造。基于这一点在诸如 设备认证、用户认证、第三方认证 等认证体系中都会使用到 签名算法 (彼此的实现方式可能会有差异)。 加密和解密加密数据加密的基本过程，就是对原来为明文的文件或数据按某种算法进行处理，使其成为 不可读的一段代码，通常称为“密文”。通过这样的途径，来达到保护数据不被 非法人窃取、阅读的目的。 解密加密的逆过程为解密，即将该编码信息转化为其原来数据的过程。 对称加密和非对称加密加密算法分 对称加密 和 非对称加密，其中对称加密算法的加密与解密 密钥相同，非对称加密算法的加密密钥与解密 密钥不同，此外，还有一类 不需要密钥 的 散列算法。 常见的 对称加密 算法主要有 DES、3DES、AES 等，常见的 非对称算法 主要有 RSA、DSA 等，散列算法 主要有 SHA-1、MD5 等。 对称加密对称加密算法 是应用较早的加密算法，又称为 共享密钥加密算法。在 对称加密算法 中，使用的密钥只有一个，发送 和 接收 双方都使用这个密钥对数据进行 加密 和 解密。这就要求加密和解密方事先都必须知道加密的密钥。 16493f2bfa02dbcd 数据加密过程：在对称加密算法中，数据发送方 将 明文 (原始数据) 和 加密密钥 一起经过特殊 加密处理，生成复杂的 加密密文 进行发送。 数据解密过程：数据接收方 收到密文后，若想读取原数据，则需要使用 加密使用的密钥 及相同算法的 逆算法 对加密的密文进行解密，才能使其恢复成 可读明文。 非对称加密非对称加密算法，又称为 公开密钥加密算法。它需要两个密钥，一个称为 公开密钥 (public key)，即 公钥，另一个称为 私有密钥 (private key)，即 私钥。 因为 加密 和 解密 使用的是两个不同的密钥，所以这种算法称为 非对称加密算法。 16493f2bfa06e955 如果使用公钥对数据进行加密，只有用对应的私钥才能进行解密。 如果使用私钥对数据进行加密，只有用对应的公钥才能进行解密。 例子：甲方生成 一对密钥 并将其中的一把作为 公钥 向其它人公开，得到该公钥的 乙方 使用该密钥对机密信息 进行加密 后再发送给甲方，甲方再使用自己保存的另一把 专用密钥 (私钥)，对 加密 后的信息 进行解密。 常见的签名加密算法MD5算法MD5 用的是 哈希函数，它的典型应用是对一段信息产生 信息摘要，以 防止被篡改。严格来说，MD5 不是一种 加密算法 而是 摘要算法。无论是多长的输入，MD5 都会输出长度为 128bits 的一个串 (通常用 16 进制 表示为 32 个字符)。 SHA1算法SHA1 是和 MD5 一样流行的 消息摘要算法，然而 SHA1 比 MD5 的 安全性更强。对于长度小于 2 ^ 64 位的消息，SHA1 会产生一个 160 位的 消息摘要。基于 MD5、SHA1 的信息摘要特性以及 不可逆 (一般而言)，可以被应用在检查 文件完整性 以及 数字签名 等场景。 HMAC算法HMAC 是密钥相关的 哈希运算消息认证码（Hash-based Message Authentication Code），HMAC 运算利用 哈希算法 (MD5、SHA1 等)，以 一个密钥 和 一个消息 为输入，生成一个 消息摘要 作为 输出。 HMAC 发送方 和 接收方 都有的 key 进行计算，而没有这把 key 的第三方，则是 无法计算 出正确的 散列值的，这样就可以 防止数据被篡改。 AES/DES/3DES算法AES、DES、3DES 都是 对称 的 块加密算法，加解密 的过程是 可逆的。常用的有 AES128、AES192、AES256 (默认安装的 JDK 尚不支持 AES256，需要安装对应的 jce 补丁进行升级 jce1.7，jce1.8)。 DES算法DES 加密算法是一种 分组密码，以 64 位为 分组对数据 加密，它的 密钥长度 是 56 位，加密解密 用 同一算法。 DES 加密算法是对 密钥 进行保密，而 公开算法，包括加密和解密算法。这样，只有掌握了和发送方 相同密钥 的人才能解读由 DES加密算法加密的密文数据。因此，破译 DES 加密算法实际上就是 搜索密钥的编码。对于 56 位长度的 密钥 来说，如果用 穷举法 来进行搜索的话，其运算次数为 2 ^ 56 次。 3DES算法是基于 DES 的 对称算法，对 一块数据 用 三个不同的密钥 进行 三次加密，强度更高。 AES算法AES 加密算法是密码学中的 高级加密标准，该加密算法采用 对称分组密码体制，密钥长度的最少支持为 128 位、 192 位、256 位，分组长度 128 位，算法应易于各种硬件和软件实现。这种加密算法是美国联邦政府采用的 区块加密标准。 RSA算法RSA 加密算法是目前最有影响力的 公钥加密算法，并且被普遍认为是目前 最优秀的公钥方案 之一。RSA 是第一个能同时用于 加密 和 数字签名 的算法，它能够 抵抗 到目前为止已知的 所有密码攻击，已被 ISO 推荐为公钥数据加密标准。 ECC算法ECC 也是一种 非对称加密算法，主要优势是在某些情况下，它比其他的方法使用 更小的密钥，比如 RSA 加密算法，提供 相当的或更高等级 的安全级别。不过一个缺点是 加密和解密操作 的实现比其他机制 时间长 (相比 RSA 算法，该算法对 CPU 消耗严重)。 各种加密算法对比散列算法比较 名称 安全性 速度 SHA-1 高 慢 MD5 中 快 对称加密算法比较 名称 密钥名称 运行速度 安全性 资源消耗 DES 56位 较快 低 中 3DES 112位或168位 慢 中 高 AES 128、192、256位 快 高 低 非对称加密算法比较 名称 成熟度 安全性 运算速度 资源消耗 RSA 高 高 中 中 ECC 高 高 慢 高 对称算法与非对称加密算法对称算法 密钥管理：比较难，不适合互联网，一般用于内部系统 安全性：中 加密速度：快好 几个数量级 (软件加解密速度至少快 100 倍，每秒可以加解密数 M 比特 数据)，适合大数据量的加解密处理 非对称算法 密钥管理：密钥容易管理 安全性：高 加密速度：比较慢，适合 小数据量 加解密或数据签名]]></content>
       <categories>
         <category>编程</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -20,17 +20,6 @@
       </categories>
       <tags>
         <tag>微服务</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[ElasticSearch使用Logstash从MySQL中同步数据]]></title>
-    <url>%2F2020%2F08%2F16%2FElasticSearch%E4%BD%BF%E7%94%A8Logstash%E4%BB%8EMySQL%E4%B8%AD%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE%2F</url>
-    <content type="text"><![CDATA[项目中的搜索功能需要使用ElasticSearch，现需使用Logstash来导入数据到ElasticSearch中。 安装ElasticSearch 下载安装包并解压，亦可用Docker安装 进入装目录下的config文件夹中，修改elasticsearch.yml 文件，Docker安装进入容器内进行配置即可 修改的主要内容 1234567891011121314#配置es的集群名称，默认是elasticsearch，es会自动发现在同一网段下的es，如果在同一网段下有多个集群，就可以用这个属性来区分不同的集群。cluster.name: my-es#节点名称node.name: node-1#设置索引数据的存储路径path.data: /usr/local/elasticsearch/data#设置日志的存储路径path.logs: /usr/local/elasticsearch/logs#设置当前的ip地址,通过指定相同网段的其他节点会加入该集群中network.host: 0.0.0.0#设置对外服务的http端口http.port: 9200#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点discovery.zen.ping.unicast.hosts: ["127.0.0.1","10.10.10.34:9200"] 安装Logstash同样也是下载压缩到后解压即可，然后到解压目录执行 1./bin/logstash -e 查看日志能正常启动说明安装成功 编写同步脚本同步数据需要使用logstash-input-jdbc插件，在logstash-6.1.1以后已经默认支持 logstash-input-jdbc插件，所以不需要再单独安装了。 在安装目录下新建connector、script文件夹用于分别存放MySQL 的驱动文件和同步脚本 编写脚本 123456789101112131415161718192021222324252627282930313233343536input &#123; jdbc &#123; # mysql 数据库链接 jdbc_connection_string =&gt; "jdbc:mysql://host：port/database" # 用户名和密码 jdbc_user =&gt; "xxxx" jdbc_password =&gt; "xxxx" # MySQL的驱动文件地址 jdbc_driver_library =&gt; "/usr/local/logstash-6.5.4/connector/mysql-connector-java-5.1.45.jar" # 驱动类名 jdbc_driver_class =&gt; "com.mysql.jdbc.Driver" #直接执行sql语句, sql_last_value 是内置的变量，表示上一次 sql 执行中 update_time 的值,and update_time&lt;now()解决临界点数据问题 statement =&gt;"select * from blzq_article_v3 where is_show = 1 and update_time &gt;= :sql_last_value and update_time&lt;now()" # 执行的sql 文件路径+名称 #statement_filepath =&gt; "/usr/local/logstash-6.5.4/xxxx" #设置监听间隔 各字段含义（由左至右）分、时、天、月、年，全部为*默认含义为每分钟都更新 schedule =&gt; "* * * * *" # 索引类型 #type =&gt; "article" &#125;&#125;# 输出到elastsicearchoutput &#123; elasticsearch &#123; #elasticsearch集群地址 hosts =&gt; ["127.0.0.1:9200","127.0.0.1:8200","127.0.0.1:8000"] # 索引值，查询的时候会用到；需要先在elasticsearch中创建对应的mapping，也可以采用默认的mapping index =&gt; "article" document_type =&gt; "article" #指定插入elasticsearch文档ID，对应input中sql字段id document_id =&gt; "%&#123;id&#125;" &#125; stdout &#123; codec =&gt; json_lines &#125;&#125; 使用命令 ./bin/logstash -f ./script/mysql.conf 执行导入脚本。 总结 使用Logstash同步数据环境的安装相对简单，主要是配置导入脚本 上面的导入配置脚本使用的是update_time方式的增量同步，该方式在数据库中物理删除是无法实时更新，可在项目中执行删除MySQL数据的时候同步删除ES中的数据 当对实时性和数据一致性有高要求时，可使用MQ进行同步 亦可使用ali的canal进行同步数据。项目地址：https://github.com/alibaba/canal]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>ElasticSearch</tag>
       </tags>
   </entry>
   <entry>
@@ -110,8 +99,8 @@
         <category>编程</category>
       </categories>
       <tags>
-        <tag>Dubbo</tag>
         <tag>Java</tag>
+        <tag>Dubbo</tag>
       </tags>
   </entry>
   <entry>
@@ -254,6 +243,17 @@
     <title><![CDATA[Java中深拷贝和浅拷贝的理解和区别]]></title>
     <url>%2F2019%2F04%2F03%2FJava%E4%B8%AD%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[对象拷贝Java中的对象拷贝(Object Copy)指的是将一个对象的所有属性（成员变量）拷贝到另一个有着相同类类型的对象中去。举例说明：比如，对象A和对象B都属于类S，具有属性a和b。那么对对象A进行拷贝操作赋值给对象B就是：B.a=A.a; B.b=A.b; 在程序中拷贝对象是很常见的，主要是为了在新的上下文环境中复用现有对象的部分或全部数据。 Java中的对象拷贝主要分为：浅拷贝(Shallow Copy)、深拷贝(Deep Copy)。 浅拷贝被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象。 浅拷贝是地址拷贝 深拷贝被复制对象的所有变量都含有与原来的对象相同的值，除去那些引用其他对象的变量。 那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。 深拷贝是内容拷贝 浅拷贝和深拷贝的区别深拷贝会创建一个新的内存空间，拷贝的值是一样的，但是内存地址不一样。浅拷贝只是拷贝指向原来对象的地址，使原对象的引用计数+1]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[BeanUtils.copyProperties()方法的使用]]></title>
+    <url>%2F2019%2F03%2F28%2FBeanUtils.copyProperties()%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[BeanUtils简介：一个JavaBean通常包含了大量的属性，很多情况下，对JavaBean的处理导致大量get/set代码堆积，增加了代码长度和阅读代码的难度。BeanUtils 是 Apache commons组件的成员之一，主要用于简化JavaBean封装数据的操作。 BeanUtils.copyProperties()方法源码123public static void copyProperties(Object source, Object target) throws BeansException &#123; copyProperties(source, target, (Class)null, (String[])null);&#125; Object source指的是来源对象，Object target指的是目标对象。意思是将Object source的属性拷贝到Object target。 实例将一个JavaBean对象的属性赋值给另一个JavaBean对象学生信息类 123456@Datapublic class Student &#123; private String name; private int age; private String sex;&#125; 教师信息类 12345@Datapublic class Teacher &#123; private String name; private Integer age; private String sexs; 1234567891011public static void main(String[] args) &#123; Student student = new Student(); student.setName("我是学生"); System.out.println(student); Teacher teacher = new Teacher(); teacher.setName("我是教师"); teacher.setAge(20); teacher.setSexs("女"); BeanUtils.copyProperties(teacher,student); System.out.println(student);&#125; 控制台输出：Student(name=我是学生, age=0, sex=null) Student(name=我是教师, age=20, sex=null) 注意 不管目标对象（Student）是否有值，相同的属性都会被拷贝。 当来源对象（Teacher）中有属性值为null时，即使目标对象相同的属性有值，目标对象的属性同样被拷贝，值也为null。 只要两个JavaBean对象的属性名称名称相同就会赋值，不同的不赋值。]]></content>
       <categories>
         <category>编程</category>
       </categories>
