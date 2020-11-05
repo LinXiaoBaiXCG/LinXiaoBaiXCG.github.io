@@ -6,10 +6,37 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2020-10-20T07:14:35.000Z</updated>
+  <updated>2020-10-29T07:37:53.000Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java运行时数据区域</title>
+    <link href="https://linxiaobaixcg.github.io/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/"/>
+    <id>https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/</id>
+    <published>2020-10-28T16:00:00.000Z</published>
+    <updated>2020-10-29T07:37:53.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 读《深入理解Java虚拟机》记录&lt;/p&gt;
+&lt;p&gt; Java 虚拟机有自动内存管理机制，但如果出现内存泄漏和溢出方面的问题，排查错误、修正问题就必须要了解虚拟机是怎样使用内存的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;Java运行时数
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JVM" scheme="https://linxiaobaixcg.github.io/tags/JVM/"/>
+    
+  </entry>
   
   <entry>
     <title>软件系统中常见的加密算法和实现</title>
@@ -232,9 +259,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
-    
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
   </entry>
   
@@ -479,29 +506,6 @@
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
       <category term="Zookeeper" scheme="https://linxiaobaixcg.github.io/tags/Zookeeper/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring的容器</title>
-    <link href="https://linxiaobaixcg.github.io/2019/04/18/Spring%E7%9A%84%E5%AE%B9%E5%99%A8/"/>
-    <id>https://linxiaobaixcg.github.io/2019/04/18/Spring的容器/</id>
-    <published>2019-04-18T04:00:00.000Z</published>
-    <updated>2020-04-18T04:20:00.044Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Spring提供了两种容器类型： BeanFactory和ApplicationContext。&lt;br&gt; BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延&lt;br&gt;迟初始化策略（lazy-load）。只有当客户端对象需要访问
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   

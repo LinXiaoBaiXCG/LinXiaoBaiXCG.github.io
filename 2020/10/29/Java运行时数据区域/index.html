@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66501564"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?40c5e7ebd8bc86f0bc6e55f457b6489e"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Java运行时数据区域 | LinChuangQiong&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="读《深入理解Java虚拟机》记录  Java 虚拟机有自动内存管理机制，但如果出现内存泄漏和溢出方面的问题，排查错误、修正问题就必须要了解虚拟机是怎样使用内存的。  Java运行时数据区域Java运行时数据区域在JDK8前后是有区别的： 下图是 JDK8 之后的 JVM 内存布局。">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java运行时数据区域">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="读《深入理解Java虚拟机》记录  Java 虚拟机有自动内存管理机制，但如果出现内存泄漏和溢出方面的问题，排查错误、修正问题就必须要了解虚拟机是怎样使用内存的。  Java运行时数据区域Java运行时数据区域在JDK8前后是有区别的： 下图是 JDK8 之后的 JVM 内存布局。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/14923529-c0cbbccaa6858ca1.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/14923529-b96312d95eb09d15.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/14923529-7a6d6e02c15fff2f.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/14923529-3d9e650ad915bc0e.png">
+<meta property="og:updated_time" content="2020-10-29T07:37:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java运行时数据区域">
+<meta name="twitter:description" content="读《深入理解Java虚拟机》记录  Java 虚拟机有自动内存管理机制，但如果出现内存泄漏和溢出方面的问题，排查错误、修正问题就必须要了解虚拟机是怎样使用内存的。  Java运行时数据区域Java运行时数据区域在JDK8前后是有区别的： 下图是 JDK8 之后的 JVM 内存布局。">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/14923529-c0cbbccaa6858ca1.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname"></h5>
+          <a href="mailto:linchuangqiong66@163.com" title="linchuangqiong66@163.com" class="mail">linchuangqiong66@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about">
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/linxiaobaixcg" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java运行时数据区域</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java运行时数据区域</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-10-28T16:00:00.000Z" itemprop="datePublished" class="page-time">
+  2020-10-29
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Java运行时数据区域"><span class="post-toc-number">1.</span> <span class="post-toc-text">Java运行时数据区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#程序计数器"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">程序计数器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java虚拟机栈"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Java虚拟机栈</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-局部变量表"><span class="post-toc-number">1.2.0.0.1.</span> <span class="post-toc-text">1. 局部变量表</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-操作栈"><span class="post-toc-number">1.2.0.0.2.</span> <span class="post-toc-text">2. 操作栈</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-动态链接"><span class="post-toc-number">1.2.0.0.3.</span> <span class="post-toc-text">3. 动态链接</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-方法返回地址"><span class="post-toc-number">1.2.0.0.4.</span> <span class="post-toc-text">4.方法返回地址</span></a></li></ol></li></ol></li></ol><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#本地方法区"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">本地方法区</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java堆"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">Java堆</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#方法区"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">方法区</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#运行时常量池"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">运行时常量池</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#直接内存"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">直接内存</span></a></li>
+        </nav>
+    </aside>
+
+
+<article id="post-Java运行时数据区域" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java运行时数据区域</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-10-29 00:00:00" datetime="2020-10-28T16:00:00.000Z" itemprop="datePublished">2020-10-29</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p> 读《深入理解Java虚拟机》记录</p>
+<p> Java 虚拟机有自动内存管理机制，但如果出现内存泄漏和溢出方面的问题，排查错误、修正问题就必须要了解虚拟机是怎样使用内存的。</p>
+</blockquote>
+<h1 id="Java运行时数据区域"><a href="#Java运行时数据区域" class="headerlink" title="Java运行时数据区域"></a>Java运行时数据区域</h1><p>Java运行时数据区域在JDK8前后是有区别的：</p>
+<p>下图是 JDK8 之后的 JVM 内存布局。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/10/29/Java运行时数据区域/14923529-c0cbbccaa6858ca1.png" alt="14923529-c0cbbccaa6858ca1" title>
+                </div>
+                <div class="image-caption">14923529-c0cbbccaa6858ca1</div>
+            </figure>
+<p>JDK8 之前的内存区域图如下:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/10/29/Java运行时数据区域/14923529-b96312d95eb09d15.png" alt="14923529-b96312d95eb09d15" title>
+                </div>
+                <div class="image-caption">14923529-b96312d95eb09d15</div>
+            </figure>
+<blockquote>
+<p>在HotSpot JVM中，方法区（Method Area）与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。每当一个类初次被加载的时候，它的元数据都会放到永久代中。</p>
+<p>永久代是有大小限制的，因此如果加载的类太多，很有可能导致永久代内存溢出，即万恶的 <em>java.lang.OutOfMemoryError: PermGen</em> ，为此JVM开发者不得不对虚拟机做调优。</p>
+<p>JDK7的HotSpot，已经把原本放在永久代的字符串常量（移到堆中）、静态变量移出，到了JDK8则完全废弃了永久代，取而代之的是<strong>（元空间）Metaspace</strong>，将JDK7中永久代还剩余的内容（主要是类型信息）全部移到了元空间中。</p>
+<p>运行时常量池在元空间</p>
+</blockquote>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器（Program Counter Register）是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里面，字节码解释器工作时候就是通过改变机器数起的值来选择下一条需要执行的字节码执行，分支、循环、跳转、异常处理等基础功能都需要依赖计数器完成。</p>
+<p>由于 Java 虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一个确定的时刻，一个处理器内核都只会执行一条线程中的指令。因此，为了线程切换后能恢复到正确的执行位置，每条线程都需要有一个独立的程序计数器，各条线程之间计数器互不影响，独立存储，我们称这类内存区域为“线程私有”的内存。</p>
+<p>如果线程正在执行的是一个 Java 方法，这个计数器记录的是正在执行的虚拟机字节码指令的地址；如果正在执行的是 Native 方法，这个计数器值则为空（Undefined）。此内存区域是唯一一个在 Java 虚拟机规范中没有规定任何 OutOfMemoryError 情况的区域。</p>
+<h2 id="Java虚拟机栈"><a href="#Java虚拟机栈" class="headerlink" title="Java虚拟机栈"></a>Java虚拟机栈</h2><p>与程序计数器一样，Java 虚拟机栈（Java Virtual Machine Stacks）也是线程私有的，它的生命周期与线程相同。</p>
+<p>虚拟机栈描述的是 Java 方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧（Stack Frame，是方法运行时的基础数据结构）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
+<p>在活动线程中，只有位千栈顶的帧才是有效的，称为当前栈帧。正在执行的方法称为当前方法，栈帧是方法运行的基本结构。在执行引擎运行时，所有指令都只能针对当前栈帧进行操作。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/10/29/Java运行时数据区域/14923529-7a6d6e02c15fff2f.png" alt="14923529-7a6d6e02c15fff2f" title>
+                </div>
+                <div class="image-caption">14923529-7a6d6e02c15fff2f</div>
+            </figure>
+<h5 id="1-局部变量表"><a href="#1-局部变量表" class="headerlink" title="1. 局部变量表"></a>1. 局部变量表</h5><p>局部变量表是存放方法参数和局部变量的区域。 局部变量没有准备阶段， 必须显式初始化。如果是非静态方法，<strong>则在 index[0] 位置上存储的是方法所属对象的实例引用</strong>，一个引用变量占 4 个字节，随后存储的是参数和局部变量。字节码指令中的 STORE 指令就是将操作栈中计算完成的局部变呈写回局部变量表的存储空间内。</p>
+<p>虚拟机栈规定了两种异常状况：如果线程请求的栈深度大于虚拟机所允许的深度，将抛出 StackOverflowError 异常；如果虚拟机栈可以动态扩展（当前大部分的 Java 虚拟机都可动态扩展），如果扩展时无法申请到足够的内存，就会抛出 OutOfMemoryError 异常。</p>
+<h5 id="2-操作栈"><a href="#2-操作栈" class="headerlink" title="2. 操作栈"></a>2. 操作栈</h5><p>操作栈是个初始状态为空的桶式结构栈。在方法执行过程中， 会有各种指令往<br>栈中写入和提取信息。JVM 的执行引擎是基于栈的执行引擎， 其中的栈指的就是操<br>作栈。字节码指令集的定义都是基于栈类型的，栈的深度在方法元信息的 stack 属性中。</p>
+<p><strong>i++ 和 ++i 的区别：</strong></p>
+<ol>
+<li>i++：从局部变量表取出 i 并压入操作栈(load memory)，然后对局部变量表中的 i 自增 1(add&amp;store memory)，将操作栈栈顶值取出使用，如此线程从操作栈读到的是自增之前的值。</li>
+<li>++i：先对局部变量表的 i 自增 1(load memory&amp;add&amp;store memory)，然后取出并压入操作栈(load memory)，再将操作栈栈顶值取出使用，线程从操作栈读到的是自增之后的值。</li>
+</ol>
+<p>之前之所以说 i++ 不是原子操作，即使使用 volatile 修饰也不是线程安全，就是因为，可能 i 被从局部变量表（内存）取出，压入操作栈（寄存器），操作栈中自增，使用栈顶值更新局部变量表（寄存器更新写入内存），其中分为 3 步，volatile 保证可见性，保证每次从局部变量表读取的都是最新的值，但可能这 3 步可能被另一个线程的 3 步打断，产生数据互相覆盖问题，从而导致 i 的值比预期的小。</p>
+<h5 id="3-动态链接"><a href="#3-动态链接" class="headerlink" title="3. 动态链接"></a>3. 动态链接</h5><p>每个栈帧中包含一个在常量池中对当前方法的引用， 目的是支持方法调用过程的动态连接。</p>
+<h5 id="4-方法返回地址"><a href="#4-方法返回地址" class="headerlink" title="4.方法返回地址"></a>4.方法返回地址</h5><p>方法执行时有两种退出情况：</p>
+<ol>
+<li>正常退出，即正常执行到任何方法的返回字节码指令，如 RETURN、IRETURN、ARETURN 等；</li>
+<li>异常退出。</li>
+</ol>
+<p>无论何种退出情况，都将返回至方法当前被调用的位置。方法退出的过程相当于弹出当前栈帧，退出可能有三种方式：</p>
+<ol>
+<li>返回值压入上层调用栈帧。</li>
+<li>异常信息抛给能够处理的栈帧。</li>
+<li>PC计数器指向方法调用后的下一条指令。</li>
+</ol>
+<h2 id="本地方法区"><a href="#本地方法区" class="headerlink" title="本地方法区"></a>本地方法区</h2><p>本地方法栈（Native Method Stack）与虚拟机栈所发挥的作用是非常相似的，它们之间的区别不过是虚拟机栈为虚拟机执行 Java 方法（也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。Sun HotSpot 虚拟机直接就把本地方法栈和虚拟机栈合二为一。与虚拟机栈一样，本地方法栈区域也会抛出 StackOverflowError 和 OutOfMemoryError 异常。</p>
+<h2 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h2><p>对于大多数应用来说，Java 堆（Java Heap）是 Java 虚拟机所管理的内存中最大的一块。Java 堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存。</p>
+<p>堆是垃圾收集器管理的主要区域，因此很多时候也被称做“GC堆”（Garbage Collected Heap）。从内存回收的角度来看，由于现在收集器基本都采用分代收集算法，所以 Java 堆中还可以细分为：新生代和老年代；再细致一点的有 Eden 空间、From Survivor 空间、To Survivor 空间等。从内存分配的角度来看，线程共享的 Java 堆中可能划分出多个线程私有的分配缓冲区（Thread Local Allocation Buffer,TLAB）。</p>
+<p>Java 堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可，当前主流的虚拟机都是按照可扩展来实现的（通过 -Xmx 和 -Xms 控制）。如果在堆中没有内存完成实例分配，并且堆也无法再扩展时，将会抛出 OutOfMemoryError 异常。</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区（Method Area）与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。虽然Java 虚拟机规范把方法区描述为堆的一个逻辑部分，但是它却有一个别名叫做 Non-Heap（非堆），目的应该是与 Java 堆区分开来。</p>
+<p>Java 虚拟机规范对方法区的限制非常宽松，除了和 Java 堆一样不需要连续的内存和可以选择固定大小或者可扩展外，还可以选择不实现垃圾收集。垃圾收集行为在这个区域是比较少出现的，其内存回收目标主要是针对常量池的回收和对类型的卸载。当方法区无法满足内存分配需求时，将抛出 OutOfMemoryError 异常。</p>
+<p><strong>JDK8 之前，Hotspot 中方法区的实现是永久代（Perm），JDK8 开始使用元空间（Metaspace），以前永久代所有内容的字符串常量移至堆内存，其他内容移至元空间，元空间直接在本地内存分配。</strong></p>
+<p>为什么要使用元空间取代永久代的实现？</p>
+<ol>
+<li>字符串存在永久代中，容易出现性能问题和内存溢出。</li>
+<li>类及方法的信息等比较难确定其大小，因此对于永久代的大小指定比较困难，太小容易出现永久代溢出，太大则容易导致老年代溢出。</li>
+<li>永久代会为 GC 带来不必要的复杂度，并且回收效率偏低。</li>
+<li>将 HotSpot 与 JRockit 合二为一。</li>
+</ol>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池（Runtime Constant Pool）是方法区的一部分。Class 文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池（Constant Pool Table），用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
+<p>一般来说，除了保存 Class 文件中描述的符号引用外，还会把翻译出来的直接引用也存储在运行时常量池中。</p>
+<p>运行时常量池相对于 Class 文件常量池的另外一个重要特征是具备动态性，Java 语言并不要求常量一定只有编译期才能产生，也就是并非预置入 Class 文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用得比较多的便是 String 类的 intern() 方法。</p>
+<p>既然运行时常量池是方法区的一部分，自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出 OutOfMemoryError 异常。</p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是 Java 虚拟机规范中定义的内存区域。</p>
+<p>在 JDK 1.4 中新加入了 NIO，引入了一种基于通道（Channel）与缓冲区（Buffer）的 I/O 方式，它可以使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 堆中的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在 Java 堆和 Native 堆中来回复制数据。</p>
+<p>显然，本机直接内存的分配不会受到 Java 堆大小的限制，但是，既然是内存，肯定还是会受到本机总内存（包括 RAM 以及 SWAP 区或者分页文件）大小以及处理器寻址空间的限制。服务器管理员在配置虚拟机参数时，会根据实际内存设置 -Xmx 等参数信息，但经常忽略直接内存，使得各个内存区域总和大于物理内存限制（包括物理的和操作系统级的限制），从而导致动态扩展时出现 OutOfMemoryError 异常。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/10/29/Java运行时数据区域/14923529-3d9e650ad915bc0e.png" alt="14923529-3d9e650ad915bc0e" title>
+                </div>
+                <div class="image-caption">14923529-3d9e650ad915bc0e</div>
+            </figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-10-29T07:37:53.000Z" itemprop="dateUpdated">2020-10-29 15:37:53</time>
+</span><br>
+
+
+        
+        ----本文结束,谢谢阅读----
+        
+    </div>
+    
+    <footer>
+        <a href="https://linxiaobaixcg.github.io">
+            <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" alt>
+            
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/&title=《Java运行时数据区域》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/&title=《Java运行时数据区域》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java运行时数据区域》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/10/10/软件系统中常见的加密算法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">软件系统中常见的加密算法和实现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span> &copy; 2018 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/&title=《Java运行时数据区域》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/&title=《Java运行时数据区域》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java运行时数据区域》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
