@@ -115,6 +115,31 @@
   </entry>
   
   <entry>
+    <title>深入WEB请求过程</title>
+    <link href="https://linxiaobaixcg.github.io/2020/07/21/%E6%B7%B1%E5%85%A5WEB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/"/>
+    <id>https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/</id>
+    <published>2020-07-21T12:00:00.000Z</published>
+    <updated>2020-11-09T15:51:54.872Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 读《深入分析Java Web技术内幕》记录&lt;/p&gt;
+&lt;p&gt; 随着Web 2.0时代的到来，互联网的网络架构已经从传统的 &lt;code&gt;C/S&lt;/code&gt; 架构转变为更加方便、快捷的 &lt;code&gt;B/S&lt;/code&gt; 架构，B/S 架构大大简化了用
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="网络" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>TCP粘包拆包及解决方法</title>
     <link href="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
     <id>https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/</id>
@@ -481,31 +506,6 @@
     
     
       <category term="MongoDB" scheme="https://linxiaobaixcg.github.io/tags/MongoDB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Dubbo入门实战</title>
-    <link href="https://linxiaobaixcg.github.io/2019/04/19/Dubbo%E5%85%A5%E9%97%A8%E5%AE%9E%E6%88%98/"/>
-    <id>https://linxiaobaixcg.github.io/2019/04/19/Dubbo入门实战/</id>
-    <published>2019-04-19T05:18:20.000Z</published>
-    <updated>2020-03-10T15:54:26.444Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;Dubbo简介&quot;&gt;&lt;a href=&quot;#Dubbo简介&quot; class=&quot;headerlink&quot; title=&quot;Dubbo简介&quot;&gt;&lt;/a&gt;Dubbo简介&lt;/h2&gt;&lt;p&gt;Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
-    
-      <category term="Zookeeper" scheme="https://linxiaobaixcg.github.io/tags/Zookeeper/"/>
     
   </entry>
   

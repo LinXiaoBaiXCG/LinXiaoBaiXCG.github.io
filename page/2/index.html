@@ -167,6 +167,58 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-Dubbo高可用场景" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2019-09-03 21:50:00" datetime="2019-09-03T13:50:00.000Z" itemprop="datePublished">2019-09-03</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2019/09/03/Dubbo高可用场景/">Dubbo的高可用场景</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        zookeeper宕机与dubbo直连现象：zookeeper注册中心宕机，还可以消费dubbo暴露服务原因：健壮性
+
+监控中心宕掉不影响使用，只是丢失部分采样数据
+数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新的服务
+注册中心对等集群，任意一台宕掉后，将自动切换到另一台
+注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯
+服务提供者无状态，任意一台宕掉后，不影...
+    
+
+        <a href="/2019/09/03/Dubbo高可用场景/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dubbo/">Dubbo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-使用令牌桶算法限流" class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
@@ -603,55 +655,6 @@ MongoDB-Journaling备份和恢复当执行写操作时，MongoDB创建一个jour
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/">MongoDB</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Dubbo入门实战" class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-04-19 13:18:20" datetime="2019-04-19T05:18:20.000Z" itemprop="datePublished">2019-04-19</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/04/19/Dubbo入门实战/">Dubbo入门实战</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        Dubbo简介Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。
-Dubbo是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案。
-文档：http://dubbo.apache.org/zh-cn/index.html
-RPC简介RPC（R...
-    
-
-        <a href="/2019/04/19/Dubbo入门实战/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dubbo/">Dubbo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li></ul>
 
     </div>
     

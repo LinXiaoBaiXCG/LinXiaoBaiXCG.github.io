@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66501564"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?40c5e7ebd8bc86f0bc6e55f457b6489e"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>深入WEB请求过程 | LinChuangQiong&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="网络">
+    <meta name="description" content="读《深入分析Java Web技术内幕》记录  随着Web 2.0时代的到来，互联网的网络架构已经从传统的 C/S 架构转变为更加方便、快捷的 B/S 架构，B/S 架构大大简化了用户使用网络应用的难度，提高了用户体验。  B/S 架构带来了以下两方面的好处：  客户端使用统一的浏览器（Browser）。由于浏览器具有统一性，不需要特殊的配置和网络连接。另外浏览器的交互特性使得用户使用它非常简便">
+<meta name="keywords" content="网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入WEB请求过程">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="读《深入分析Java Web技术内幕》记录  随着Web 2.0时代的到来，互联网的网络架构已经从传统的 C/S 架构转变为更加方便、快捷的 B/S 架构，B/S 架构大大简化了用户使用网络应用的难度，提高了用户体验。  B/S 架构带来了以下两方面的好处：  客户端使用统一的浏览器（Browser）。由于浏览器具有统一性，不需要特殊的配置和网络连接。另外浏览器的交互特性使得用户使用它非常简便">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/1604037770(1).jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/微信截图_20201030144022.png">
+<meta property="og:updated_time" content="2020-11-09T15:51:54.872Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入WEB请求过程">
+<meta name="twitter:description" content="读《深入分析Java Web技术内幕》记录  随着Web 2.0时代的到来，互联网的网络架构已经从传统的 C/S 架构转变为更加方便、快捷的 B/S 架构，B/S 架构大大简化了用户使用网络应用的难度，提高了用户体验。  B/S 架构带来了以下两方面的好处：  客户端使用统一的浏览器（Browser）。由于浏览器具有统一性，不需要特殊的配置和网络连接。另外浏览器的交互特性使得用户使用它非常简便">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/1604037770(1).jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname"></h5>
+          <a href="mailto:linchuangqiong66@163.com" title="linchuangqiong66@163.com" class="mail">linchuangqiong66@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about">
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/linxiaobaixcg" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">深入WEB请求过程</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">深入WEB请求过程</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-07-21T12:00:00.000Z" itemprop="datePublished" class="page-time">
+  2020-07-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#B-S网络架构概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">B/S网络架构概述</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#如何发起一个请求"><span class="post-toc-number">2.</span> <span class="post-toc-text">如何发起一个请求</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HTTP解析"><span class="post-toc-number">3.</span> <span class="post-toc-text">HTTP解析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#查看HTTP信息工具"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">查看HTTP信息工具</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#浏览器缓存机制"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">浏览器缓存机制</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#DNS域名解析"><span class="post-toc-number">4.</span> <span class="post-toc-text">DNS域名解析</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#CDN工作机制"><span class="post-toc-number">5.</span> <span class="post-toc-text">CDN工作机制</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-深入WEB请求过程" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">深入WEB请求过程</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-07-21 20:00:00" datetime="2020-07-21T12:00:00.000Z" itemprop="datePublished">2020-07-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p> 读《深入分析Java Web技术内幕》记录</p>
+<p> 随着Web 2.0时代的到来，互联网的网络架构已经从传统的 <code>C/S</code> 架构转变为更加方便、快捷的 <code>B/S</code> 架构，B/S 架构大大简化了用户使用网络应用的难度，提高了用户体验。</p>
+</blockquote>
+<p><code>B/S</code> 架构带来了以下两方面的好处：</p>
+<ul>
+<li>客户端使用统一的浏览器（<code>Browser</code>）。由于浏览器具有统一性，不需要特殊的配置和网络连接。另外浏览器的交互特性使得用户使用它非常简便，且用户行为的可继承性非常强，也就是用户只要学会了上网，不管使用哪个应用，一旦学会了，便具备了使用其它任何互联网服务的经验。</li>
+<li>服务端（<code>Server</code>）基于统一的 <code>HTTP</code>。和传统的 C/S 架构使用自定义的应用层协议不同。使用统一的 HTTP 简化了开发模式，并且基于 HTTP 的服务器又很多，如 <code>Apache</code>、<code>Nginx</code>、<code>Tomcat</code> 等，这些服务器可以直接拿来使用，不仅如此，连开发服务的通用框架也可以直接拿来使用，不需要单独开发，如 <code>Spring</code>、<code>Spring MVC</code>、<code>MyBatis</code> 等，我们只需关注服务的业务逻辑，同样简化了我们的开发工作。</li>
+<li></li>
+</ul>
+<h1 id="B-S网络架构概述"><a href="#B-S网络架构概述" class="headerlink" title="B/S网络架构概述"></a>B/S网络架构概述</h1><p><code>B/S</code> 基于统一的应用层协议 <code>HTTP</code> 来交互数据，与大多数 <code>C/S</code> 互联网应用程序采用的长连接的交互模式不同。<code>HTTP</code> 采用无状态的短连接的通信方式，通常情况下，一次请求就完成了一次数据交互，然后这次通信连接就断开了。采用这种方式可以有效应对更多的用户请求。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/07/21/深入WEB请求过程/1604037770(1).jpg" alt="1604037770(1)" title>
+                </div>
+                <div class="image-caption">1604037770(1)</div>
+            </figure>
+<p>如图所示：当用户在浏览器输入网址回发生如下操作：</p>
+<ol>
+<li>用户发起请求</li>
+<li>DNS把域名解析为对应IP</li>
+<li>根据IP找到对应的服务器发起一个get请求，有这个服务器决定返回默认的数据资源给访问的用户。 </li>
+<li>服务器经过负载均衡等处理把数据返回给用户</li>
+<li>如果浏览器解析数据时发现有静态资源，会发起另外的HTTP请求，这些请求可能会在CDN服务器上</li>
+</ol>
+<h1 id="如何发起一个请求"><a href="#如何发起一个请求" class="headerlink" title="如何发起一个请求"></a>如何发起一个请求</h1><p>这个问题简单又复杂，简单是指当我们在浏览器里数据一个 <code>URL</code> 时，按下回车键就发起了这个 <code>HTTP</code> 请求，很快就可以看到这个请求的返回结果。复杂是指不借助浏览器也能发起请求。</p>
+<p>Java可借助工具包发起请求，Linux下可以使用curl+url就可以简单发起HTTP请求。查看http头信息，加上-I选项</p>
+<h1 id="HTTP解析"><a href="#HTTP解析" class="headerlink" title="HTTP解析"></a>HTTP解析</h1><p>要理解 <code>HTTP</code>，最重要的是要熟悉 <code>HTTP</code> 中的 <code>HTTP Header</code>，它控制着数据的传输。最重要的是，它控制着浏览器的渲染行为和服务器的执行逻辑。例如，当服务器没有用户请求的数据时就会返回一个 404 状态码，告诉浏览器没有要请求的数据，通常浏览器会展示一个非常不愿意看到的个 “该页面不存在” 的错误信息。</p>
+<p><strong>常见的 HTTP 请求头</strong></p>
+<table>
+<thead>
+<tr>
+<th>请求头</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accept-Charset</td>
+<td>指定客户端接收的字符集</td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>指定可接受的编码（如 Accept-Encoding : gzip.deflate）</td>
+</tr>
+<tr>
+<td>Accept-Language</td>
+<td>指定一种自然语言（如 Accept-Language : zh-cn）</td>
+</tr>
+<tr>
+<td>Host</td>
+<td>指定被请求资源的主机和端口号（如 Host : <a href="http://www.baidu.com）" target="_blank" rel="noopener">www.baidu.com）</a></td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>客户端将它的操作系统、浏览器和其它属性告诉服务端</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>指定当前连接是否保持（如 Connection : Keep-Alive）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>常见的 HTTP 响应头</strong></p>
+<table>
+<thead>
+<tr>
+<th>响应头</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server</td>
+<td>服务器名称（如 Server : nginx/1.17.6）</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>发送给接收者的实体的类型（如 Content-Type : text/html;charset=GBK）</td>
+</tr>
+<tr>
+<td>Content-Encoding</td>
+<td>与 Accept-Encoding 对应，服务端采用的编码</td>
+</tr>
+<tr>
+<td>Content-Language</td>
+<td>与 Accept-Language 对应，资源所用的自然语言</td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td>正文的长度</td>
+</tr>
+<tr>
+<td>Keep-Alive</td>
+<td>保持连接的时间（如 Keep-Alive : timeout=5）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>常见的 HTTP 响应头</strong></p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>请求成功</td>
+</tr>
+<tr>
+<td>302</td>
+<td>临时跳转</td>
+</tr>
+<tr>
+<td>400</td>
+<td>客户端请求有语法错误，不能被服务器识别</td>
+</tr>
+<tr>
+<td>403</td>
+<td>服务器收到请求，但是拒绝提供服务，即没有权限</td>
+</tr>
+<tr>
+<td>404</td>
+<td>请求的资源不存在</td>
+</tr>
+<tr>
+<td>500</td>
+<td>服务器发生不可预期的错误</td>
+</tr>
+</tbody>
+</table>
+<h2 id="查看HTTP信息工具"><a href="#查看HTTP信息工具" class="headerlink" title="查看HTTP信息工具"></a>查看HTTP信息工具</h2><p>要看一个 <code>HTTP</code> 请求的请求头和响应头可以通过 F12 快捷键打开浏览器的调试工具查看，例如我们正在访问 <a href="http://www.baidu.com，按下" target="_blank" rel="noopener">www.baidu.com，按下</a> F12 并打开 <code>Network</code> 调试栏可以看到以下 <code>HTTP Header</code> 内容</p>
+<h2 id="浏览器缓存机制"><a href="#浏览器缓存机制" class="headerlink" title="浏览器缓存机制"></a>浏览器缓存机制</h2><p>当浏览一个网页发现有异常时，通常要考虑的就是是不是浏览器做了缓存，所以一般的做法就是按 <code>Ctrl + F5</code> 组合键重新请求一次这个页面，这样的话请求的肯定是最新的页面。因为按 <code>Ctrl + F5</code> 组合键会直接向目标 <code>URL</code> 发送请求，而不会使用浏览器缓存的数据。</p>
+<p>按 <code>Ctrl + F5</code> 组合键刷新页面后，会发现在 <code>HTTP</code> 的请求头中通常多了两个参数，分别是 <code>Cache-Control:no-cache</code> 和 <code>Pragma:no-cache</code>，该参数作用就是请求内容不会被缓存</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>Cache-Control/Pragma</th>
+<th>Expires</th>
+<th>Last-Modified/Etag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>值</td>
+<td>Public：所有内容都被缓存，在响应头设置。<br>Private：内容只缓存到私有缓存中，在响应头设置。<br>No-cache: 所有内容不会被缓存<br>No-store:所有内容不会被缓存到缓存或Intent临时文件中<br>Must-revalidation/proxy-revalidation:如果缓存内容失败，请求必须发送到服务器进行重新验证<br>Max-age=xx:缓存内容在xxx秒后失效，这个只在HTTP1.1可用。</td>
+<td>通常使用格式是：Expries：Sat,25 Feb 2012 12:22:17 GMT 后面跟着一个日期和时间</td>
+<td>Last-Modified:时间<br>Etag:编号</td>
+</tr>
+<tr>
+<td>含义</td>
+<td>用于指定所有缓存机制在整个请求响应链中必须服从的指令。</td>
+<td>超过这个时间值，缓存的内容将失效。也就是浏览器在发出请求之前检查这个页面这个字段,看该页面是否已经过期了，过期了就重新向服务器发起请求。</td>
+<td>Last-Modified字段一般用于一个服务器上的资源最后修改时间，资源可以是静态（静态内容自动加上Last-Modified）或者动态的内容（Servlet提供一个getLastModified方法用于检查某个动态内容是否已经更新），通过这个最后修改时间可以判断当前请求的资源是否最新的。<br>Etag这个字段让服务器给每个一个页面分配一个唯一编号，区分当前这个页面是否最新的。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/07/21/深入WEB请求过程/微信截图_20201030144022.png" alt="微信截图_20201030144022" title>
+                </div>
+                <div class="image-caption">微信截图_20201030144022</div>
+            </figure>
+<p>如上图所示，当用户在浏览器输入地址是，DNS解析将会有将近10个步骤：</p>
+<ol>
+<li><p>浏览器会检查缓存中有没有这个域名对应的解析过的IP地址，如果缓存有，这个解析就将结束。</p>
+</li>
+<li><p>如果用户的浏览器中没有，浏览器会查找操作系统缓存中是否有这个域名对应的DNS解析结果。即查找本机系统中的hosts文件，如查找到，解析也将结束</p>
+</li>
+<li><p>怎么知道域名服务器呢？在我们的网络配置中有DNS服务器的地址，也就是LDNS（本地域名服务器）</p>
+</li>
+<li><p>80%的域名解析在第三步的时候就完成了，如果LDNS仍然没有命中，就直接到Root Server域名服务器请求解析。</p>
+</li>
+<li><p>根域名服务器返回给LDNS一个所查询域的主域名服务器（gTLD Server，国际顶尖域名服务器，如.com .cn .org等，全球只有13台左右）地址</p>
+</li>
+<li><p>此时LDNS再发送请求给上一步返回的gTLD</p>
+</li>
+<li><p>接受请求的gTLD查找并返回这个域名对应的Name Server的地址，这个Name Server就是网站注册的域名服务器</p>
+</li>
+<li><p>Name Server根据映射关系表找到目标ip，返回给LDNS</p>
+</li>
+<li><p>LDNS缓存这个域名和对应的ip</p>
+</li>
+<li><p>LDNS把解析的结果返回给用户，用户根据TTL值缓存到本地系统缓存中，域名解析过程至此结束</p>
+</li>
+</ol>
+<h1 id="CDN工作机制"><a href="#CDN工作机制" class="headerlink" title="CDN工作机制"></a>CDN工作机制</h1><p>CDN内容分布网络（ContentDelivery Network）是构筑在现有的Internet上的一种先进的流量分配网络。其目的是在现有的Internet上增加一层新的网络架构，将网站的内容发布到最接近用户的服务器，使用户可以就近取得所需的内容，提高用户访问网站的响应速度。 一个CND架构=镜像（Mirror）+ 缓存（Cache）+整体负载均衡（GSLB）。</p>
+<p>技术原理：在 <code>CDN</code> 的 <code>DNS</code> 解析中通过动态的链路探测来寻找回源最好的一条路径，然后通过 DNS 的调度将所有请求调度到选定的这条路径上回源，从而加速用户访问的效率。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-11-09T15:51:54.872Z" itemprop="dateUpdated">2020-11-09 23:51:54</time>
+</span><br>
+
+
+        
+        ----本文结束,谢谢阅读----
+        
+    </div>
+    
+    <footer>
+        <a href="https://linxiaobaixcg.github.io">
+            <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" alt>
+            
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/&title=《深入WEB请求过程》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/&title=《深入WEB请求过程》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入WEB请求过程》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/08/31/使用ELK做日志收集/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">使用ELK做日志收集</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/02/11/TCP粘包拆包及解决方法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">TCP粘包拆包及解决方法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span> &copy; 2018 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/&title=《深入WEB请求过程》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/&title=《深入WEB请求过程》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入WEB请求过程》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
