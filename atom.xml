@@ -6,10 +6,37 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2020-11-09T15:49:56.622Z</updated>
+  <updated>2020-11-10T08:41:06.000Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>垃圾收集器</title>
+    <link href="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/"/>
+    <id>https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/</id>
+    <published>2020-11-10T12:00:00.000Z</published>
+    <updated>2020-11-10T08:41:06.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 读《深入理解Java虚拟机》记录&lt;/p&gt;
+&lt;p&gt; 当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些“自动化”的技术实施必要的监控和调节。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;Jav
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JVM" scheme="https://linxiaobaixcg.github.io/tags/JVM/"/>
+    
+  </entry>
   
   <entry>
     <title>Java运行时数据区域</title>
@@ -284,9 +311,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
       <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
+    
+      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
     
   </entry>
   
@@ -480,32 +507,6 @@
       <category term="Redis" scheme="https://linxiaobaixcg.github.io/tags/Redis/"/>
     
       <category term="并发" scheme="https://linxiaobaixcg.github.io/tags/%E5%B9%B6%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MongoDB-持久化</title>
-    <link href="https://linxiaobaixcg.github.io/2019/04/20/MongoDB-%E6%8C%81%E4%B9%85%E5%8C%96/"/>
-    <id>https://linxiaobaixcg.github.io/2019/04/20/MongoDB-持久化/</id>
-    <published>2019-04-19T16:00:00.000Z</published>
-    <updated>2020-04-20T08:28:54.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;Mongodb在1.8版本之后开始支持journal，就是我们常说的redo log，用于故障恢复和持久化。&lt;br&gt;MongoDB可以保证当服务器崩溃或服务器硬关机或硬盘故障时的数据完整性&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;Mon
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="MongoDB" scheme="https://linxiaobaixcg.github.io/tags/MongoDB/"/>
     
   </entry>
   

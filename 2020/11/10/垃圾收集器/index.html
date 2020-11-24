@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66501564"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?40c5e7ebd8bc86f0bc6e55f457b6489e"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>垃圾收集器 | LinChuangQiong&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="读《深入理解Java虚拟机》记录  当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些“自动化”的技术实施必要的监控和调节。  Java内存哪个区域需要做垃圾收集？ Java堆和方法区  程序计数器、虚拟机栈、本地方法栈3个区域随线程而生，随线程而灭；栈中的栈帧随着方法的进入和退出而有条不紊地执行着出栈和入栈操作。每一个栈帧中分配多少内存基本上是">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="垃圾收集器">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="读《深入理解Java虚拟机》记录  当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些“自动化”的技术实施必要的监控和调节。  Java内存哪个区域需要做垃圾收集？ Java堆和方法区  程序计数器、虚拟机栈、本地方法栈3个区域随线程而生，随线程而灭；栈中的栈帧随着方法的进入和退出而有条不紊地执行着出栈和入栈操作。每一个栈帧中分配多少内存基本上是">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/垃圾收集器/161641_uW2m_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/162639_lRPR_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/162929_kGQX_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/163144_0sxV_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/163309_pPkR_1983603.png">
+<meta property="og:updated_time" content="2020-11-10T08:41:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="垃圾收集器">
+<meta name="twitter:description" content="读《深入理解Java虚拟机》记录  当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些“自动化”的技术实施必要的监控和调节。  Java内存哪个区域需要做垃圾收集？ Java堆和方法区  程序计数器、虚拟机栈、本地方法栈3个区域随线程而生，随线程而灭；栈中的栈帧随着方法的进入和退出而有条不紊地执行着出栈和入栈操作。每一个栈帧中分配多少内存基本上是">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/垃圾收集器/161641_uW2m_1983603.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname"></h5>
+          <a href="mailto:linchuangqiong66@163.com" title="linchuangqiong66@163.com" class="mail">linchuangqiong66@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about">
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/linxiaobaixcg" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">垃圾收集器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">垃圾收集器</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-11-10T12:00:00.000Z" itemprop="datePublished" class="page-time">
+  2020-11-10
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Java内存哪个区域需要做垃圾收集？"><span class="post-toc-number">1.</span> <span class="post-toc-text">Java内存哪个区域需要做垃圾收集？</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#如何确定对象已“死”"><span class="post-toc-number">2.</span> <span class="post-toc-text">如何确定对象已“死”</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引用计数算法"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">引用计数算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#可达性分析算法"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">可达性分析算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引用补充"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">引用补充</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对象的死亡过程"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">对象的死亡过程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#回收方法区"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">回收方法区</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#垃圾回收算法"><span class="post-toc-number">3.</span> <span class="post-toc-text">垃圾回收算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#标记-清除算法（Mark-Sweep）"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">标记-清除算法（Mark-Sweep）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#复制算法（新生代算法）-Copying"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">复制算法（新生代算法）(Copying)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#标记-整理算法（老年代算法）-Mark-Compact"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">标记-整理算法（老年代算法）(Mark-Compact)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分代收集理论"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">分代收集理论</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-垃圾收集器" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">垃圾收集器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-11-10 20:00:00" datetime="2020-11-10T12:00:00.000Z" itemprop="datePublished">2020-11-10</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p> 读《深入理解Java虚拟机》记录</p>
+<p> 当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些“自动化”的技术实施必要的监控和调节。</p>
+</blockquote>
+<h1 id="Java内存哪个区域需要做垃圾收集？"><a href="#Java内存哪个区域需要做垃圾收集？" class="headerlink" title="Java内存哪个区域需要做垃圾收集？"></a>Java内存哪个区域需要做垃圾收集？</h1><blockquote>
+<p>Java堆和方法区</p>
+</blockquote>
+<p>程序计数器、虚拟机栈、本地方法栈3个区域随线程而生，随线程而灭；栈中的栈帧随着方法的进入和退出而有条不紊地执行着出栈和入栈操作。每一个栈帧中分配多少内存基本上是在类结构确定下来时就已知的（尽管在运行期会由JIT编译器进行一些优化，但在本章基于概念模型的讨论中，大体上可以认为是编译期可知的），因此这几个区域的内存分配和回收都具备确定性，在这几个区域内就不需要过多考虑回收的问题，因为方法结束或者线程结束时，内存自然就跟随着回收了。</p>
+<p>而Java堆和方法区则不一样，一个接口中的多个实现类需要的内存可能不一样，一个方法中的多个分支需要的内存也可能不一样，我们只有在程序处于运行期间时才能知道会创建哪些对象，这部分内存的分配和回收都是动态的，垃圾收集器所关注的是这部分内存。</p>
+<h1 id="如何确定对象已“死”"><a href="#如何确定对象已“死”" class="headerlink" title="如何确定对象已“死”"></a>如何确定对象已“死”</h1><p>在堆里面存放着Java世界中几乎所有的对象实例，垃圾收集器在对堆进行回收前，第一件事情就是要确定这些对象之中哪些还“存活”着，哪些已经“死去”（即不可能再被任何途径使用的对象）。</p>
+<h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。</p>
+<h2 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h2><p>在主流的商用程序语言（Java、C#，甚至包括前面提到的古老的Lisp）的主流实现中，都是称通过可达性分析（Reachability Analysis）来判定对象是否存活的。</p>
+<p>这个算法的基本思路就是通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到GC Roots没有任何引用链相连（用图论的话来说，就是从GC Roots到这个对象不可达）时，则证明此对象是不可用的。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/11/10/垃圾收集器/垃圾收集器\161641_uW2m_1983603.png" alt="161641_uW2m_1983603" title>
+                </div>
+                <div class="image-caption">161641_uW2m_1983603</div>
+            </figure>
+<h2 id="引用补充"><a href="#引用补充" class="headerlink" title="引用补充"></a>引用补充</h2><p>无论是通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象的引用链是否可达，判定对象是否存活都与“引用”有关。如果reference类型的数据中存储的数值是另一块内存的起始地址，那么这块内存就代表着一个引用。一个对象在这种状态下，只能有被引用和没有被引用两种状态。</p>
+<table>
+<thead>
+<tr>
+<th>引用类型</th>
+<th>创建方式</th>
+<th>生存时长</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强引用</td>
+<td>new</td>
+<td>GC不回收</td>
+</tr>
+<tr>
+<td>软引用</td>
+<td>SoftReference</td>
+<td>内存足够GC不回收，不足回收</td>
+</tr>
+<tr>
+<td>弱引用</td>
+<td>WeakReference</td>
+<td>GC必回收</td>
+</tr>
+<tr>
+<td>虚引用</td>
+<td>PhantomReference + ReferenceQueue</td>
+<td>任何情况下都回收</td>
+</tr>
+</tbody>
+</table>
+<h2 id="对象的死亡过程"><a href="#对象的死亡过程" class="headerlink" title="对象的死亡过程"></a>对象的死亡过程</h2><p>要真正宣告一个对象死亡，至少要经历两次标记过程：</p>
+<ul>
+<li>如果对象在进行可达性分析后发现没有与GC Roots相连接的引用链，那它将会被第一次标记并且进行一次筛选，筛选的条件是此对象是否有必要执行finalize()方法（当对象没有覆盖finalize()方法，或者finalize()方法已经被虚拟机调用过，虚拟机将这两种情况都视为“没有必要执行”。）</li>
+<li>如果这个对象被判定为有必要执行finalize()方法，那么这个对象将会放置在一个叫做F-Queue的队列之中，并在稍后由一个由虚拟机自动建立的、低优先级的Finalizer线程去执行它。稍后GC将对F-Queue中的对象进行第二次小规模的标记，如果还没有被引用，则会被回收。</li>
+</ul>
+<h2 id="回收方法区"><a href="#回收方法区" class="headerlink" title="回收方法区"></a>回收方法区</h2><p>很多人认为方法区（HotSopt中的永久代）是没有垃圾收集的，java虚拟机规范中也没有要求需要对方法区实现垃圾收集。</p>
+<blockquote>
+<p>永久代(方法区)的垃圾收集主要回收两部分内容:废弃常量和无用的类</p>
+</blockquote>
+<ul>
+<li><strong>废弃常量</strong>：假如一个字符串<code>“abc”</code>已经进入了常量池中，但是当前系统没有任何一个String对象是叫 做<code>“abc”</code>的，换句话说，就是没有任何String对象引用常量池中的<code>“abc”</code>常量，也没有其他 - 地方引用了这个字面量，如果这时发生内存回收，而且必要的话，这个<code>“abc”</code>常量就会被系 - 统清理出常量池。</li>
+<li><strong>无用的类</strong>：同时满足下面3个条件的类（实例、类加载器被回收，<code>java.lang.Class</code>对象没有被引用）。</li>
+</ul>
+<ol>
+<li>该类<strong>所有的实例</strong>都已经被回收，也就是Java<strong>堆中不存在该类的任何实例</strong>。</li>
+<li>加载该类的<code>ClassLoader</code>已经被回收。</li>
+<li>该类对应的<code>java.lang.Class</code>对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
+</ol>
+<h1 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h1><h2 id="标记-清除算法（Mark-Sweep）"><a href="#标记-清除算法（Mark-Sweep）" class="headerlink" title="标记-清除算法（Mark-Sweep）"></a>标记-清除算法（Mark-Sweep）</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/11/10/垃圾收集器/162639_lRPR_1983603.png" alt="162639_lRPR_1983603" title>
+                </div>
+                <div class="image-caption">162639_lRPR_1983603</div>
+            </figure>
+<p>该算法分为两个阶段：首先标记处要回收的对象，标记完成后统一回收所有被标记的对象。</p>
+<p>缺点：</p>
+<ol>
+<li>效率问题，标记和清除两个过程的效率都不高</li>
+<li>空间问题，标记清除之后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后在程序运行过程中需要分配较大对象时，无法找到足够的连续内存,而不得不提前触发另一次垃圾收集动作</li>
+</ol>
+<h2 id="复制算法（新生代算法）-Copying"><a href="#复制算法（新生代算法）-Copying" class="headerlink" title="复制算法（新生代算法）(Copying)"></a>复制算法（新生代算法）(Copying)</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/11/10/垃圾收集器/162929_kGQX_1983603.png" alt="162929_kGQX_1983603" title>
+                </div>
+                <div class="image-caption">162929_kGQX_1983603</div>
+            </figure>
+<p>思路：将可用内存按容量分为两个块，每次只用其中之一。当这一块内存用完之后，将还存活的对象复制到另一边去，然后清除所有已经使用过的部分。</p>
+<p>优点</p>
+<ul>
+<li>避免了内存碎片的产生</li>
+</ul>
+<p>缺点</p>
+<ul>
+<li>将内存缩小为了原来的一半，浪费内存空间</li>
+</ul>
+<p>解决方法</p>
+<ul>
+<li>新生代中的对象98%是“朝生夕死”的，所以并不需要按照1:1的比例来划分内存空间，而是将内存分为一块较大的<code>Eden空间</code>和两块较小的<code>Survivor空间</code>，每次使用<code>Eden</code>和其中一块<code>Survivor</code>。</li>
+<li>在HotSpot里，考虑到大部分对象存活时间很短将内存分为<code>Eden</code>和两块<code>Survivor</code>，默认比例为8:1:1。代价是存在部分内存空间浪费，适合在新生代使用。</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/11/10/垃圾收集器/163144_0sxV_1983603.png" alt="163144_0sxV_1983603" title>
+                </div>
+                <div class="image-caption">163144_0sxV_1983603</div>
+            </figure>
+<h2 id="标记-整理算法（老年代算法）-Mark-Compact"><a href="#标记-整理算法（老年代算法）-Mark-Compact" class="headerlink" title="标记-整理算法（老年代算法）(Mark-Compact)"></a>标记-整理算法（老年代算法）(Mark-Compact)</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/11/10/垃圾收集器/163309_pPkR_1983603.png" alt="163309_pPkR_1983603" title>
+                </div>
+                <div class="image-caption">163309_pPkR_1983603</div>
+            </figure>
+<p>标记过程仍然与“标记-清除”算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
+<h2 id="分代收集理论"><a href="#分代收集理论" class="headerlink" title="分代收集理论"></a>分代收集理论</h2><ul>
+<li>当前商用虚拟机都采用了这种算法，根据对象的存活周期将内存划分为几块，一般是把Java堆分为<strong>新生代和老生代</strong>，根据<strong>各个年代采用适当的收集算法</strong>。</li>
+<li>新生代存活率低，一般采用<strong>复制算法(Copying)</strong>。</li>
+</ul>
+<ul>
+<li>老生代存活率高，一般采用 <strong>标记-清理(Mark-Sweep) 或者标记-整理(Mark-Compact)</strong> 进行回收。</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-11-10T08:41:06.000Z" itemprop="dateUpdated">2020-11-10 16:41:06</time>
+</span><br>
+
+
+        
+        ----本文结束,谢谢阅读----
+        
+    </div>
+    
+    <footer>
+        <a href="https://linxiaobaixcg.github.io">
+            <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" alt>
+            
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/&title=《垃圾收集器》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/&title=《垃圾收集器》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《垃圾收集器》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/10/29/Java运行时数据区域/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java运行时数据区域</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span> &copy; 2018 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/&title=《垃圾收集器》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/&title=《垃圾收集器》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《垃圾收集器》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
