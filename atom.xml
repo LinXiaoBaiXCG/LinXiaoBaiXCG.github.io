@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2021-01-06T07:58:28.000Z</updated>
+  <updated>2021-01-19T16:03:21.041Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
@@ -16,7 +16,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/12/08/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
     <id>https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/</id>
     <published>2020-12-08T12:00:00.000Z</published>
-    <updated>2021-01-06T07:58:28.000Z</updated>
+    <updated>2021-01-19T16:03:21.041Z</updated>
     
     <summary type="html">
     
@@ -41,7 +41,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/"/>
     <id>https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/</id>
     <published>2020-11-10T12:00:00.000Z</published>
-    <updated>2020-11-10T08:41:06.000Z</updated>
+    <updated>2021-01-19T16:03:21.057Z</updated>
     
     <summary type="html">
     
@@ -385,9 +385,9 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
-    
       <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+    
+      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
     
   </entry>
   

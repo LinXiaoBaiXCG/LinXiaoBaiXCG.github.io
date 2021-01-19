@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/</loc>
+    
+    <lastmod>2021-01-19T16:03:21.057Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://linxiaobaixcg.github.io/2020/12/08/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</loc>
     
-    <lastmod>2021-01-06T07:58:28.000Z</lastmod>
+    <lastmod>2021-01-19T16:03:21.041Z</lastmod>
     
   </url>
   
@@ -26,13 +33,6 @@
     <loc>https://linxiaobaixcg.github.io/2020/06/16/ElasticSearch%E4%BD%BF%E7%94%A8Logstash%E4%BB%8EMySQL%E4%B8%AD%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/</loc>
     
     <lastmod>2020-11-27T05:48:38.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/</loc>
-    
-    <lastmod>2020-11-10T08:41:06.000Z</lastmod>
     
   </url>
   
