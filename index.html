@@ -167,6 +167,56 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-虚拟机类加载机制" class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-12-08 20:00:00" datetime="2020-12-08T12:00:00.000Z" itemprop="datePublished">2020-12-08</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/12/08/虚拟机类加载机制/">虚拟机类加载机制</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        
+ 读《深入理解Java虚拟机》记录
+ 虚拟机把类的数据从Class文件(这里的Class文件可以是javac编译成的class文件，也可以是反射或者动态代理生成的class二进制流，或者网络传输的二进制流等等)加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程就是虚拟机的类加载机制。
+
+虚拟机什么时候才会加载Class文件并初始化类呢？（类加载...
+    
+
+        <a href="/2020/12/08/虚拟机类加载机制/" class="post-more waves-effect waves-button">
+            続きを読む…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-垃圾收集器" class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
@@ -645,55 +695,6 @@ RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME、EN...
 
         </li>
     
-        <li class="post-list-item fade">
-            <article id="post-分布式唯一ID-雪花算法的原理和实现" class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2020-01-05 19:00:00" datetime="2020-01-05T11:00:00.000Z" itemprop="datePublished">2020-01-05</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2020/01/05/分布式唯一ID-雪花算法的原理和实现/">分布式唯一ID-雪花算法的原理和实现</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        
-SnowFlake 算法，是 Twitter 开源的分布式 id 生成算法。其核心思想就是：使用一个 64 bit 的 long 型的数字作为全局唯一 id。在分布式系统中的应用十分广泛，且ID 引入了时间戳，基本上保持自增的。整个分布式系统内不会产生ID碰撞（由datacenter和机器ID作区分）， 并且效率较高，经测试，snowflake每秒能够产生26万ID左右，完全满足需要。
-
-...
-    
-
-        <a href="/2020/01/05/分布式唯一ID-雪花算法的原理和实现/" class="post-more waves-effect waves-button">
-            続きを読む…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分布式，算法/">分布式，算法</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
     </ul>
 
     
@@ -727,7 +728,7 @@ SnowFlake 算法，是 Twitter 开源的分布式 id 生成算法。其核心思
         </p>
     </div>
     <div class="bottom">
-        <p><span> &copy; 2018 - 2020</span>
+        <p><span> &copy; 2018 - 2021</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

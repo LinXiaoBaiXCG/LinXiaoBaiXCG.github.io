@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66501564"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?40c5e7ebd8bc86f0bc6e55f457b6489e"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>虚拟机类加载机制 | LinChuangQiong&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="读《深入理解Java虚拟机》记录  虚拟机把类的数据从Class文件(这里的Class文件可以是javac编译成的class文件，也可以是反射或者动态代理生成的class二进制流，或者网络传输的二进制流等等)加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程就是虚拟机的类加载机制。  虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚拟机类加载机制">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="读《深入理解Java虚拟机》记录  虚拟机把类的数据从Class文件(这里的Class文件可以是javac编译成的class文件，也可以是反射或者动态代理生成的class二进制流，或者网络传输的二进制流等等)加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程就是虚拟机的类加载机制。  虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/虚拟机类加载机制/1900685-5b9f351d3bc5b208.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/虚拟机类加载机制/331425-20160621125944459-1013316302.jpg">
+<meta property="og:updated_time" content="2021-01-06T07:58:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="虚拟机类加载机制">
+<meta name="twitter:description" content="读《深入理解Java虚拟机》记录  虚拟机把类的数据从Class文件(这里的Class文件可以是javac编译成的class文件，也可以是反射或者动态代理生成的class二进制流，或者网络传输的二进制流等等)加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程就是虚拟机的类加载机制。  虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/虚拟机类加载机制/1900685-5b9f351d3bc5b208.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname"></h5>
+          <a href="mailto:linchuangqiong66@163.com" title="linchuangqiong66@163.com" class="mail">linchuangqiong66@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about">
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/linxiaobaixcg" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">虚拟机类加载机制</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">虚拟机类加载机制</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-12-08T12:00:00.000Z" itemprop="datePublished" class="page-time">
+  2020-12-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机）"><span class="post-toc-number">1.</span> <span class="post-toc-text">虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机）</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#虚拟机加载一个Class文件要经历那些具体的步骤呢？-类加载的过程"><span class="post-toc-number">2.</span> <span class="post-toc-text">虚拟机加载一个Class文件要经历那些具体的步骤呢？(类加载的过程)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加载：查找并加载类的二进制数据"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">加载：查找并加载类的二进制数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#验证：确保被加载的类的正确性"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">验证：确保被加载的类的正确性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#准备：为类的静态变量分配内存，并将其初始化为默认值"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">准备：为类的静态变量分配内存，并将其初始化为默认值</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解析：把类中的符号引用转换为直接引用"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">解析：把类中的符号引用转换为直接引用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#初始化"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">初始化</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#虚拟机如何加载一个Class文件呢？-Java类加载的方式：类加载器、双亲委派机制"><span class="post-toc-number">3.</span> <span class="post-toc-text">虚拟机如何加载一个Class文件呢？(Java类加载的方式：类加载器、双亲委派机制)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类加载器"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">类加载器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#双亲委派模型"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">双亲委派模型</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-虚拟机类加载机制" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">虚拟机类加载机制</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-12-08 20:00:00" datetime="2020-12-08T12:00:00.000Z" itemprop="datePublished">2020-12-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p> 读《深入理解Java虚拟机》记录</p>
+<p> 虚拟机把类的数据从Class文件(这里的Class文件可以是javac编译成的class文件，也可以是反射或者动态代理生成的class二进制流，或者网络传输的二进制流等等)加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程就是虚拟机的类加载机制。</p>
+</blockquote>
+<h1 id="虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机）"><a href="#虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机）" class="headerlink" title="虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机）"></a>虚拟机什么时候才会加载Class文件并初始化类呢？（类加载的时机）</h1><p>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载(Loading)、验证(Verification)、准备(Preparation)、解析(Resolution)、初始化(Initialization)、使用(Using)和卸载(Unloading)七个阶段。其中准备、验证、解析三个部分统称为连接(Linking)。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/12/08/虚拟机类加载机制/虚拟机类加载机制\1900685-5b9f351d3bc5b208.jpg" alt="1900685-5b9f351d3bc5b208" title>
+                </div>
+                <div class="image-caption">1900685-5b9f351d3bc5b208</div>
+            </figure>
+<p>加载、验证、准备、初始化和卸载5个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以再初始化阶段后再开始，这是为了支持Java语言的运行时绑定(也称动态绑定或晚期绑定)。注意：类的加载过程必须按照这种顺序<strong>按部就班</strong>地开始，而不是<strong>按部就班</strong>地进行或完成，因为这些阶段通常都是相互交叉地混合式进行的，通常会在一个阶段执行的过程中调用、激活另外一个阶段。</p>
+<p>Java虚拟机规范中并没有进行强制约束，这点可以交给虚拟机的具体实现来自由把握。但是对于初始化阶段，虚拟机规范则是严格规定了有且只有5种情况必须立即对类进行“初始化”（而加载、验证、准备自然需要在此之前开始），具体5种情况如下</p>
+<ol>
+<li>遇到new、getstatic、putstatic或invokestatic这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。生成这4条指令的最常见的Java代码场景是：使用new关键字实例化对象的时候、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候。</li>
+<li>使用java.lang.reflect包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</li>
+<li>当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</li>
+<li>当虚拟机启动时，用户需要指定一个要执行的主类（包含main（）方法的那个类），虚拟机会先初始化这个主类。</li>
+<li>当使用JDK1.7的动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
+</ol>
+<h1 id="虚拟机加载一个Class文件要经历那些具体的步骤呢？-类加载的过程"><a href="#虚拟机加载一个Class文件要经历那些具体的步骤呢？-类加载的过程" class="headerlink" title="虚拟机加载一个Class文件要经历那些具体的步骤呢？(类加载的过程)"></a>虚拟机加载一个Class文件要经历那些具体的步骤呢？(类加载的过程)</h1><h2 id="加载：查找并加载类的二进制数据"><a href="#加载：查找并加载类的二进制数据" class="headerlink" title="加载：查找并加载类的二进制数据"></a>加载：查找并加载类的二进制数据</h2><p>加载是类加载过程的第一个阶段，在加载阶段，虚拟机需要完成以下三件事情：</p>
+<ol>
+<li><p>通过一个类的全限定名来获取其定义的二进制字节流。</p>
+</li>
+<li><p>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</p>
+</li>
+<li><p>在Java堆中生成一个代表这个类的java.lang.Class对象，作为对方法区中这些数据的访问入口。</p>
+</li>
+</ol>
+<p>注意，这里第1条中的二进制字节流并不只是单纯地从Class文件中获取，比如它还可以从Jar包中获取、从网络中获取（最典型的应用便是Applet）、由其他文件生成（JSP应用）等。</p>
+<p>  相对于类加载的其他阶段而言，加载阶段（准确地说，是加载阶段获取类的二进制字节流的动作）是可控性最强的阶段，因为开发人员既可以使用系统提供的类加载器来完成加载，也可以自定义自己的类加载器来完成加载。</p>
+<p>  加载阶段完成后，虚拟机外部的二进制字节流就按照虚拟机所需的格式存储在方法区之中，而且在<code>Java堆中也创建一个java.lang.Class类的对象</code>，这样便可以通过该对象访问方法区中的这些数据。</p>
+<h2 id="验证：确保被加载的类的正确性"><a href="#验证：确保被加载的类的正确性" class="headerlink" title="验证：确保被加载的类的正确性"></a>验证：确保被加载的类的正确性</h2><p>验证是连接阶段的第一步，这一阶段的目的是为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。验证阶段大致会完成4个阶段的检验动作：</p>
+<p><strong>文件格式验证</strong>：验证字节流是否符合Class文件格式的规范；例如：是否以0xCAFEBABE开头、主次版本号是否在当前虚拟机的处理范围之内、常量池中的常量是否有不被支持的类型。</p>
+<p><strong>元数据验证</strong>：对字节码描述的信息进行语义分析（注意：对比javac编译阶段的语义分析），以保证其描述的信息符合Java语言规范的要求；例如：这个类是否有父类，除了java.lang.Object之外。</p>
+<p><strong>字节码验证</strong>：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。</p>
+<p><strong>符号引用验证</strong>：确保解析动作能正确执行。</p>
+<p>验证阶段是非常重要的，但不是必须的，它对程序运行期没有影响，如果所引用的类经过反复验证，那么可以考虑采用-Xverifynone参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。</p>
+<h2 id="准备：为类的静态变量分配内存，并将其初始化为默认值"><a href="#准备：为类的静态变量分配内存，并将其初始化为默认值" class="headerlink" title="准备：为类的静态变量分配内存，并将其初始化为默认值"></a>准备：为类的静态变量分配内存，并将其初始化为默认值</h2><p>准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些内存都将在方法区中分配。对于该阶段有以下几点需要注意：</p>
+<ol>
+<li><p>这时候进行内存分配的仅包括类变量（static），而不包括实例变量，实例变量会在对象实例化时随着对象一块分配在Java堆中。</p>
+</li>
+<li><p>这里所设置的初始值通常情况下是数据类型默认的零值（如0、0L、null、false等），而不是被在Java代码中被显式地赋予的值。</p>
+<p>假设一个类变量的定义为：public static int value = 3；</p>
+<p>那么变量value在准备阶段过后的初始值为0，而不是3，因为这时候尚未开始执行任何Java方法，而把value赋值为3的putstatic指令是在程序编译后，存放于类构造器<clinit>（）方法之中的，所以把value赋值为3的动作将在初始化阶段才会执行。</clinit></p>
+</li>
+</ol>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">· 这里还需要注意如下几点：</span><br><span class="line">· 对基本数据类型来说，对于类变量（<span class="keyword">static</span>）和全局变量，如果不显式地对其赋值而直接使用，则系统会为其赋予默认的零值，而对于局部变量来说，在使用前必须显式地为其赋值，否则编译时不通过。</span><br><span class="line">· 对于同时被<span class="keyword">static</span>和<span class="keyword">final</span>修饰的常量，必须在声明的时候就为其显式地赋值，否则编译时不通过；而只被<span class="keyword">final</span>修饰的常量则既可以在声明时显式地为其赋值，也可以在类初始化时显式地为其赋值，总之，在使用前必须为其显式地赋值，系统不会为其赋予默认零值。</span><br><span class="line">· 对于引用数据类型reference来说，如数组引用、对象引用等，如果没有对其进行显式地赋值而直接使用，系统都会为其赋予默认的零值，即<span class="literal">null</span>。</span><br><span class="line">· 如果在数组初始化时没有对数组中的各元素赋值，那么其中的元素将根据对应的数据类型而被赋予默认的零值。</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>如果类字段的字段属性表中存在ConstantValue属性，即同时被final和static修饰，那么在准备阶段变量value就会被初始化为ConstValue属性所指定的值。</p>
+<p>假设上面的类变量value被定义为： public static final int value = 3；</p>
+<p>编译时Javac将会为value生成ConstantValue属性，在准备阶段虚拟机就会根据ConstantValue的设置将value赋值为3。我们可以理解为static final常量在编译期就将其结果放入了调用它的类的常量池中</p>
+</li>
+</ol>
+<h2 id="解析：把类中的符号引用转换为直接引用"><a href="#解析：把类中的符号引用转换为直接引用" class="headerlink" title="解析：把类中的符号引用转换为直接引用"></a>解析：把类中的符号引用转换为直接引用</h2><p>解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程，解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
+<p><strong>符号引用</strong>就是一组符号来描述目标，可以是任何字面量。</p>
+<p><strong>直接引用</strong>就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化，为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
+<ol>
+<li><p>声明类变量是指定初始值</p>
+</li>
+<li><p>使用静态代码块为类变量指定初始值</p>
+<p>JVM初始化步骤</p>
+</li>
+<li><p>假如这个类还没有被加载和连接，则程序先加载并连接该类</p>
+</li>
+<li><p>假如该类的直接父类还没有被初始化，则先初始化其直接父类</p>
+</li>
+<li><p>假如类中有初始化语句，则系统依次执行这些初始化语句</p>
+</li>
+</ol>
+<p><strong>结束生命周期</strong></p>
+<p>在如下几种情况下，Java虚拟机将结束生命周期</p>
+<ul>
+<li><p>执行了System.exit()方法</p>
+</li>
+<li><p>程序正常执行结束</p>
+</li>
+<li><p>程序在执行过程中遇到了异常或错误而异常终止</p>
+</li>
+<li><p>由于操作系统出现错误而导致Java虚拟机进程终止</p>
+</li>
+</ul>
+<h1 id="虚拟机如何加载一个Class文件呢？-Java类加载的方式：类加载器、双亲委派机制"><a href="#虚拟机如何加载一个Class文件呢？-Java类加载的方式：类加载器、双亲委派机制" class="headerlink" title="虚拟机如何加载一个Class文件呢？(Java类加载的方式：类加载器、双亲委派机制)"></a>虚拟机如何加载一个Class文件呢？(Java类加载的方式：类加载器、双亲委派机制)</h1><h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>类加载器：虚拟机设计团队将类加载阶段的类加载过程中的加载动作，放到虚拟机外部实现，也就是可以运行开发人员自己觉得如何获取所需要的类，这个加载动作的实现就是类加载器。</p>
+<p>类加载器的层次关系如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/12/08/虚拟机类加载机制/虚拟机类加载机制\331425-20160621125944459-1013316302.jpg" alt="331425-20160621125944459-1013316302" title>
+                </div>
+                <div class="image-caption">331425-20160621125944459-1013316302</div>
+            </figure>
+<p>站在虚拟机的角度来看，只有两种加载器，一种是启动类加载器，是有C++语言实现的，是虚拟机的一部分；另外一部分是所有的其他类加载器，由Java语言编写，独立于虚拟机之外，都继承自抽象类java.lang.ClassLoader。</p>
+<p>站在Java开发人员的角度来看，类加载器可以大致划分为以下三类：</p>
+<p><strong>启动类加载器</strong>：Bootstrap ClassLoader，负责加载存放在JDK\jre\lib(JDK代表JDK的安装目录，下同)下，或被-Xbootclasspath参数指定的路径中的，并且能被虚拟机识别的类库（如rt.jar，所有的java.*开头的类均被Bootstrap ClassLoader加载）。启动类加载器是无法被Java程序直接引用的。</p>
+<p><strong>扩展类加载器</strong>：Extension ClassLoader，该加载器由sun.misc.Launcher$ExtClassLoader实现，它负责加载DK\jre\lib\ext目录中，或者由java.ext.dirs系统变量指定的路径中的所有类库（如javax.*开头的类），开发者可以直接使用扩展类加载器。</p>
+<p><strong>应用程序类加载器</strong>：Application ClassLoader，该类加载器由sun.misc.Launcher$AppClassLoader来实现，它负责加载用户类路径（ClassPath）所指定的类，开发者可以直接使用该类加载器，如果应用程序中没有自定义过自己的类加载器，一般情况下这个就是程序中默认的类加载器。</p>
+<p>应用程序都是由这三种类加载器互相配合进行加载的，如果有必要，我们还可以加入自定义的类加载器。因为JVM自带的ClassLoader只是懂得从本地文件系统加载标准的java class文件，因此如果编写了自己的ClassLoader，便可以做到如下几点：</p>
+<p>1）在执行非置信代码之前，自动验证数字签名。</p>
+<p>2）动态地创建符合用户特定需要的定制化构建类。</p>
+<p>3）从特定的场所取得java class，例如数据库中和网络中。</p>
+<p>JVM类加载机制：</p>
+<ul>
+<li><p>全盘负责：当一个类加载器负责加载某个Class时，该Class所依赖的和引用的其他Class也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入</p>
+</li>
+<li><p>父类委托：先让父类加载器试图加载该类，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类</p>
+</li>
+<li><p>缓存机制：缓存机制将会保证所有加载过的Class都会被缓存，当程序中需要使用某个Class时，类加载器先从缓存区寻找该Class，只有缓存区不存在，系统才会读取该类对应的二进制数据，并将其转换成Class对象，存入缓存区。这就是为什么修改了Class后，必须重启JVM，程序的修改才会生效</p>
+</li>
+</ul>
+<p><strong>类的加载</strong></p>
+<p>类加载有三种方式：</p>
+<ol>
+<li><p>命令行启动应用时候由JVM初始化加载</p>
+</li>
+<li><p>通过Class.forName()方法动态加载</p>
+</li>
+<li><p>通过ClassLoader.loadClass()方法动态加载</p>
+</li>
+</ol>
+<p><strong>Class.forName()和ClassLoader.loadClass()区别？</strong></p>
+<p>Class.forName()：将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块；</p>
+<p>ClassLoader.loadClass()：只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块。</p>
+<p><strong>注：</strong></p>
+<p>Class.forName(name, initialize, loader)带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象 。</p>
+<h2 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h2><p>双亲委派模型的工作流程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把请求委托给父加载器去完成，依次向上，因此，所有的类加载请求最终都应该被传递到顶层的启动类加载器中，只有当父加载器在它的搜索范围中没有找到所需的类时，即无法完成该加载，子加载器才会尝试自己去加载该类。</p>
+<p><strong>双亲委派机制:</strong></p>
+<ol>
+<li><p>当AppClassLoader加载一个class时，它首先不会自己去尝试加载这个类，而是把类加载请求委派给父类加载器ExtClassLoader去完成。</p>
+</li>
+<li><p>当ExtClassLoader加载一个class时，它首先也不会自己去尝试加载这个类，而是把类加载请求委派给BootStrapClassLoader去完成。</p>
+</li>
+<li><p>如果BootStrapClassLoader加载失败（例如在$JAVA_HOME/jre/lib里未查找到该class），会使用ExtClassLoader来尝试加载；</p>
+</li>
+<li><p>若ExtClassLoader也加载失败，则会使用AppClassLoader来加载，如果AppClassLoader也加载失败，则会报出异常ClassNotFoundException。</p>
+</li>
+</ol>
+<p><strong>双亲委派模型意义：</strong></p>
+<ul>
+<li><p>系统类防止内存中出现多份同样的字节码</p>
+</li>
+<li><p>保证Java程序安全稳定运行</p>
+</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2021-01-06T07:58:28.000Z" itemprop="dateUpdated">2021-01-06 15:58:28</time>
+</span><br>
+
+
+        
+        ----本文结束,谢谢阅读----
+        
+    </div>
+    
+    <footer>
+        <a href="https://linxiaobaixcg.github.io">
+            <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" alt>
+            
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/&title=《虚拟机类加载机制》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/&title=《虚拟机类加载机制》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《虚拟机类加载机制》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/11/10/垃圾收集器/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">垃圾收集器</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span> &copy; 2018 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/&title=《虚拟机类加载机制》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/&title=《虚拟机类加载机制》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《虚拟机类加载机制》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
