@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2021-01-19T16:03:21.041Z</updated>
+  <updated>2021-02-07T14:52:50.211Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
@@ -16,7 +16,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/12/08/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
     <id>https://linxiaobaixcg.github.io/2020/12/08/虚拟机类加载机制/</id>
     <published>2020-12-08T12:00:00.000Z</published>
-    <updated>2021-01-19T16:03:21.041Z</updated>
+    <updated>2021-02-07T14:52:50.211Z</updated>
     
     <summary type="html">
     
@@ -34,6 +34,8 @@
     
       <category term="JVM" scheme="https://linxiaobaixcg.github.io/tags/JVM/"/>
     
+      <category term="技术书籍" scheme="https://linxiaobaixcg.github.io/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/"/>
+    
   </entry>
   
   <entry>
@@ -41,7 +43,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/"/>
     <id>https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/</id>
     <published>2020-11-10T12:00:00.000Z</published>
-    <updated>2021-01-19T16:03:21.057Z</updated>
+    <updated>2021-02-07T14:52:50.343Z</updated>
     
     <summary type="html">
     
@@ -61,6 +63,8 @@
     
       <category term="JVM" scheme="https://linxiaobaixcg.github.io/tags/JVM/"/>
     
+      <category term="技术书籍" scheme="https://linxiaobaixcg.github.io/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/"/>
+    
   </entry>
   
   <entry>
@@ -68,7 +72,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/"/>
     <id>https://linxiaobaixcg.github.io/2020/10/29/Java运行时数据区域/</id>
     <published>2020-10-28T16:00:00.000Z</published>
-    <updated>2020-11-09T15:49:56.622Z</updated>
+    <updated>2021-02-07T14:52:50.017Z</updated>
     
     <summary type="html">
     
@@ -87,6 +91,8 @@
     
     
       <category term="JVM" scheme="https://linxiaobaixcg.github.io/tags/JVM/"/>
+    
+      <category term="技术书籍" scheme="https://linxiaobaixcg.github.io/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/"/>
     
   </entry>
   
@@ -121,7 +127,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/09/28/%E4%BD%BF%E7%94%A8Nginx%E9%85%8D%E7%BD%AEHTTPS%E5%92%8C%E5%89%8D%E7%AB%AF%E5%A4%9A%E7%9B%AE%E5%BD%95%E9%83%A8%E7%BD%B2/"/>
     <id>https://linxiaobaixcg.github.io/2020/09/28/使用Nginx配置HTTPS和前端多目录部署/</id>
     <published>2020-09-28T12:00:00.000Z</published>
-    <updated>2020-10-29T14:33:01.956Z</updated>
+    <updated>2021-02-07T14:52:50.073Z</updated>
     
     <summary type="html">
     
@@ -138,7 +144,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Nginx" scheme="https://linxiaobaixcg.github.io/tags/Nginx/"/>
+      <category term="中间件" scheme="https://linxiaobaixcg.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
     
   </entry>
   
@@ -147,7 +153,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/08/31/%E4%BD%BF%E7%94%A8ELK%E5%81%9A%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"/>
     <id>https://linxiaobaixcg.github.io/2020/08/31/使用ELK做日志收集/</id>
     <published>2020-08-30T16:00:00.000Z</published>
-    <updated>2020-08-31T11:33:42.000Z</updated>
+    <updated>2021-02-07T14:52:50.159Z</updated>
     
     <summary type="html">
     
@@ -162,7 +168,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="微服务" scheme="https://linxiaobaixcg.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+      <category term="中间件" scheme="https://linxiaobaixcg.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
     
   </entry>
   
@@ -171,7 +177,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/07/21/%E6%B7%B1%E5%85%A5WEB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/"/>
     <id>https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/</id>
     <published>2020-07-21T12:00:00.000Z</published>
-    <updated>2020-11-09T15:51:54.872Z</updated>
+    <updated>2021-02-07T14:52:50.108Z</updated>
     
     <summary type="html">
     
@@ -187,7 +193,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="网络" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -196,7 +202,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/06/16/ElasticSearch%E4%BD%BF%E7%94%A8Logstash%E4%BB%8EMySQL%E4%B8%AD%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/"/>
     <id>https://linxiaobaixcg.github.io/2020/06/16/ElasticSearch使用Logstash从MySQL中同步数据/</id>
     <published>2020-06-15T16:00:00.000Z</published>
-    <updated>2020-11-27T05:48:38.000Z</updated>
+    <updated>2021-02-07T14:52:50.090Z</updated>
     
     <summary type="html">
     
@@ -213,7 +219,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="ElasticSearch" scheme="https://linxiaobaixcg.github.io/tags/ElasticSearch/"/>
+      <category term="中间件" scheme="https://linxiaobaixcg.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
     
   </entry>
   
@@ -222,7 +228,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/05/20/Dockerfile%E8%AF%A6%E8%A7%A3/"/>
     <id>https://linxiaobaixcg.github.io/2020/05/20/Dockerfile详解/</id>
     <published>2020-05-20T12:00:00.000Z</published>
-    <updated>2020-11-09T08:17:32.000Z</updated>
+    <updated>2021-02-07T14:52:50.392Z</updated>
     
     <summary type="html">
     
@@ -236,7 +242,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Docker" scheme="https://linxiaobaixcg.github.io/tags/Docker/"/>
+      <category term="工具" scheme="https://linxiaobaixcg.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
@@ -245,7 +251,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
     <id>https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/</id>
     <published>2020-02-11T12:00:00.000Z</published>
-    <updated>2020-03-07T15:39:11.187Z</updated>
+    <updated>2021-02-07T14:52:50.176Z</updated>
     
     <summary type="html">
     
@@ -262,7 +268,33 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="网络编程" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+      <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>API接口签名实现</title>
+    <link href="https://linxiaobaixcg.github.io/2020/02/04/API%E6%8E%A5%E5%8F%A3%E7%AD%BE%E5%90%8D%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://linxiaobaixcg.github.io/2020/02/04/API接口签名实现/</id>
+    <published>2020-02-04T12:00:00.000Z</published>
+    <updated>2021-02-07T14:45:00.215Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 近期，公司小游戏涉及上传得分操作，为防止用户通过篡改接口数据刷游戏榜单获得奖金。最终通过签名的方式设计接口，解决数据被篡改问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;实现原理&quot;&gt;&lt;a href=&quot;#实现原理&quot; class=&quot;hea
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="安全" scheme="https://linxiaobaixcg.github.io/tags/%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
@@ -271,7 +303,7 @@
     <link href="https://linxiaobaixcg.github.io/2020/01/05/%E5%88%86%E5%B8%83%E5%BC%8F%E5%94%AF%E4%B8%80ID-%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/"/>
     <id>https://linxiaobaixcg.github.io/2020/01/05/分布式唯一ID-雪花算法的原理和实现/</id>
     <published>2020-01-05T11:00:00.000Z</published>
-    <updated>2021-01-19T16:18:16.996Z</updated>
+    <updated>2021-02-07T14:52:50.508Z</updated>
     
     <summary type="html">
     
@@ -286,7 +318,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="分布式，算法" scheme="https://linxiaobaixcg.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%8C%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="https://linxiaobaixcg.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -295,7 +327,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/12/08/MongoDB-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E6%93%8D%E4%BD%9C/"/>
     <id>https://linxiaobaixcg.github.io/2019/12/08/MongoDB-常用命令及操作/</id>
     <published>2019-12-07T16:00:00.000Z</published>
-    <updated>2019-12-20T13:31:34.443Z</updated>
+    <updated>2021-02-07T14:52:50.327Z</updated>
     
     <summary type="html">
     
@@ -308,8 +340,6 @@
     
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
-    
-      <category term="MongoDB" scheme="https://linxiaobaixcg.github.io/tags/MongoDB/"/>
     
       <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
@@ -346,7 +376,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/10/15/%5B%E8%B7%AF%E9%81%A5--%E5%B9%B3%E5%87%A1%E7%9A%84%E4%B8%96%E7%95%8C%5D%E8%A7%82%E5%90%8E%E6%84%9F/"/>
     <id>https://linxiaobaixcg.github.io/2019/10/15/[路遥--平凡的世界]观后感/</id>
     <published>2019-10-15T02:40:00.000Z</published>
-    <updated>2020-03-10T14:36:05.622Z</updated>
+    <updated>2021-02-07T14:52:50.309Z</updated>
     
     <summary type="html">
     
@@ -362,8 +392,6 @@
     
       <category term="观后感" scheme="https://linxiaobaixcg.github.io/tags/%E8%A7%82%E5%90%8E%E6%84%9F/"/>
     
-      <category term="路遥" scheme="https://linxiaobaixcg.github.io/tags/%E8%B7%AF%E9%81%A5/"/>
-    
   </entry>
   
   <entry>
@@ -371,7 +399,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/09/03/Dubbo%E9%AB%98%E5%8F%AF%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
     <id>https://linxiaobaixcg.github.io/2019/09/03/Dubbo高可用场景/</id>
     <published>2019-09-03T13:50:00.000Z</published>
-    <updated>2020-03-08T02:51:30.065Z</updated>
+    <updated>2021-02-07T14:52:50.055Z</updated>
     
     <summary type="html">
     
@@ -385,9 +413,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Dubbo" scheme="https://linxiaobaixcg.github.io/tags/Dubbo/"/>
-    
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
+      <category term="分布式" scheme="https://linxiaobaixcg.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
@@ -396,7 +422,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/09/03/%E4%BD%BF%E7%94%A8%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95%E9%99%90%E6%B5%81/"/>
     <id>https://linxiaobaixcg.github.io/2019/09/03/使用令牌桶算法限流/</id>
     <published>2019-09-03T13:34:00.000Z</published>
-    <updated>2019-12-14T15:36:03.957Z</updated>
+    <updated>2021-02-07T14:52:49.990Z</updated>
     
     <summary type="html">
     
@@ -410,8 +436,6 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Java" scheme="https://linxiaobaixcg.github.io/tags/Java/"/>
-    
       <category term="算法" scheme="https://linxiaobaixcg.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
@@ -421,7 +445,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/"/>
     <id>https://linxiaobaixcg.github.io/2019/08/26/解读SPDY协议/</id>
     <published>2019-08-26T14:16:00.000Z</published>
-    <updated>2019-08-27T14:13:13.000Z</updated>
+    <updated>2021-02-07T14:52:50.425Z</updated>
     
     <summary type="html">
     
@@ -435,7 +459,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="网络" scheme="https://linxiaobaixcg.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -444,7 +468,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/08/13/Mybatis%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8CDAO%E6%8E%A5%E5%8F%A3%E6%96%B9%E6%B3%95%E6%98%AF%E6%80%8E%E4%B9%88%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%80%E8%B5%B7%E7%9A%84/"/>
     <id>https://linxiaobaixcg.github.io/2019/08/13/Mybatis中的方法和DAO接口方法是怎么绑定到一起的/</id>
     <published>2019-08-13T14:00:00.000Z</published>
-    <updated>2020-03-11T09:06:52.223Z</updated>
+    <updated>2021-02-07T14:52:50.288Z</updated>
     
     <summary type="html">
     
@@ -461,7 +485,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="MyBatis" scheme="https://linxiaobaixcg.github.io/tags/MyBatis/"/>
+      <category term="框架" scheme="https://linxiaobaixcg.github.io/tags/%E6%A1%86%E6%9E%B6/"/>
     
   </entry>
   
@@ -470,7 +494,7 @@
     <link href="https://linxiaobaixcg.github.io/2019/06/28/Spring%E4%B8%AD%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%B8%83%E7%A7%8D%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6%E5%92%8C%E5%9B%9B%E4%B8%AA%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
     <id>https://linxiaobaixcg.github.io/2019/06/28/Spring中事务的七种传播机制和四个隔离级别/</id>
     <published>2019-06-27T16:00:00.000Z</published>
-    <updated>2020-03-10T14:31:06.902Z</updated>
+    <updated>2021-02-07T14:52:50.037Z</updated>
     
     <summary type="html">
     
@@ -485,30 +509,7 @@
       <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="Spring" scheme="https://linxiaobaixcg.github.io/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MyBatis中$和#的区别</title>
-    <link href="https://linxiaobaixcg.github.io/2019/06/16/MyBatis/"/>
-    <id>https://linxiaobaixcg.github.io/2019/06/16/MyBatis/</id>
-    <published>2019-06-16T15:00:00.000Z</published>
-    <updated>2020-03-08T13:35:48.312Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybat
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="MyBatis" scheme="https://linxiaobaixcg.github.io/tags/MyBatis/"/>
+      <category term="Spring集合" scheme="https://linxiaobaixcg.github.io/tags/Spring%E9%9B%86%E5%90%88/"/>
     
   </entry>
   

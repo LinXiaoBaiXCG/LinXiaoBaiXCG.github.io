@@ -32,9 +32,9 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Redis,并发">
+    <meta name="keywords" content="中间件,并发">
     <meta name="description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
-<meta name="keywords" content="Redis,并发">
+<meta name="keywords" content="中间件,并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Redis分布式锁解决并发问题">
 <meta property="og:url" content="https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/index.html">
@@ -42,7 +42,7 @@
 <meta property="og:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/06/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png">
-<meta property="og:updated_time" content="2019-12-19T09:49:04.394Z">
+<meta property="og:updated_time" content="2021-02-07T14:52:50.193Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Redis分布式锁解决并发问题">
 <meta name="twitter:description" content="synchronized处理并发首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。 但是通过压测，发现请求变的很慢，因为：synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。 同时，使用synchronized">
@@ -140,7 +140,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -237,7 +237,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-12-19T09:49:04.394Z" itemprop="dateUpdated">2019-12-19 17:49:04</time>
+    最終更新：<time datetime="2021-02-07T14:52:50.193Z" itemprop="dateUpdated">2021-02-07 22:52:50</time>
 </span><br>
 
 
@@ -259,7 +259,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中间件/">中间件</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
 
 
             
@@ -389,7 +389,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
