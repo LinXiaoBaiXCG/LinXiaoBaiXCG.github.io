@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2021-02-07T14:52:50.211Z</updated>
+  <updated>2021-02-07T15:17:10.964Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>API接口签名实现</title>
+    <link href="https://linxiaobaixcg.github.io/2021/02/04/API%E6%8E%A5%E5%8F%A3%E7%AD%BE%E5%90%8D%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://linxiaobaixcg.github.io/2021/02/04/API接口签名实现/</id>
+    <published>2021-02-04T12:00:00.000Z</published>
+    <updated>2021-02-07T15:17:10.964Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 近期，公司小游戏涉及上传得分操作，为防止用户通过篡改接口数据刷游戏榜单获得奖金。最终通过签名的方式设计接口，解决数据被篡改问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;实现原理&quot;&gt;&lt;a href=&quot;#实现原理&quot; class=&quot;hea
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="安全" scheme="https://linxiaobaixcg.github.io/tags/%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>虚拟机类加载机制</title>
@@ -269,32 +295,6 @@
     
     
       <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>API接口签名实现</title>
-    <link href="https://linxiaobaixcg.github.io/2020/02/04/API%E6%8E%A5%E5%8F%A3%E7%AD%BE%E5%90%8D%E5%AE%9E%E7%8E%B0/"/>
-    <id>https://linxiaobaixcg.github.io/2020/02/04/API接口签名实现/</id>
-    <published>2020-02-04T12:00:00.000Z</published>
-    <updated>2021-02-07T14:45:00.215Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt; 近期，公司小游戏涉及上传得分操作，为防止用户通过篡改接口数据刷游戏榜单获得奖金。最终通过签名的方式设计接口，解决数据被篡改问题。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;实现原理&quot;&gt;&lt;a href=&quot;#实现原理&quot; class=&quot;hea
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="安全" scheme="https://linxiaobaixcg.github.io/tags/%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
