@@ -41,19 +41,19 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。  问题描述现在有一张user表，表结构及数据如下：                                                                                              640">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/640.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/641.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/642.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/643.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/644.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/645.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/646.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/647.png">
-<meta property="og:updated_time" content="2021-03-01T14:07:49.665Z">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/640.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/641.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/642.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/643.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/644.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/645.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/646.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/647.png">
+<meta property="og:updated_time" content="2021-03-01T14:11:24.201Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL中order by与limit一起使用存在的陷阱和解决方法">
 <meta name="twitter:description" content="近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。  问题描述现在有一张user表，表结构及数据如下：                                                                                              640">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/640.png">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL/640.png">
     
         <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
     
@@ -147,7 +147,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -220,14 +220,14 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/640.png" alt="640" title>
+                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL/640.png" alt="640" title>
                 </div>
                 <div class="image-caption">640</div>
             </figure>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/641.png" alt="641" title>
+                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL/641.png" alt="641" title>
                 </div>
                 <div class="image-caption">641</div>
             </figure>
@@ -241,7 +241,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/642.png" alt="642" title>
+                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL/642.png" alt="642" title>
                 </div>
                 <div class="image-caption">642</div>
             </figure>
@@ -252,7 +252,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/643.png" alt="643" title>
+                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL/643.png" alt="643" title>
                 </div>
                 <div class="image-caption">643</div>
             </figure>
@@ -260,7 +260,7 @@
 <h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/644.png" alt="644" title>
+                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL/644.png" alt="644" title>
                 </div>
                 <div class="image-caption">644</div>
             </figure>
@@ -270,7 +270,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/645.png" alt="645" title>
+                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL/645.png" alt="645" title>
                 </div>
                 <div class="image-caption">645</div>
             </figure>
@@ -280,7 +280,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/646.png" alt="646" title>
+                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL/646.png" alt="646" title>
                 </div>
                 <div class="image-caption">646</div>
             </figure>
@@ -290,7 +290,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中orderby与limit一起使用存在的缺陷和解决方法/647.png" alt="647" title>
+                    <img src="/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL/647.png" alt="647" title>
                 </div>
                 <div class="image-caption">647</div>
             </figure>
@@ -305,7 +305,7 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2021-03-01T14:07:49.665Z" itemprop="dateUpdated">2021-03-01 22:07:49</time>
+    Last updated: <time datetime="2021-03-01T14:11:24.201Z" itemprop="dateUpdated">2021-03-01 22:11:24</time>
 </span><br>
 
 
@@ -450,7 +450,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
