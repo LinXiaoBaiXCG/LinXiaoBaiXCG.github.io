@@ -49,7 +49,7 @@
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL/645.png">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL/646.png">
 <meta property="og:image" content="https://linxiaobaixcg.github.io/2021/03/01/MySQL/647.png">
-<meta property="og:updated_time" content="2021-03-01T14:11:24.201Z">
+<meta property="og:updated_time" content="2021-03-01T14:15:51.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL中order by与limit一起使用存在的陷阱和解决方法">
 <meta name="twitter:description" content="近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。  问题描述现在有一张user表，表结构及数据如下：                                                                                              640">
@@ -147,7 +147,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -188,7 +188,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题描述"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题描述</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题原因"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题原因</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解决问题"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">解决问题</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题描述"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题描述</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题原因"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题原因</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#解决问题"><span class="post-toc-number">3.</span> <span class="post-toc-text">解决问题</span></a></li></ol>
         </nav>
     </aside>
 
@@ -286,7 +286,7 @@
             </figure>
 <p>如果order by的字段有多个行都有相同的值，mysql是会随机的顺序返回查询结果的，具体依赖对应的执行计划。也就是说如果排序的列是无序的，那么排序的结果行的顺序也是不确定的。</p>
 <p>基于这个我们就基本知道为什么分页会不准了，因为我们排序的字段是create_time，正好又有几个相同的值的行，在实际执行时返回结果对应的行的顺序是不确定的。对应上面的情况，第一页返回的name为8的数据行，可能正好排在前面，而第四页查询时name为8的数据行正好排在后面，所以第四页又出现了。</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>官方给出了解决方案：</p>
+<h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>官方给出了解决方案：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -305,7 +305,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2021-03-01T14:11:24.201Z" itemprop="dateUpdated">2021-03-01 22:11:24</time>
+    最終更新：<time datetime="2021-03-01T14:15:51.375Z" itemprop="dateUpdated">2021-03-01 22:15:51</time>
 </span><br>
 
 
@@ -450,7 +450,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+            <span>このブログの内容物は<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
         </p>
     </div>
     <div class="bottom">
