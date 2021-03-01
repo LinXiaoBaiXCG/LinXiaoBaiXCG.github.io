@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66501564"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?40c5e7ebd8bc86f0bc6e55f457b6489e"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>MySQL中order by与limit一起使用存在的陷阱和解决方法 | LinChuangQiong&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="数据库">
+    <meta name="description" content="近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。  问题描述现在有一张user表，表结构及数据如下：                                                                                              by与limit一起使用存在的缺陷和解决方法640.png">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL中order by与limit一起使用存在的陷阱和解决方法">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。  问题描述现在有一张user表，表结构及数据如下：                                                                                              by与limit一起使用存在的缺陷和解决方法640.png">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+<meta property="og:updated_time" content="2021-03-01T13:50:58.483Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL中order by与limit一起使用存在的陷阱和解决方法">
+<meta name="twitter:description" content="近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。  问题描述现在有一张user表，表结构及数据如下：                                                                                              by与limit一起使用存在的缺陷和解决方法640.png">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/03/01/MySQL中order%20by与limit一起使用存在的缺陷和解决方法/MySQL中order">
+    
+        <link rel="alternate" type="application/atom+xml" title="LinChuangQiong&#39;s Blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname"></h5>
+          <a href="mailto:linchuangqiong66@163.com" title="linchuangqiong66@163.com" class="mail">linchuangqiong66@163.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about">
+                <i class="icon icon-lg icon-link"></i>
+                About
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/linxiaobaixcg" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">MySQL中order by与limit一起使用存在的陷阱和解决方法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">MySQL中order by与limit一起使用存在的陷阱和解决方法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-03-01T12:00:00.000Z" itemprop="datePublished" class="page-time">
+  2020-03-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题描述"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题描述</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#问题原因"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题原因</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解决问题"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">解决问题</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-MySQL中order by与limit一起使用存在的缺陷和解决方法" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">MySQL中order by与limit一起使用存在的陷阱和解决方法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-03-01 20:00:00" datetime="2020-03-01T12:00:00.000Z" itemprop="datePublished">2020-03-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/编程/">编程</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。</p>
+</blockquote>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>现在有一张user表，表结构及数据如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中order" alt="640" title="by与limit一起使用存在的缺陷和解决方法640.png">
+                </div>
+                <div class="image-caption">by与limit一起使用存在的缺陷和解决方法640.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中order" alt="641" title="by与limit一起使用存在的缺陷和解决方法641.png">
+                </div>
+                <div class="image-caption">by与limit一起使用存在的缺陷和解决方法641.png</div>
+            </figure>
+<p>现在想根据创建时间升序查询user表，并且分页查询，每页2条，SQL语句为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time <span class="keyword">limit</span> pageNo,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>在执行查询过程中会发现：</p>
+<ol>
+<li>查询第一页数据时：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中order" alt="642" title="by与limit一起使用存在的缺陷和解决方法642.png">
+                </div>
+                <div class="image-caption">by与limit一起使用存在的缺陷和解决方法642.png</div>
+            </figure>
+<ol start="2">
+<li>查询第四页数据时：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time <span class="keyword">limit</span> <span class="number">6</span>,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中order" alt="643" title="by与limit一起使用存在的缺陷和解决方法643.png">
+                </div>
+                <div class="image-caption">by与limit一起使用存在的缺陷和解决方法643.png</div>
+            </figure>
+<p>可以看出，查询过程中出现了相同的数据</p>
+<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中order" alt="644" title="by与limit一起使用存在的缺陷和解决方法644.png">
+                </div>
+                <div class="image-caption">by与limit一起使用存在的缺陷和解决方法644.png</div>
+            </figure>
+<p>上面官方文档里面有提到如果你将Limit row_count与order by混用，MySQL会找到排序的row_count行后立马返回，而不是排序整个查询结果再返回。如果是通过索引排序，会非常快；如果是文件排序，所有匹配查询的行（不带limit的）都会被选中，被选中的大多数或者全部会被排序，直到limit要求的row_count被找到了。如果limit要求的row_count行一旦被找到，MySQL就不会排序结果集中剩余的行了。</p>
+<p>可以确认是用的文件排序，表确实也没有加额外的索引。所以我们可以确定这个SQL执行时是会找到limit要求的行后立马返回查询结果的。</p>
+<p> <strong>这里我们查看下对应SQL的执行计划：</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中order" alt="645" title="by与limit一起使用存在的缺陷和解决方法645.png">
+                </div>
+                <div class="image-caption">by与limit一起使用存在的缺陷和解决方法645.png</div>
+            </figure>
+<p>可以确认是用的文件排序，表确实也没有加额外的索引。所以我们可以确定这个SQL执行时是会找到limit要求的行后立马返回查询结果的。</p>
+<p><strong>不过就算它立马返回，为什么分页会不准呢？</strong></p>
+<p>官方文档里面做了如下说明：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中order" alt="646" title="by与limit一起使用存在的缺陷和解决方法646.png">
+                </div>
+                <div class="image-caption">by与limit一起使用存在的缺陷和解决方法646.png</div>
+            </figure>
+<p>如果order by的字段有多个行都有相同的值，mysql是会随机的顺序返回查询结果的，具体依赖对应的执行计划。也就是说如果排序的列是无序的，那么排序的结果行的顺序也是不确定的。</p>
+<p>基于这个我们就基本知道为什么分页会不准了，因为我们排序的字段是create_time，正好又有几个相同的值的行，在实际执行时返回结果对应的行的顺序是不确定的。对应上面的情况，第一页返回的name为8的数据行，可能正好排在前面，而第四页查询时name为8的数据行正好排在后面，所以第四页又出现了。</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>官方给出了解决方案：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/MySQL中order" alt="647" title="by与limit一起使用存在的缺陷和解决方法647.png">
+                </div>
+                <div class="image-caption">by与limit一起使用存在的缺陷和解决方法647.png</div>
+            </figure>
+<p>如果想在Limit存在或不存在的情况下，都保证排序结果相同，可以额外加一个排序条件。例如id字段是唯一的，可以考虑在排序字段中额外加个id排序去确保顺序稳定。</p>
+<p>所以上面的情况下可以在SQL再添加个排序字段，比如fundflow的id字段，这样分页的问题就解决了。修改后的SQL可以像下面这样：SELECT * FROM <code>user</code> ORDER BY createtime,id LIMIT 6,2;</p>
+<p>再次测试问题解决！！</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-03-01T13:50:58.483Z" itemprop="dateUpdated">2021-03-01 21:50:58</time>
+</span><br>
+
+
+        
+        ----本文结束,谢谢阅读----
+        
+    </div>
+    
+    <footer>
+        <a href="https://linxiaobaixcg.github.io">
+            <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" alt>
+            
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/&title=《MySQL中order by与limit一起使用存在的陷阱和解决方法》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/&title=《MySQL中order by与limit一起使用存在的陷阱和解决方法》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL中order by与limit一起使用存在的陷阱和解决方法》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/05/20/Dockerfile详解/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Dockerfile详解</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/02/11/TCP粘包拆包及解决方法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">TCP粘包拆包及解决方法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+<section class="comments" id="comments">
+    <div id="disqus_thread"></div>
+    <script>
+    var disqus_shortname = 'true';
+    lazyScripts.push('//' + disqus_shortname + '.disqus.com/embed.js')
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span> &copy; 2018 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/&title=《MySQL中order by与limit一起使用存在的陷阱和解决方法》 — LinChuangQiong's Blog&pic=http://thirdwx.qlogo.cn/mmopen/vi_32/EHmuGqibpSzFjNpf7wl3JeWo8QrhVxdz8vuI5zZbNcia4UVLGNjIXtnKENEvdIEMSuSAnLrhdbagXWCwmz1xVwSw/132" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/&title=《MySQL中order by与limit一起使用存在的陷阱和解决方法》 — LinChuangQiong's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MySQL中order by与limit一起使用存在的陷阱和解决方法》 — LinChuangQiong's Blog&url=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/&via=https://linxiaobaixcg.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
