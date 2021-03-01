@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2021-02-07T15:17:10.964Z</updated>
+  <updated>2021-03-01T14:04:43.035Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySQL中order by与limit一起使用存在的陷阱和解决方法</title>
+    <link href="https://linxiaobaixcg.github.io/2021/03/01/MySQL%E4%B8%ADorder%20by%E4%B8%8Elimit%E4%B8%80%E8%B5%B7%E4%BD%BF%E7%94%A8%E5%AD%98%E5%9C%A8%E7%9A%84%E7%BC%BA%E9%99%B7%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
+    <id>https://linxiaobaixcg.github.io/2021/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/</id>
+    <published>2021-03-01T12:00:00.000Z</published>
+    <updated>2021-03-01T14:04:43.035Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
   
   <entry>
     <title>API接口签名实现</title>
@@ -296,32 +322,6 @@
     
     
       <category term="工具" scheme="https://linxiaobaixcg.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL中order by与limit一起使用存在的陷阱和解决方法</title>
-    <link href="https://linxiaobaixcg.github.io/2020/03/01/MySQL%E4%B8%ADorder%20by%E4%B8%8Elimit%E4%B8%80%E8%B5%B7%E4%BD%BF%E7%94%A8%E5%AD%98%E5%9C%A8%E7%9A%84%E7%BC%BA%E9%99%B7%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
-    <id>https://linxiaobaixcg.github.io/2020/03/01/MySQL中order by与limit一起使用存在的缺陷和解决方法/</id>
-    <published>2020-03-01T12:00:00.000Z</published>
-    <updated>2021-03-01T13:50:58.483Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;近期，在使用MySQL时， SQL语句同时使用order by、limit时，发现数据有重复的问题。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   
