@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2021-03-01T14:15:51.375Z</updated>
+  <updated>2021-03-14T15:20:04.530Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Unix系统下的五种IO模型</title>
+    <link href="https://linxiaobaixcg.github.io/2021/03/10/Unix%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84%E4%BA%94%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/"/>
+    <id>https://linxiaobaixcg.github.io/2021/03/10/Unix系统下的五种IO模型/</id>
+    <published>2021-03-10T12:00:00.000Z</published>
+    <updated>2021-03-14T15:20:04.530Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;Unix系统下，I/O模型一共有五种：同步阻塞I/O、同步非阻塞I/O、I/O多路复用、信号驱动I/O和异步I/O&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;I-O&quot;&gt;&lt;a href=&quot;#I-O&quot; class=&quot;headerlink&quot; t
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL中order by与limit一起使用存在的陷阱和解决方法</title>
@@ -322,32 +348,6 @@
     
     
       <category term="工具" scheme="https://linxiaobaixcg.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Unix系统下的五种IO模型</title>
-    <link href="https://linxiaobaixcg.github.io/2020/03/10/Unix%E7%B3%BB%E7%BB%9F%E4%B8%8B%E7%9A%84%E4%BA%94%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/"/>
-    <id>https://linxiaobaixcg.github.io/2020/03/10/Unix系统下的五种IO模型/</id>
-    <published>2020-03-10T12:00:00.000Z</published>
-    <updated>2021-03-10T06:27:36.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;Unix系统下，I/O模型一共有五种：同步阻塞I/O、同步非阻塞I/O、I/O多路复用、信号驱动I/O和异步I/O&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;I-O&quot;&gt;&lt;a href=&quot;#I-O&quot; class=&quot;headerlink&quot; t
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
