@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Jayden&#39;s Blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://linxiaobaixcg.github.io/"/>
+  <updated>2019-04-17T06:30:07.350Z</updated>
+  <id>https://linxiaobaixcg.github.io/</id>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>余华--活着 观后感</title>
+    <link href="https://linxiaobaixcg.github.io/2019/03/18/2019-03-18-%5B%E4%BD%99%E5%8D%8E--%E6%B4%BB%E7%9D%80%5D%E8%A7%82%E5%90%8E%E6%84%9F/"/>
+    <id>https://linxiaobaixcg.github.io/2019/03/18/2019-03-18-[余华--活着]观后感/</id>
+    <published>2019-03-18T12:16:35.000Z</published>
+    <updated>2019-04-17T06:30:07.350Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;作者简介&quot;&gt;&lt;a href=&quot;#作者简介&quot; class=&quot;headerlink&quot; title=&quot;作者简介&quot;&gt;&lt;/a&gt;作者简介&lt;/h2&gt;&lt;p&gt;余华，1960年4月3日生于浙江&lt;a href=&quot;https://baike.baidu.com/item/%E6%9D%A
+      
+    
+    </summary>
+    
+      <category term="阅读" scheme="https://linxiaobaixcg.github.io/categories/%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="观后感" scheme="https://linxiaobaixcg.github.io/tags/%E8%A7%82%E5%90%8E%E6%84%9F/"/>
+    
+      <category term="余华" scheme="https://linxiaobaixcg.github.io/tags/%E4%BD%99%E5%8D%8E/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的第一篇博客</title>
+    <link href="https://linxiaobaixcg.github.io/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
+    <id>https://linxiaobaixcg.github.io/2019/03/16/我的第一篇博客/</id>
+    <published>2019-03-16T02:26:08.000Z</published>
+    <updated>2019-04-08T07:34:15.015Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;很高兴，在Github搭建的博客已经搭建完成了，这是我的第一篇博客。当我知道Github上可以搭建个人博客的时候，我发现了我的后花园。我并不喜欢在社交平台上分享自己的个人生活，当然包括自己足迹。现在主要的社交平台是微信，所以我经常被一些朋友吐槽我像消失了一样，或者说我半年才
+      
+    
+    </summary>
+    
+      <category term="博客" scheme="https://linxiaobaixcg.github.io/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="github" scheme="https://linxiaobaixcg.github.io/tags/github/"/>
+    
+      <category term="blog" scheme="https://linxiaobaixcg.github.io/tags/blog/"/>
+    
+  </entry>
+  
+</feed>

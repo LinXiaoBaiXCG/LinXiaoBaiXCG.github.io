@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/.deploy_git" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hexo-theme-even" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/life" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/material" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/even" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/icarus" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/indigo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/life" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/material" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/next" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/replica" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/themes/even" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/themes/icarus" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/themes/replica" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/themes/yilia" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/yilia" vcs="Git" />
+  </component>
+</project>
