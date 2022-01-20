@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Java核心技术1-基本程序设计结构、对象和类 | Hexo</title>
+  <meta name="description" content="读《Java核心技术1》记录知识点  基本程序设计结构 switch语句将从与选项值相匹配的 case 标签处开始执行直到遇到 break 语句，或者执行到switch语句的结束处为止。如果没有相匹配的 case 标签， 而有 default 子句， 就执行这个子句。   break和continue的区别？ 用break语句可以使流程跳出switch语句体，也可以用break语句在循环结构终止">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java核心技术1-基本程序设计结构、对象和类">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/03/16/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84%E3%80%81%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="读《Java核心技术1》记录知识点  基本程序设计结构 switch语句将从与选项值相匹配的 case 标签处开始执行直到遇到 break 语句，或者执行到switch语句的结束处为止。如果没有相匹配的 case 标签， 而有 default 子句， 就执行这个子句。   break和continue的区别？ 用break语句可以使流程跳出switch语句体，也可以用break语句在循环结构终止">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-16T05:46:00.000Z">
+<meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="技术书籍">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/03/16/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84%E3%80%81%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="LinChuangQiong&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/linxiaobaixcg" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Mr.Lin</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Java Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a><span class="category-list-count">44</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring%E9%9B%86%E5%90%88/" rel="tag">Spring集合</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" rel="tag">观后感</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DevOps/" style="font-size: 13px;">DevOps</a> <a href="/tags/JVM/" style="font-size: 13.5px;">JVM</a> <a href="/tags/Spring%E9%9B%86%E5%90%88/" style="font-size: 13.67px;">Spring集合</a> <a href="/tags/blog/" style="font-size: 13px;">blog</a> <a href="/tags/java/" style="font-size: 13.83px;">java</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 13.67px;">中间件</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 13.17px;">分布式</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13px;">安全</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 13px;">并发</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" style="font-size: 14px;">技术书籍</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.5px;">数据库</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13.17px;">框架</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 13px;">网络编程</a> <a href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 13.17px;">观后感</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/17/Netty%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="title">Netty核心组件介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-17T12:00:00.000Z" itemprop="datePublished">2021-05-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/02/%E4%BD%BF%E7%94%A8Docker%E6%90%AD%E5%BB%BAMongoDB%E5%89%AF%E6%9C%AC%E9%9B%86/" class="title">使用Docker搭建MongoDB副本集</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-02T12:00:00.000Z" itemprop="datePublished">2021-05-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">TCP的三次握手和四次挥手</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-24T12:00:00.000Z" itemprop="datePublished">2021-04-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/" class="title">TCP流量控制和拥塞控制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-07T12:00:00.000Z" itemprop="datePublished">2021-04-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/02/%E6%B5%85%E8%B0%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E6%9C%BA%E5%88%B6/" class="title">浅谈计算机网络中的三种可靠传输机制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-02T12:00:00.000Z" itemprop="datePublished">2021-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java核心技术1-基本程序设计结构、对象和类" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java核心技术1-基本程序设计结构、对象和类
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/03/16/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84%E3%80%81%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB/" class="article-date">
+	  <time datetime="2019-03-16T05:46:00.000Z" itemprop="datePublished">2019-03-16</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/java/" rel="tag">java</a>, <a class="article-tag-link-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/03/16/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84%E3%80%81%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 2.1k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 7(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>读《Java核心技术1》记录知识点</p>
+</blockquote>
+<h1 id="基本程序设计结构"><a href="#基本程序设计结构" class="headerlink" title="基本程序设计结构"></a>基本程序设计结构</h1><ol>
+<li><p>switch语句将从与选项值相匹配的 case 标签处开始执行直到遇到 break 语句，或者执行到<br>switch语句的结束处为止。如果没有相匹配的 case 标签， 而有 default 子句， 就执行这个子句。 </p>
+</li>
+<li><p>break和continue的区别？</p>
+<p>用break语句可以使流程跳出switch语句体，也可以用break语句在循环结构终止本层循环体，从而提前结束本层循环。</p>
+<p>continue语句的作用是跳过本次循环体中余下尚未执行的语句，立即进行下一次的循环条件判定，可以理解为仅结束本次循环。</p>
+</li>
+<li><p>如果基本的整数和浮点数精度不能够满足需求， 那么可以使用 java.math 包中的两个很有用的类：Biglnteger 和 BigDecimaL 这两个类可以处理包含任意长度数字序列的数值。<br>Biglnteger 类实现了任意精度的整数运算， BigDecimal 实现了任意精度的浮点数运算。<br>使用静态的 valueOf 方法可以将普通的数值转换为大数值：<br>Biglnteger a = Biglnteger.valueOf(100);<br>遗憾的是，不能使用人们熟悉的算术运算符（如：+ 和 *) 处理大数值。 而需要使用大数值类中的 add 和 multiply 方法。</p>
+</li>
+<li><p>数组是一种数据结构，用来存储同一类型值的集合。  </p>
+</li>
+<li><p>创建一个数字数组时，所有元素都初始化为 0。boolean 数组的元素会初始化为 false。 对象数组的元素则初始化为一个特殊值 null, 这表示这些元素（还）未存放任何对象。 </p>
+</li>
+<li><p>一旦创建了数组， 就不能再改变它的大小（尽管可以改变每一个数组元素）0 如果经常需要在运行过程中扩展数组的大小， 就应该使用另一种数据结构—数组列表（ array list)  </p>
+</li>
+<li><p>Arrays.toString(a), 返回一个包含数组元素的字符串 </p>
+</li>
+<li><p>要想对数值型数组进行排序， 可以使用 Arrays 类中的 sort 方法。<br>这个方法使用了优化的快速排序算法。快速排序算法对于大多数数据集合来说都是效率比较<br>高的。 </p>
+</li>
+</ol>
+<h1 id="对象和类"><a href="#对象和类" class="headerlink" title="对象和类"></a>对象和类</h1><ol>
+<li><p>类与类常见的关系：依赖、聚合、继承</p>
+</li>
+<li><p>类库设计者决定将保存时间与给时间点命名分开。所以标准 Java 类库分别包含了两个类：<br>一个是用来表示时间点的 Date 类；另一个是用来表示大家熟悉的日历表示法的 LocalDate 类。 </p>
+</li>
+<li><p>final实例域:可以将实例域定义为 final。 构建对象时必须初始化这样的域。也就是说， 必须确保在每一个构造器执行之后，这个域的值被设置，并且在后面的操作中，不能够再对它进行修改。 </p>
+</li>
+<li><p>由于每个类对象都可以对公有域进行修改， 所以，最好不要将域设计为 public。然而， 公有常量（即 final 域）却没问题。</p>
+</li>
+<li><p>静态方法的另一种常见用途：工厂方法。为什么要使用工厂方法？</p>
+<ul>
+<li>无法命名构造器。构造器的名字必须与类名相同。但是， 这里希望将得到的货币实例<br>和百分比实例采用不用的名字。</li>
+<li>当使用构造器时，无法改变所构造的对象类型。 </li>
+</ul>
+</li>
+<li><p>方法参数：按值调用 （call by value) 表示方法接收的是调用者提供的值。 而按引用调用 （ call by reference)表示方法接收的是调用者提供的变量地址。 一个方法可以修改传递引用所对应的变量值， 而不能修改传递值调用所对应的变量值 。</p>
+</li>
+<li><p>方法参数共有两种类型：<br>•基本数据类型（数字、布尔值）。<br>•对象引用。 </p>
+</li>
+<li><p>Java 中方法参数的使用情况：</p>
+<ul>
+<li>一个方法不能修改一个基本数据类型的参数（即数值型或布尔型）。</li>
+<li>一个方法可以改变一个对象参数的状态。</li>
+<li>一个方法不能让对象参数引用一个新的对象。 </li>
+</ul>
+</li>
+<li><p>对象构造</p>
+<p>9.1 重载：（类可以有多个构造器）如果多个方法（比如， StringBuilder 构造器方法）有相同的名字、 不同的参数，便产生了重载。编译器必须挑选出具体执行哪个方法，它通过用各个方法给出的参数类型与特定方法调用所使用的值类型进行匹配来挑选出相应的方法。 如果编译器找不到匹配的参数， 就会产生编译时错误， 因为根本不存在匹配， 或者没有一个比其他的更好。（这个过程被称为重载解析（overloading resolution)。） </p>
+<p>9.1.1 方法签名：要完整地描述一个方法，需要指出方法名以及参数类型。这叫做方法的签名 。</p>
+<p>​    返回类型不是方法签名的一部分。也就是说，不能有两个相同方法名，相同参数，但返回类型不同的方    法。</p>
+<p>9.2 默认域初始化 ： 如果在构造器中没有显式地给域赋予初值，那么就会被自动地赋为默认值： 数值为 0、布尔值为 false、 对象引用为 null。 </p>
+</li>
+</ol>
+<p>这是域与局部变量的主要不同点。 必须明确地初始化方法中的局部变量。 但是，如果没有初始化类中的域， 将会被自动初始化为默认值（ 0、 false 或 null )。 </p>
+<p>9.3 无参数的构造器 ：如果在编写一个类时没有编写构造器， 那么系统就会提供一个无参数构造器。这个构造器将所有的实例域设置为默认值。于是， 实例域中的数值型数据设置为 0、 布尔型数据设置为 false、 所有对象变量将设置为 null。 </p>
+<p>如果类中提供了至少一个构造器， 但是没有提供无参数的构造器， 则在构造对象时如果没有提供参数就会被视为不合法。 </p>
+<p>9.4 显式域初始化 : 通过重载类的构造器方法， 可以采用多种形式设置类的实例域的初始状态。确保不管怎样调用构造器，每个实例域都可以被设置为一个有意义的初值，这是一种很好的设计习惯。 </p>
+<p>9.5 调用另一个构造器 ：关键字 this 引用方法的隐式参数。然而，这个关键字还有另外一个含义。<br>   如果构造器的第一个语句形如 this(…)， 这个构造器将调用同一个类的另一个构造器。 </p>
+<p>9.6 初始化块:无论使用哪个构造器构造对象， id 域都在对象初始化块中被初始化。首先运行初始化块，然后才运行构造器的主体部分。<br>   这种机制不是必需的，也不常见。通常会直接将初始化代码放在构造器中。 </p>
+<pre><code>9.6.1 初始化数据域的方法： 
+</code></pre><ol>
+<li>在构造器中设置值 </li>
+<li>在声明中赋值 </li>
+<li>初始化块</li>
+</ol>
+<p>​    9.6.2 调用构造器的具体处理步骤： </p>
+<ol>
+<li>所有数据域被初始化为默认值（0、 false 或 null。) </li>
+<li>按照在类声明中出现的次序， 依次执行所有域初始化语句和初始化块。 </li>
+<li>如果构造器第一行调用了第二个构造器， 则执行第二个构造器主体 。</li>
+<li>执行这个构造器的主体。</li>
+</ol>
+<ol start="10">
+<li>可以为任何一个类添加 finalize 方法。 finalize 方法将在垃圾回收器清除对象之前调用。<br>在实际应用中，不要依赖于使用 finalize 方法回收任何短缺的资源， 这是因为很难知道这个方法什么时才能够调用。 </li>
+<li>一个类可以使用所属包中的所有类， 以及其他包中的公有类 。</li>
+<li>包的作用域：标记为 public 的部分可以被任意的类使用；标记为 private 的部分只能被定义它们的类使用。 如果没有指定 public 或 private, 这 个 部分（类、方法或变量）可以被同一个包中的所有方法访问。 </li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://linxiaobaixcg.github.io/2019/03/16/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84%E3%80%81%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB/" title="Java核心技术1-基本程序设计结构、对象和类" target="_blank" rel="external">https://linxiaobaixcg.github.io/2019/03/16/Java核心技术1-基本程序设计结构、对象和类/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/linxiaobaixcg" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/linxiaobaixcg" target="_blank"><span class="text-dark">Mr.Lin</span><small class="ml-1x">Java Developer</small></a></h3>
+        <div>小小搬砖者。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E7%BB%A7%E6%89%BF%E3%80%81%E6%8E%A5%E5%8F%A3/" title="Java核心技术1-继承、接口"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

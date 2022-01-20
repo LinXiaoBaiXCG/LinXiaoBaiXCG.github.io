@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Java核心技术1-并发 | Hexo</title>
+  <meta name="description" content="读《Java核心技术1》记录知识点  并发什么是线程 多线程程序在较低的层次上扩展了多任务的概念：一个程序同时执行多个任务。通常，每一个任务称为一个线程（ thread), 它是线程控制的简称。可以同时运行一个以上线程的程序称为多线程程序（multithreaded)。   多进程与多线程有哪些区别呢？ 本质的区别在于每个进程拥有自己的一整套变量， 而线程则共享数据。 这听起来似乎有些风险。然而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java核心技术1-并发">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="读《Java核心技术1》记录知识点  并发什么是线程 多线程程序在较低的层次上扩展了多任务的概念：一个程序同时执行多个任务。通常，每一个任务称为一个线程（ thread), 它是线程控制的简称。可以同时运行一个以上线程的程序称为多线程程序（multithreaded)。   多进程与多线程有哪些区别呢？ 本质的区别在于每个进程拥有自己的一整套变量， 而线程则共享数据。 这听起来似乎有些风险。然而">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-20T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="技术书籍">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="LinChuangQiong&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/linxiaobaixcg" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Mr.Lin</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Java Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a><span class="category-list-count">44</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring%E9%9B%86%E5%90%88/" rel="tag">Spring集合</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" rel="tag">观后感</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DevOps/" style="font-size: 13px;">DevOps</a> <a href="/tags/JVM/" style="font-size: 13.5px;">JVM</a> <a href="/tags/Spring%E9%9B%86%E5%90%88/" style="font-size: 13.67px;">Spring集合</a> <a href="/tags/blog/" style="font-size: 13px;">blog</a> <a href="/tags/java/" style="font-size: 13.83px;">java</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 13.67px;">中间件</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 13.17px;">分布式</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13px;">安全</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 13px;">并发</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" style="font-size: 14px;">技术书籍</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.5px;">数据库</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13.17px;">框架</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 13px;">网络编程</a> <a href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 13.17px;">观后感</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/17/Netty%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="title">Netty核心组件介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-17T12:00:00.000Z" itemprop="datePublished">2021-05-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/02/%E4%BD%BF%E7%94%A8Docker%E6%90%AD%E5%BB%BAMongoDB%E5%89%AF%E6%9C%AC%E9%9B%86/" class="title">使用Docker搭建MongoDB副本集</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-02T12:00:00.000Z" itemprop="datePublished">2021-05-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">TCP的三次握手和四次挥手</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-24T12:00:00.000Z" itemprop="datePublished">2021-04-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/" class="title">TCP流量控制和拥塞控制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-07T12:00:00.000Z" itemprop="datePublished">2021-04-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/02/%E6%B5%85%E8%B0%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E6%9C%BA%E5%88%B6/" class="title">浅谈计算机网络中的三种可靠传输机制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-02T12:00:00.000Z" itemprop="datePublished">2021-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java核心技术1-并发" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java核心技术1-并发
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/" class="article-date">
+	  <time datetime="2019-03-20T15:00:00.000Z" itemprop="datePublished">2019-03-20</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/java/" rel="tag">java</a>, <a class="article-tag-link-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 4.4k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 15(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>读《Java核心技术1》记录知识点</p>
+</blockquote>
+<h1 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><ol>
+<li>多线程程序在较低的层次上扩展了多任务的概念：一个程序同时执行多个任务。通常，每一个任务称为一个线程（ thread), 它是线程控制的简称。可以同时运行一个以上线程的程序称为多线程程序（multithreaded)。  </li>
+<li>多进程与多线程有哪些区别呢？ 本质的区别在于每个进程拥有自己的一整套变量， 而线程则共享数据。 这听起来似乎有些风险。然而，共享变量使线程之间的通信比进程之间的通信更有效、 更容易。 此外， 在有些操作系统中， 与进程相比较， 线程更“ 轻量级”， 创建、 撤销一个线程比启动新进程的开销要小得多。  </li>
+<li>调用 Threadsleep 不会创建一个新线程，sleep 是 Thread 类的静态方法，用于暂停当前线程的活动。  </li>
+<li><p>Runnable 接口只有一个 run 方法  </p>
+<h2 id="中断线程"><a href="#中断线程" class="headerlink" title="中断线程"></a>中断线程</h2></li>
+<li><p>当线程的 run 方法执行方法体中最后一条语句后， 并经由执行 return 语句返冋时， 或者出现了在方法中没有捕获的异常时，线程将终止。 在 Java 的早期版本中， 还有一个 stop方法， 其他线程可以调用它终止线程。但是， 这个方法现在已经被弃用了。  </p>
+</li>
+<li>没有可以强制线程终止的方法。然而， interrupt 方法可以用来请求终止线程。  </li>
+<li>当对一个线程调用 interrupt 方法时，线程的中断状态将被置位。这是每一个线程都具有的 boolean 标志。每个线程都应该不时地检査这个标志， 以判断线程是否被中断。<br>要想弄清中断状态是否被置位，首先调用静态的 Thread.currentThread 方法获得当前线程， 然后调用 islnterrupted 方法  </li>
+<li>如果线程被阻塞， 就无法检测中断状态。这是产生 InterruptedExceptioii 异常的地方。当在一个被阻塞的线程（调用 sleep 或 wait ) 上调用 interrupt 方法时， 阻塞调用将会被Interrupted Exception 异常中断。</li>
+</ol>
+<h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><ol>
+<li><p>线程可以有如下 6 种状态：</p>
+<ul>
+<li>New (新创建）：当用 new 操作符创建一个新线程时， 如 newThread(r)， 该线程还没有开始运行。这意味着它的状态是 new。当一个线程处于新创建状态时， 程序还没有开始运行线程中的代码。在线程运行之前还有一些基础工作要做。</li>
+<li>Runnable (可运行）：一旦调用 start 方法，线程处于 runnable 状态。一个可运行的线桿可能正在运行也可能没有运行， 这取决于操作系统给线程提供运行的时间。  </li>
+</ul>
+<p>一旦一个线程开始运行，它不必始终保持运行。事实上，运行中的线程被中断，目的是为了让其他线程获得运行机会。线程调度的细节依赖于操作系统提供的服务。抢占式调度系统给每一个可运行线程一个时间片来执行任务。 当时间片用完，操作系统剥夺该线程的运行权， 并给另一个线程运行机会。当选择下一个线程时， 操作系统考虑线程的优先级  。<br>现在所有的桌面以及服务器操作系统都使用抢占式调度。但是，像手机这样的小型设备可能使用协作式调度。在这样的设备中，一个线程只有在调用 yield 方法、 或者被阻塞或等待时，线程才失去控制权。<br>在具有多个处理器的机器上，每一个处理器运行一个线程， 可以有多个线程并行运行。当然， 如果线程的数目多于处理器的数目， 调度器依然采用时间片机制。<br>记住，在任何给定时刻，二个可运行的线程可能正在运行也可能没有运行（这就是为什么将这个状态称为可运行而不是运行。)</p>
+<ul>
+<li>Blocked (被阻塞）：当一个线程试图获取一个内部的对象锁（而不是 javiutiUoncurrent 库中的锁，) 而该锁被其他线程持有， 则该线程进人阻塞状态。当所有其他线程释放该锁，并且线程调度器允许本线程持有它的时候，该线程将变成非阻塞状态。  </li>
+<li>Waiting (等待）：当线程等待另一个线程通知调度器一个条件时， 它自己进入等待状态。 在调用 Object.wait 方法或 Thread.join 方法， 或者是等待 java.util.concurrent 库中的 Lock 或 Condition 时， 就会出现这种情况。  </li>
+<li>Timed waiting (计时等待）：有几个方法有一个超时参数。调用它们导致线程进人计时等待（timed waiting) 状态。这一状态将一直保持到超时期满或者接收到适当的通知。带有超时参数的方法有：<br>Thread.sleep 和 Object.wait、 Thread.join、 Lock.tryLock 以及 Condition.await 的计时版。  </li>
+<li>Terminated (被终止）线程因如下两个原因之一而被终止：  </li>
+</ul>
+<ol>
+<li>因为 run 方法正常退出而自然死亡。  </li>
+<li>因为一个没有捕获的异常终止了 run 方法而意外死亡。  </li>
+</ol>
+</li>
+</ol>
+<h2 id="线程属性"><a href="#线程属性" class="headerlink" title="线程属性"></a>线程属性</h2><ol>
+<li>线程的各种属性，其中包括：</li>
+</ol>
+<ul>
+<li>线程优先级:在 Java 程序设计语言中，每一个线程有一个优先级。默认情况下， 一个线程继承它的父线程的优先级。可以用 setPriority 方法提高或降低任何一个线程的优先级。可以将优先级设置为在 MIN_PRIORITY (在 Thread 类中定义为 1 ) 与 MAX_PRIORITY (定义为 10 ) 之间的任何值。NORM_PRIORITY 被定义为 5。<br>每当线程调度器有机会选择新线程时， 它首先选择具有较高优先级的线程。但是，线程优先级是高度依赖于系统的。当虚拟机依赖于宿主机平台的线程实现机制时， Java 线程的优先级被映射到宿主机平台的优先级上， 优先级个数也许更多，也许更少。<br>例如， Windows 有 7 个优先级别。一些 Java 优先级将映射到相同的操作系统优先级。在Oracle 为 Linux 提供的 Java 虚拟机中， 线程的优先级被忽略一所有线程具有相同的优先级。</li>
+<li>守护线程：可以通过调用t.setDaemon(true);将线程转换为守护线程（daemon thread)。这样一个线程没有什么神奇。守护线程的唯一用途是为其他线程提供服务。计时线程就是一个例子，它定时地发送“ 计时器嘀嗒” 信号给其他线程或清空过时的高速缓存项的线程。当只剩下守护线程时， 虚拟机就退出了，由于如果只剩下守护线程， 就没必要继续运行程序了。  </li>
+<li>线程组以及处理未捕获异常的处理器：线程的 run方法不能抛出任何受查异常， 但是，非受査异常会导致线程终止。在这种情况下，线程就死亡了。但是，不需要任何 catch 子句来处理可以被传播的异常。相反， 就在线程死亡之前， 异常被传递到一个用于未捕获异常的处理器。  </li>
+</ul>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><ol>
+<li><p>有两种机制防止代码块受并发访问的干扰。Java语言提供一个 synchronized 关键字达到这一目的，并且 Java SE 5.0 引入了 ReentrantLock 类。  </p>
+</li>
+<li><p>用 ReentrantLock 保护代码块的基本结构如下：<br>myLock.lock（）; // a ReentrantLock object</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">critical section</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">&#123;</span><br><span class="line">myLock.unlock()；// <span class="keyword">make</span> sure the lock <span class="keyword">is</span> unlocked even <span class="keyword">if</span> <span class="keyword">an</span> exception <span class="keyword">is</span> thrown</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="3">
+<li><p>把解锁操作括在 finally 子句之内是至关重要的。如果在临界区的代码抛出异常，<br>锁必须被释放。 否则， 其他线程将永远阻塞。</p>
+</li>
+<li><p>有关锁和条件的关键之处：  </p>
+</li>
+</ol>
+<ul>
+<li>锁用来保护代码片段， 任何时刻只能有一个线程执行被保护的代码。  </li>
+<li>锁可以管理试图进入被保护代码段的线程。  </li>
+<li>锁可以拥有一个或多个相关的条件对象。  </li>
+<li>每个条件对象管理那些已经进入被保护的代码段但还不能运行的线程。  </li>
+</ul>
+<ol start="5">
+<li><p>锁和条件是线程同步的强大工具，但是，严格地讲，它们不是面向对象的。多年来，研究人员努力寻找一种方法，可以在不需要程序员考虑如何加锁的情况下，就可以保证多线程的安全性。最成功的解决方案之一是监视器（monitor)  </p>
+</li>
+<li><p>监视器具有如下特性：</p>
+<ul>
+<li>监视器是只包含私有域的类。</li>
+<li>每个监视器类的对象有一个相关的锁。</li>
+<li>使用该锁对所有的方法进行加锁。换句话说，如果客户端调用 obj.method(), 那 么 obj对象的锁是在方法调用开始时自动获得， 并且当方法返回时自动释放该锁。因为所有的域是私有的，这样的安排可以确保一个线程在对对象操作时， 没有其他线程能访问该域。</li>
+<li>该锁可以有任意多个相关条件。</li>
+</ul>
+</li>
+<li><p>volatile 关键字为实例域的同步访问提供了一种免锁机制。如果声明一个域为 volatile ,那么编译器和虚拟机就知道该域是可能被另一个线程并发更新的。  </p>
+</li>
+<li><p>线程在调用 lock 方法来获得另一个线程所持有的锁的时候，很可能发生阻塞。应该更加谨慎地申请锁。 tryLock 方法试图申请一个锁， 在成功获得锁后返回 true, 否则， 立即返回false, 而且线程可以立即离开去做其他事情。  </p>
+</li>
+<li><p>lock 方法不能被中断。如果一个线程在等待获得一个锁时被中断，中断线程在获得锁之前一直处于阻塞状态。如果出现死锁， 那么， lock 方法就无法终止。<br>然而， 如果调用带有用超时参数的 tryLock, 那么如果线程在等待期间被中断，将抛出InterruptedException 异常。这是一个非常有用的特性，因为允许程序打破死锁。<br>也可以调用 locklnterruptibly 方法。它就相当于一个超时设为无限的 tryLock 方法。 </p>
+</li>
+<li><p>java.util.concurrent.locks 包 定 义 了 两 个 锁 类， 我 们 已 经 讨 论 的 ReentrantLock 类 和<br>ReentrantReadWriteLock 类。 如果很多线程从一个数据结构读取数据而很少线程修改其中数据的话， 后者是十分有用的。在这种情况下， 允许对读者线程共享访问是合适的。当然， 写者线程依然必须是互斥访问的。   </p>
+</li>
+<li><p>为什么弃用 stop 和 suspend 方法?</p>
+<p>初始的 Java 版本定义了一个 stop 方法用来终止一个线程， 以及一个 suspend 方法用来阻塞一个线程直至另一个线程调用 resume。stop 和 suspend 方法有一些共同点：都试图控制一个给定线程的行为。<br>stop、 suspend 和 resume 方法已经弃用。stop 方法天生就不安全，经验证明 suspend 方法会经常导致死锁。<br>首先来看看 stop 方法， 该方法终止所有未结束的方法， 包括 run 方法。当线程被终止，立即释放被它锁住的所有对象的锁。这会导致对象处于不一致的状态。例如’假定 TransferThread在从一个账户向另一个账户转账的过程中被终止，钱款已经转出，却没有转人目标账户，现在银行对象就被破坏了。因为锁已经被释放，这种破坏会被其他尚未停止的线程观察到。<br>当线程要终止另一个线程时， 无法知道什么时候调用 stop 方法是安全的， 什么时候导致<br>对象被破坏。因此，该方法被弃用了。在希望停止线程的时候应该中断线程， 被中断的线程<br>会在安全的时候停止。</p>
+<p>与 stop 不同，suspend 不会破坏对象。但是，如果用 suspend 挂起一个持有一个锁的线程， 那么，该锁在恢复之前是不可用的。 如果调用suspend 方法的线程试图获得同一个锁， 那么程序死锁： 被挂起的线程等着被恢复， 而将其挂起的线程等待获得锁。    </p>
+</li>
+</ol>
+<h2 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h2><ol>
+<li><p>对于许多线程问题， 可以通过使用一个或多个队列以优雅且安全的方式将其形式化。生产者线程向队列插人元素， 消费者线程则取出它们。使用队列，可以安全地从一个线程向另一个线程传递数据。 例如， 考虑银行转账程序， 转账线程将转账指令对象插入一个队列中，而不是直接访问银行对象。 另一个线程从队列中取出指令执行转账。只有该线程可以访问该银行对象的内部。因此不需要同步。（当然， 线程安全的队列类的实现者不能不考虑锁和条件，但是， 那是他们的问题而不是你的问题。）  </p>
+</li>
+<li><p>当试图向队列添加元素而队列已满， 或是想从队列移出元素而队列为空的时候， 阻塞队列（blocking queue ) 导致线程阻塞。在协调多个线程之间的合作时， 阻塞队列是一个有用的工具。工作者线程可以周期性地将中间结果存储在阻塞队列中。其他的工作者线程移出中间结果并进一步加以修改。队列会自动地平衡负载。如果第一个线程集运行得比第二个慢， 第二个线程集在等待结果时会阻塞。 如果第一个线程集运行得快， 它将等待第二个队列集赶上来。  </p>
+</li>
+<li><p>java.util.concurrent 包提供了阻塞队列的几个变种。 默认情况下， LinkedBlockingQueue的容量是没有上边界的，但是，也可以选择指定最大容量。LinkedBlockingDeque 是一个双端的版本。ArrayBlockingQueue 在构造时需要指定容量，并且有一个可选的参数来指定是否需要公平性。若设置了公平参数， 则那么等待了最长时间的线程会优先得到处理。通常，公平性会降低性能，只有在确实非常需要时才使用它。</p>
+<p>PriorityBlockingQueue 是一个带优先级的队列， 而不是先进先出队列。元素按照它们的优先级顺序被移出。该队列是没有容量上限，但是，如果队列是空的， 取元素的操作会阻塞。  </p>
+</li>
+</ol>
+<h2 id="线程安全的集合"><a href="#线程安全的集合" class="headerlink" title="线程安全的集合"></a>线程安全的集合</h2><ol>
+<li>java.util.concurrent 包提供了映射、 有序集和队列的高效实现： ConcurrentHashMap、ConcurrentSkipListMap &gt; ConcurrentSkipListSet 和 ConcurrentLinkedQueue。这些集合使用复杂的算法，通过允许并发地访问数据结构的不同部分来使竞争极小化。  </li>
+<li>CopyOnWriteArrayList 和 CopyOnWriteArraySet 是线程安全的集合， 其中所有的修改线程对底层数组进行复制。 如果在集合上进行迭代的线程数超过修改线程数， 这样的安排是很有用的。当构建一个迭代器的时候， 它包含一个对当前数组的引用。如果数组后来被修改了，迭代器仍然引用旧数组， 但是，集合的数组已经被替换了。因而，旧的迭代器拥有一致的（可能过时的）视图，访问它无须任何同步开销。</li>
+</ol>
+<h2 id="Callable与Future"><a href="#Callable与Future" class="headerlink" title="Callable与Future"></a>Callable与Future</h2><ol>
+<li>Runnable 封装一个异步运行的任务，可以把它想象成为一个没有参数和返回值的异步方法。Callable 与 Runnable 类似， 但是有返回值。Callable 接口是一个参数化的类型， 只有一个方法 call。  </li>
+<li>Future 保存异步计算的结果。可以启动一个计算，将 Future 对象交给某个线程，然后忘掉它。 Future 对象的所有者在结果计算好之后就可以获得它。  </li>
+</ol>
+<h2 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h2><ol>
+<li><p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出时， 线程不会死亡，而是在池中准备为下一个请求提供服务。   </p>
+<p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大<br>量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的<br>空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出<br>时， 线程不会死亡，而是在池中准备为下一个请求提供服务。  </p>
+</li>
+<li><p>执行器 （ Executor) 类有许多静态工厂方法用来构建线程池。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://linxiaobaixcg.github.io/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/" title="Java核心技术1-并发" target="_blank" rel="external">https://linxiaobaixcg.github.io/2019/03/20/Java核心技术1-并发/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/linxiaobaixcg" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/linxiaobaixcg" target="_blank"><span class="text-dark">Mr.Lin</span><small class="ml-1x">Java Developer</small></a></h3>
+        <div>小小搬砖者。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/03/23/%E4%B8%AA%E4%BA%BA%E5%AF%B9%E4%BA%8EVuex%E7%9A%84%E7%90%86%E8%A7%A3/" title="个人对于Vuex的理解"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/03/18/2019-03-18-%5B%E4%BD%99%E5%8D%8E--%E6%B4%BB%E7%9D%80%5D%E8%A7%82%E5%90%8E%E6%84%9F/" title="余华--活着 观后感"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

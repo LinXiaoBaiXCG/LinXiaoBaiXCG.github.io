@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Redis知识总结 | Hexo</title>
+  <meta name="description" content="简介 高性能Key-Value服务器 支持多种数据结构 功能丰富 高可用分布式支持  特性速度快官方：10W OPS数据存在内存使用C语言编写单线程模型 持久化（断电不丢数据）对数据更新将异步地保存的磁盘上 支持多种数据结构支持字符串、哈希、链表、集合、有序集合新版本支持位图（BitMaps）HyperLogLog：超小内存唯一值计数GEO:地理信息定位 支持多种编程语言javaphplua 功能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis知识总结">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="简介 高性能Key-Value服务器 支持多种数据结构 功能丰富 高可用分布式支持  特性速度快官方：10W OPS数据存在内存使用C语言编写单线程模型 持久化（断电不丢数据）对数据更新将异步地保存的磁盘上 支持多种数据结构支持字符串、哈希、链表、集合、有序集合新版本支持位图（BitMaps）HyperLogLog：超小内存唯一值计数GEO:地理信息定位 支持多种编程语言javaphplua 功能">
+<meta property="og:locale">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis解读/1567577211.jpg">
+<meta property="article:published_time" content="2019-04-07T14:55:00.000Z">
+<meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
+<meta property="article:tag" content="中间件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="LinChuangQiong&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/linxiaobaixcg" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Mr.Lin</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Java Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a><span class="category-list-count">44</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring%E9%9B%86%E5%90%88/" rel="tag">Spring集合</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" rel="tag">观后感</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DevOps/" style="font-size: 13px;">DevOps</a> <a href="/tags/JVM/" style="font-size: 13.5px;">JVM</a> <a href="/tags/Spring%E9%9B%86%E5%90%88/" style="font-size: 13.67px;">Spring集合</a> <a href="/tags/blog/" style="font-size: 13px;">blog</a> <a href="/tags/java/" style="font-size: 13.83px;">java</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 13.67px;">中间件</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 13.17px;">分布式</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13px;">安全</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 13px;">并发</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" style="font-size: 14px;">技术书籍</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.5px;">数据库</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13.17px;">框架</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 13px;">网络编程</a> <a href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 13.17px;">观后感</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/17/Netty%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="title">Netty核心组件介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-17T12:00:00.000Z" itemprop="datePublished">2021-05-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/02/%E4%BD%BF%E7%94%A8Docker%E6%90%AD%E5%BB%BAMongoDB%E5%89%AF%E6%9C%AC%E9%9B%86/" class="title">使用Docker搭建MongoDB副本集</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-02T12:00:00.000Z" itemprop="datePublished">2021-05-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">TCP的三次握手和四次挥手</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-24T12:00:00.000Z" itemprop="datePublished">2021-04-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/" class="title">TCP流量控制和拥塞控制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-07T12:00:00.000Z" itemprop="datePublished">2021-04-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/02/%E6%B5%85%E8%B0%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E6%9C%BA%E5%88%B6/" class="title">浅谈计算机网络中的三种可靠传输机制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-02T12:00:00.000Z" itemprop="datePublished">2021-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Redis解读" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redis知识总结
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/" class="article-date">
+	  <time datetime="2019-04-07T14:55:00.000Z" itemprop="datePublished">2019-04-07</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 1.9k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 6(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ol>
+<li>高性能Key-Value服务器</li>
+<li>支持多种数据结构</li>
+<li>功能丰富</li>
+<li>高可用分布式支持</li>
+</ol>
+<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="速度快"><a href="#速度快" class="headerlink" title="速度快"></a>速度快</h2><p>官方：10W OPS<br>数据存在内存<br>使用C语言编写<br>单线程模型</p>
+<h2 id="持久化（断电不丢数据）"><a href="#持久化（断电不丢数据）" class="headerlink" title="持久化（断电不丢数据）"></a>持久化（断电不丢数据）</h2><p>对数据更新将异步地保存的磁盘上</p>
+<h2 id="支持多种数据结构"><a href="#支持多种数据结构" class="headerlink" title="支持多种数据结构"></a>支持多种数据结构</h2><p>支持字符串、哈希、链表、集合、有序集合<br>新版本支持位图（BitMaps）<br>HyperLogLog：超小内存唯一值计数<br>GEO:地理信息定位</p>
+<h2 id="支持多种编程语言"><a href="#支持多种编程语言" class="headerlink" title="支持多种编程语言"></a>支持多种编程语言</h2><p>java<br>php<br>lua</p>
+<h2 id="功能丰富"><a href="#功能丰富" class="headerlink" title="功能丰富"></a>功能丰富</h2><p>发布订阅<br>事务<br>Lua脚本<br>pipeline</p>
+<h2 id="简单"><a href="#简单" class="headerlink" title="简单"></a>简单</h2><p>源码少（带着问题看代码）<br>不依赖外部库</p>
+<h2 id="主从复制（重点）"><a href="#主从复制（重点）" class="headerlink" title="主从复制（重点）"></a>主从复制（重点）</h2><p>从服务器复制到主服务器</p>
+<h2 id="高可用、分布式"><a href="#高可用、分布式" class="headerlink" title="高可用、分布式"></a>高可用、分布式</h2><p>高可用—-Redis-Sentinel  支持高可用<br>分布式—-Redis-Cluster 支持分布式</p>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><ul>
+<li>缓存系统<br>提高响应速度</li>
+<li>计数器<br>利用自增incr、decr可以实现计数器<br>转发数、评论数（微博）</li>
+<li>消息队列系统<br>利用pub、sub模式发布订阅消息系统</li>
+<li>排行榜<br>利用有序集合zset进行排序，得出排行榜</li>
+<li>社交网络</li>
+<li>实时系统  </li>
+<li>限流</li>
+</ul>
+<h2 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a>启动方式</h2><ul>
+<li>生产环境选择配置启动</li>
+<li>单机多实例配置文件可以用端口区分开</li>
+</ul>
+<h1 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h1><p>daemonize:是否是守护进程（no/yes）  建议yes<br>port:Redis对外端口<br>logfile:Redis日志系统<br>dir:Redis工作目录</p>
+<h1 id="API的使用"><a href="#API的使用" class="headerlink" title="API的使用"></a>API的使用</h1><h2 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h2><ul>
+<li>keys(O(n)级：一般不在生产环境使用)</li>
+<li>dbsize（O(1)级:计算key大小）</li>
+<li>exists key（检查key是否存在1为存在2为不存在）</li>
+<li>del key [key …]</li>
+<li>expire key seconds</li>
+<li>type key</li>
+</ul>
+<h2 id="Redis使用单线程还这么快？"><a href="#Redis使用单线程还这么快？" class="headerlink" title="Redis使用单线程还这么快？"></a>Redis使用单线程还这么快？</h2><ol>
+<li>纯内存</li>
+<li>非阻塞IO（使用epoll模型）</li>
+<li>避免线程切换和竞态消耗</li>
+</ol>
+<h2 id="set-setnx-setxx"><a href="#set-setnx-setxx" class="headerlink" title="set setnx setxx"></a>set setnx setxx</h2><p>set key value:不管key是否存在，都设置<br>setnx key value:key不存在，才设置(可看做添加操作)<br>set key value xx :key存在，才设置(可看做编辑操作)</p>
+<h1 id="Redis的扩展"><a href="#Redis的扩展" class="headerlink" title="Redis的扩展"></a>Redis的扩展</h1><h2 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h2><ul>
+<li>生命周期<br>客户端发送命令到服务端，此时服务端有多条命令在执行，因为redis是单线程的，所以得排队等待执行命令，等待过程中会消耗一定是时间，最后返回结果</li>
+<li>说明</li>
+</ul>
+<ol>
+<li>慢查询发生在第三阶段（执行命令，例如：key *）</li>
+<li>客户端超时不一定慢查询，但慢查询是客户端超时的一个可能因素</li>
+</ol>
+<ul>
+<li>配置-slowlog-max-len = 128（支持动态配置）</li>
+</ul>
+<ol>
+<li>先进先出队列</li>
+<li>固定长度</li>
+<li>保存在内存中</li>
+</ol>
+<ul>
+<li>配置-slowlog-log-slower-than = 10000（支持动态配置）</li>
+</ul>
+<ol>
+<li>慢查询阈值（单位：微秒）</li>
+<li>slowlog-log-slower-than=0，记录所有命令</li>
+<li>slowlog-log-slower-than&lt;0，不记录命令</li>
+</ol>
+<h2 id="执行批量命令时，可使用pipeline4-3"><a href="#执行批量命令时，可使用pipeline4-3" class="headerlink" title="执行批量命令时，可使用pipeline4.3"></a>执行批量命令时，可使用pipeline4.3</h2><h2 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h2><p>角色：发布者  订阅者  频道</p>
+<h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>redis所有数据保存在内存中，对数据的更新将异步地保存在磁盘上。</p>
+<h2 id="持久化方式"><a href="#持久化方式" class="headerlink" title="持久化方式"></a>持久化方式</h2><ul>
+<li>快照</li>
+</ul>
+<ol>
+<li>MySQL Dump</li>
+<li>Redis RDB</li>
+</ol>
+<ul>
+<li>写日志</li>
+</ul>
+<ol>
+<li>MySQL Binlog</li>
+<li>Hbase HLog</li>
+<li>Redis AOF</li>
+</ol>
+<h2 id="Redis-RDB"><a href="#Redis-RDB" class="headerlink" title="Redis RDB"></a>Redis RDB</h2><p>RDB:redis创建RDB文件（二进制）选在硬盘中，类似备份</p>
+<h3 id="触发机制"><a href="#触发机制" class="headerlink" title="触发机制"></a>触发机制</h3><ol>
+<li>sava（同步）<br>介绍：执行sava命令会创建RDB文件（二进制）<br>缺点：会造成阻塞<br>注意：会覆盖旧的RDB文件<br>复杂度：O(N)</li>
+<li>bgsava（异步）<br>介绍：执行bgsava命令，redis会fork（）redis的子进程，由子进程去创建RDB文件</li>
+<li>自动<br>通过配置自动生成RDB</li>
+</ol>
+<ul>
+<li>方式</li>
+</ul>
+<ol>
+<li>全量复制</li>
+<li>debug reload</li>
+<li>shutdown</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>耗时耗性能</p>
+<h3 id="sava和bgsava的区别"><a href="#sava和bgsava的区别" class="headerlink" title="sava和bgsava的区别"></a>sava和bgsava的区别</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>save</th>
+<th>bgsave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IO类型</td>
+<td>同步</td>
+<td>异步</td>
+</tr>
+<tr>
+<td>阻塞？</td>
+<td>是</td>
+<td>是（阻塞发生在fork）</td>
+</tr>
+<tr>
+<td>复杂度</td>
+<td>O(n)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>不会消耗额外内存</td>
+<td>不阻塞客户端命令</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>阻塞客户端命令</td>
+<td>需要fork，消耗内存</td>
+</tr>
+</tbody>
+</table>
+<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><p>日志原理</p>
+<h3 id="三种策略"><a href="#三种策略" class="headerlink" title="三种策略"></a>三种策略</h3><ol>
+<li>always<br>redis写命令刷新的缓冲区，然后再每条命令fsync到硬盘上</li>
+<li>everysec<br>redis写命令刷新的缓冲区，然后再每秒把缓冲区fsync到硬盘上</li>
+<li>no<br>由操作系统决定</li>
+</ol>
+<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>always</th>
+<th>everysec</th>
+<th>no</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>优点</td>
+<td>不丢失数据</td>
+<td>每秒一次fsync丢一秒数据</td>
+<td>不用管</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>IO开销较大，一般SATA盘只有几百TPS</td>
+<td>丢一秒数据</td>
+<td>不可控</td>
+</tr>
+</tbody>
+</table>
+<h3 id="AOF重写"><a href="#AOF重写" class="headerlink" title="AOF重写"></a>AOF重写</h3><h4 id="作用-1"><a href="#作用-1" class="headerlink" title="作用"></a>作用</h4><ul>
+<li>减少硬盘占用量</li>
+<li>加速恢复速度</li>
+</ul>
+<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><ol>
+<li><p>bgrewriteaof命令<br> fork子进程进行AOF重写</p>
+</li>
+<li><p>AOF重写配置</p>
+</li>
+</ol>
+<ul>
+<li>配置</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auto-aof-rewrite-min-size</td>
+<td>AOF文件重写需要的尺寸</td>
+</tr>
+<tr>
+<td>auto-aof-rewrite-percentage</td>
+<td>AOF文件增长率</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>统计</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>统计名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aof_current_size</td>
+<td>AOF当前尺寸（单位：字节）</td>
+</tr>
+<tr>
+<td>aof_base_size</td>
+<td>AOF上次启动和重写的尺寸（单位：字节）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="AOF重写流程"><a href="#AOF重写流程" class="headerlink" title="AOF重写流程"></a>AOF重写流程</h4><p><img src="/2019/04/07/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg" alt="AOF重写流程图"></p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>appendonly     yes</p>
+<h2 id="两种持久化的比较和选择"><a href="#两种持久化的比较和选择" class="headerlink" title="两种持久化的比较和选择"></a>两种持久化的比较和选择</h2><h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>RDB</th>
+<th>AOF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启动优先级</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>体积</td>
+<td>小</td>
+<td>大</td>
+</tr>
+<tr>
+<td>恢复速度</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>数据安全性</td>
+<td>丢数据</td>
+<td>根据策略决定</td>
+</tr>
+<tr>
+<td>轻重</td>
+<td>重</td>
+<td>轻</td>
+</tr>
+</tbody>
+</table>
+<h3 id="RDB最佳策略"><a href="#RDB最佳策略" class="headerlink" title="RDB最佳策略"></a>RDB最佳策略</h3><p>建议关闭<br>集中管理<br>主从，从开</p>
+<h3 id="AOF最佳策略"><a href="#AOF最佳策略" class="headerlink" title="AOF最佳策略"></a>AOF最佳策略</h3><p>建议开<br>AOF集中管理<br>建议每秒保存</p>
+<h1 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h1><h2 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h2><p>数据副本<br>扩展读性能<br>一个master可以有多个slave<br>一个slave只能有一个master<br>数据是单向的</p>
+<h2 id="两种实现方式"><a href="#两种实现方式" class="headerlink" title="两种实现方式"></a>两种实现方式</h2><h3 id="slaveof命令（异步）"><a href="#slaveof命令（异步）" class="headerlink" title="slaveof命令（异步）"></a>slaveof命令（异步）</h3><p>例如：slaveof 127.0.0.1 6379  返回OK则复制成功<br>取消复制：slaveof no one</p>
+<h3 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h3><p>slaveof ip port<br>从节点只读：slave-read-only yes</p>
+<h3 id="比较-1"><a href="#比较-1" class="headerlink" title="比较"></a>比较</h3><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>命令</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>优点</td>
+<td>无需重启</td>
+<td>统一配置</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>不便于管理</td>
+<td>需要重启</td>
+</tr>
+</tbody>
+</table>
+<h2 id="全量复制和部分复制"><a href="#全量复制和部分复制" class="headerlink" title="全量复制和部分复制"></a>全量复制和部分复制</h2><h3 id="全量复制开销"><a href="#全量复制开销" class="headerlink" title="全量复制开销"></a>全量复制开销</h3><ol>
+<li>bgsave时间</li>
+<li>RDB文件网络传输时间</li>
+<li>从节点清空数据时间</li>
+<li>从节点加载RDB的时间</li>
+</ol>
+<h1 id="Redis-Sentinel"><a href="#Redis-Sentinel" class="headerlink" title="Redis Sentinel"></a>Redis Sentinel</h1><h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="/2019/04/07/Redis解读/1567577211.jpg" alt="架构图"></p>
+<h2 id="故障处理"><a href="#故障处理" class="headerlink" title="故障处理"></a>故障处理</h2><ol>
+<li>多个sentinel发现并确认master有问题</li>
+<li>选举出一个sentinel作为领导</li>
+<li>选出一个slave作为master</li>
+<li>通知其余slave成为新的master的slave</li>
+<li>通知客户端主从变化</li>
+<li>等待老的master复活成为新的master的slave</li>
+</ol>
+<h2 id="三个定时任务"><a href="#三个定时任务" class="headerlink" title="三个定时任务"></a>三个定时任务</h2><ol>
+<li>每10秒每个sentinel对master和slave执行info</li>
+</ol>
+<ul>
+<li>发现slave节点</li>
+<li>确认主从关系</li>
+</ul>
+<ol start="2">
+<li>每2秒每个sentinel通过master节点的channel交换信息（pub/sub）</li>
+</ol>
+<ul>
+<li>通过<em>sentinel</em>:hello频道交互</li>
+<li>交互节点的“看法”和自身信息</li>
+</ul>
+<ol start="3">
+<li>每一秒每个sentinel对其他sentinel和redis执行ping</li>
+</ol>
+<ul>
+<li>心跳检测，失败判定依据</li>
+</ul>
+<h1 id="缓存的使用与优化"><a href="#缓存的使用与优化" class="headerlink" title="缓存的使用与优化"></a>缓存的使用与优化</h1><h2 id="缓存的收益与成本"><a href="#缓存的收益与成本" class="headerlink" title="缓存的收益与成本"></a>缓存的收益与成本</h2><h3 id="收益"><a href="#收益" class="headerlink" title="收益"></a>收益</h3><ol>
+<li>加速读写</li>
+<li>降低后端负载</li>
+</ol>
+<h3 id="成本"><a href="#成本" class="headerlink" title="成本"></a>成本</h3><ol>
+<li>数据不一致：缓存层和数据层有时间窗口不一致，和更新策略有关。</li>
+<li>代码维护成本：多了一层缓存逻辑</li>
+</ol>
+<h2 id="缓存更新策略"><a href="#缓存更新策略" class="headerlink" title="缓存更新策略"></a>缓存更新策略</h2><ol>
+<li>LRU/LFU?FIFO算法剔除：例如maxmemory-policy</li>
+<li>超时剔除：例如expire</li>
+<li>主动更新：开发控制生命周期</li>
+</ol>
+<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><ol>
+<li>低一致性：最大内存和淘汰策略</li>
+<li>高一致性：超时剔除和主动更新结合，最大内存和淘汰策略兜底</li>
+</ol>
+<h2 id="缓存粒度控制"><a href="#缓存粒度控制" class="headerlink" title="缓存粒度控制"></a>缓存粒度控制</h2><ol>
+<li>通用性：全量属性更好</li>
+<li>占用空间：部分属性更好</li>
+<li>代码维护：表面上全量属性更好</li>
+</ol>
+<h2 id="缓存穿透问题–大量请求不命中"><a href="#缓存穿透问题–大量请求不命中" class="headerlink" title="缓存穿透问题–大量请求不命中"></a>缓存穿透问题–大量请求不命中</h2><h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ol>
+<li>业务代码自身问题</li>
+<li>恶意攻击、爬虫等等</li>
+</ol>
+<h3 id="解决方法1一缓存空对象"><a href="#解决方法1一缓存空对象" class="headerlink" title="解决方法1一缓存空对象"></a>解决方法1一缓存空对象</h3><p>先从缓存中获取值，如果为空，则进去持久层获取值在放进缓存，如果持久层获取的数据也为空，则设置缓存超时时间</p>
+<h3 id="解决方法2一布隆过滤器拦截"><a href="#解决方法2一布隆过滤器拦截" class="headerlink" title="解决方法2一布隆过滤器拦截"></a>解决方法2一布隆过滤器拦截</h3><h2 id="无底洞问题"><a href="#无底洞问题" class="headerlink" title="无底洞问题"></a>无底洞问题</h2><h2 id="热点key的重建优化"><a href="#热点key的重建优化" class="headerlink" title="热点key的重建优化"></a>热点key的重建优化</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><ol>
+<li>减少重缓存的次数</li>
+<li>数据尽可能一致</li>
+<li>减少潜在危险</li>
+</ol>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><ol>
+<li>互斥锁（mutex key）</li>
+<li>永不过去</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/" title="Redis知识总结" target="_blank" rel="external">https://linxiaobaixcg.github.io/2019/04/07/Redis解读/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/linxiaobaixcg" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/linxiaobaixcg" target="_blank"><span class="text-dark">Mr.Lin</span><small class="ml-1x">Java Developer</small></a></h3>
+        <div>小小搬砖者。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/04/18/Spring%E7%9A%84%E5%AE%B9%E5%99%A8/" title="Spring的容器"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/04/03/Java%E4%B8%AD%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E5%8C%BA%E5%88%AB/" title="Java中深拷贝和浅拷贝的理解和区别"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,966 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    
+    
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/03/18/2019-03-18-%5B%25E4%25BD%2599%25E5%258D%258E--%25E6%25B4%25BB%25E7%259D%2580%5D%25E8%25A7%2582%25E5%2590%258E%25E6%2584%259F/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>余华--活着 观后感</title>
+        <pubTime>2019-03-18T12:16:35.000Z</pubTime>
+        
+        <tag>观后感 </tag>
+         
+         
+           
+             
+              <breadCrumb title="阅读" url="https://linxiaobaixcg.github.io/categories/%25E9%2598%2585%25E8%25AF%25BB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/02/04/API%25E6%258E%25A5%25E5%258F%25A3%25E7%25AD%25BE%25E5%2590%258D%25E5%25AE%259E%25E7%258E%25B0/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>API接口签名实现</title>
+        <pubTime>2021-02-04T12:00:00.000Z</pubTime>
+        
+        <tag>安全 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/05/20/Dockerfile%25E8%25AF%25A6%25E8%25A7%25A3/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Dockerfile详解</title>
+        <pubTime>2020-05-20T12:00:00.000Z</pubTime>
+        
+        <tag>工具 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/04/19/Dubbo%25E5%2585%25A5%25E9%2597%25A8%25E5%25AE%259E%25E6%2588%2598/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Dubbo入门实战</title>
+        <pubTime>2019-04-19T05:18:20.000Z</pubTime>
+        
+        <tag>分布式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/09/03/Dubbo%25E9%25AB%2598%25E5%258F%25AF%25E7%2594%25A8%25E5%259C%25BA%25E6%2599%25AF/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Dubbo的高可用场景</title>
+        <pubTime>2019-09-03T13:50:00.000Z</pubTime>
+        
+        <tag>分布式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/05/25/Java%25E4%25B8%25AD%25E6%258E%25A5%25E5%258F%25A3%25E5%25B9%2582%25E7%25AD%2589%25E6%2580%25A7%25E7%259A%2584%25E8%25A7%25A3%25E5%2586%25B3%25E6%2596%25B9%25E6%25A1%2588/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>接口幂等性的解决方案</title>
+        <pubTime>2019-05-24T16:00:00.000Z</pubTime>
+        
+        <tag>java </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/06/16/ElasticSearch%25E4%25BD%25BF%25E7%2594%25A8Logstash%25E4%25BB%258EMySQL%25E4%25B8%25AD%25E5%2590%258C%25E6%25AD%25A5%25E6%2595%25B0%25E6%258D%25AE/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>ElasticSearch使用Logstash从MySQL中同步数据</title>
+        <pubTime>2020-06-15T16:00:00.000Z</pubTime>
+        
+        <tag>中间件 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/03/16/Java%25E6%25A0%25B8%25E5%25BF%2583%25E6%258A%2580%25E6%259C%25AF1-%25E5%259F%25BA%25E6%259C%25AC%25E7%25A8%258B%25E5%25BA%258F%25E8%25AE%25BE%25E8%25AE%25A1%25E7%25BB%2593%25E6%259E%2584%25E3%2580%2581%25E5%25AF%25B9%25E8%25B1%25A1%25E5%2592%258C%25E7%25B1%25BB/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java核心技术1-基本程序设计结构、对象和类</title>
+        <pubTime>2019-03-16T05:46:00.000Z</pubTime>
+        
+        <tag>java </tag>
+         
+        <tag>技术书籍 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/03/20/Java%25E6%25A0%25B8%25E5%25BF%2583%25E6%258A%2580%25E6%259C%25AF1-%25E5%25B9%25B6%25E5%258F%2591/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java核心技术1-并发</title>
+        <pubTime>2019-03-20T15:00:00.000Z</pubTime>
+        
+        <tag>java </tag>
+         
+        <tag>技术书籍 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/04/03/Java%25E4%25B8%25AD%25E6%25B7%25B1%25E6%258B%25B7%25E8%25B4%259D%25E5%2592%258C%25E6%25B5%2585%25E6%258B%25B7%25E8%25B4%259D%25E7%259A%2584%25E7%2590%2586%25E8%25A7%25A3%25E5%2592%258C%25E5%258C%25BA%25E5%2588%25AB/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java中深拷贝和浅拷贝的理解和区别</title>
+        <pubTime>2019-04-03T15:00:00.000Z</pubTime>
+        
+        <tag>java </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/03/17/Java%25E6%25A0%25B8%25E5%25BF%2583%25E6%258A%2580%25E6%259C%25AF1-%25E6%25B3%259B%25E5%259E%258B%25E7%25A8%258B%25E5%25BA%258F%25E8%25AE%25BE%25E8%25AE%25A1%25E3%2580%2581%25E9%259B%2586%25E5%2590%2588/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java核心技术1-泛型程序设计、集合</title>
+        <pubTime>2019-03-17T15:40:00.000Z</pubTime>
+        
+        <tag>java </tag>
+         
+        <tag>技术书籍 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/03/17/Java%25E6%25A0%25B8%25E5%25BF%2583%25E6%258A%2580%25E6%259C%25AF1-%25E7%25BB%25A7%25E6%2589%25BF%25E3%2580%2581%25E6%258E%25A5%25E5%258F%25A3/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java核心技术1-继承、接口</title>
+        <pubTime>2019-03-17T14:34:00.000Z</pubTime>
+        
+        <tag>java </tag>
+         
+        <tag>技术书籍 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/10/29/Java%25E8%25BF%2590%25E8%25A1%258C%25E6%2597%25B6%25E6%2595%25B0%25E6%258D%25AE%25E5%258C%25BA%25E5%259F%259F/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java运行时数据区域</title>
+        <pubTime>2020-10-28T16:00:00.000Z</pubTime>
+        
+        <tag>技术书籍 </tag>
+         
+        <tag>JVM </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/04/20/MongoDB-%25E6%258C%2581%25E4%25B9%2585%25E5%258C%2596/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>MongoDB-持久化</title>
+        <pubTime>2019-04-19T16:00:00.000Z</pubTime>
+        
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/12/08/MongoDB-%25E5%25B8%25B8%25E7%2594%25A8%25E5%2591%25BD%25E4%25BB%25A4%25E5%258F%258A%25E6%2593%258D%25E4%25BD%259C/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>MongoDB-常用命令及操作</title>
+        <pubTime>2019-12-07T16:00:00.000Z</pubTime>
+        
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/06/16/MyBatis/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>MyBatis中$和#的区别</title>
+        <pubTime>2019-06-16T15:00:00.000Z</pubTime>
+        
+        <tag>框架 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/08/13/Mybatis%25E4%25B8%25AD%25E7%259A%2584%25E6%2596%25B9%25E6%25B3%2595%25E5%2592%258CDAO%25E6%258E%25A5%25E5%258F%25A3%25E6%2596%25B9%25E6%25B3%2595%25E6%2598%25AF%25E6%2580%258E%25E4%25B9%2588%25E7%25BB%2591%25E5%25AE%259A%25E5%2588%25B0%25E4%25B8%2580%25E8%25B5%25B7%25E7%259A%2584/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Mybatis中的方法和DAO接口方法是怎么绑定到一起的</title>
+        <pubTime>2019-08-13T14:00:00.000Z</pubTime>
+        
+        <tag>框架 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/03/01/MySQL/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL中order by与limit一起使用存在的陷阱和解决方法</title>
+        <pubTime>2021-03-01T12:00:00.000Z</pubTime>
+        
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/05/17/Netty%25E6%25A0%25B8%25E5%25BF%2583%25E7%25BB%2584%25E4%25BB%25B6%25E4%25BB%258B%25E7%25BB%258D/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Netty核心组件介绍</title>
+        <pubTime>2021-05-17T12:00:00.000Z</pubTime>
+        
+        <tag>网络编程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/05/12/Spring%2520Security%2520%25E7%258E%25AF%25E5%25A2%2583%25E4%25B8%258B%2520CORS%2520%25E8%25B7%25A8%25E5%259F%259F%25E5%25A4%25B1%25E6%2595%2588%25E9%2597%25AE%25E9%25A2%2598/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring Security环境下CORS跨域失效问题</title>
+        <pubTime>2019-05-12T12:00:00.000Z</pubTime>
+        
+        <tag>Spring集合 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/06/28/Spring%25E4%25B8%25AD%25E4%25BA%258B%25E5%258A%25A1%25E7%259A%2584%25E4%25B8%2583%25E7%25A7%258D%25E4%25BC%25A0%25E6%2592%25AD%25E6%259C%25BA%25E5%2588%25B6%25E5%2592%258C%25E5%259B%259B%25E4%25B8%25AA%25E9%259A%2594%25E7%25A6%25BB%25E7%25BA%25A7%25E5%2588%25AB/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring中事务的七种传播机制和四个隔离级别</title>
+        <pubTime>2019-06-27T16:00:00.000Z</pubTime>
+        
+        <tag>Spring集合 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/04/07/Redis%25E8%25A7%25A3%25E8%25AF%25BB/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Redis知识总结</title>
+        <pubTime>2019-04-07T14:55:00.000Z</pubTime>
+        
+        <tag>中间件 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/04/18/Spring%25E7%259A%2584%25E5%25AE%25B9%25E5%2599%25A8/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring的容器</title>
+        <pubTime>2019-04-18T04:00:00.000Z</pubTime>
+        
+        <tag>Spring集合 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/04/07/TCP%25E6%25B5%2581%25E9%2587%258F%25E6%258E%25A7%25E5%2588%25B6%25E5%2592%258C%25E6%258B%25A5%25E5%25A1%259E%25E6%258E%25A7%25E5%2588%25B6/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>TCP流量控制和拥塞控制</title>
+        <pubTime>2021-04-07T12:00:00.000Z</pubTime>
+        
+        <tag>计算机网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/04/24/TCP%25E7%259A%2584%25E4%25B8%2589%25E6%25AC%25A1%25E6%258F%25A1%25E6%2589%258B%25E5%2592%258C%25E5%259B%259B%25E6%25AC%25A1%25E6%258C%25A5%25E6%2589%258B/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>TCP的三次握手和四次挥手</title>
+        <pubTime>2021-04-24T12:00:00.000Z</pubTime>
+        
+        <tag>计算机网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/02/11/TCP%25E7%25B2%2598%25E5%258C%2585%25E6%258B%2586%25E5%258C%2585%25E5%258F%258A%25E8%25A7%25A3%25E5%2586%25B3%25E6%2596%25B9%25E6%25B3%2595/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>TCP粘包拆包及解决方法</title>
+        <pubTime>2020-02-11T12:00:00.000Z</pubTime>
+        
+        <tag>计算机网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/03/10/Unix%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B8%258B%25E7%259A%2584%25E4%25BA%2594%25E7%25A7%258DIO%25E6%25A8%25A1%25E5%259E%258B/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>Unix系统下的五种IO模型</title>
+        <pubTime>2021-03-10T12:00:00.000Z</pubTime>
+        
+        <tag>计算机网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/03/23/%25E4%25B8%25AA%25E4%25BA%25BA%25E5%25AF%25B9%25E4%25BA%258EVuex%25E7%259A%2584%25E7%2590%2586%25E8%25A7%25A3/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>个人对于Vuex的理解</title>
+        <pubTime>2019-03-23T12:46:00.000Z</pubTime>
+        
+        <tag>前端 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/10/15/%5B%25E8%25B7%25AF%25E9%2581%25A5--%25E5%25B9%25B3%25E5%2587%25A1%25E7%259A%2584%25E4%25B8%2596%25E7%2595%258C%5D%25E8%25A7%2582%25E5%2590%258E%25E6%2584%259F/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>路遥--平凡的世界 观后感</title>
+        <pubTime>2019-10-15T02:40:00.000Z</pubTime>
+        
+        <tag>观后感 </tag>
+         
+         
+           
+             
+              <breadCrumb title="阅读" url="https://linxiaobaixcg.github.io/categories/%25E9%2598%2585%25E8%25AF%25BB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/05/02/%25E4%25BD%25BF%25E7%2594%25A8Docker%25E6%2590%25AD%25E5%25BB%25BAMongoDB%25E5%2589%25AF%25E6%259C%25AC%25E9%259B%2586/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用Docker搭建MongoDB副本集</title>
+        <pubTime>2021-05-02T12:00:00.000Z</pubTime>
+        
+        <tag>DevOps </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/08/31/%25E4%25BD%25BF%25E7%2594%25A8ELK%25E5%2581%259A%25E6%2597%25A5%25E5%25BF%2597%25E6%2594%25B6%25E9%259B%2586/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用ELK做日志收集</title>
+        <pubTime>2020-08-30T16:00:00.000Z</pubTime>
+        
+        <tag>中间件 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/09/28/%25E4%25BD%25BF%25E7%2594%25A8Nginx%25E9%2585%258D%25E7%25BD%25AEHTTPS%25E5%2592%258C%25E5%2589%258D%25E7%25AB%25AF%25E5%25A4%259A%25E7%259B%25AE%25E5%25BD%2595%25E9%2583%25A8%25E7%25BD%25B2/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用Nginx配置HTTPS和前端多目录部署</title>
+        <pubTime>2020-09-28T12:00:00.000Z</pubTime>
+        
+        <tag>中间件 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/03/26/%25E4%25BD%25BF%25E7%2594%25A8Spring%2520AOP%25E5%2592%258C%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589%25E6%25B3%25A8%25E8%25A7%25A3%25E8%25AE%25B0%25E5%25BD%2595%25E6%2597%25A5%25E5%25BF%2597/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用Spring AOP和自定义注解记录日志</title>
+        <pubTime>2019-03-26T13:57:00.000Z</pubTime>
+        
+        <tag>Spring集合 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/05/06/%25E4%25BD%25BF%25E7%2594%25A8Redis%25E5%2588%2586%25E5%25B8%2583%25E5%25BC%258F%25E9%2594%2581%25E8%25A7%25A3%25E5%2586%25B3%25E5%25B9%25B6%25E5%258F%2591%25E9%2597%25AE%25E9%25A2%2598/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用Redis分布式锁解决并发问题</title>
+        <pubTime>2019-05-06T14:31:00.000Z</pubTime>
+        
+        <tag>中间件 </tag>
+         
+        <tag>并发 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/09/03/%25E4%25BD%25BF%25E7%2594%25A8%25E4%25BB%25A4%25E7%2589%258C%25E6%25A1%25B6%25E7%25AE%2597%25E6%25B3%2595%25E9%2599%2590%25E6%25B5%2581/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用令牌桶算法限流</title>
+        <pubTime>2019-09-03T13:34:00.000Z</pubTime>
+        
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/01/05/%25E5%2588%2586%25E5%25B8%2583%25E5%25BC%258F%25E5%2594%25AF%25E4%25B8%2580ID-%25E9%259B%25AA%25E8%258A%25B1%25E7%25AE%2597%25E6%25B3%2595%25E7%259A%2584%25E5%258E%259F%25E7%2590%2586%25E5%2592%258C%25E5%25AE%259E%25E7%258E%25B0/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>分布式唯一ID-雪花算法的原理和实现</title>
+        <pubTime>2020-01-05T11:00:00.000Z</pubTime>
+        
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/11/10/%25E5%259E%2583%25E5%259C%25BE%25E6%2594%25B6%25E9%259B%2586%25E5%2599%25A8/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>垃圾收集器</title>
+        <pubTime>2020-11-10T12:00:00.000Z</pubTime>
+        
+        <tag>技术书籍 </tag>
+         
+        <tag>JVM </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/03/16/%25E6%2588%2591%25E7%259A%2584%25E7%25AC%25AC%25E4%25B8%2580%25E7%25AF%2587%25E5%258D%259A%25E5%25AE%25A2/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>我的第一篇博客</title>
+        <pubTime>2019-03-16T02:26:08.000Z</pubTime>
+        
+        <tag>blog </tag>
+         
+         
+           
+             
+              <breadCrumb title="博客" url="https://linxiaobaixcg.github.io/categories/%25E5%258D%259A%25E5%25AE%25A2/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/07/21/%25E6%25B7%25B1%25E5%2585%25A5WEB%25E8%25AF%25B7%25E6%25B1%2582%25E8%25BF%2587%25E7%25A8%258B/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>深入WEB请求过程</title>
+        <pubTime>2020-07-21T12:00:00.000Z</pubTime>
+        
+        <tag>计算机网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/11/29/%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E4%25BC%2598%25E5%258C%2596/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>数据库优化</title>
+        <pubTime>2019-11-29T11:17:00.000Z</pubTime>
+        
+        <tag>数据库 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/04/02/%25E6%25B5%2585%25E8%25B0%2588%25E8%25AE%25A1%25E7%25AE%2597%25E6%259C%25BA%25E7%25BD%2591%25E7%25BB%259C%25E4%25B8%25AD%25E7%259A%2584%25E4%25B8%2589%25E7%25A7%258D%25E5%258F%25AF%25E9%259D%25A0%25E4%25BC%25A0%25E8%25BE%2593%25E6%259C%25BA%25E5%2588%25B6/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>浅谈计算机网络中的三种可靠传输机制</title>
+        <pubTime>2021-04-02T12:00:00.000Z</pubTime>
+        
+        <tag>计算机网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/05/16/%25E7%25BD%2591%25E7%25BB%259C%25E7%25BC%2596%25E7%25A8%258B%25E7%25AC%2594%25E8%25AE%25B0/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>网络编程知识总结</title>
+        <pubTime>2019-05-16T13:53:00.000Z</pubTime>
+        
+        <tag>计算机网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/12/15/%25E8%2599%259A%25E6%258B%259F%25E6%259C%25BA%25E5%25AD%2597%25E8%258A%2582%25E7%25A0%2581%25E6%2589%25A7%25E8%25A1%258C%25E5%25BC%2595%25E6%2593%258E/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>虚拟机字节码执行引擎</title>
+        <pubTime>2020-12-15T12:00:00.000Z</pubTime>
+        
+        <tag>技术书籍 </tag>
+         
+        <tag>JVM </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/12/08/%25E8%2599%259A%25E6%258B%259F%25E6%259C%25BA%25E7%25B1%25BB%25E5%258A%25A0%25E8%25BD%25BD%25E6%259C%25BA%25E5%2588%25B6/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>虚拟机类加载机制</title>
+        <pubTime>2020-12-08T12:00:00.000Z</pubTime>
+        
+        <tag>技术书籍 </tag>
+         
+        <tag>JVM </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2019/08/26/%25E8%25A7%25A3%25E8%25AF%25BBSPDY%25E5%258D%258F%25E8%25AE%25AE/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>解读SPDY协议</title>
+        <pubTime>2019-08-26T14:16:00.000Z</pubTime>
+        
+        <tag>计算机网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2021/01/20/%25E8%25A7%25A3%25E5%2586%25B3Spring%2520Boot%25E5%25BC%2582%25E6%25AD%25A5%25E4%25B8%258A%25E4%25BC%25A0%25E6%2596%2587%25E4%25BB%25B6%25E6%258F%2590%25E7%25A4%25BA%25E6%2597%25A0%25E6%25B3%2595%25E6%2589%25BE%25E5%2588%25B0%25E6%2596%2587%25E4%25BB%25B6%25E9%2597%25AE%25E9%25A2%2598/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>解决Spring Boot异步上传文件提示无法找到文件问题</title>
+        <pubTime>2021-01-20T12:00:00.000Z</pubTime>
+        
+        <tag>Spring集合 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://linxiaobaixcg.github.io/2020/10/10/%25E8%25BD%25AF%25E4%25BB%25B6%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B8%25AD%25E5%25B8%25B8%25E8%25A7%2581%25E7%259A%2584%25E5%258A%25A0%25E5%25AF%2586%25E7%25AE%2597%25E6%25B3%2595/</loc>
+    <lastmod>2021-11-20T15:34:50.000Z</lastmod>
+    <data>
+        <display>
+        <title>软件系统中常见的加密算法和实现</title>
+        <pubTime>2020-10-10T12:00:00.000Z</pubTime>
+        
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="编程" url="https://linxiaobaixcg.github.io/categories/%25E7%25BC%2596%25E7%25A8%258B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+</urlset>

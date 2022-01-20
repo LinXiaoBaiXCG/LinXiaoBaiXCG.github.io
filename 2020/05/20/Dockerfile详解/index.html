@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Dockerfile详解 | Hexo</title>
+  <meta name="description" content="Dockerfile？Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。 Dockerfile的指令Dockerfile的十三个基本指令：    类型 命令     基础镜像信息 FROM   维护者信息 MAINTAINER   镜像操作指令 RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME、ENV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dockerfile详解">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2020/05/20/Dockerfile%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="Dockerfile？Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。 Dockerfile的指令Dockerfile的十三个基本指令：    类型 命令     基础镜像信息 FROM   维护者信息 MAINTAINER   镜像操作指令 RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME、ENV">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-05-20T12:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2020/05/20/Dockerfile%E8%AF%A6%E8%A7%A3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="LinChuangQiong&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/linxiaobaixcg" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Mr.Lin</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Java Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a><span class="category-list-count">44</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring%E9%9B%86%E5%90%88/" rel="tag">Spring集合</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" rel="tag">观后感</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DevOps/" style="font-size: 13px;">DevOps</a> <a href="/tags/JVM/" style="font-size: 13.5px;">JVM</a> <a href="/tags/Spring%E9%9B%86%E5%90%88/" style="font-size: 13.67px;">Spring集合</a> <a href="/tags/blog/" style="font-size: 13px;">blog</a> <a href="/tags/java/" style="font-size: 13.83px;">java</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 13.67px;">中间件</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 13.17px;">分布式</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13px;">安全</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 13px;">并发</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" style="font-size: 14px;">技术书籍</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.5px;">数据库</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13.17px;">框架</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 13px;">网络编程</a> <a href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 13.17px;">观后感</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/17/Netty%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="title">Netty核心组件介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-17T12:00:00.000Z" itemprop="datePublished">2021-05-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/02/%E4%BD%BF%E7%94%A8Docker%E6%90%AD%E5%BB%BAMongoDB%E5%89%AF%E6%9C%AC%E9%9B%86/" class="title">使用Docker搭建MongoDB副本集</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-02T12:00:00.000Z" itemprop="datePublished">2021-05-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">TCP的三次握手和四次挥手</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-24T12:00:00.000Z" itemprop="datePublished">2021-04-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/" class="title">TCP流量控制和拥塞控制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-07T12:00:00.000Z" itemprop="datePublished">2021-04-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/02/%E6%B5%85%E8%B0%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E6%9C%BA%E5%88%B6/" class="title">浅谈计算机网络中的三种可靠传输机制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-02T12:00:00.000Z" itemprop="datePublished">2021-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Dockerfile详解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Dockerfile详解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/05/20/Dockerfile%E8%AF%A6%E8%A7%A3/" class="article-date">
+	  <time datetime="2020-05-20T12:00:00.000Z" itemprop="datePublished">2020-05-20</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/05/20/Dockerfile%E8%AF%A6%E8%A7%A3/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 2.1k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 8(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Dockerfile？"><a href="#Dockerfile？" class="headerlink" title="Dockerfile？"></a>Dockerfile？</h1><p>Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。</p>
+<h1 id="Dockerfile的指令"><a href="#Dockerfile的指令" class="headerlink" title="Dockerfile的指令"></a>Dockerfile的指令</h1><p>Dockerfile的十三个基本指令：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础镜像信息</td>
+<td>FROM</td>
+</tr>
+<tr>
+<td>维护者信息</td>
+<td>MAINTAINER</td>
+</tr>
+<tr>
+<td>镜像操作指令</td>
+<td>RUN、COPY、ADD、EXPOSE、WORKDIR、ONBUILD、USER、VOLUME、ENV</td>
+</tr>
+<tr>
+<td>容器启动时执行指令</td>
+<td>CMD、ENTRYPOINT</td>
+</tr>
+</tbody>
+</table>
+<h2 id="FROM：指定基础镜像"><a href="#FROM：指定基础镜像" class="headerlink" title="FROM：指定基础镜像"></a>FROM：指定基础镜像</h2><p>所谓定制镜像，那一定是以一个镜像为基础，在其上进行定制。基础镜像是必须指定的，并且必须是第一条指令。</p>
+<p>如：指定centos作为基础镜像</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> centos</span><br></pre></td></tr></table></figure>
+<h2 id="MAINTAINER：指定作者"><a href="#MAINTAINER：指定作者" class="headerlink" title="MAINTAINER：指定作者"></a>MAINTAINER：指定作者</h2><p>用来指定dockerfile的作者名称和邮箱，主要作用是为了标识软件的所有者是谁。<br>语法：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAINTAINER <span class="tag">&lt;<span class="name">name</span>&gt;</span> <span class="tag">&lt;<span class="name">email</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAINTAINER <span class="built_in">auto</span>r_xxx <span class="symbol">xxx@</span>qq.com</span><br></pre></td></tr></table></figure>
+<h2 id="RUN：执行命令"><a href="#RUN：执行命令" class="headerlink" title="RUN：执行命令"></a>RUN：执行命令</h2><p>RUN指令在新镜像内部执行的命令，如：执行某些动作、安装系统软件、配置系统信息之类，</p>
+<p>格式如下两种：</p>
+<ol>
+<li><p>shell格式：RUN&lt; command &gt; ，就像直接在命令行中输入的命令一样。</p>
+</li>
+<li><p>exec格式：RUN [“可执行文件”, “参数1”, “参数2”]</p>
+</li>
+</ol>
+<p>如在新镜像中用yum方式安装nginx：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> [<span class="string">"yum"</span>,<span class="string">"install"</span>,<span class="string">"nginx"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>注：多行命令不要写多个RUN，原因是Dockerfile中每一个指令都会建立一层.多少个RUN就构建了多少层镜像，会造成镜像的臃肿、多层，不仅仅增加了构件部署的时间，还容易出错,RUN书写时的换行符是\</p>
+<h2 id="COPY：复制文件"><a href="#COPY：复制文件" class="headerlink" title="COPY：复制文件"></a>COPY：复制文件</h2><p>COPY命令用于将宿主机器上的的文件复制到镜像内，如果目的位置不存在，Docker会自动创建。但宿主机器用要复制的目录必须是和Dockerfile文件统计目录下。</p>
+<p>格式：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">COPY [--chown=<span class="tag">&lt;<span class="name">user</span>&gt;</span>:<span class="tag">&lt;<span class="name">group</span>&gt;</span>] <span class="tag">&lt;<span class="name">源路径</span>&gt;</span>... <span class="tag">&lt;<span class="name">目标路径</span>&gt;</span></span><br><span class="line">COPY [--chown=<span class="tag">&lt;<span class="name">user</span>&gt;</span>:<span class="tag">&lt;<span class="name">group</span>&gt;</span>] ["<span class="tag">&lt;<span class="name">源路径1</span>&gt;</span>",... "<span class="tag">&lt;<span class="name">目标路径</span>&gt;</span>"]</span><br></pre></td></tr></table></figure>
+<p>如把宿主机中的package.json文件复制到容器中/usr/src/app/目录下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span> <span class="keyword">package</span>.json <span class="regexp">/usr/</span>src<span class="regexp">/app/</span></span><br></pre></td></tr></table></figure>
+<h2 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h2><p>ADD 指令和 COPY 的使用格式一致（同样需求下，官方推荐使用 COPY）。功能也类似，不同之处如下：</p>
+<ul>
+<li>ADD 的优点：在执行 &lt;源文件&gt; 为 tar 压缩文件的话，压缩格式为 gzip, bzip2 以及 xz 的情况下，会自动复制并解压到 &lt;目标路径&gt;。</li>
+<li>ADD 的缺点：在不解压的前提下，无法复制 tar 压缩文件。会令镜像构建缓存失效，从而可能会令镜像构建变得比较缓慢。具体是否使用，可以根据是否需要自动解压来决定。</li>
+</ul>
+<h2 id="EXPOSE：暴露端口"><a href="#EXPOSE：暴露端口" class="headerlink" title="EXPOSE：暴露端口"></a>EXPOSE：暴露端口</h2><p>EXPOSE命名适用于设置容器对外映射的容器端口号，如tomcat容器内使用的端口8081，则用EXPOSE命令可以告诉外界该容器的8081端口对外，在构建镜像时<br>用docker run -p可以设置暴露的端口对宿主机器端口的映射。</p>
+<p>语法：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE &lt;端口<span class="number">1</span>&gt; [&lt;端口<span class="number">2</span>&gt;...]</span><br></pre></td></tr></table></figure>
+<p>如：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE <span class="number">8081</span></span><br></pre></td></tr></table></figure>
+<p>EXPOSE 8081 其实等价于 docker run -p 8081 当需要把8081端口映射到宿主机中的某个端口（如8888）以便外界访问时，则可以用docker run -p 8888:8081</p>
+<h2 id="WORKDIR：配置工作目录"><a href="#WORKDIR：配置工作目录" class="headerlink" title="WORKDIR：配置工作目录"></a>WORKDIR：配置工作目录</h2><p>WORKDIR命令是为RUN、CMD、ENTRYPOINT指令配置工作目录。其效果类似于Linux命名中的cd命令，用于目录的切换，但是和cd不一样的是：如果切换到的目录不存在，WORKDIR会为此创建目录。</p>
+<p>语法:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> path</span></span><br></pre></td></tr></table></figure>
+<h2 id="ONBUILD"><a href="#ONBUILD" class="headerlink" title="ONBUILD"></a>ONBUILD</h2><p>ONBUILD用于配置当前所创建的镜像作为其它新创建镜像的基础镜像时，所执行的操作指令。<br>意思就是：这个镜像创建后，如果其它镜像以这个镜像为基础，会先执行这个镜像的ONBUILD命令<br>格式：</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ONBUILD <span class="string">[INSTRUCTION]</span></span><br></pre></td></tr></table></figure>
+<h2 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h2><p>用于指定执行后续命令的用户和用户组，这边只是切换后续命令执行的用户（用户和用户组必须提前已经存在）。</p>
+<p>格式：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USER <span class="tag">&lt;<span class="name">用户名</span>&gt;</span>[:<span class="tag">&lt;<span class="name">用户组</span>&gt;</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h3><p>定义匿名数据卷。在启动容器时忘记挂载数据卷，会自动挂载到匿名卷。</p>
+<p>作用：</p>
+<ul>
+<li>避免重要的数据，因容器重启而丢失，这是非常致命的。</li>
+<li>避免容器不断变大。</li>
+</ul>
+<p>格式：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"&lt;路径1&gt;"</span>, <span class="string">"&lt;路径2&gt;"</span>...]</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> &lt;路径&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在启动容器 docker run 的时候，我们可以通过 -v 参数修改挂载点。</p>
+<h2 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h2><p>设置环境变量，定义了环境变量，那么在后续的指令中，就可以使用这个环境变量。</p>
+<p>格式：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV <span class="tag">&lt;<span class="name">key</span>&gt;</span> <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">ENV <span class="tag">&lt;<span class="name">key1</span>&gt;</span>=<span class="tag">&lt;<span class="name">value1</span>&gt;</span> <span class="tag">&lt;<span class="name">key2</span>&gt;</span>=<span class="tag">&lt;<span class="name">value2</span>&gt;</span>...</span><br></pre></td></tr></table></figure>
+<p>以下示例设置 NODE_VERSION = 7.2.0 ， 在后续的指令中可以通过 $NODE_VERSION 引用：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> NODE_VERSION <span class="number">7.2</span>.<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> curl -SLO <span class="string">"https://nodejs.org/dist/v<span class="variable">$NODE_VERSION</span>/node-v<span class="variable">$NODE_VERSION</span>-linux-x64.tar.xz"</span> \</span></span><br><span class="line"><span class="bash">  &amp;&amp; curl -SLO <span class="string">"https://nodejs.org/dist/v<span class="variable">$NODE_VERSION</span>/SHASUMS256.txt.asc"</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>类似于 RUN 指令，用于运行程序，但二者运行的时间点不同:</p>
+<ul>
+<li>CMD 在docker run 时运行。</li>
+<li>RUN 是在 docker build。</li>
+</ul>
+<p><strong>作用</strong>：为启动的容器指定默认要运行的程序，程序运行结束，容器也就结束。CMD 指令指定的程序可被 docker run 命令行参数中指定要运行的程序所覆盖。</p>
+<p><strong>注意</strong>：如果 Dockerfile 中如果存在多个 CMD 指令，仅最后一个生效。</p>
+<p>格式：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="bash"> &lt;shell 命令&gt; </span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"&lt;可执行文件或命令&gt;"</span>,<span class="string">"&lt;param1&gt;"</span>,<span class="string">"&lt;param2&gt;"</span>,...] </span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"&lt;param1&gt;"</span>,<span class="string">"&lt;param2&gt;"</span>,...]  <span class="comment"># 该写法是为 ENTRYPOINT 指令指定的程序提供默认参数</span></span></span><br></pre></td></tr></table></figure>
+<p>推荐使用第二种格式，执行过程比较明确。第一种格式实际上在运行的过程中也会自动转换成第二种格式运行，并且默认可执行文件是 sh。</p>
+<h2 id="ENTRYPOINT：容器启动执行命名"><a href="#ENTRYPOINT：容器启动执行命名" class="headerlink" title="ENTRYPOINT：容器启动执行命名"></a>ENTRYPOINT：容器启动执行命名</h2><p>ENTRYPOINT的作用和用法和CMD一模一样，但是ENTRYPOINT有和CMD有2处不一样：</p>
+<ol>
+<li>CMD的命令会被docker run的命令覆盖而ENTRYPOINT不会</li>
+<li>CMD和ENTRYPOINT都存在时，CMD的指令变成了ENTRYPOINT的参数，并且此CMD提供的参数会被 docker run 后面的命令覆盖</li>
+</ol>
+<p>示例：</p>
+<p>假设已通过 Dockerfile 构建了 nginx:test 镜像：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"nginx"</span>, <span class="string">"-c"</span>] <span class="comment"># 定参</span></span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"/etc/nginx/nginx.conf"</span>] <span class="comment"># 变参</span></span></span><br></pre></td></tr></table></figure>
+<p>1、不传参运行</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="keyword">run</span><span class="bash">  nginx:<span class="built_in">test</span></span></span><br></pre></td></tr></table></figure>
+<p>容器内会默认运行以下命令，启动主进程。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -c <span class="regexp">/etc/</span>nginx<span class="regexp">/nginx.conf</span></span><br></pre></td></tr></table></figure>
+<p>2、传参运行</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="keyword">run</span><span class="bash">  nginx:<span class="built_in">test</span> -c /etc/nginx/new.conf</span></span><br></pre></td></tr></table></figure>
+<p>容器内会默认运行以下命令，启动主进程(/etc/nginx/new.conf:假设容器内已有此文件)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -c <span class="regexp">/etc/</span>nginx/<span class="keyword">new</span>.conf</span><br></pre></td></tr></table></figure>
+<h1 id="编写Dockerfile"><a href="#编写Dockerfile" class="headerlink" title="编写Dockerfile"></a>编写Dockerfile</h1><p>示例：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在centos上安装nginx</span></span><br><span class="line"><span class="keyword">FROM</span> centos</span><br><span class="line"><span class="comment">#标明著作人的名称和邮箱</span></span><br><span class="line">MAINTAINER jiabuli 649917837@qq.com</span><br><span class="line"><span class="comment">#测试一下网络环境</span></span><br><span class="line"><span class="builtin-name">RUN</span><span class="built_in"> ping </span>-c 1 www.baidu.com</span><br><span class="line"><span class="comment">#安装nginx必要的一些软件</span></span><br><span class="line"><span class="builtin-name">RUN</span> yum -y install gcc make pcre-devel zlib-devel tar zlib</span><br><span class="line"><span class="comment">#把nginx安装包复制到/usr/src/目录下</span></span><br><span class="line"><span class="builtin-name">ADD</span> nginx-1.15.8.tar.gz /usr/src/</span><br><span class="line"><span class="comment">#切换到/usr/src/nginx-1.15.8编译并且安装nginx</span></span><br><span class="line"><span class="builtin-name">RUN</span> cd /usr/src/nginx-1.15.8 \</span><br><span class="line">    &amp;&amp; mkdir /usr/local/nginx \</span><br><span class="line">    &amp;&amp; ./configure <span class="attribute">--prefix</span>=/usr/local/nginx &amp;&amp; make &amp;&amp; make install \</span><br><span class="line">    &amp;&amp; ln -s /usr/local/nginx/sbin/nginx /usr/local/sbin/ \</span><br><span class="line">    &amp;&amp; nginx</span><br><span class="line"><span class="comment">#删除安装nginx安装目录</span></span><br><span class="line"><span class="builtin-name">RUN</span> rm -rf /usr/src/nginx-nginx-1.15.8</span><br><span class="line"><span class="comment">#对外暴露80端口</span></span><br><span class="line">EXPOSE 80</span><br><span class="line"><span class="comment">#启动nginx</span></span><br><span class="line">CMD [<span class="string">"nginx"</span>, <span class="string">"-g"</span>, <span class="string">"daemon off;"</span>]</span><br></pre></td></tr></table></figure>
+<h1 id="使用Dockerfile构建镜像"><a href="#使用Dockerfile构建镜像" class="headerlink" title="使用Dockerfile构建镜像"></a>使用Dockerfile构建镜像</h1><h2 id="构建流程"><a href="#构建流程" class="headerlink" title="构建流程"></a>构建流程</h2><ol>
+<li>上传安装包</li>
+</ol>
+<p>首先我们需要把要构建的软件安装包上传到服务器中，我们可以在服务器目录上创建一个专门的文件夹，如：/var/nginx_build,然后把从nginx官网下载的nginx-1.15.8.tar.gz安装包上传到这个目录里。</p>
+<ol start="2">
+<li>编写Dockerfile</li>
+</ol>
+<p>如何编写nginx的Dockerfile上面已经详细介绍，现在我们只需把编写好的Dockerfile上传到/var/nginx_build目录下，当然你也可以在服务器上直接编写Dockerfile，但是要记得一定保证Dockerfile文件和安装包在一个目录下。</p>
+<ol start="3">
+<li>运行构建命令构建</li>
+</ol>
+<p>docker build 命令用于使用 Dockerfile 创建镜像。</p>
+<p>格式：</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build [OPTIONS] PATH |<span class="string"> URL </span>|<span class="string"> -</span></span><br></pre></td></tr></table></figure>
+<p>OPTIONS有很多指令，下面列举几个常用的：</p>
+<blockquote>
+<ul>
+<li>–build-arg=[] :设置镜像创建时的变量；</li>
+<li>-f :指定要使用的Dockerfile路径；</li>
+<li>–force-rm :设置镜像过程中删除中间容器；</li>
+<li>–rm :设置镜像成功后删除中间容器；</li>
+<li>–tag, -t: 镜像的名字及标签，通常 name:tag 或者 name 格式；</li>
+</ul>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://linxiaobaixcg.github.io/2020/05/20/Dockerfile%E8%AF%A6%E8%A7%A3/" title="Dockerfile详解" target="_blank" rel="external">https://linxiaobaixcg.github.io/2020/05/20/Dockerfile详解/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/linxiaobaixcg" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/linxiaobaixcg" target="_blank"><span class="text-dark">Mr.Lin</span><small class="ml-1x">Java Developer</small></a></h3>
+        <div>小小搬砖者。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/06/16/ElasticSearch%E4%BD%BF%E7%94%A8Logstash%E4%BB%8EMySQL%E4%B8%AD%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/" title="ElasticSearch使用Logstash从MySQL中同步数据"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="TCP粘包拆包及解决方法"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

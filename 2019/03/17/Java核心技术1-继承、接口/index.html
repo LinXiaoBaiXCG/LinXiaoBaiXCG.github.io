@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Java核心技术1-继承、接口 | Hexo</title>
+  <meta name="description" content="读《Java核心技术1》记录知识点  继承类、超类和子类 利用继承，人们可以基于已存在的类构造一个新类。继承已存在的类就是复用（继承）这些类的方法和域。在此基础上，还可以添加一些新的方法和域， 以满足新的需求。这是 Java 程序设计中的一项核心技术。    反射是指在程序运行期间发现更多的类及其属性的能力。   可以使用特定的关键字 super调用父类的方法。  可以通过 super 实现对超">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java核心技术1-继承、接口">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E7%BB%A7%E6%89%BF%E3%80%81%E6%8E%A5%E5%8F%A3/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="读《Java核心技术1》记录知识点  继承类、超类和子类 利用继承，人们可以基于已存在的类构造一个新类。继承已存在的类就是复用（继承）这些类的方法和域。在此基础上，还可以添加一些新的方法和域， 以满足新的需求。这是 Java 程序设计中的一项核心技术。    反射是指在程序运行期间发现更多的类及其属性的能力。   可以使用特定的关键字 super调用父类的方法。  可以通过 super 实现对超">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-17T14:34:00.000Z">
+<meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="技术书籍">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E7%BB%A7%E6%89%BF%E3%80%81%E6%8E%A5%E5%8F%A3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="LinChuangQiong&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/linxiaobaixcg" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Mr.Lin</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Java Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a><span class="category-list-count">44</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring%E9%9B%86%E5%90%88/" rel="tag">Spring集合</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" rel="tag">观后感</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DevOps/" style="font-size: 13px;">DevOps</a> <a href="/tags/JVM/" style="font-size: 13.5px;">JVM</a> <a href="/tags/Spring%E9%9B%86%E5%90%88/" style="font-size: 13.67px;">Spring集合</a> <a href="/tags/blog/" style="font-size: 13px;">blog</a> <a href="/tags/java/" style="font-size: 13.83px;">java</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 13.67px;">中间件</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 13.17px;">分布式</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13px;">安全</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 13px;">并发</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" style="font-size: 14px;">技术书籍</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.5px;">数据库</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13.17px;">框架</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 13px;">网络编程</a> <a href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 13.17px;">观后感</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/17/Netty%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="title">Netty核心组件介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-17T12:00:00.000Z" itemprop="datePublished">2021-05-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/02/%E4%BD%BF%E7%94%A8Docker%E6%90%AD%E5%BB%BAMongoDB%E5%89%AF%E6%9C%AC%E9%9B%86/" class="title">使用Docker搭建MongoDB副本集</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-02T12:00:00.000Z" itemprop="datePublished">2021-05-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">TCP的三次握手和四次挥手</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-24T12:00:00.000Z" itemprop="datePublished">2021-04-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/" class="title">TCP流量控制和拥塞控制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-07T12:00:00.000Z" itemprop="datePublished">2021-04-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/02/%E6%B5%85%E8%B0%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E6%9C%BA%E5%88%B6/" class="title">浅谈计算机网络中的三种可靠传输机制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-02T12:00:00.000Z" itemprop="datePublished">2021-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java核心技术1-继承、接口" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java核心技术1-继承、接口
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E7%BB%A7%E6%89%BF%E3%80%81%E6%8E%A5%E5%8F%A3/" class="article-date">
+	  <time datetime="2019-03-17T14:34:00.000Z" itemprop="datePublished">2019-03-17</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/java/" rel="tag">java</a>, <a class="article-tag-link-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E7%BB%A7%E6%89%BF%E3%80%81%E6%8E%A5%E5%8F%A3/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 5.4k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 18(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>读《Java核心技术1》记录知识点</p>
+</blockquote>
+<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><h2 id="类、超类和子类"><a href="#类、超类和子类" class="headerlink" title="类、超类和子类"></a>类、超类和子类</h2><ol>
+<li><p>利用继承，人们可以基于已存在的类构造一个新类。继承已存在的类就是复用（继承）这些类的方法和域。在此基础上，还可以添加一些新的方法和域， 以满足新的需求。这是 Java 程序设计中的一项核心技术。  </p>
+</li>
+<li><p>反射是指在程序运行期间发现更多的类及其属性的能力。 </p>
+</li>
+<li><p>可以使用特定的关键字 super调用父类的方法。</p>
+</li>
+<li><p>可以通过 super 实现对超类构造器的调用。使用super 调用构造器的语句必须是子类构造器的第一条语句。 </p>
+</li>
+<li><p>如果子类的构造器没有显式地调用超类的构造器， 则将自动地调用超类默认（没有参数 )的构造器。 如果超类没有不带参数的构造器， 并且在子类的构造器中又没有显式地调用超类的其他构造器，则 Java 编译器将报告错误。  </p>
+</li>
+<li><p>一个对象变量（例如， 变量 e ) 可以指示多种实际类型的现象被称为多态（ polymorphism)。<br>在运行时能够自动地选择调用哪个方法的现象称为动态绑定（dynamic binding）。 </p>
+</li>
+<li><p>在 Java 中， 不需要将方法声明为虚拟方法。动态绑定是默认的处理方式。如果不希望让一个方法具有虚拟特征， 可以将它标记为 final </p>
+</li>
+<li><p>对于 final 域来说，构造对象之后就不允许改变它们的值了。 不过， 如果将一个类声明为 final， 只有其中的方法自动地成为 final,而不包括域。 </p>
+</li>
+<li><p>为了提高程序的清晰度， 包含一个或多个抽象方法的类本身必须被声明为抽象的。 </p>
+</li>
+<li><p>抽象方法之外，抽象类还可以包含具体数据和具体方法。 </p>
+</li>
+<li><p>类即使不含抽象方法，也可以将类声明为抽象类。<br>抽象类不能被实例化。也就是说， 如果将一个类声明为 abstract, 就不能创建这个类的对象 </p>
+</li>
+<li><p>归纳一下 Java 用于控制可见性的 4 个访问修饰符：<br>1 ) 仅对本类可见 private。<br>2 ) 对所有类可见 public。<br>3 ) 对本包和所有子类可见 protected。<br>4 ) 对本包可见—默认（很遗憾，) 不需要修饰符。</p>
+</li>
+</ol>
+<h2 id="Object：所有类的超类"><a href="#Object：所有类的超类" class="headerlink" title="Object：所有类的超类"></a>Object：所有类的超类</h2><ol>
+<li>Object 类是 Java 中所有类的始祖， 在 Java 中每个类都是由它扩展而来的。</li>
+<li>在 Java 中， 只有基本类型 （ primitive types) 不是对象， 例如，数值、 字符和布尔类型的值都不是对象。 </li>
+<li>Object 类中的 equals 方法用于检测一个对象是否等于另外一个对象。  </li>
+<li>散列码（ hash code ) 是由对象导出的一个整型值。 散列码是没有规律的。如果 x 和 y 是两个不同的对象， x.hashCode( ) 与 y.hashCode( ) 基本上不会相同。</li>
+<li>如果重新定义 equals方法， 就必须重新定义 hashCode 方法， 以便用户可以将对象插入到散列表中。</li>
+</ol>
+<h2 id="泛型数组列表（ArrayList）"><a href="#泛型数组列表（ArrayList）" class="headerlink" title="泛型数组列表（ArrayList）"></a>泛型数组列表（ArrayList）</h2><ol>
+<li><p>ArrayList在添加或删除元素时， 具有自动调节数组容量的功能，而不需要为此编写任何代码。 </p>
+</li>
+<li><p>数组列表管理着对象引用的一个内部数组。最终， 数组的全部空间有可能被用尽。这就显现出数组列表的操作魅力： 如果调用 add 且内部数组已经满了，数组列表就将自动地创建一个更大的数组，并将所有的对象从较小的数组中拷贝到较大的数组中。 </p>
+</li>
+<li><p>如果已经清楚或能够估计出数组可能存储的元素数量， 就可以在填充数组之前调用<br>ensureCapacity方法：<br>staff.ensureCapacity(lOO);<br>这个方法调用将分配一个包含 100 个对象的内部数组。然后调用 100 次 add, 而不用重新分配空间。<br>另外，还可以把初始容量传递给 ArrayList 构造器：<br>ArrayList<employee> staff = new ArrayListo(100) ; </employee></p>
+</li>
+<li><p>一旦能够确认数组列表的大小不再发生变化， 就可以调用 trimToSize 方法。这个方法将存储区域的大小调整为当前元素数量所需要的存储空间数目。垃圾回收器将回收多余的存储空间。<br>一旦整理了数组列表的大小，添加新元素就需要花时间再次移动存储块，所以应该在确认不会添加任何元素时， 再调用 trimToSize。  </p>
+</li>
+<li><p>数组列表自动扩展容量的便利增加了访问元素语法的复杂程度。 其原因是 ArrayList 类并不是 Java 程序设计语言的一部分；它只是一个由某些人编写且被放在标准库中的一个实用类。<br>使用 get 和 set 方法实现访问或改变数组元素的操作，而不使用人们喜爱的 [ ] 语法格式。 </p>
+</li>
+<li><p>使用 list.set(i,x) 方法，它只能替换数组中已经存在的元素内容。 </p>
+</li>
+<li><p>没有泛型类时， 原始的 ArrayList 类提供的get方法别无选择只能返回Object, 因此，get方法的调用者必须对返回值进行类型转换：<br>Employee e = (Eiployee) staff.get(i); </p>
+</li>
+<li><p>原始的 ArrayList 存在一定的危险性。它的 add 和 set 方法允许接受任意类型的对象。对于下面这个调用<br>staff.set(i,”Harry Hacker”);<br>编译不会给出任何警告， 只有在检索对象并试图对它进行类型转换时， 才会发现有问题。如果使用 ArrayList<employee>, 编译器就会检测到这个错误。 </employee></p>
+</li>
+<li><p>对数组实施插人和删除元素的操作其效率比较低。对于小型数组来说， 这一点不必担心。但如果数组存储的元素数比较多， 又经常需要在中间位置插入、删除元素， 就应该考虑使用链表了。 </p>
+</li>
+<li><p>类型化与原始数组列表的兼容性问题：一旦能确保不会造成严重的后果， 可以用@SuppressWamings(“unchecked”) 标注来标记这个变量能够接受类型转换， 如下所示：<br>@SuppressWarnings (“unchecked”) </p>
+<p>ArrayList<employee> result =(ArrayList<employee>) employeeDB.find(query); // yields another warning </employee></employee></p>
+</li>
+</ol>
+<h2 id="对象的包装器与自动装箱"><a href="#对象的包装器与自动装箱" class="headerlink" title="对象的包装器与自动装箱"></a>对象的包装器与自动装箱</h2><ol>
+<li><p>对象包装器 ：有时，需要将 int 这样的基本类型转换为对象。 所有的基本类型都有一个与之对应的类。例如，Integer 类对应基本类型 int。通常， 这些类称为包装器 （ wrapper ) 。</p>
+<p>这些对象包装器类拥有很明显的名字：Integer、Long、Float、Double、Short、Byte、Character 、 Void 和 Boolean (前6 个类派生于公共的超类 Number)。对象包装器类是不可变的，即一旦构造了包装器，就不<br>允许更改包装在其中的值。同时， 对象包装器类还是 final , 因此不能定义它们的子类。 </p>
+</li>
+<li><p>假设想定义一个整型数组列表。而尖括号中的类型参数不允许是基本类型，也就是说，不允许写成 ArrayList<int>。这里就用到了 Integer 对象包装器类。 我们可以声明一个 Integer对象的数组列表。</int></p>
+</li>
+<li><p>如果在一个条件表达式中混合使用 Integer 和 Double 类型， Integer 值就会拆箱，提升为 double, 再装箱为 Double  </p>
+</li>
+</ol>
+<h2 id="参数数量可变的方法"><a href="#参数数量可变的方法" class="headerlink" title="参数数量可变的方法"></a>参数数量可变的方法</h2><ol>
+<li><p>printf方法是这样定义的：<br>public class PrintStream<br>{<br>public PrintStream printf(String fmt , Object… args) { return format(fmt, args); }<br>}<br>这里的省略号 . . . 是 Java 代码的一部分，它表明这个方法可以接收任意数量的对象（除 fmt参数之外）。</p>
+<p>实际上，printf 方法接收两个参数，一个是格式字符串，另一个是 Object [] 数组 </p>
+</li>
+</ol>
+<h2 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h2><ol>
+<li><p>枚举类 ：在比较两个枚举类型的值时， 永远不需要调用 equals, 而直接使用“ = =” 就可以了。</p>
+</li>
+<li><p>所有的枚举类型都是 Enum 类的子类。它们继承了这个类的许多方法。其中最有用的一个是 toString， 这个方法能够返回枚举常量名。 例如，Size.SMALL.toString( ) 将返回字符串“ SMALL”。 </p>
+</li>
+</ol>
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><ol>
+<li>能够分析类能力的程序称为反射（ reflective )。 </li>
+<li>反射机制可以用来： <ul>
+<li>在运行时分析类的能力。 </li>
+<li>在运行时查看对象， 例如， 编写一个 toString 方法供所有类使用。</li>
+<li>实现通用的数组操作代码。</li>
+<li>利用 Method 对象， 这个对象很像C++中的函数指针。 </li>
+</ul>
+</li>
+<li>在程序运行期间，Java 运行时系统始终为所有的对象维护一个被称为运行时的类型标识。这个信息跟踪着每个对象所属的类。 虚拟机利用运行时类型信息选择相应的方法执行。 </li>
+<li>可以通过专门的 Java 类访问这些信息。保存这些信息的类被称为 Class。</li>
+<li>Object 类中的 getClass( ) 方法将会返回一个 Class 类型的实例。 </li>
+<li>最常用的 Class 方法是 getName。 这个方法将返回类的名字。 </li>
+<li>还可以调用静态方法 forName 获得类名对应的 Class 对象。 </li>
+<li>虚拟机为每个类型管理一个 Class 对象。 因此， 可以利用= 运算符实现两个类对象比较的操作。 例如，<pre><code>if (e.getClass() == Employee.class)
+</code></pre></li>
+<li>还有一个很有用的方法 newlnstance( )， 可以用来动态地创建一个类的实例例如:<pre><code>e.getClass().newlnstance(); 
+</code></pre></li>
+<li>创建了一个与 e 具有相同类类型的实例。 newlnstance 方法调用默认的构造器 （没有参数的构造器）初始化新创建的对象。 如果这个类没有默认的构造器， 就会抛出一个异常 。将 forName 与 newlnstance 配合起来使用， 可以根据存储在字符串中的类名创建一个对象 。</li>
+<li>如果没有提供处理器， 程序就会终止，并在控制台上打印出一条信息， 其中给出了异常的类型。可能在前面已经看到过一些异常报告， 例如， 偶然使用了 null 引用或者数组越界等。 </li>
+<li>异常有两种类型： 未检查异常和已检查异常。 对于已检查异常， 编译器将会检查是否提供了处理器。 然而， 有很多常见的异常， 例如， 访问 null 引用， 都属于未检查异常。 编译器不会査看是否为这些错误提供了处理器。毕竟，应该精心地编写代码来避免这些错误的发生， 而不要将精力花在编写异常处理器上。 </li>
+<li>如果类名不存在， 则将跳过 try 块中的剩余代码， 程序直接进人 catch 子句（这里，利用Throwable 类的 printStackTrace 方法打印出栈的轨迹。 Throwable 是 Exception 类的超类）。 如果 try 块中没有抛出任何异常， 那么会跳过 catch 子句的处理器代码。 </li>
+<li>对于已检查异常， 只需要提供一个异常处理器。 可以很容易地发现会抛出已检査异常的方法。如果调用了一个抛出已检查异常的方法， 而又没有提供处理器， 编译器就会给出错误报告。</li>
+<li><p>反射机制最重要的内容—检查类的结构。</p>
+<p>  在 java.lang.reflect 包中有三个类 Field、 Method 和 Constructor 分别用于描述类的域、 方法和构造器。 这三个类都有一个叫做 getName 的方法， 用来返回项目的名称。 Field类有一个 getType 方法， 用来返回描述域所属类型的 Class 对象。<br>   Method 和 Constructor 类有能够报告参数类型的方法， Method 类还有一个可以报告返回类型的方法。</p>
+<p>   这 三个类还有一个叫做 getModifiers 的方法， 它将返回一个整型数值， 用不同的位开关描述 public 和 static 这样的修饰符使用状况。另外， 还可以利用 java.lang.refleCt 包中的 Modifier类的静态方法分析getModifiers 返回的整型数值。 例如， 可以使用 Modifier 类中的 isPublic、 isPrivate 或 isFinal判断方法或构造器是否是 public、 private 或 final。 我们需要做的全部工作就是调用 Modifier类的相应方法， 并对返回的整型数值进行分析， 另外，还可以利用 Modifier.toString方法将修饰符打印出来。  </p>
+</li>
+<li><p>Class类中的 getFields、 getMethods 和 getConstructors 方 法 将 分 别 返 回 类 提 供 的public 域、 方法和构造器数组， 其中包括超类的公有成员。Class 类的 getDeclareFields、getDeclareMethods 和 getDeclaredConstructors 方法将分别返回类中声明的全部域、 方法和构造器， 其中包括私有和受保护成员，但不包括超类的成员。 </p>
+</li>
+<li><p>反射机制的默认行为受限于 Java 的访问控制。然而， 如果一个 Java 程序没有受到安全管理器的控制， 就可以覆盖访问控制。 为了达到这个目的， 需要调用 Field、 Method 或Constructor 对象的 setAccessible 方法。 </p>
+</li>
+<li><p>setAccessible 方法是 AccessibleObject 类中的一个方法， 它是 Field、 Method 和 Constructor类的公共超类。这个特性是为调试、 持久存储和相似机制提供的。 </p>
+</li>
+<li><p>get 方法还有一个需要解决的问题。name 域是一个 String, 因此把它作为 Object 返回没有什么问题。但是， 假定我们想要查看 salary 域。它属于 double 类型， 而 Java 中数值类型不是对象。要想解决这个问题， 可以使用 Field 类中的 getDouble方法，也可以调用 get方法， 此时， 反射机制将会自动地将这个域值打包到相应的对象包装器中， 这里将打包成Double。</p>
+</li>
+<li><p>调用任意方法：在 C 和 C++ 中， 可以从函数指针执行任意函数。从表面上看， Java 没有提供方法指针，即将一个方法的存储地址传给另外一个方法， 以便第二个方法能够随后调用它。事实上，Java 的设计者曾说过：方法指针是很危险的，并且常常会带来隐患。 他们认为 Java 提供的接口（interface)是一种更好的解决方案。然而，反射机制允许你调用任意方法。 </p>
+</li>
+<li><p>在 Method 类中有一个 invoke 方法， 它允许调用包装在当前 Method 对象中的方法。 </p>
+</li>
+<li><p>继承的设计技巧</p>
+<pre><code>1. 将公共操作和域放在超类 
+2. 不要使用受保护的域 
+3. 使用继承实现“ is-a” 关系 
+4. 除非所有继承的方法都有意义， 否则不要使用继承 
+5. 在覆盖方法时， 不要改变预期的行为 
+6. 使用多态， 而非类型信息 
+7. 不要过多地使用反射 
+</code></pre></li>
+</ol>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="接口-1"><a href="#接口-1" class="headerlink" title="接口"></a>接口</h2><ol>
+<li>在 Java 程序设计语言中， 接口不是类，而是对类的一组需求描述，这些类要遵从接口描述的统一格式进行定义。</li>
+<li>接口中的所有方法自动地属于 public。 因此， 在接口中声明方法时， 不必提供关键字public。</li>
+<li>提供实例域和方法实现的任务应该由实现接口的那个类来完成。因此， 可以将接口看成是没有实例域的抽象类 。</li>
+<li>接口不是类，尤其不能使用 new 运算符实例化一个接口 。但却能声明接口的变量 。</li>
+<li>接口变量必须弓I用实现了接口的类对象 。</li>
+<li>同使用 instanceof检查一个对象是否属于某个特定类一样， 也可以使用instance 检查一个对象是否实现了某个特定的接口 。</li>
+<li>与可以建立类的继承关系一样，接口也可以被扩展。这里允许存在多条从具有较高通用性的接口到较高专用性的接口的链。  </li>
+<li>在接口中不能包含实例域或静态方法，但却可以包含常量。  </li>
+<li>尽管每个类只能够拥有一个超类， 但却可以实现多个接口。这就为定义类的行为提供了极大的灵活性。  </li>
+<li>为什么已经有抽象类了，Java还要引入接口？因为每个类只能继承一个类 ，但可以实现多个接口。</li>
+<li>可以为接口方法提供一个默认实现。 必须用 default 修饰符标记这样一个方法。</li>
+<li>默认实现可用于接口升级，是一种接口演化。<h2 id="接口示例"><a href="#接口示例" class="headerlink" title="接口示例"></a>接口示例</h2></li>
+<li>回调（ callback) 是一种常见的程序设计模式。在这种模式中， 可以指出某个特定事件发生时应该采取的动作。<h2 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h2></li>
+<li>lambda 表达式是一个可传递的代码块， 可以在以后执行一次或多次。</li>
+<li>Java 中的一种 lambda 表达式形式：参数， 箭头（-&gt;) 以及一个表达式。如果代码要完成的计算无法放在一个表达式中，就可以像写方法一样，把这些代码放在 {}中，并包含显式的 return 语句。</li>
+<li>即使lambda表达式没有参数，仍然要提供空括号，就像无参数方法一样。</li>
+<li>如果可以推导出一个lambda表达式的参数类型，则可以忽略其类型。</li>
+<li>如果方法只有一个参数，而且这个参数的类型可以推导得出，那么甚至还可以省略小括号。</li>
+<li>无需指定lambda表达式的返回类型。<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2></li>
+<li>内部类（inner class ) 是定义在另一个类中的类。为什么需要使用内部类呢？ 其主要原因有以下三点：<ul>
+<li>内部类方法可以访问该类定义所在的作用域中的数据， 包括私有的数据。</li>
+<li>内部类可以对同一个包中的其他类隐藏起来。</li>
+<li>当想要定义一个回调函数且不想编写大量代码时，使用匿名 （anonymous) 内部类比较便捷。</li>
+</ul>
+</li>
+<li>内部类既可以访问自身的数据域，也可以访问创建它的外围类对象的数据域。</li>
+<li>外围类对象的引用称为 outer。</li>
+<li>只有内部类可以是私有类，而常规类只可以具有包可见性，或公有可见性。</li>
+<li>内部类中声明的所有静态域都必须是 final。</li>
+<li>内部类不能有 static 方法。</li>
+<li>局部类不能用 public 或 private 访问说明符进行声明。它的作用域被限定在声明这个局部类的块中。</li>
+<li>与其他内部类相比较， 局部类还有一个优点。它们不仅能够访问包含它们的外部类， 还可以访问局部变量。不过， 那些局部变量必须事实上为 final。这说明， 它们一旦赋值就绝不会改变。</li>
+<li>将局部内部类的使用再深人一步。 假如只创建这个类的一个对象，就不必命名了。这种类被称为匿名内部类（anonymous inner class)。</li>
+<li>由于构造器的名字必须与类名相同， 而匿名类没有类名， 所以， 匿名类不能有构造器。取而代之的是，将构造器参数传递给超类 （ superclass) 构造器。尤其是在内部类实现接口的时候， 不能有任何构造参数。</li>
+</ol>
+<h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><ol>
+<li>利用代理可以在运行时创建一个实现了一组给定接口的新类 : 这种功能只有在编译时无法确定需要实现哪个接口时才有必要使用。</li>
+<li>何时使用代理</li>
+</ol>
+<p>假设有一个表示接口的 Class 对象（有可能只包含一个接口，) 它的确切类型在编译时无法知道。这确实有些难度。要想构造一个实现这些接口的类， 就需要使用 newlnstance 方法或反射找出这个类的构造器。但是， 不能实例化一个接口，需要在程序处于运行状态时定义一个新类。<br>为了解决这个问题， 有些程序将会生成代码；将这些代码放置在一个文件中；调用编译器；然后再加载结果类文件。很自然， 这样做的速度会比较慢，并且需要将编译器与程序放在一起。而代理机制则是一种更好的解决方案。代理类可以在运行时创建全新的类。这样的代理类能够实现指定的接口。尤其是，它具有下列方法：</p>
+<ul>
+<li>指定接口所需要的全部方法。</li>
+<li>Object 类中的全部方法， 例如， toString、 equals 等。</li>
+</ul>
+<ol start="3">
+<li>不能在运行时定义这些方法的新代码。而是要提供一个调用处理器（invocation handler)。调用处理器是实现了 InvocationHandler 接口的类对象。在这个接口中只有一个方法：<br>Object invoke(Object proxy, Method method, Object[]  args)<br>无论何时调用代理对象的方法， 调用处理器的 invoke 方法都会被调用， 并向其传递Method 对象和原始的调用参数。 调用处理器必须给出处理调用的方式。</li>
+<li>创建代理对象：<br>要想创建一个代理对象， 需要使用 Proxy 类的 newProxylnstance 方法。 这个方法有三个参数：<ul>
+<li>一个类加栽器（class loader)。作为 Java 安全模型的一部分， 对于系统类和从因特网<br>上下载下来的类，可以使用不同的类加载器。目前，用 null 表示使用默认的类加载器。</li>
+<li>一个 Class 对象数组， 每个元素都是需要实现的接口。</li>
+<li>一个调用处理器。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://linxiaobaixcg.github.io/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E7%BB%A7%E6%89%BF%E3%80%81%E6%8E%A5%E5%8F%A3/" title="Java核心技术1-继承、接口" target="_blank" rel="external">https://linxiaobaixcg.github.io/2019/03/17/Java核心技术1-继承、接口/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/linxiaobaixcg" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/linxiaobaixcg" target="_blank"><span class="text-dark">Mr.Lin</span><small class="ml-1x">Java Developer</small></a></h3>
+        <div>小小搬砖者。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/" title="Java核心技术1-泛型程序设计、集合"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/03/16/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%9F%BA%E6%9C%AC%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%BB%93%E6%9E%84%E3%80%81%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB/" title="Java核心技术1-基本程序设计结构、对象和类"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

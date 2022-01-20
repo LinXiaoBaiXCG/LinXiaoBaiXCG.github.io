@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Java核心技术1-泛型程序设计、集合 | Hexo</title>
+  <meta name="description" content="读《Java核心技术1》记录知识点  泛型程序设计为什么要使用泛型设计 泛型正是我们需要的程序设计手段。使用泛型机制编写的程序代码要比那些杂乱地使用Object 变量，然后再进行强制类型转换的代码具有更好的安全性和可读性。  泛型程序设计（Generic programming) 意味着编写的代码可以被很多不同类型的对象所重用。  泛型提供了一个更好的解决方案： 类型参数 （ type para">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java核心技术1-泛型程序设计、集合">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="读《Java核心技术1》记录知识点  泛型程序设计为什么要使用泛型设计 泛型正是我们需要的程序设计手段。使用泛型机制编写的程序代码要比那些杂乱地使用Object 变量，然后再进行强制类型转换的代码具有更好的安全性和可读性。  泛型程序设计（Generic programming) 意味着编写的代码可以被很多不同类型的对象所重用。  泛型提供了一个更好的解决方案： 类型参数 （ type para">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-17T15:40:00.000Z">
+<meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="技术书籍">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="LinChuangQiong&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/linxiaobaixcg" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Mr.Lin</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Java Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a><span class="category-list-count">44</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring%E9%9B%86%E5%90%88/" rel="tag">Spring集合</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" rel="tag">观后感</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DevOps/" style="font-size: 13px;">DevOps</a> <a href="/tags/JVM/" style="font-size: 13.5px;">JVM</a> <a href="/tags/Spring%E9%9B%86%E5%90%88/" style="font-size: 13.67px;">Spring集合</a> <a href="/tags/blog/" style="font-size: 13px;">blog</a> <a href="/tags/java/" style="font-size: 13.83px;">java</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 13.67px;">中间件</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 13.17px;">分布式</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13px;">安全</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 13px;">并发</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" style="font-size: 14px;">技术书籍</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.5px;">数据库</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13.17px;">框架</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 13px;">网络编程</a> <a href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 13.17px;">观后感</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/17/Netty%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="title">Netty核心组件介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-17T12:00:00.000Z" itemprop="datePublished">2021-05-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/02/%E4%BD%BF%E7%94%A8Docker%E6%90%AD%E5%BB%BAMongoDB%E5%89%AF%E6%9C%AC%E9%9B%86/" class="title">使用Docker搭建MongoDB副本集</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-02T12:00:00.000Z" itemprop="datePublished">2021-05-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">TCP的三次握手和四次挥手</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-24T12:00:00.000Z" itemprop="datePublished">2021-04-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/" class="title">TCP流量控制和拥塞控制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-07T12:00:00.000Z" itemprop="datePublished">2021-04-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/02/%E6%B5%85%E8%B0%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E6%9C%BA%E5%88%B6/" class="title">浅谈计算机网络中的三种可靠传输机制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-02T12:00:00.000Z" itemprop="datePublished">2021-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java核心技术1-泛型程序设计、集合" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java核心技术1-泛型程序设计、集合
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/" class="article-date">
+	  <time datetime="2019-03-17T15:40:00.000Z" itemprop="datePublished">2019-03-17</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/java/" rel="tag">java</a>, <a class="article-tag-link-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 5.7k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 19(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>读《Java核心技术1》记录知识点</p>
+</blockquote>
+<h1 id="泛型程序设计"><a href="#泛型程序设计" class="headerlink" title="泛型程序设计"></a>泛型程序设计</h1><h2 id="为什么要使用泛型设计"><a href="#为什么要使用泛型设计" class="headerlink" title="为什么要使用泛型设计"></a>为什么要使用泛型设计</h2><ol>
+<li>泛型正是我们需要的程序设计手段。使用泛型机制编写的程序代码要比那些杂乱地使用Object 变量，然后再进行强制类型转换的代码具有更好的安全性和可读性。 </li>
+<li>泛型程序设计（Generic programming) 意味着编写的代码可以被很多不同类型的对象所重用。 </li>
+<li>泛型提供了一个更好的解决方案： 类型参数 （ type parameters)。 ArrayList 类有一个类型参数用来指示元素的类型：<br>ArrayList<string> files = new ArrayList<string>():<br>这使得代码具有更好的可读性。人们一看就知道这个数组列表中包含的是 String 对象。   </string></string></li>
+<li>类型参数的魅力在于：使得程序具有更好的可读性和安全性。  </li>
+</ol>
+<h2 id="定义简单泛型类"><a href="#定义简单泛型类" class="headerlink" title="定义简单泛型类"></a>定义简单泛型类</h2><ol>
+<li>一个泛型类（generic class) 就是具有一个或多个类型变量的类。</li>
+<li>类型变量使用大写形式，且比较短， 这是很常见的。在 Java 库中，使用变量 E 表示集合的元素类型， K 和 V 分别表示表的关键字与值的类型。 T ( 需要时还可以用临近的字母 U 和 S ) 表示“ 任意类型”。</li>
+<li>泛型类可看作普通类的工厂。  </li>
+</ol>
+<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><ol>
+<li>一个泛型方法，可以从尖括号和类型变量看出这一点。注意，类型变量放在修饰符（这里是 public static) 后面，返回类型的前面。</li>
+<li>泛型方法可以定义在普通类中，也可以定义在泛型类中。</li>
+<li>当调用一个泛型方法时，在方法名前的尖括号中放人具体的类型 。</li>
+</ol>
+<h2 id="泛型代码和虚拟机"><a href="#泛型代码和虚拟机" class="headerlink" title="泛型代码和虚拟机"></a>泛型代码和虚拟机</h2><ol>
+<li>虚拟机没有泛型类型对象—所有对象都属于普通类。  </li>
+<li>无论何时定义一个泛型类型， 都自动提供了一个相应的原始类型 （ raw type)。原始类型的名字就是删去类型参数后的泛型类型名。擦除（ erased) 类型变M , 并替换为限定类型 （无限定的变量用 Object)。</li>
+<li>当程序调用泛型方法时， 如果擦除返回类型， 编译器插入强制类型转换。  </li>
+<li>总之，需要记住有关 Java 泛型转换的事实：<ul>
+<li>虚拟机中没有泛型，只有普通的类和方法。</li>
+<li>所有的类型参数都用它们的限定类型替换。</li>
+<li>桥方法被合成来保持多态。</li>
+<li>为保持类型安全性，必要时插人强制类型转换。   </li>
+</ul>
+</li>
+</ol>
+<h2 id="约束与局限性"><a href="#约束与局限性" class="headerlink" title="约束与局限性"></a>约束与局限性</h2><ol>
+<li>不能用基本类型实例化类型参数  </li>
+<li>运行时类型查询只适用于原始类型  </li>
+<li>Varargs 警告  </li>
+<li>不能实例化类型变置  </li>
+<li>不能创建参数化类型的数组</li>
+<li>不能构造泛型数组</li>
+<li>泛型类的静态上下文中类型变量无效  </li>
+<li>不能抛出或捕获泛型类的实例</li>
+<li>可以消除对受查异常的检查</li>
+<li>注意擦除后的冲突</li>
+</ol>
+<h2 id="泛型类型的继承规则"><a href="#泛型类型的继承规则" class="headerlink" title="泛型类型的继承规则"></a>泛型类型的继承规则</h2><ol>
+<li>泛型类可以扩展或实现其他的泛型类。就这一点而言，与普通的类没有什么区别。 例如， ArrayList<t> 类实现 List<t> 接口。这意味着， 一个 ArrayList<manager> 可以被转换为一个 List<manager>。  </manager></manager></t></t></li>
+</ol>
+<h2 id="通配符类型"><a href="#通配符类型" class="headerlink" title="通配符类型"></a>通配符类型</h2><ol>
+<li>通配符类型中， 允许类型参数变化。 例如， 通配符类型<br>Pair&lt;? extends Employee〉<br>表示任何泛型 Pair 类型， 它的类型参数是 Employee 的子类， 如 Pair<manager>， 但不Pair<string>。</string></manager></li>
+<li>通配符限定与类型变量限定十分类似，但是，还有一个附加的能力， 即可以指定一个超类型限定 （supertypebound), 如下所亦：<br>? super Manager    </li>
+</ol>
+<h2 id="反射和泛型"><a href="#反射和泛型" class="headerlink" title="反射和泛型"></a>反射和泛型</h2><ol>
+<li>反射允许你在运行时分析任意的对象。 如果对象是泛型类的实例，关于泛型类型参数则得不到太多信息， 因为它们会被擦除。  </li>
+<li>可以使用反射 API 来确定：<ul>
+<li>这个泛型方法有一个叫做 T 的类型参数。</li>
+<li>这个类型参数有一个子类型限定， 其自身又是一个泛型类型。</li>
+<li>这个限定类型有一个通配符参数。</li>
+<li>这个通配符参数有一个超类型限定。</li>
+<li>这个泛型方法有一个泛型数组参数。  </li>
+</ul>
+</li>
+</ol>
+<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="Java集合框架"><a href="#Java集合框架" class="headerlink" title="Java集合框架"></a>Java集合框架</h2><ol>
+<li>队列接口指出可以在队列的尾部添加元素， 在队列的头部删除元素，并且可以査找队列中元素的个数。当需要收集对象， 并按照“ 先进先出” 的规则检索对象时就应该使用队列 。</li>
+<li>队列通常有两种实现方式： 一种是使用循环数组； 另一种是使用链表 。</li>
+<li>循环数组是一个有界集合， 即容量有限。如果程序中要收集的对象数量没有上限， 就最好使用链表来实现。  </li>
+<li>在 Java 类库中，集合类的基本接口是 Collection 接口。  </li>
+<li>编译器简单地将“ foreach” 循环翻译为带有迭代器的循环。<br>“ for each” 循环可以与任何实现了 Iterable 接口的对象一起工作， 这个接口只包含一个抽象方法。</li>
+<li>Collection 接口扩展了 Iterable 接口。因此， 对于标准类库中的任何集合都可以使用“ foreach” 循环。   </li>
+<li>元素被访问的顺序取决于集合类型。 如果对 ArrayList 进行迭代， 迭代器将从索引 0开始，每迭代一次，索引值加 1。 然而， 如果访问 HashSet 中的元素， 每个元素将会按照某种随机的次序出现。虽然可以确定在迭代过程中能够遍历到集合中的所有元素，但却无法预知元素被访问的次序。这对于计算总和或统计符合某个条件的元素个数这类与顺序无关的操作来说，并不是什么问题。   </li>
+<li>将 Java 迭代器认为是位于两个元素之间。 当调用 next 时，迭代器就越过下一个元素，并返回刚刚越过的那个元素的引用 。</li>
+<li>Iterator 接口的 remove 方法将会删除上次调用 next 方法时返回的元素。在大多数情况下，在决定删除某个元素之前应该先看一下这个元素是很具有实际意义的。然而， 如果想要删除指定位置上的元素， 仍然需要越过这个元素。  </li>
+<li>对 next 方法和 remove 方法的调用具有互相依赖性。如果调用 remove 之前没有调用 next 将是不合法的。 如果这样做， 将会抛出一个 IllegalStateException 异常。  </li>
+<li>由于 Collection 与 Iterator 都是泛型接口，可以编写操作任何集合类型的实用方法。  </li>
+<li>集合有两个基本接口：Collection 和 Map。  </li>
+<li>List 是一个有序集合（ or办 元 素 会 增 加 到 容 器 中 的 特 定 位 置。 可 以采用两种方式访问元素：使用迭代器访问， 或者使用一个整数索引来访问。后一种方法称为随机访问（random access), 因为这样可以按任意顺序访问元素。与之不同，使用迭代器访问时，必须顺序地访问元素。   </li>
+<li>Set 接口等同于 Collection 接口，不过其方法的行为有更严谨的定义。集（set) 的 add方法不允许增加重复的元素。要适当地定义集的 equals 方法：只要两个集包含同样的元素就认为是相等的，而不要求这些元素有同样的顺序。 hashCode 方法的定义要保证包含相同元素的两个集会得到相同的散列码。  </li>
+</ol>
+<h2 id="具体的集合"><a href="#具体的集合" class="headerlink" title="具体的集合"></a>具体的集合</h2><ol>
+<li><p>数组和数组列表都有一个重大的缺陷。这就是从数组的中间位置删除一个元素要付出很大的代价，其原因是<br>数组中处于被删除元素之后的所有元素都要向数组的前端移动。 在数组中间的位置上插入一个元素也是如此。  </p>
+</li>
+<li><p>的数据结构一链表（ linked list) 解决了这个问题。尽管数组在连续的存储位置上存放对象引用， 但链表却将每个对象存放在独立的结点中。每个结点还存放着序列中下一个结点的引用。在 Java 程序设计语言中， 所有链表实际上都是双向链接的(doubly linked)—即每个结点还存放着指向前驱结点的引用 。</p>
+</li>
+<li><p>从链表中间删除一个元素是一个很轻松的操作， 即需要更新被删除元素附近的链接 。</p>
+</li>
+<li><p>链 表 与 泛 型 集 合 之 间 有 一 个 重 要 的 区 别。 链 表 是 一 个 有 序 集 合（ ordered collection), 每个对象的位置十分重要。 LinkedList.add 方法将对象添加到链表的尾部。但是，常常需要将元素添加到链表的中间。由于迭代器是描述集合中位置的， 所以这种依赖于位置的 add 方法将由迭代器负责。只有对自然有序的集合使用迭代器添加元素才有实际意义。 集 （set ) 类型，其中的元素完全无序。 因此， 在 Iterator 接口中就没有add 方法。相反地，集合类库提供了子接口 Listlterator, 其 中 包 含 add 方 法 。</p>
+</li>
+<li><p>如果多次调用 add 方法， 将按照提供的次序把元素添加到链表中。它们被依次添加到迭代器当前位置之前。</p>
+</li>
+<li><p>可以使用 Listlterator 类从前后两个方向遍历链表中的元素， 并可以添加、 删除元素。   </p>
+</li>
+<li><p>为什么要优先使用链表呢？ 使用链表的唯一理由是尽可能地减少在列表中间插人或删除元素所付出的代价。 如果列表只有少数几个元素， 就完全可以使用 ArrayList。   </p>
+</li>
+<li><p>有一种众所周知的数据结构， 可以快速地査找所需要的对象， 这就是散列表（hash table )。散列表为每个对象计算一个整数， 称为散列码（hash code)。散列码是由对象的实例域产生的一个整数。更准确地说， 具有不同数据域的对象将产生不同的散列码。</p>
+</li>
+<li><p>自己实现的 hashCode方法应该与 equals 方法兼容，即如果 a_equals(b) 为 true, a 与 b 必须具有相同的散列码。  </p>
+</li>
+<li><p>在 Java 中， 散列表用链表数组实现。每个列表被称为桶 （ bucket)要想査找表中对象的位置， 就要先计算它的散列码， 然后与桶的总数取余， 所得到的结果就是保存这个元素的桶的索引。 </p>
+<p>例如， 如果某个对象的散列码为 76268, 并且有 128 个桶， 对象应该保存在第 108 号桶中（ 76268除以 128余 108 )。 或许会很幸运， 在这个桶中没有其他元素， 此时将元素直接插人到桶中就可以了。  </p>
+</li>
+<li><p>当然， 有时候会遇到桶被占满的情况， 这也是不可避免的。这种现象被称为散列冲突（ hash collision) 。这时， 需要用新对象与桶中的所有对象进行比较，査看这个对象是否已经存在。如果散列码是合理且随机分布的， 桶的数目也足够大， 需要比较的次数就会很少。  </p>
+</li>
+<li><p>在 JavaSE 8 中， 桶满时会从链表变为平衡二叉树。如果选择的散列函数不当， 会产生很多冲突， 或者如果有恶意代码试图在散列表中填充多个有相同散列码的值， 这样就能提高性能。  </p>
+</li>
+<li><p>如果想更多地控制散列表的运行性能， 就要指定一个初始的桶数。桶数是指用于收集具有相同散列值的桶的数目。 如果要插入到散列表中的元素太多， 就会增加冲突的可能性， 降低运行性能。  </p>
+</li>
+<li><p>如果大致知道最终会有多少个元素要插人到散列表中， 就可以设置桶数。通常， 将桶数设置为预计元素个数的 75% ~ 150%。有些研究人员认为：尽管还没有确凿的证据，但最好将桶数设置为一个素数， 以防键的集聚。标准类库使用的桶数是 2 的幂， 默认值为 16 (为表大小提供的任何值都将被自动地转换为 2 的下一个幂 )。当然，并不是总能够知道需要存储多少个元素的， 也有可能最初的估计过低。 如果散列表太满， 就需要再散列 （rehashed)。 如果要对散列表再散列， 就需要创建一个桶数更多的表，并将所有元素插入到这个新表中，. 然后丢弃原来的表。 装填因子（ load factor) 决定何时对散列表进行再散列。 例如， 如果装填因子为 0.75 (默认值，) 而表中超过 75%的位置已经填人元素， 这个表就会用双倍的桶数自动地进行再散列。对于大多数应用程序来说， 装填因子为0.75 是比较合理的。  </p>
+</li>
+<li><p>散列表可以用于实现几个重要的数据结构。 其中最简单的是 set 类型。set 是没有重复元素的元素集合。set 的 add 方法首先在集中查找要添加的对象， 如果不存在，就将这个对象添加进去。  </p>
+</li>
+<li><p>Java 集合类库提供了一个 HashSet 类，它实现了基于散列表的集。可以用 add 方法添加元素。contains方法已经被重新定义， 用来快速地查看是否某个元素已经出现在集中。它只在某个桶中査找元素，而不必查看集合中的所有元素。</p>
+</li>
+<li><p>TreeSet 类与散列集十分类似， 不过， 它比散列集有所改进。树集是一个有序集合( sorted collection) o 可以以任意顺序将元素插入到集合中。在对集合进行遍历时， 每个值将自动地按照排序后的顺序呈现。 </p>
+</li>
+<li><p>正如 TreeSet 类名所示， 排序是用树结构完成的（当前实现使用的是红黑树（red-black tree)）。每次将一个元素添加到树中时，都被放置在正确的排序位置上。因此，迭代器总是以排好序的顺序访问每个元素。  </p>
+</li>
+<li><p>队列可以让人们有效地在尾部添加一个元素， 在头部删除一个元素。有两个端头的队列， 即双端队列， 可以让人们有效地在头部和尾部同时添加或删除元素。不支持在队列中间添加元素。在 Java SE 6 中引人了 Deque 接口， 并由 ArrayDeque 和LinkedList 类实现。这两个类都提供了双端队列，而且在必要时可以增加队列的长度。</p>
+</li>
+<li><p>优先级队列（priority queue) 中的元素可以按照任意的顺序插人，却总是按照排序的顺序进行检索。也就是说，无论何时调用 remove 方法，总会获得当前优先级队列中最小的元素。然而，优先级队列并没有对所有的元素进行排序。如果用迭代的方式处理这些元素，并不需要对它们进行排序。优先级队列使用了一个优雅且高效的数据结构，称为堆（heap)。堆是一个可以自我调整的二叉树，对树执行添加 （ add) 和删除（remore) 操作， 可以让最小的元素移动到根，而不必花费时间对元素进行排序。  </p>
+</li>
+</ol>
+<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><ol>
+<li>集是一个集合，它可以快速地查找现有的元素。但是，要查看一个元素， 需要有要查找元素的精确副本。这不是一种非常通用的査找方式。通常， 我们知道某些键的信息，并想要查找与之对应的元素。 映射（ map) 数据结构就是为此设计的。映射用来存放键 / 值对。如果提供了键， 就能够查找到值。</li>
+<li>Java 类库为映射提供了两个通用的实现： HashMap 和 TreeMap 。这两个类都实现了 Map 接口。  </li>
+<li>散列映射对键进行散列， 树映射用键的整体顺序对元素进行排序， 并将其组织成搜索树。散列或比较函数只能作用于键。与键关联的值不能进行散列或比较。</li>
+<li>应该选择散列映射还是树映射呢？ 与集一样， 散列稍微快一些， 如果不需要按照排列顺序访问键， 就最好选择散列。  </li>
+<li>键必须是唯一的。不能对同一个键存放两个值。 如果对同一个键两次调用 put 方法， 第二个值就会取代第一个值。实际上， put 将返回用这个键参数存储的上一个值。  </li>
+<li>remove 方法用于从映射中删除给定键对应的元素。 size 方法用于返回映射中的元素数。  </li>
+<li>集合框架不认为映射本身是一个集合。（其他数据结构框架认为映射是一个键 / 值对集合， 或者是由键索引的值集合。）不过， 可以得到映射的视图（ View )—这是实现了Collection 接口或某个子接口的对象。  </li>
+<li>有 3 种视图： 键集、 值集合（不是一个集） 以及键 / 值对集。键和键 / 值对可以构成一个集， 因为映射中一个键只能有一个副本。  </li>
+<li>LinkedHashSet 和 LinkedHashMap类用来记住插人元素项的顺序。这样就可以避免在散歹IJ表中的项从表面上看是随机排列的。当条目插入到表中时，就会并人到双向链表中  </li>
+</ol>
+<h2 id="视图与包装器"><a href="#视图与包装器" class="headerlink" title="视图与包装器"></a>视图与包装器</h2><ol>
+<li>keySet 方法返回一个实现 Set接口的类对象， 这个类的方法对原映射进行操作。这种集合称为视图。  </li>
+<li>Arrays 类的静态方法 asList 将返回一个包装了普通 Java 数组的 List 包装器。这个方法可以将数组传递给一个期望得到列表或集合参数的方法。  </li>
+<li>Arrays.asList返回的对象不是 ArrayList。它是一个视图对象， 带有访问底层数组的 get 和 set方法。改变数组大小的所有方法（例如，与迭代器相关的 add 和 remove 方法）都会抛出一个Unsupported OperationException 异常。  </li>
+<li>如果由多个线程访问集合，就必须确保集不会被意外地破坏。例如， 如果一个线程试图将元素添加到散列表中，同时另一个线程正在对散列表进行再散列，其结果将是灾难性的。类库的设计者使用视图机制来确保常规集合的线程安全， 而不是实现线程安全的集合类。例如， Collections 类的静态 synchronizedMap方法可以将任何一个映射表转换成具有同步访问方法的 Map 。</li>
+<li>现在， 就可以由多线程访问 map 对象了。像 get 和 put 这类方法都是同步操作的， 即在另一个线程调用另一个方法之前，刚才的方法调用必须彻底完成。  </li>
+</ol>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><ol>
+<li>泛型集合接口有一个很大的优点， 即算法只需要实现一次。</li>
+<li>Collections 类中的 sort 方法可以对实现了 List 接口的集合进行排序。  </li>
+<li>对列表进行随机访问的效率很低。实际上， 可以使用归并排序对列表进行高效的排序。然而，Java 程序设计语言并不是这样实现的。它直接将所有元素转人一个数组， 对数组进行排序，然后，再将排序后的序列复制回列表。  </li>
+<li>集合类库中使用的排序算法比快速排序要慢一些， 快速排序是通用排序算法的传统选择。但是， 归并排序有一个主要的优点：稳定， 即不需要交换相同的元素。 为什么要关注相同元素的顺序呢？ 下面是一种常见的情况。 假设有一个已经按照姓名排列的员工列表。现在，要按照工资再进行排序。 如果两个雇员的工资相等发生什么情况呢？ 如果采用稳定的排序算法， 将会保留按名字排列的顺序。换句话说， 排序的结果将会产生这样一个列表， 首先按照工资排序， 工资相同者再按照姓名排序。  </li>
+<li>Collections 类有一个算法 shuffle, 其功能与排序刚好相反， 即随机地混排列表中元素的顺序。  </li>
+<li>shuffle 方法将元素复制到数组中，然后打乱数组元素的顺序，最后再将打乱顺序后的元素复制回列表。  </li>
+<li>要想在数组中査找一个对象， 通常要依次访问数组中的每个元素，直到找到匹配的元素为止。然而， 如果数组是有序的， 就可以直接査看位于数组中间的元素， 看一看是否大于要查找的元素。如果是， 用同样的方法在数组的前半部分继续查找； 否则， 用同样的方法在数组的后半部分继续查找。这样就可以将查找范围缩减一半。一直用这种方式査找下去。  </li>
+<li>Collections 类的 binarySearch方法实现了这个算法。 注意， 集合必须是排好序的， 否则算法将返回错误的答案。要想查找某个元素， 必须提供集合（这个集合要实现 List 接口， 下面还要更加详细地介绍这个问题）以及要查找的元素。 如果集合没有采用 Comparable 接口的compareTo 方法进行排序， 就还要提供一个比较器对象。  </li>
+</ol>
+<h2 id="遗留的集合"><a href="#遗留的集合" class="headerlink" title="遗留的集合"></a>遗留的集合</h2><ol>
+<li>Hashtable 类与 HashMap 类的作用一样，实际上，它们拥有相同的接口。与 Vector 类的方法一样。Hashtable 的方法也是同步的。如果对同步性或与遗留代码的兼容性没有任何要求，就应该使用 HashMap。如果需要并发访问， 则要使用 ConcurrentHashMap  </li>
+<li>遗留集合使用 Enumeration 接口对元素序列进行遍历。 Enumeration 接口有两个方法， 即hasMoreElements 和 nextElement。 这两个方法与 Iterator 接口的 hasNext 方法和 next 方法十分类似。  </li>
+<li>属性映射（property map) 是一个类型非常特殊的映射结构。它有下面 3 个特性：  </li>
+</ol>
+<ul>
+<li>键与值都是字符串。  </li>
+<li>表可以保存到一个文件中， 也可以从文件中加载。  </li>
+<li>使用一个默认的辅助表。  </li>
+</ul>
+<ol start="4">
+<li>实现属性映射的 Java 平台类称为 Properties。  </li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://linxiaobaixcg.github.io/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/" title="Java核心技术1-泛型程序设计、集合" target="_blank" rel="external">https://linxiaobaixcg.github.io/2019/03/17/Java核心技术1-泛型程序设计、集合/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/linxiaobaixcg" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/linxiaobaixcg" target="_blank"><span class="text-dark">Mr.Lin</span><small class="ml-1x">Java Developer</small></a></h3>
+        <div>小小搬砖者。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/03/18/2019-03-18-%5B%E4%BD%99%E5%8D%8E--%E6%B4%BB%E7%9D%80%5D%E8%A7%82%E5%90%8E%E6%84%9F/" title="余华--活着 观后感"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E7%BB%A7%E6%89%BF%E3%80%81%E6%8E%A5%E5%8F%A3/" title="Java核心技术1-继承、接口"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
