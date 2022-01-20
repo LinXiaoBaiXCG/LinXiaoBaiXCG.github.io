@@ -25,16 +25,16 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="TCP连接  客户端与服务器之间数据的发送和返回的过程当中需要创建一个叫TCP connection的东西； 由于TCP不存在连接的概念，只存在请求和响应，请求和响应都是数据包，它们之间都是经过由TCP创建的一个从客户端发起，服务器接收的类似连接的通道，这个连接可以一直保持，http请求是在这个连接的基础上发送的； 在一个TCP连接上是可以发送多个http请求的，不同的版本这个模式不一样：  在H">
 <meta property="og:locale">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/1.jpeg">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/2.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/3.jpeg">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/4.jpeg">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/5.jpeg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpeg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/3.jpeg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/4.jpeg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/5.jpeg">
 <meta property="article:published_time" content="2021-04-24T12:00:00.000Z">
-<meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
+<meta property="article:modified_time" content="2022-01-20T17:48:49.128Z">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/1.jpeg">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpeg">
   <!-- Canonical links -->
   <link rel="canonical" href="https://linxiaobaixcg.github.io/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/index.html">
   
@@ -374,8 +374,8 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="TCP连接"><a href="#TCP连接" class="headerlink" title="TCP连接"></a>TCP连接</h1><p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/1.jpeg" alt></p>
-<p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/2.png" alt></p>
+        <h1 id="TCP连接"><a href="#TCP连接" class="headerlink" title="TCP连接"></a>TCP连接</h1><p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/1.jpeg" alt></p>
+<p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/2.png" alt></p>
 <p>客户端与服务器之间数据的发送和返回的过程当中需要创建一个叫TCP connection的东西；</p>
 <p>由于TCP不存在连接的概念，只存在请求和响应，请求和响应都是数据包，它们之间都是经过由TCP创建的一个从客户端发起，服务器接收的类似连接的通道，这个连接可以一直保持，http请求是在这个连接的基础上发送的；</p>
 <p>在一个TCP连接上是可以发送多个http请求的，不同的版本这个模式不一样：</p>
@@ -387,7 +387,7 @@
 <li><p>如果TCP连接保持，第二个请求发送就没有这“三次握手”的消耗。HTTP/2中同一个TCP连接里还可以并发地传输http请求。</p>
 </li>
 </ul>
-<h1 id="TCP报文格式简介"><a href="#TCP报文格式简介" class="headerlink" title="TCP报文格式简介"></a>TCP报文格式简介</h1><p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/3.jpeg" alt></p>
+<h1 id="TCP报文格式简介"><a href="#TCP报文格式简介" class="headerlink" title="TCP报文格式简介"></a>TCP报文格式简介</h1><p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/3.jpeg" alt></p>
 <p>其中比较重要的字段有：</p>
 <ol>
 <li><p>序号（sequence number）：Seq序号，占32位，用来标识从TCP源端向目的端发送的字节流，发起方发送数据时对此进行标记。</p>
@@ -399,7 +399,7 @@
 </ol>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">URG：紧急指针（urgent pointer）有效。</span><br><span class="line">ACK：确认序号有效。PSH：接收方应该尽快将这个报文交给应用层。</span><br><span class="line">RST：重置连接。SYN：发起一个新连接。</span><br><span class="line">FIN：释放一个连接。</span><br><span class="line"></span><br><span class="line">需要注意的是：</span><br><span class="line">不要将确认序号Ack与标志位中的ACK搞混了。确认方<span class="attribute">Ack</span>=发起方Seq+1，两端配对。</span><br></pre></td></tr></table></figure>
 <h1 id="TCP的三次握手"><a href="#TCP的三次握手" class="headerlink" title="TCP的三次握手"></a>TCP的三次握手</h1><p>所谓的三次握手即TCP连接的建立。这个连接必须是一方主动打开，另一方被动打开的。以下为客户端主动发起连接的图解：</p>
-<p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/4.jpeg" alt></p>
+<p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/4.jpeg" alt></p>
 <p>握手之前主动打开连接的客户端结束CLOSED阶段，被动打开的服务器端也结束CLOSED阶段，并进入LISTEN阶段。随后开始“三次握手”：</p>
 <ol>
 <li>首先客户端向服务器端发送一段TCP报文，其中：</li>
@@ -429,7 +429,7 @@
 <p>第三次握手：Client 确认了：自己发送、接收正常，对方发送、接收正常；Server 确认了：自己发送、接收正常，对方发送、接收正常</p>
 <p>所以三次握手就能确认双发收发功能都正常，缺一不可。</p>
 <h1 id="TCP的四次挥手"><a href="#TCP的四次挥手" class="headerlink" title="TCP的四次挥手"></a>TCP的四次挥手</h1><p>所谓的四次挥手即TCP连接的释放(解除)。连接的释放必须是一方主动释放，另一方被动释放。以下为客户端主动发起释放连接的图解：</p>
-<p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/TCP的三次握手和四次挥手/5.jpeg" alt></p>
+<p><img src="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/5.jpeg" alt></p>
 <ol>
 <li>首先客户端想要释放连接，向服务器端发送一段TCP报文，其中：</li>
 </ol>

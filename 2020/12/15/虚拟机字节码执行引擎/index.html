@@ -25,13 +25,13 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="读《深入理解Java虚拟机》记录 所谓的「虚拟机字节码执行引擎」其实就是 JVM 根据 Class 文件中给出的字节码指令，基于栈解释器的一种执行机制。通俗点来说，也就是 JVM 解析字节码指令，输出运行结果的一个过程。  运行时栈帧结构详见：https:&#x2F;&#x2F;linxiaobaixcg.github.io&#x2F;2020&#x2F;10&#x2F;29&#x2F;Java%E8%BF%90%E8%A1%8C%E6%97%B6%E">
 <meta property="og:locale">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/虚拟机字节码执行引擎/20160606200822089.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/20160606200822089.png">
 <meta property="article:published_time" content="2020-12-15T12:00:00.000Z">
-<meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
+<meta property="article:modified_time" content="2022-01-20T17:44:40.756Z">
 <meta property="article:tag" content="技术书籍">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/虚拟机字节码执行引擎/20160606200822089.png">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/20160606200822089.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://linxiaobaixcg.github.io/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/index.html">
   
@@ -408,7 +408,7 @@
 <p>这个结果没有什么意外的地方，主要是看一下虚拟机是如何确定方法调用的版本的。</p>
 <p>先看看静态分派过程，这个时候选择的依据有两个：静态类型是Father还是Son，方法参数是Pepsi还是Coca。这次选择产生了两个invokevirtual指令，两条指令的参数分别为常量池中指向Father.like(Coca)和Father.like(Pepsi)方法的符号引用。因为是根据两个宗量进行选择，所以Java语言的静态分派属于多分派类型。</p>
 <p>然后看看运行时虚拟机的选择，即动态分派过程。在执行son.like(new Pepsi())时，也就是说在执行invokevirtual指令时，由于编译期间已经决定目标方法的签名必须是like(Pepsi)，虚拟机此时不会关心传递过来的参数是什么，因为这时参数的静态类型、实际类型都对方法的选择不会构成影响，唯一有影响的就是方法的接收者的实际类型是Father还是Son。因为只有一个宗量，所以Java的动态分派属于单分派。</p>
-<h2 id="虚拟机动态分派的实现"><a href="#虚拟机动态分派的实现" class="headerlink" title="虚拟机动态分派的实现"></a>虚拟机动态分派的实现</h2><p>由于动态分派是非常频繁的操作，而且动态分派的方法版本选择过程需要运行时在类的方法元数据中搜索合适的目标方法，因此虚拟机会进行优化。常用的方法就是为类在方法区中建立一个虚方法表（Virtual Method Table，在invokeinterface执行时也会用到接口方法表，Interface Method Table），使用虚方法表索引来替代元数据查找以提升性能。下图就是前面代码的虚方法表结构：<br><img src="/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/虚拟机字节码执行引擎/20160606200822089.png" alt="20160606200822089"></p>
+<h2 id="虚拟机动态分派的实现"><a href="#虚拟机动态分派的实现" class="headerlink" title="虚拟机动态分派的实现"></a>虚拟机动态分派的实现</h2><p>由于动态分派是非常频繁的操作，而且动态分派的方法版本选择过程需要运行时在类的方法元数据中搜索合适的目标方法，因此虚拟机会进行优化。常用的方法就是为类在方法区中建立一个虚方法表（Virtual Method Table，在invokeinterface执行时也会用到接口方法表，Interface Method Table），使用虚方法表索引来替代元数据查找以提升性能。下图就是前面代码的虚方法表结构：<br><img src="/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/20160606200822089.png" alt="20160606200822089"></p>
 <p>虚方法表中存放着各个方法的实际入口地址。如果某个方法在子类中没有被重写，那子类的虚方法表里面的地址入口和父类相同方法的地址入口是一致的，都指向父类的实现入口。如果子类重写了父类的方法，子类方法表中的地址会替换为指向子类实现版本的入口地址。在上图中，Son重写了Father的全部方法，所以Son的方法表替换了父类的地址。但是Son和Father都没有重写Object的方法，所以方法表都指向了Object的数据类型。</p>
 <p>为了程序实现上的方便，具有相同签名的方法，在父类和子类的虚方法表中都应该具有一样的索引号，这样当类型变换时，仅仅需要变更查找的方法表，就可以从不同的虚方法表中按索引转换出所需的入口地址。</p>
 <p>方法表一般在类加载的连接阶段进行初始化，准备了类的变量初始值后，虚拟机会把该类的方法表也初始化完毕。</p>
