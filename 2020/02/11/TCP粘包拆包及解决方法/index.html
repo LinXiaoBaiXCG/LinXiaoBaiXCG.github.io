@@ -25,15 +25,15 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="粘包拆包问题是处于网络比较底层的问题，在数据链路层、网络层以及传输层都有可能发生。我们日常的网络应用开发大都在传输层进行，由于UDP有消息保护边界，不会发生粘包拆包问题，因此粘包拆包问题只发生在TCP协议中。  什么是粘包、拆包？假设客户端向服务端连续发送了两个数据包，用packet1和packet2来表示，那么服务端收到的数据可以分为三种，现列举如下： 第一种情况：接收端正常收到两个数据包，即">
 <meta property="og:locale">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/1.jpg">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/2.jpg">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/3.jpg">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/4.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/1.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/2.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/3.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/4.jpg">
 <meta property="article:published_time" content="2020-02-11T12:00:00.000Z">
 <meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/1.jpg">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/1.jpg">
   <!-- Canonical links -->
   <link rel="canonical" href="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/index.html">
   
@@ -378,12 +378,12 @@
 </blockquote>
 <h1 id="什么是粘包、拆包？"><a href="#什么是粘包、拆包？" class="headerlink" title="什么是粘包、拆包？"></a>什么是粘包、拆包？</h1><p>假设客户端向服务端连续发送了两个数据包，用packet1和packet2来表示，那么服务端收到的数据可以分为三种，现列举如下：</p>
 <p><strong>第一种情况：</strong>接收端正常收到两个数据包，即没有发生拆包和粘包的现象，此种情况不在本文的讨论范围内。</p>
-<p><img src="/2020/02/11/TCP粘包拆包及解决方法/1.jpg" alt></p>
+<p><img src="/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/1.jpg" alt></p>
 <p><strong>第二种情况：</strong>接收端只收到一个数据包，由于TCP是不会出现丢包的，所以这一个数据包中包含了发送端发送的两个数据包的信息，这种现象即为粘包。这种情况由于接收端不知道这两个数据包的界限，所以对于接收端来说很难处理。</p>
-<p><img src="/2020/02/11/TCP粘包拆包及解决方法/2.jpg" alt></p>
+<p><img src="/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/2.jpg" alt></p>
 <p><strong>第三种情况：</strong>这种情况有两种表现形式，如下图。接收端收到了两个数据包，但是这两个数据包要么是不完整的，要么就是多出来一块，这种情况即发生了拆包和粘包。这两种情况如果不加特殊处理，对于接收端同样是不好处理的。</p>
-<p><img src="/2020/02/11/TCP粘包拆包及解决方法/3.jpg" alt></p>
-<p><img src="/2020/02/11/TCP粘包拆包及解决方法/4.jpg" alt></p>
+<p><img src="/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/3.jpg" alt></p>
+<p><img src="/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/TCP粘包拆包及解决方法/4.jpg" alt></p>
 <h1 id="为什么会发生TCP粘包、拆包？"><a href="#为什么会发生TCP粘包、拆包？" class="headerlink" title="为什么会发生TCP粘包、拆包？"></a>为什么会发生TCP粘包、拆包？</h1><p>发生TCP粘包、拆包主要是由于下面一些原因：</p>
 <ul>
 <li>应用程序写入的数据大于套接字缓冲区大小，这将会发生拆包。</li>

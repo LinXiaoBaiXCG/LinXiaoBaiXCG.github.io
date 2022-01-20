@@ -25,12 +25,12 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="网络编程简述网络编程就是在两个或两个以上的设备(例如计算机)之间传输数据，中间传输为物理线路的作用。 网络通信要素IP地址（InetAddress） 特点：          网络中的设备标识。          不易记忆，但是可用主机名。          本地回环地址127.0.0.1  主机名localhost。 端口号数据要发送到对方指定的应用程序上，为了标识这些应用程序，给这些网络应用程">
 <meta property="og:locale">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/16/网络编程笔记/983980-20161121173924409-1128983178.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/网络编程笔记/983980-20161121173924409-1128983178.png">
 <meta property="article:published_time" content="2019-05-16T13:53:00.000Z">
 <meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/05/16/网络编程笔记/983980-20161121173924409-1128983178.png">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/网络编程笔记/983980-20161121173924409-1128983178.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/index.html">
   
@@ -386,7 +386,7 @@
 <p>​          TCP在网络通信上有极强的生命力，例如远程连接（Telnet）和文件传输（FTP）都需要不定长度的数据被可靠地传输。 </p>
 <p>​          相比之下UDP操作简单，而且仅需要较少的监护，因此通常用于局域网高可靠性的分散系统中client/server应用程序 。</p>
 <h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>​                             1.OSI参考模型                                2.TCP/IP参考模型</p>
-<p><img src="/2019/05/16/网络编程笔记/983980-20161121173924409-1128983178.png" alt="模型参考图"></p>
+<p><img src="/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/网络编程笔记/983980-20161121173924409-1128983178.png" alt="模型参考图"></p>
 <h1 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h1><p>特点：<br>​          Socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。<br>​          Socket就是为网络服务提供的一种机制。<br>​          通信的两端都有Socket。<br>​          网络通信其实就是Socket之间的通信。<br>​          数据在两个Socket之间通过IO传输。</p>
 <h1 id="HTTP-和-WebSocket的区别"><a href="#HTTP-和-WebSocket的区别" class="headerlink" title="HTTP 和 WebSocket的区别"></a>HTTP 和 WebSocket的区别</h1><ol>
 <li>http协议是用在应用层的协议，他是基于tcp协议的，http协议建立链接也必须要有三次握手才能发送信息。</li>

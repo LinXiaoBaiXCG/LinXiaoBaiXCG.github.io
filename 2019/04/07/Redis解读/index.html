@@ -25,13 +25,13 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="简介 高性能Key-Value服务器 支持多种数据结构 功能丰富 高可用分布式支持  特性速度快官方：10W OPS数据存在内存使用C语言编写单线程模型 持久化（断电不丢数据）对数据更新将异步地保存的磁盘上 支持多种数据结构支持字符串、哈希、链表、集合、有序集合新版本支持位图（BitMaps）HyperLogLog：超小内存唯一值计数GEO:地理信息定位 支持多种编程语言javaphplua 功能">
 <meta property="og:locale">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis解读/1567577211.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/Redis解读/1567577211.jpg">
 <meta property="article:published_time" content="2019-04-07T14:55:00.000Z">
 <meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
 <meta property="article:tag" content="中间件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg">
   <!-- Canonical links -->
   <link rel="canonical" href="https://linxiaobaixcg.github.io/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/index.html">
   
@@ -587,7 +587,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="AOF重写流程"><a href="#AOF重写流程" class="headerlink" title="AOF重写流程"></a>AOF重写流程</h4><p><img src="/2019/04/07/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg" alt="AOF重写流程图"></p>
+<h4 id="AOF重写流程"><a href="#AOF重写流程" class="headerlink" title="AOF重写流程"></a>AOF重写流程</h4><p><img src="/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/Redis解读/5b71bb0dd01ff7917aaaba10cb69041.jpg" alt="AOF重写流程图"></p>
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>appendonly     yes</p>
 <h2 id="两种持久化的比较和选择"><a href="#两种持久化的比较和选择" class="headerlink" title="两种持久化的比较和选择"></a>两种持久化的比较和选择</h2><h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><table>
 <thead>
@@ -657,7 +657,7 @@
 <li>从节点清空数据时间</li>
 <li>从节点加载RDB的时间</li>
 </ol>
-<h1 id="Redis-Sentinel"><a href="#Redis-Sentinel" class="headerlink" title="Redis Sentinel"></a>Redis Sentinel</h1><h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="/2019/04/07/Redis解读/1567577211.jpg" alt="架构图"></p>
+<h1 id="Redis-Sentinel"><a href="#Redis-Sentinel" class="headerlink" title="Redis Sentinel"></a>Redis Sentinel</h1><h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="/2019/04/07/Redis%E8%A7%A3%E8%AF%BB/Redis解读/1567577211.jpg" alt="架构图"></p>
 <h2 id="故障处理"><a href="#故障处理" class="headerlink" title="故障处理"></a>故障处理</h2><ol>
 <li>多个sentinel发现并确认master有问题</li>
 <li>选举出一个sentinel作为领导</li>

@@ -415,10 +415,8 @@
 <li><p>有两种机制防止代码块受并发访问的干扰。Java语言提供一个 synchronized 关键字达到这一目的，并且 Java SE 5.0 引入了 ReentrantLock 类。  </p>
 </li>
 <li><p>用 ReentrantLock 保护代码块的基本结构如下：<br>myLock.lock（）; // a ReentrantLock object</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">critical section</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">&#123;</span><br><span class="line">myLock.unlock()；// <span class="keyword">make</span> sure the lock <span class="keyword">is</span> unlocked even <span class="keyword">if</span> <span class="keyword">an</span> exception <span class="keyword">is</span> thrown</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">critical section</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">&#123;</span><br><span class="line">myLock.unlock()；<span class="comment">// make sure the lock is unlocked even if an exception is thrown</span></span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol start="3">
 <li><p>把解锁操作括在 finally 子句之内是至关重要的。如果在临界区的代码抛出异常，<br>锁必须被释放。 否则， 其他线程将永远阻塞。</p>
 </li>
 <li><p>有关锁和条件的关键之处：  </p>

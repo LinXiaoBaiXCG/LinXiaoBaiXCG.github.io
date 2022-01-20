@@ -25,17 +25,17 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="读《深入理解Java虚拟机》记录  当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就需要对这些“自动化”的技术实施必要的监控和调节。  Java内存哪个区域需要做垃圾收集？ Java堆和方法区  程序计数器、虚拟机栈、本地方法栈3个区域随线程而生，随线程而灭；栈中的栈帧随着方法的进入和退出而有条不紊地执行着出栈和入栈操作。每一个栈帧中分配多少内存基本上是">
 <meta property="og:locale">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/161641_uW2m_1983603.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/162639_lRPR_1983603.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/162929_kGQX_1983603.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/163144_0sxV_1983603.png">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/163309_pPkR_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/161641_uW2m_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/162639_lRPR_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/162929_kGQX_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/163144_0sxV_1983603.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/163309_pPkR_1983603.png">
 <meta property="article:published_time" content="2020-11-10T12:00:00.000Z">
 <meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
 <meta property="article:tag" content="技术书籍">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/11/10/垃圾收集器/161641_uW2m_1983603.png">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/161641_uW2m_1983603.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://linxiaobaixcg.github.io/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/index.html">
   
@@ -388,7 +388,7 @@
 <h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。</p>
 <h2 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h2><p>在主流的商用程序语言（Java、C#，甚至包括前面提到的古老的Lisp）的主流实现中，都是称通过可达性分析（Reachability Analysis）来判定对象是否存活的。</p>
 <p>这个算法的基本思路就是通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到GC Roots没有任何引用链相连（用图论的话来说，就是从GC Roots到这个对象不可达）时，则证明此对象是不可用的。</p>
-<p><img src="/2020/11/10/垃圾收集器/161641_uW2m_1983603.png" alt="161641_uW2m_1983603"></p>
+<p><img src="/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/161641_uW2m_1983603.png" alt="161641_uW2m_1983603"></p>
 <h2 id="引用补充"><a href="#引用补充" class="headerlink" title="引用补充"></a>引用补充</h2><p>无论是通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象的引用链是否可达，判定对象是否存活都与“引用”有关。如果reference类型的数据中存储的数值是另一块内存的起始地址，那么这块内存就代表着一个引用。一个对象在这种状态下，只能有被引用和没有被引用两种状态。</p>
 <table>
 <thead>
@@ -439,14 +439,14 @@
 <li>加载该类的<code>ClassLoader</code>已经被回收。</li>
 <li>该类对应的<code>java.lang.Class</code>对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
 </ol>
-<h1 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h1><h2 id="标记-清除算法（Mark-Sweep）"><a href="#标记-清除算法（Mark-Sweep）" class="headerlink" title="标记-清除算法（Mark-Sweep）"></a>标记-清除算法（Mark-Sweep）</h2><p><img src="/2020/11/10/垃圾收集器/162639_lRPR_1983603.png" alt="162639_lRPR_1983603"></p>
+<h1 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h1><h2 id="标记-清除算法（Mark-Sweep）"><a href="#标记-清除算法（Mark-Sweep）" class="headerlink" title="标记-清除算法（Mark-Sweep）"></a>标记-清除算法（Mark-Sweep）</h2><p><img src="/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/162639_lRPR_1983603.png" alt="162639_lRPR_1983603"></p>
 <p>该算法分为两个阶段：首先标记处要回收的对象，标记完成后统一回收所有被标记的对象。</p>
 <p>缺点：</p>
 <ol>
 <li>效率问题，标记和清除两个过程的效率都不高</li>
 <li>空间问题，标记清除之后会产生大量不连续的内存碎片，空间碎片太多可能会导致以后在程序运行过程中需要分配较大对象时，无法找到足够的连续内存,而不得不提前触发另一次垃圾收集动作</li>
 </ol>
-<h2 id="复制算法（新生代算法）-Copying"><a href="#复制算法（新生代算法）-Copying" class="headerlink" title="复制算法（新生代算法）(Copying)"></a>复制算法（新生代算法）(Copying)</h2><p><img src="/2020/11/10/垃圾收集器/162929_kGQX_1983603.png" alt="162929_kGQX_1983603"></p>
+<h2 id="复制算法（新生代算法）-Copying"><a href="#复制算法（新生代算法）-Copying" class="headerlink" title="复制算法（新生代算法）(Copying)"></a>复制算法（新生代算法）(Copying)</h2><p><img src="/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/162929_kGQX_1983603.png" alt="162929_kGQX_1983603"></p>
 <p>思路：将可用内存按容量分为两个块，每次只用其中之一。当这一块内存用完之后，将还存活的对象复制到另一边去，然后清除所有已经使用过的部分。</p>
 <p>优点</p>
 <ul>
@@ -461,8 +461,8 @@
 <li>新生代中的对象98%是“朝生夕死”的，所以并不需要按照1:1的比例来划分内存空间，而是将内存分为一块较大的<code>Eden空间</code>和两块较小的<code>Survivor空间</code>，每次使用<code>Eden</code>和其中一块<code>Survivor</code>。</li>
 <li>在HotSpot里，考虑到大部分对象存活时间很短将内存分为<code>Eden</code>和两块<code>Survivor</code>，默认比例为8:1:1。代价是存在部分内存空间浪费，适合在新生代使用。</li>
 </ul>
-<p><img src="/2020/11/10/垃圾收集器/163144_0sxV_1983603.png" alt="163144_0sxV_1983603"></p>
-<h2 id="标记-整理算法（老年代算法）-Mark-Compact"><a href="#标记-整理算法（老年代算法）-Mark-Compact" class="headerlink" title="标记-整理算法（老年代算法）(Mark-Compact)"></a>标记-整理算法（老年代算法）(Mark-Compact)</h2><p><img src="/2020/11/10/垃圾收集器/163309_pPkR_1983603.png" alt="163309_pPkR_1983603"></p>
+<p><img src="/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/163144_0sxV_1983603.png" alt="163144_0sxV_1983603"></p>
+<h2 id="标记-整理算法（老年代算法）-Mark-Compact"><a href="#标记-整理算法（老年代算法）-Mark-Compact" class="headerlink" title="标记-整理算法（老年代算法）(Mark-Compact)"></a>标记-整理算法（老年代算法）(Mark-Compact)</h2><p><img src="/2020/11/10/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/垃圾收集器/163309_pPkR_1983603.png" alt="163309_pPkR_1983603"></p>
 <p>标记过程仍然与“标记-清除”算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
 <h2 id="分代收集理论"><a href="#分代收集理论" class="headerlink" title="分代收集理论"></a>分代收集理论</h2><ul>
 <li>当前商用虚拟机都采用了这种算法，根据对象的存活周期将内存划分为几块，一般是把Java堆分为<strong>新生代和老生代</strong>，根据<strong>各个年代采用适当的收集算法</strong>。</li>

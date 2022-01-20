@@ -368,8 +368,8 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="Vuex简介"><a href="#Vuex简介" class="headerlink" title="Vuex简介"></a>Vuex简介</h2><p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 <a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="noopener">devtools extension</a>，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。</p>
-<p>官方文档：<a href="https://vuex.vuejs.org/zh/" target="_blank" rel="noopener">https://vuex.vuejs.org/zh/</a></p>
+        <h2 id="Vuex简介"><a href="#Vuex简介" class="headerlink" title="Vuex简介"></a>Vuex简介</h2><p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 <a target="_blank" rel="noopener" href="https://github.com/vuejs/vue-devtools">devtools extension</a>，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://vuex.vuejs.org/zh/">https://vuex.vuejs.org/zh/</a></p>
 <h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>state:Vuex中的数据源，我们需要保存的数据就保存在这里。相当于vue中的data,用$store.state.modules名.xxx来获取</p>
 <p>mutations:相当于vue中的methods,用this.$store.commit(‘事件名’)来获取</p>
 <p>actions:vuex中的actions是支持异步的,可理解为当组件需要调用多次mutations中的事件时,可将事件写入actions中,用$store.dispatch(‘事件名’)来获取</p>

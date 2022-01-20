@@ -358,7 +358,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/06/16/MyBatis/#comments" class="article-comment-link">Comments</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 840(words)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 846(words)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 3(minutes)</span>
@@ -373,15 +373,15 @@
 <p>${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需手动代码中过滤）</p>
 <p><strong>#{ }</strong></p>
 <p>例如，Mapper.xml中如下的 sql 语句：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user </span>where name = #&#123;name&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>动态解析为：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user </span>where name = ?;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = ?; </span><br></pre></td></tr></table></figure>
 <p>一个 #{ } 被解析为一个参数占位符 ? 。</p>
 <p><strong>${ } </strong></p>
 <p>例如，Mapper.xml中如下的 sql语句：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user </span>where name = <span class="variable">$&#123;name&#125;</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = $&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>当我们传递的参数为 “Java” 时，上述 sql 的解析为：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user </span>where name = <span class="string">"Java"</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = &quot;Java&quot;;</span><br></pre></td></tr></table></figure>
 <p>预编译之前的 SQL 语句已经不包含变量了，完全已经是常量数据了。</p>
 <p>综上所得， ${ } 变量的替换阶段是在动态 SQL 解析阶段，而 #{ }变量的替换是在 DBMS 中。</p>
 <h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>#{}是预编译处理，${}是字符串替换。</p>
@@ -396,14 +396,14 @@
 <p>例如，如下的 sql：</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> $&#123;tableName&#125; <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;</span><br></pre></td></tr></table></figure>
 <p>假如，我们的参数 tableName 为 user; delete user; –，那么 SQL 动态解析阶段之后，预编译之前的 sql 将变为：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span><span class="built_in"> user; </span>delete<span class="built_in"> user; </span>-- where name = ?;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span>; <span class="keyword">delete</span> <span class="keyword">user</span>; <span class="comment">-- where name = ?;</span></span><br></pre></td></tr></table></figure>
 <p>– 之后的语句将作为注释，不起作用，因此本来的一条查询语句偷偷的包含了一个删除表数据的 SQL。</p>
 <p><strong>2. 表名作为变量时，必须使用 ${ }</strong><br>这是因为，表名是字符串，使用 sql 占位符替换字符串时会带上单引号 ‘’，这会导致 sql 语法错误，例如：</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> #&#123;tableName&#125; <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>预编译之后的sql 变为：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> ? <span class="keyword">where</span> <span class="keyword">name</span> = ?;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> ? <span class="keyword">where</span> <span class="type">name</span> = ?;</span><br></pre></td></tr></table></figure>
 <p>假设我们传入的参数为 tableName = “user” , name = “Java”，那么在占位符进行变量替换后，sql 语句变为：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">'user'</span> <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'Java'</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">&#x27;user&#x27;</span> <span class="keyword">where</span> <span class="type">name</span>=<span class="string">&#x27;Java&#x27;</span>;</span><br></pre></td></tr></table></figure>
 <p>上述 sql 语句是存在语法错误的</p>
 <h2 id="SQL预编译"><a href="#SQL预编译" class="headerlink" title="SQL预编译"></a>SQL预编译</h2><p><strong>1. 定义：</strong><br>sql 预编译指的是数据库驱动在发送 sql 语句和参数给 DBMS 之前对 sql 语句进行编译，这样 DBMS 执行 sql 时，就不需要重新编译。</p>
 <p><strong>2. 为什么需要预编译</strong></p>

@@ -25,13 +25,13 @@
 <meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
 <meta property="og:description" content="读《深入分析Java Web技术内幕》记录  随着Web 2.0时代的到来，互联网的网络架构已经从传统的 C&#x2F;S 架构转变为更加方便、快捷的 B&#x2F;S 架构，B&#x2F;S 架构大大简化了用户使用网络应用的难度，提高了用户体验。  B&#x2F;S 架构带来了以下两方面的好处：  客户端使用统一的浏览器（Browser）。由于浏览器具有统一性，不需要特殊的配置和网络连接。另外浏览器的交互特性使得用户使用它非常简便">
 <meta property="og:locale">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/1604037770(1">
-<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/微信截图_20201030144022.png">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/07/21/%E6%B7%B1%E5%85%A5WEB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/深入WEB请求过程/1604037770(1">
+<meta property="og:image" content="https://linxiaobaixcg.github.io/2020/07/21/%E6%B7%B1%E5%85%A5WEB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/深入WEB请求过程/微信截图_20201030144022.png">
 <meta property="article:published_time" content="2020-07-21T12:00:00.000Z">
 <meta property="article:modified_time" content="2021-11-20T15:34:50.000Z">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/07/21/深入WEB请求过程/1604037770(1">
+<meta name="twitter:image" content="https://linxiaobaixcg.github.io/2020/07/21/%E6%B7%B1%E5%85%A5WEB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/深入WEB请求过程/1604037770(1">
   <!-- Canonical links -->
   <link rel="canonical" href="https://linxiaobaixcg.github.io/2020/07/21/%E6%B7%B1%E5%85%A5WEB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/index.html">
   
@@ -382,7 +382,7 @@
 <li></li>
 </ul>
 <h1 id="B-S网络架构概述"><a href="#B-S网络架构概述" class="headerlink" title="B/S网络架构概述"></a>B/S网络架构概述</h1><p><code>B/S</code> 基于统一的应用层协议 <code>HTTP</code> 来交互数据，与大多数 <code>C/S</code> 互联网应用程序采用的长连接的交互模式不同。<code>HTTP</code> 采用无状态的短连接的通信方式，通常情况下，一次请求就完成了一次数据交互，然后这次通信连接就断开了。采用这种方式可以有效应对更多的用户请求。</p>
-<p><img src="/2020/07/21/深入WEB请求过程/1604037770(1" alt="1604037770(1)">.jpg)</p>
+<p><img src="/2020/07/21/%E6%B7%B1%E5%85%A5WEB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/深入WEB请求过程/1604037770(1" alt="1604037770(1)">.jpg)</p>
 <p>如图所示：当用户在浏览器输入网址回发生如下操作：</p>
 <ol>
 <li>用户发起请求</li>
@@ -417,7 +417,7 @@
 </tr>
 <tr>
 <td>Host</td>
-<td>指定被请求资源的主机和端口号（如 Host : <a href="http://www.baidu.com）" target="_blank" rel="noopener">www.baidu.com）</a></td>
+<td>指定被请求资源的主机和端口号（如 Host : <a target="_blank" rel="noopener" href="http://www.baidu.com）">www.baidu.com）</a></td>
 </tr>
 <tr>
 <td>User-Agent</td>
@@ -499,7 +499,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="查看HTTP信息工具"><a href="#查看HTTP信息工具" class="headerlink" title="查看HTTP信息工具"></a>查看HTTP信息工具</h2><p>要看一个 <code>HTTP</code> 请求的请求头和响应头可以通过 F12 快捷键打开浏览器的调试工具查看，例如我们正在访问 <a href="http://www.baidu.com，按下" target="_blank" rel="noopener">www.baidu.com，按下</a> F12 并打开 <code>Network</code> 调试栏可以看到以下 <code>HTTP Header</code> 内容</p>
+<h2 id="查看HTTP信息工具"><a href="#查看HTTP信息工具" class="headerlink" title="查看HTTP信息工具"></a>查看HTTP信息工具</h2><p>要看一个 <code>HTTP</code> 请求的请求头和响应头可以通过 F12 快捷键打开浏览器的调试工具查看，例如我们正在访问 <a target="_blank" rel="noopener" href="http://www.baidu.com，按下">www.baidu.com，按下</a> F12 并打开 <code>Network</code> 调试栏可以看到以下 <code>HTTP Header</code> 内容</p>
 <h2 id="浏览器缓存机制"><a href="#浏览器缓存机制" class="headerlink" title="浏览器缓存机制"></a>浏览器缓存机制</h2><p>当浏览一个网页发现有异常时，通常要考虑的就是是不是浏览器做了缓存，所以一般的做法就是按 <code>Ctrl + F5</code> 组合键重新请求一次这个页面，这样的话请求的肯定是最新的页面。因为按 <code>Ctrl + F5</code> 组合键会直接向目标 <code>URL</code> 发送请求，而不会使用浏览器缓存的数据。</p>
 <p>按 <code>Ctrl + F5</code> 组合键刷新页面后，会发现在 <code>HTTP</code> 的请求头中通常多了两个参数，分别是 <code>Cache-Control:no-cache</code> 和 <code>Pragma:no-cache</code>，该参数作用就是请求内容不会被缓存</p>
 <table>
@@ -526,7 +526,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h1><p><img src="/2020/07/21/深入WEB请求过程/微信截图_20201030144022.png" alt="微信截图_20201030144022"></p>
+<h1 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h1><p><img src="/2020/07/21/%E6%B7%B1%E5%85%A5WEB%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B/深入WEB请求过程/微信截图_20201030144022.png" alt="微信截图_20201030144022"></p>
 <p>如上图所示，当用户在浏览器输入地址是，DNS解析将会有将近10个步骤：</p>
 <ol>
 <li><p>浏览器会检查缓存中有没有这个域名对应的解析过的IP地址，如果缓存有，这个解析就将结束。</p>

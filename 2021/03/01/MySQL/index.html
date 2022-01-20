@@ -384,17 +384,17 @@
 <p><img src="/2021/03/01/MySQL/640.png" alt="640"></p>
 <p><img src="/2021/03/01/MySQL/641.png" alt="641"></p>
 <p>现在想根据创建时间升序查询user表，并且分页查询，每页2条，SQL语句为：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time <span class="keyword">limit</span> pageNo,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time limit pageNo,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 <p>在执行查询过程中会发现：</p>
 <ol>
 <li>查询第一页数据时：</li>
 </ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time limit <span class="number">0</span>,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 <p><img src="/2021/03/01/MySQL/642.png" alt="642"></p>
 <ol start="2">
 <li>查询第四页数据时：</li>
 </ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time <span class="keyword">limit</span> <span class="number">6</span>,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> create_time limit <span class="number">6</span>,<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 <p><img src="/2021/03/01/MySQL/643.png" alt="643"></p>
 <p>可以看出，查询过程中出现了相同的数据</p>
 <h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p><img src="/2021/03/01/MySQL/644.png" alt="644"></p>

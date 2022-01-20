@@ -375,7 +375,7 @@
 <h1 id="泛型程序设计"><a href="#泛型程序设计" class="headerlink" title="泛型程序设计"></a>泛型程序设计</h1><h2 id="为什么要使用泛型设计"><a href="#为什么要使用泛型设计" class="headerlink" title="为什么要使用泛型设计"></a>为什么要使用泛型设计</h2><ol>
 <li>泛型正是我们需要的程序设计手段。使用泛型机制编写的程序代码要比那些杂乱地使用Object 变量，然后再进行强制类型转换的代码具有更好的安全性和可读性。 </li>
 <li>泛型程序设计（Generic programming) 意味着编写的代码可以被很多不同类型的对象所重用。 </li>
-<li>泛型提供了一个更好的解决方案： 类型参数 （ type parameters)。 ArrayList 类有一个类型参数用来指示元素的类型：<br>ArrayList<string> files = new ArrayList<string>():<br>这使得代码具有更好的可读性。人们一看就知道这个数组列表中包含的是 String 对象。   </string></string></li>
+<li>泛型提供了一个更好的解决方案： 类型参数 （ type parameters)。 ArrayList 类有一个类型参数用来指示元素的类型：<br>ArrayList<String> files = new ArrayList<String>():<br>这使得代码具有更好的可读性。人们一看就知道这个数组列表中包含的是 String 对象。   </String></String></li>
 <li>类型参数的魅力在于：使得程序具有更好的可读性和安全性。  </li>
 </ol>
 <h2 id="定义简单泛型类"><a href="#定义简单泛型类" class="headerlink" title="定义简单泛型类"></a>定义简单泛型类</h2><ol>
@@ -413,10 +413,10 @@
 <li>注意擦除后的冲突</li>
 </ol>
 <h2 id="泛型类型的继承规则"><a href="#泛型类型的继承规则" class="headerlink" title="泛型类型的继承规则"></a>泛型类型的继承规则</h2><ol>
-<li>泛型类可以扩展或实现其他的泛型类。就这一点而言，与普通的类没有什么区别。 例如， ArrayList<t> 类实现 List<t> 接口。这意味着， 一个 ArrayList<manager> 可以被转换为一个 List<manager>。  </manager></manager></t></t></li>
+<li>泛型类可以扩展或实现其他的泛型类。就这一点而言，与普通的类没有什么区别。 例如， ArrayList<T> 类实现 List<T> 接口。这意味着， 一个 ArrayList<Manager> 可以被转换为一个 List<Manager>。  </Manager></Manager></T></T></li>
 </ol>
 <h2 id="通配符类型"><a href="#通配符类型" class="headerlink" title="通配符类型"></a>通配符类型</h2><ol>
-<li>通配符类型中， 允许类型参数变化。 例如， 通配符类型<br>Pair&lt;? extends Employee〉<br>表示任何泛型 Pair 类型， 它的类型参数是 Employee 的子类， 如 Pair<manager>， 但不Pair<string>。</string></manager></li>
+<li>通配符类型中， 允许类型参数变化。 例如， 通配符类型<br>Pair&lt;? extends Employee〉<br>表示任何泛型 Pair 类型， 它的类型参数是 Employee 的子类， 如 Pair<Manager>， 但不Pair<String>。</String></Manager></li>
 <li>通配符限定与类型变量限定十分类似，但是，还有一个附加的能力， 即可以指定一个超类型限定 （supertypebound), 如下所亦：<br>? super Manager    </li>
 </ol>
 <h2 id="反射和泛型"><a href="#反射和泛型" class="headerlink" title="反射和泛型"></a>反射和泛型</h2><ol>

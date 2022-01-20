@@ -369,7 +369,7 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>使用Spring Boot上传文件进行操作时，为了减少客户端等待耗时，选择使用异步实现后报</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java<span class="selector-class">.io</span><span class="selector-class">.FileNotFoundException</span>: xxx(系统找不到指定的文件。)</span><br></pre></td></tr></table></figure>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">java.io.FileNotFoundException</span>: <span class="function"><span class="title">xxx</span>(系统找不到指定的文件。)</span></span><br></pre></td></tr></table></figure>
 <p>根据提示在找到临时文件路径，确实在文件夹里找不到对应文件</p>
 <h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>表面看以为是临时文件创建失败或者文件夹不存在，真正原因在于异步操作上传时，主线程请求流已经关闭了，并把临时目录下的临时文件删除了，所以业务中才会报找不到文件异常。</p>
 <h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>可以选择在主线程保存文件流数据</p>

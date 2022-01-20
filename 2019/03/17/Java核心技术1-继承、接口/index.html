@@ -410,7 +410,7 @@
 </li>
 <li><p>数组列表管理着对象引用的一个内部数组。最终， 数组的全部空间有可能被用尽。这就显现出数组列表的操作魅力： 如果调用 add 且内部数组已经满了，数组列表就将自动地创建一个更大的数组，并将所有的对象从较小的数组中拷贝到较大的数组中。 </p>
 </li>
-<li><p>如果已经清楚或能够估计出数组可能存储的元素数量， 就可以在填充数组之前调用<br>ensureCapacity方法：<br>staff.ensureCapacity(lOO);<br>这个方法调用将分配一个包含 100 个对象的内部数组。然后调用 100 次 add, 而不用重新分配空间。<br>另外，还可以把初始容量传递给 ArrayList 构造器：<br>ArrayList<employee> staff = new ArrayListo(100) ; </employee></p>
+<li><p>如果已经清楚或能够估计出数组可能存储的元素数量， 就可以在填充数组之前调用<br>ensureCapacity方法：<br>staff.ensureCapacity(lOO);<br>这个方法调用将分配一个包含 100 个对象的内部数组。然后调用 100 次 add, 而不用重新分配空间。<br>另外，还可以把初始容量传递给 ArrayList 构造器：<br>ArrayList<Employee> staff = new ArrayListo(100) ; </Employee></p>
 </li>
 <li><p>一旦能够确认数组列表的大小不再发生变化， 就可以调用 trimToSize 方法。这个方法将存储区域的大小调整为当前元素数量所需要的存储空间数目。垃圾回收器将回收多余的存储空间。<br>一旦整理了数组列表的大小，添加新元素就需要花时间再次移动存储块，所以应该在确认不会添加任何元素时， 再调用 trimToSize。  </p>
 </li>
@@ -420,12 +420,12 @@
 </li>
 <li><p>没有泛型类时， 原始的 ArrayList 类提供的get方法别无选择只能返回Object, 因此，get方法的调用者必须对返回值进行类型转换：<br>Employee e = (Eiployee) staff.get(i); </p>
 </li>
-<li><p>原始的 ArrayList 存在一定的危险性。它的 add 和 set 方法允许接受任意类型的对象。对于下面这个调用<br>staff.set(i,”Harry Hacker”);<br>编译不会给出任何警告， 只有在检索对象并试图对它进行类型转换时， 才会发现有问题。如果使用 ArrayList<employee>, 编译器就会检测到这个错误。 </employee></p>
+<li><p>原始的 ArrayList 存在一定的危险性。它的 add 和 set 方法允许接受任意类型的对象。对于下面这个调用<br>staff.set(i,”Harry Hacker”);<br>编译不会给出任何警告， 只有在检索对象并试图对它进行类型转换时， 才会发现有问题。如果使用 ArrayList<Employee>, 编译器就会检测到这个错误。 </Employee></p>
 </li>
 <li><p>对数组实施插人和删除元素的操作其效率比较低。对于小型数组来说， 这一点不必担心。但如果数组存储的元素数比较多， 又经常需要在中间位置插入、删除元素， 就应该考虑使用链表了。 </p>
 </li>
 <li><p>类型化与原始数组列表的兼容性问题：一旦能确保不会造成严重的后果， 可以用@SuppressWamings(“unchecked”) 标注来标记这个变量能够接受类型转换， 如下所示：<br>@SuppressWarnings (“unchecked”) </p>
-<p>ArrayList<employee> result =(ArrayList<employee>) employeeDB.find(query); // yields another warning </employee></employee></p>
+<p>ArrayList<Employee> result =(ArrayList<Employee>) employeeDB.find(query); // yields another warning </Employee></Employee></p>
 </li>
 </ol>
 <h2 id="对象的包装器与自动装箱"><a href="#对象的包装器与自动装箱" class="headerlink" title="对象的包装器与自动装箱"></a>对象的包装器与自动装箱</h2><ol>
