@@ -484,114 +484,168 @@
       </tags>
   </entry>
   <entry>
-    <title>Java核心技术1-并发</title>
-    <url>/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/</url>
+    <title>Java核心技术1-泛型程序设计、集合</title>
+    <url>/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/</url>
     <content><![CDATA[<blockquote>
 <p>读《Java核心技术1》记录知识点</p>
 </blockquote>
-<h1 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><ol>
-<li>多线程程序在较低的层次上扩展了多任务的概念：一个程序同时执行多个任务。通常，每一个任务称为一个线程（ thread), 它是线程控制的简称。可以同时运行一个以上线程的程序称为多线程程序（multithreaded)。  </li>
-<li>多进程与多线程有哪些区别呢？ 本质的区别在于每个进程拥有自己的一整套变量， 而线程则共享数据。 这听起来似乎有些风险。然而，共享变量使线程之间的通信比进程之间的通信更有效、 更容易。 此外， 在有些操作系统中， 与进程相比较， 线程更“ 轻量级”， 创建、 撤销一个线程比启动新进程的开销要小得多。  </li>
-<li>调用 Threadsleep 不会创建一个新线程，sleep 是 Thread 类的静态方法，用于暂停当前线程的活动。  </li>
-<li><p>Runnable 接口只有一个 run 方法  </p>
-<h2 id="中断线程"><a href="#中断线程" class="headerlink" title="中断线程"></a>中断线程</h2></li>
-<li><p>当线程的 run 方法执行方法体中最后一条语句后， 并经由执行 return 语句返冋时， 或者出现了在方法中没有捕获的异常时，线程将终止。 在 Java 的早期版本中， 还有一个 stop方法， 其他线程可以调用它终止线程。但是， 这个方法现在已经被弃用了。  </p>
-</li>
-<li>没有可以强制线程终止的方法。然而， interrupt 方法可以用来请求终止线程。  </li>
-<li>当对一个线程调用 interrupt 方法时，线程的中断状态将被置位。这是每一个线程都具有的 boolean 标志。每个线程都应该不时地检査这个标志， 以判断线程是否被中断。<br>要想弄清中断状态是否被置位，首先调用静态的 Thread.currentThread 方法获得当前线程， 然后调用 islnterrupted 方法  </li>
-<li>如果线程被阻塞， 就无法检测中断状态。这是产生 InterruptedExceptioii 异常的地方。当在一个被阻塞的线程（调用 sleep 或 wait ) 上调用 interrupt 方法时， 阻塞调用将会被Interrupted Exception 异常中断。</li>
+<h1 id="泛型程序设计"><a href="#泛型程序设计" class="headerlink" title="泛型程序设计"></a>泛型程序设计</h1><h2 id="为什么要使用泛型设计"><a href="#为什么要使用泛型设计" class="headerlink" title="为什么要使用泛型设计"></a>为什么要使用泛型设计</h2><ol>
+<li>泛型正是我们需要的程序设计手段。使用泛型机制编写的程序代码要比那些杂乱地使用Object 变量，然后再进行强制类型转换的代码具有更好的安全性和可读性。 </li>
+<li>泛型程序设计（Generic programming) 意味着编写的代码可以被很多不同类型的对象所重用。 </li>
+<li>泛型提供了一个更好的解决方案： 类型参数 （ type parameters)。 ArrayList 类有一个类型参数用来指示元素的类型：<br>ArrayList<String> files = new ArrayList<String>():<br>这使得代码具有更好的可读性。人们一看就知道这个数组列表中包含的是 String 对象。   </String></String></li>
+<li>类型参数的魅力在于：使得程序具有更好的可读性和安全性。  </li>
 </ol>
-<h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><ol>
-<li><p>线程可以有如下 6 种状态：</p>
-<ul>
-<li>New (新创建）：当用 new 操作符创建一个新线程时， 如 newThread(r)， 该线程还没有开始运行。这意味着它的状态是 new。当一个线程处于新创建状态时， 程序还没有开始运行线程中的代码。在线程运行之前还有一些基础工作要做。</li>
-<li>Runnable (可运行）：一旦调用 start 方法，线程处于 runnable 状态。一个可运行的线桿可能正在运行也可能没有运行， 这取决于操作系统给线程提供运行的时间。  </li>
-</ul>
-<p>一旦一个线程开始运行，它不必始终保持运行。事实上，运行中的线程被中断，目的是为了让其他线程获得运行机会。线程调度的细节依赖于操作系统提供的服务。抢占式调度系统给每一个可运行线程一个时间片来执行任务。 当时间片用完，操作系统剥夺该线程的运行权， 并给另一个线程运行机会。当选择下一个线程时， 操作系统考虑线程的优先级  。<br>现在所有的桌面以及服务器操作系统都使用抢占式调度。但是，像手机这样的小型设备可能使用协作式调度。在这样的设备中，一个线程只有在调用 yield 方法、 或者被阻塞或等待时，线程才失去控制权。<br>在具有多个处理器的机器上，每一个处理器运行一个线程， 可以有多个线程并行运行。当然， 如果线程的数目多于处理器的数目， 调度器依然采用时间片机制。<br>记住，在任何给定时刻，二个可运行的线程可能正在运行也可能没有运行（这就是为什么将这个状态称为可运行而不是运行。)</p>
-<ul>
-<li>Blocked (被阻塞）：当一个线程试图获取一个内部的对象锁（而不是 javiutiUoncurrent 库中的锁，) 而该锁被其他线程持有， 则该线程进人阻塞状态。当所有其他线程释放该锁，并且线程调度器允许本线程持有它的时候，该线程将变成非阻塞状态。  </li>
-<li>Waiting (等待）：当线程等待另一个线程通知调度器一个条件时， 它自己进入等待状态。 在调用 Object.wait 方法或 Thread.join 方法， 或者是等待 java.util.concurrent 库中的 Lock 或 Condition 时， 就会出现这种情况。  </li>
-<li>Timed waiting (计时等待）：有几个方法有一个超时参数。调用它们导致线程进人计时等待（timed waiting) 状态。这一状态将一直保持到超时期满或者接收到适当的通知。带有超时参数的方法有：<br>Thread.sleep 和 Object.wait、 Thread.join、 Lock.tryLock 以及 Condition.await 的计时版。  </li>
-<li>Terminated (被终止）线程因如下两个原因之一而被终止：  </li>
-</ul>
-<ol>
-<li>因为 run 方法正常退出而自然死亡。  </li>
-<li>因为一个没有捕获的异常终止了 run 方法而意外死亡。  </li>
+<h2 id="定义简单泛型类"><a href="#定义简单泛型类" class="headerlink" title="定义简单泛型类"></a>定义简单泛型类</h2><ol>
+<li>一个泛型类（generic class) 就是具有一个或多个类型变量的类。</li>
+<li>类型变量使用大写形式，且比较短， 这是很常见的。在 Java 库中，使用变量 E 表示集合的元素类型， K 和 V 分别表示表的关键字与值的类型。 T ( 需要时还可以用临近的字母 U 和 S ) 表示“ 任意类型”。</li>
+<li>泛型类可看作普通类的工厂。  </li>
 </ol>
-</li>
+<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><ol>
+<li>一个泛型方法，可以从尖括号和类型变量看出这一点。注意，类型变量放在修饰符（这里是 public static) 后面，返回类型的前面。</li>
+<li>泛型方法可以定义在普通类中，也可以定义在泛型类中。</li>
+<li>当调用一个泛型方法时，在方法名前的尖括号中放人具体的类型 。</li>
 </ol>
-<h2 id="线程属性"><a href="#线程属性" class="headerlink" title="线程属性"></a>线程属性</h2><ol>
-<li>线程的各种属性，其中包括：</li>
-</ol>
-<ul>
-<li>线程优先级:在 Java 程序设计语言中，每一个线程有一个优先级。默认情况下， 一个线程继承它的父线程的优先级。可以用 setPriority 方法提高或降低任何一个线程的优先级。可以将优先级设置为在 MIN_PRIORITY (在 Thread 类中定义为 1 ) 与 MAX_PRIORITY (定义为 10 ) 之间的任何值。NORM_PRIORITY 被定义为 5。<br>每当线程调度器有机会选择新线程时， 它首先选择具有较高优先级的线程。但是，线程优先级是高度依赖于系统的。当虚拟机依赖于宿主机平台的线程实现机制时， Java 线程的优先级被映射到宿主机平台的优先级上， 优先级个数也许更多，也许更少。<br>例如， Windows 有 7 个优先级别。一些 Java 优先级将映射到相同的操作系统优先级。在Oracle 为 Linux 提供的 Java 虚拟机中， 线程的优先级被忽略一所有线程具有相同的优先级。</li>
-<li>守护线程：可以通过调用t.setDaemon(true);将线程转换为守护线程（daemon thread)。这样一个线程没有什么神奇。守护线程的唯一用途是为其他线程提供服务。计时线程就是一个例子，它定时地发送“ 计时器嘀嗒” 信号给其他线程或清空过时的高速缓存项的线程。当只剩下守护线程时， 虚拟机就退出了，由于如果只剩下守护线程， 就没必要继续运行程序了。  </li>
-<li>线程组以及处理未捕获异常的处理器：线程的 run方法不能抛出任何受查异常， 但是，非受査异常会导致线程终止。在这种情况下，线程就死亡了。但是，不需要任何 catch 子句来处理可以被传播的异常。相反， 就在线程死亡之前， 异常被传递到一个用于未捕获异常的处理器。  </li>
-</ul>
-<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><ol>
-<li><p>有两种机制防止代码块受并发访问的干扰。Java语言提供一个 synchronized 关键字达到这一目的，并且 Java SE 5.0 引入了 ReentrantLock 类。  </p>
-</li>
-<li><p>用 ReentrantLock 保护代码块的基本结构如下：<br>myLock.lock（）; // a ReentrantLock object</p>
-<figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">critical section</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">&#123;</span><br><span class="line">myLock.unlock()；<span class="comment">// make sure the lock is unlocked even if an exception is thrown</span></span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
-</li>
-<li><p>把解锁操作括在 finally 子句之内是至关重要的。如果在临界区的代码抛出异常，<br>锁必须被释放。 否则， 其他线程将永远阻塞。</p>
-</li>
-<li><p>有关锁和条件的关键之处：  </p>
-</li>
-</ol>
-<ul>
-<li>锁用来保护代码片段， 任何时刻只能有一个线程执行被保护的代码。  </li>
-<li>锁可以管理试图进入被保护代码段的线程。  </li>
-<li>锁可以拥有一个或多个相关的条件对象。  </li>
-<li>每个条件对象管理那些已经进入被保护的代码段但还不能运行的线程。  </li>
-</ul>
-<ol start="5">
-<li><p>锁和条件是线程同步的强大工具，但是，严格地讲，它们不是面向对象的。多年来，研究人员努力寻找一种方法，可以在不需要程序员考虑如何加锁的情况下，就可以保证多线程的安全性。最成功的解决方案之一是监视器（monitor)  </p>
-</li>
-<li><p>监视器具有如下特性：</p>
-<ul>
-<li>监视器是只包含私有域的类。</li>
-<li>每个监视器类的对象有一个相关的锁。</li>
-<li>使用该锁对所有的方法进行加锁。换句话说，如果客户端调用 obj.method(), 那 么 obj对象的锁是在方法调用开始时自动获得， 并且当方法返回时自动释放该锁。因为所有的域是私有的，这样的安排可以确保一个线程在对对象操作时， 没有其他线程能访问该域。</li>
-<li>该锁可以有任意多个相关条件。</li>
+<h2 id="泛型代码和虚拟机"><a href="#泛型代码和虚拟机" class="headerlink" title="泛型代码和虚拟机"></a>泛型代码和虚拟机</h2><ol>
+<li>虚拟机没有泛型类型对象—所有对象都属于普通类。  </li>
+<li>无论何时定义一个泛型类型， 都自动提供了一个相应的原始类型 （ raw type)。原始类型的名字就是删去类型参数后的泛型类型名。擦除（ erased) 类型变M , 并替换为限定类型 （无限定的变量用 Object)。</li>
+<li>当程序调用泛型方法时， 如果擦除返回类型， 编译器插入强制类型转换。  </li>
+<li>总之，需要记住有关 Java 泛型转换的事实：<ul>
+<li>虚拟机中没有泛型，只有普通的类和方法。</li>
+<li>所有的类型参数都用它们的限定类型替换。</li>
+<li>桥方法被合成来保持多态。</li>
+<li>为保持类型安全性，必要时插人强制类型转换。   </li>
 </ul>
 </li>
-<li><p>volatile 关键字为实例域的同步访问提供了一种免锁机制。如果声明一个域为 volatile ,那么编译器和虚拟机就知道该域是可能被另一个线程并发更新的。  </p>
-</li>
-<li><p>线程在调用 lock 方法来获得另一个线程所持有的锁的时候，很可能发生阻塞。应该更加谨慎地申请锁。 tryLock 方法试图申请一个锁， 在成功获得锁后返回 true, 否则， 立即返回false, 而且线程可以立即离开去做其他事情。  </p>
-</li>
-<li><p>lock 方法不能被中断。如果一个线程在等待获得一个锁时被中断，中断线程在获得锁之前一直处于阻塞状态。如果出现死锁， 那么， lock 方法就无法终止。<br>然而， 如果调用带有用超时参数的 tryLock, 那么如果线程在等待期间被中断，将抛出InterruptedException 异常。这是一个非常有用的特性，因为允许程序打破死锁。<br>也可以调用 locklnterruptibly 方法。它就相当于一个超时设为无限的 tryLock 方法。 </p>
-</li>
-<li><p>java.util.concurrent.locks 包 定 义 了 两 个 锁 类， 我 们 已 经 讨 论 的 ReentrantLock 类 和<br>ReentrantReadWriteLock 类。 如果很多线程从一个数据结构读取数据而很少线程修改其中数据的话， 后者是十分有用的。在这种情况下， 允许对读者线程共享访问是合适的。当然， 写者线程依然必须是互斥访问的。   </p>
-</li>
-<li><p>为什么弃用 stop 和 suspend 方法?</p>
-<p>初始的 Java 版本定义了一个 stop 方法用来终止一个线程， 以及一个 suspend 方法用来阻塞一个线程直至另一个线程调用 resume。stop 和 suspend 方法有一些共同点：都试图控制一个给定线程的行为。<br>stop、 suspend 和 resume 方法已经弃用。stop 方法天生就不安全，经验证明 suspend 方法会经常导致死锁。<br>首先来看看 stop 方法， 该方法终止所有未结束的方法， 包括 run 方法。当线程被终止，立即释放被它锁住的所有对象的锁。这会导致对象处于不一致的状态。例如’假定 TransferThread在从一个账户向另一个账户转账的过程中被终止，钱款已经转出，却没有转人目标账户，现在银行对象就被破坏了。因为锁已经被释放，这种破坏会被其他尚未停止的线程观察到。<br>当线程要终止另一个线程时， 无法知道什么时候调用 stop 方法是安全的， 什么时候导致<br>对象被破坏。因此，该方法被弃用了。在希望停止线程的时候应该中断线程， 被中断的线程<br>会在安全的时候停止。</p>
-<p>与 stop 不同，suspend 不会破坏对象。但是，如果用 suspend 挂起一个持有一个锁的线程， 那么，该锁在恢复之前是不可用的。 如果调用suspend 方法的线程试图获得同一个锁， 那么程序死锁： 被挂起的线程等着被恢复， 而将其挂起的线程等待获得锁。    </p>
+</ol>
+<h2 id="约束与局限性"><a href="#约束与局限性" class="headerlink" title="约束与局限性"></a>约束与局限性</h2><ol>
+<li>不能用基本类型实例化类型参数  </li>
+<li>运行时类型查询只适用于原始类型  </li>
+<li>Varargs 警告  </li>
+<li>不能实例化类型变置  </li>
+<li>不能创建参数化类型的数组</li>
+<li>不能构造泛型数组</li>
+<li>泛型类的静态上下文中类型变量无效  </li>
+<li>不能抛出或捕获泛型类的实例</li>
+<li>可以消除对受查异常的检查</li>
+<li>注意擦除后的冲突</li>
+</ol>
+<h2 id="泛型类型的继承规则"><a href="#泛型类型的继承规则" class="headerlink" title="泛型类型的继承规则"></a>泛型类型的继承规则</h2><ol>
+<li>泛型类可以扩展或实现其他的泛型类。就这一点而言，与普通的类没有什么区别。 例如， ArrayList<T> 类实现 List<T> 接口。这意味着， 一个 ArrayList<Manager> 可以被转换为一个 List<Manager>。  </Manager></Manager></T></T></li>
+</ol>
+<h2 id="通配符类型"><a href="#通配符类型" class="headerlink" title="通配符类型"></a>通配符类型</h2><ol>
+<li>通配符类型中， 允许类型参数变化。 例如， 通配符类型<br>Pair&lt;? extends Employee〉<br>表示任何泛型 Pair 类型， 它的类型参数是 Employee 的子类， 如 Pair<Manager>， 但不Pair<String>。</String></Manager></li>
+<li>通配符限定与类型变量限定十分类似，但是，还有一个附加的能力， 即可以指定一个超类型限定 （supertypebound), 如下所亦：<br>? super Manager    </li>
+</ol>
+<h2 id="反射和泛型"><a href="#反射和泛型" class="headerlink" title="反射和泛型"></a>反射和泛型</h2><ol>
+<li>反射允许你在运行时分析任意的对象。 如果对象是泛型类的实例，关于泛型类型参数则得不到太多信息， 因为它们会被擦除。  </li>
+<li>可以使用反射 API 来确定：<ul>
+<li>这个泛型方法有一个叫做 T 的类型参数。</li>
+<li>这个类型参数有一个子类型限定， 其自身又是一个泛型类型。</li>
+<li>这个限定类型有一个通配符参数。</li>
+<li>这个通配符参数有一个超类型限定。</li>
+<li>这个泛型方法有一个泛型数组参数。  </li>
+</ul>
 </li>
 </ol>
-<h2 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h2><ol>
-<li><p>对于许多线程问题， 可以通过使用一个或多个队列以优雅且安全的方式将其形式化。生产者线程向队列插人元素， 消费者线程则取出它们。使用队列，可以安全地从一个线程向另一个线程传递数据。 例如， 考虑银行转账程序， 转账线程将转账指令对象插入一个队列中，而不是直接访问银行对象。 另一个线程从队列中取出指令执行转账。只有该线程可以访问该银行对象的内部。因此不需要同步。（当然， 线程安全的队列类的实现者不能不考虑锁和条件，但是， 那是他们的问题而不是你的问题。）  </p>
+<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="Java集合框架"><a href="#Java集合框架" class="headerlink" title="Java集合框架"></a>Java集合框架</h2><ol>
+<li>队列接口指出可以在队列的尾部添加元素， 在队列的头部删除元素，并且可以査找队列中元素的个数。当需要收集对象， 并按照“ 先进先出” 的规则检索对象时就应该使用队列 。</li>
+<li>队列通常有两种实现方式： 一种是使用循环数组； 另一种是使用链表 。</li>
+<li>循环数组是一个有界集合， 即容量有限。如果程序中要收集的对象数量没有上限， 就最好使用链表来实现。  </li>
+<li>在 Java 类库中，集合类的基本接口是 Collection 接口。  </li>
+<li>编译器简单地将“ foreach” 循环翻译为带有迭代器的循环。<br>“ for each” 循环可以与任何实现了 Iterable 接口的对象一起工作， 这个接口只包含一个抽象方法。</li>
+<li>Collection 接口扩展了 Iterable 接口。因此， 对于标准类库中的任何集合都可以使用“ foreach” 循环。   </li>
+<li>元素被访问的顺序取决于集合类型。 如果对 ArrayList 进行迭代， 迭代器将从索引 0开始，每迭代一次，索引值加 1。 然而， 如果访问 HashSet 中的元素， 每个元素将会按照某种随机的次序出现。虽然可以确定在迭代过程中能够遍历到集合中的所有元素，但却无法预知元素被访问的次序。这对于计算总和或统计符合某个条件的元素个数这类与顺序无关的操作来说，并不是什么问题。   </li>
+<li>将 Java 迭代器认为是位于两个元素之间。 当调用 next 时，迭代器就越过下一个元素，并返回刚刚越过的那个元素的引用 。</li>
+<li>Iterator 接口的 remove 方法将会删除上次调用 next 方法时返回的元素。在大多数情况下，在决定删除某个元素之前应该先看一下这个元素是很具有实际意义的。然而， 如果想要删除指定位置上的元素， 仍然需要越过这个元素。  </li>
+<li>对 next 方法和 remove 方法的调用具有互相依赖性。如果调用 remove 之前没有调用 next 将是不合法的。 如果这样做， 将会抛出一个 IllegalStateException 异常。  </li>
+<li>由于 Collection 与 Iterator 都是泛型接口，可以编写操作任何集合类型的实用方法。  </li>
+<li>集合有两个基本接口：Collection 和 Map。  </li>
+<li>List 是一个有序集合（ or办 元 素 会 增 加 到 容 器 中 的 特 定 位 置。 可 以采用两种方式访问元素：使用迭代器访问， 或者使用一个整数索引来访问。后一种方法称为随机访问（random access), 因为这样可以按任意顺序访问元素。与之不同，使用迭代器访问时，必须顺序地访问元素。   </li>
+<li>Set 接口等同于 Collection 接口，不过其方法的行为有更严谨的定义。集（set) 的 add方法不允许增加重复的元素。要适当地定义集的 equals 方法：只要两个集包含同样的元素就认为是相等的，而不要求这些元素有同样的顺序。 hashCode 方法的定义要保证包含相同元素的两个集会得到相同的散列码。  </li>
+</ol>
+<h2 id="具体的集合"><a href="#具体的集合" class="headerlink" title="具体的集合"></a>具体的集合</h2><ol>
+<li><p>数组和数组列表都有一个重大的缺陷。这就是从数组的中间位置删除一个元素要付出很大的代价，其原因是<br>数组中处于被删除元素之后的所有元素都要向数组的前端移动。 在数组中间的位置上插入一个元素也是如此。  </p>
 </li>
-<li><p>当试图向队列添加元素而队列已满， 或是想从队列移出元素而队列为空的时候， 阻塞队列（blocking queue ) 导致线程阻塞。在协调多个线程之间的合作时， 阻塞队列是一个有用的工具。工作者线程可以周期性地将中间结果存储在阻塞队列中。其他的工作者线程移出中间结果并进一步加以修改。队列会自动地平衡负载。如果第一个线程集运行得比第二个慢， 第二个线程集在等待结果时会阻塞。 如果第一个线程集运行得快， 它将等待第二个队列集赶上来。  </p>
+<li><p>的数据结构一链表（ linked list) 解决了这个问题。尽管数组在连续的存储位置上存放对象引用， 但链表却将每个对象存放在独立的结点中。每个结点还存放着序列中下一个结点的引用。在 Java 程序设计语言中， 所有链表实际上都是双向链接的(doubly linked)—即每个结点还存放着指向前驱结点的引用 。</p>
 </li>
-<li><p>java.util.concurrent 包提供了阻塞队列的几个变种。 默认情况下， LinkedBlockingQueue的容量是没有上边界的，但是，也可以选择指定最大容量。LinkedBlockingDeque 是一个双端的版本。ArrayBlockingQueue 在构造时需要指定容量，并且有一个可选的参数来指定是否需要公平性。若设置了公平参数， 则那么等待了最长时间的线程会优先得到处理。通常，公平性会降低性能，只有在确实非常需要时才使用它。</p>
-<p>PriorityBlockingQueue 是一个带优先级的队列， 而不是先进先出队列。元素按照它们的优先级顺序被移出。该队列是没有容量上限，但是，如果队列是空的， 取元素的操作会阻塞。  </p>
+<li><p>从链表中间删除一个元素是一个很轻松的操作， 即需要更新被删除元素附近的链接 。</p>
+</li>
+<li><p>链 表 与 泛 型 集 合 之 间 有 一 个 重 要 的 区 别。 链 表 是 一 个 有 序 集 合（ ordered collection), 每个对象的位置十分重要。 LinkedList.add 方法将对象添加到链表的尾部。但是，常常需要将元素添加到链表的中间。由于迭代器是描述集合中位置的， 所以这种依赖于位置的 add 方法将由迭代器负责。只有对自然有序的集合使用迭代器添加元素才有实际意义。 集 （set ) 类型，其中的元素完全无序。 因此， 在 Iterator 接口中就没有add 方法。相反地，集合类库提供了子接口 Listlterator, 其 中 包 含 add 方 法 。</p>
+</li>
+<li><p>如果多次调用 add 方法， 将按照提供的次序把元素添加到链表中。它们被依次添加到迭代器当前位置之前。</p>
+</li>
+<li><p>可以使用 Listlterator 类从前后两个方向遍历链表中的元素， 并可以添加、 删除元素。   </p>
+</li>
+<li><p>为什么要优先使用链表呢？ 使用链表的唯一理由是尽可能地减少在列表中间插人或删除元素所付出的代价。 如果列表只有少数几个元素， 就完全可以使用 ArrayList。   </p>
+</li>
+<li><p>有一种众所周知的数据结构， 可以快速地査找所需要的对象， 这就是散列表（hash table )。散列表为每个对象计算一个整数， 称为散列码（hash code)。散列码是由对象的实例域产生的一个整数。更准确地说， 具有不同数据域的对象将产生不同的散列码。</p>
+</li>
+<li><p>自己实现的 hashCode方法应该与 equals 方法兼容，即如果 a_equals(b) 为 true, a 与 b 必须具有相同的散列码。  </p>
+</li>
+<li><p>在 Java 中， 散列表用链表数组实现。每个列表被称为桶 （ bucket)要想査找表中对象的位置， 就要先计算它的散列码， 然后与桶的总数取余， 所得到的结果就是保存这个元素的桶的索引。 </p>
+<p>例如， 如果某个对象的散列码为 76268, 并且有 128 个桶， 对象应该保存在第 108 号桶中（ 76268除以 128余 108 )。 或许会很幸运， 在这个桶中没有其他元素， 此时将元素直接插人到桶中就可以了。  </p>
+</li>
+<li><p>当然， 有时候会遇到桶被占满的情况， 这也是不可避免的。这种现象被称为散列冲突（ hash collision) 。这时， 需要用新对象与桶中的所有对象进行比较，査看这个对象是否已经存在。如果散列码是合理且随机分布的， 桶的数目也足够大， 需要比较的次数就会很少。  </p>
+</li>
+<li><p>在 JavaSE 8 中， 桶满时会从链表变为平衡二叉树。如果选择的散列函数不当， 会产生很多冲突， 或者如果有恶意代码试图在散列表中填充多个有相同散列码的值， 这样就能提高性能。  </p>
+</li>
+<li><p>如果想更多地控制散列表的运行性能， 就要指定一个初始的桶数。桶数是指用于收集具有相同散列值的桶的数目。 如果要插入到散列表中的元素太多， 就会增加冲突的可能性， 降低运行性能。  </p>
+</li>
+<li><p>如果大致知道最终会有多少个元素要插人到散列表中， 就可以设置桶数。通常， 将桶数设置为预计元素个数的 75% ~ 150%。有些研究人员认为：尽管还没有确凿的证据，但最好将桶数设置为一个素数， 以防键的集聚。标准类库使用的桶数是 2 的幂， 默认值为 16 (为表大小提供的任何值都将被自动地转换为 2 的下一个幂 )。当然，并不是总能够知道需要存储多少个元素的， 也有可能最初的估计过低。 如果散列表太满， 就需要再散列 （rehashed)。 如果要对散列表再散列， 就需要创建一个桶数更多的表，并将所有元素插入到这个新表中，. 然后丢弃原来的表。 装填因子（ load factor) 决定何时对散列表进行再散列。 例如， 如果装填因子为 0.75 (默认值，) 而表中超过 75%的位置已经填人元素， 这个表就会用双倍的桶数自动地进行再散列。对于大多数应用程序来说， 装填因子为0.75 是比较合理的。  </p>
+</li>
+<li><p>散列表可以用于实现几个重要的数据结构。 其中最简单的是 set 类型。set 是没有重复元素的元素集合。set 的 add 方法首先在集中查找要添加的对象， 如果不存在，就将这个对象添加进去。  </p>
+</li>
+<li><p>Java 集合类库提供了一个 HashSet 类，它实现了基于散列表的集。可以用 add 方法添加元素。contains方法已经被重新定义， 用来快速地查看是否某个元素已经出现在集中。它只在某个桶中査找元素，而不必查看集合中的所有元素。</p>
+</li>
+<li><p>TreeSet 类与散列集十分类似， 不过， 它比散列集有所改进。树集是一个有序集合( sorted collection) o 可以以任意顺序将元素插入到集合中。在对集合进行遍历时， 每个值将自动地按照排序后的顺序呈现。 </p>
+</li>
+<li><p>正如 TreeSet 类名所示， 排序是用树结构完成的（当前实现使用的是红黑树（red-black tree)）。每次将一个元素添加到树中时，都被放置在正确的排序位置上。因此，迭代器总是以排好序的顺序访问每个元素。  </p>
+</li>
+<li><p>队列可以让人们有效地在尾部添加一个元素， 在头部删除一个元素。有两个端头的队列， 即双端队列， 可以让人们有效地在头部和尾部同时添加或删除元素。不支持在队列中间添加元素。在 Java SE 6 中引人了 Deque 接口， 并由 ArrayDeque 和LinkedList 类实现。这两个类都提供了双端队列，而且在必要时可以增加队列的长度。</p>
+</li>
+<li><p>优先级队列（priority queue) 中的元素可以按照任意的顺序插人，却总是按照排序的顺序进行检索。也就是说，无论何时调用 remove 方法，总会获得当前优先级队列中最小的元素。然而，优先级队列并没有对所有的元素进行排序。如果用迭代的方式处理这些元素，并不需要对它们进行排序。优先级队列使用了一个优雅且高效的数据结构，称为堆（heap)。堆是一个可以自我调整的二叉树，对树执行添加 （ add) 和删除（remore) 操作， 可以让最小的元素移动到根，而不必花费时间对元素进行排序。  </p>
 </li>
 </ol>
-<h2 id="线程安全的集合"><a href="#线程安全的集合" class="headerlink" title="线程安全的集合"></a>线程安全的集合</h2><ol>
-<li>java.util.concurrent 包提供了映射、 有序集和队列的高效实现： ConcurrentHashMap、ConcurrentSkipListMap &gt; ConcurrentSkipListSet 和 ConcurrentLinkedQueue。这些集合使用复杂的算法，通过允许并发地访问数据结构的不同部分来使竞争极小化。  </li>
-<li>CopyOnWriteArrayList 和 CopyOnWriteArraySet 是线程安全的集合， 其中所有的修改线程对底层数组进行复制。 如果在集合上进行迭代的线程数超过修改线程数， 这样的安排是很有用的。当构建一个迭代器的时候， 它包含一个对当前数组的引用。如果数组后来被修改了，迭代器仍然引用旧数组， 但是，集合的数组已经被替换了。因而，旧的迭代器拥有一致的（可能过时的）视图，访问它无须任何同步开销。</li>
+<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><ol>
+<li>集是一个集合，它可以快速地查找现有的元素。但是，要查看一个元素， 需要有要查找元素的精确副本。这不是一种非常通用的査找方式。通常， 我们知道某些键的信息，并想要查找与之对应的元素。 映射（ map) 数据结构就是为此设计的。映射用来存放键 / 值对。如果提供了键， 就能够查找到值。</li>
+<li>Java 类库为映射提供了两个通用的实现： HashMap 和 TreeMap 。这两个类都实现了 Map 接口。  </li>
+<li>散列映射对键进行散列， 树映射用键的整体顺序对元素进行排序， 并将其组织成搜索树。散列或比较函数只能作用于键。与键关联的值不能进行散列或比较。</li>
+<li>应该选择散列映射还是树映射呢？ 与集一样， 散列稍微快一些， 如果不需要按照排列顺序访问键， 就最好选择散列。  </li>
+<li>键必须是唯一的。不能对同一个键存放两个值。 如果对同一个键两次调用 put 方法， 第二个值就会取代第一个值。实际上， put 将返回用这个键参数存储的上一个值。  </li>
+<li>remove 方法用于从映射中删除给定键对应的元素。 size 方法用于返回映射中的元素数。  </li>
+<li>集合框架不认为映射本身是一个集合。（其他数据结构框架认为映射是一个键 / 值对集合， 或者是由键索引的值集合。）不过， 可以得到映射的视图（ View )—这是实现了Collection 接口或某个子接口的对象。  </li>
+<li>有 3 种视图： 键集、 值集合（不是一个集） 以及键 / 值对集。键和键 / 值对可以构成一个集， 因为映射中一个键只能有一个副本。  </li>
+<li>LinkedHashSet 和 LinkedHashMap类用来记住插人元素项的顺序。这样就可以避免在散歹IJ表中的项从表面上看是随机排列的。当条目插入到表中时，就会并人到双向链表中  </li>
 </ol>
-<h2 id="Callable与Future"><a href="#Callable与Future" class="headerlink" title="Callable与Future"></a>Callable与Future</h2><ol>
-<li>Runnable 封装一个异步运行的任务，可以把它想象成为一个没有参数和返回值的异步方法。Callable 与 Runnable 类似， 但是有返回值。Callable 接口是一个参数化的类型， 只有一个方法 call。  </li>
-<li>Future 保存异步计算的结果。可以启动一个计算，将 Future 对象交给某个线程，然后忘掉它。 Future 对象的所有者在结果计算好之后就可以获得它。  </li>
+<h2 id="视图与包装器"><a href="#视图与包装器" class="headerlink" title="视图与包装器"></a>视图与包装器</h2><ol>
+<li>keySet 方法返回一个实现 Set接口的类对象， 这个类的方法对原映射进行操作。这种集合称为视图。  </li>
+<li>Arrays 类的静态方法 asList 将返回一个包装了普通 Java 数组的 List 包装器。这个方法可以将数组传递给一个期望得到列表或集合参数的方法。  </li>
+<li>Arrays.asList返回的对象不是 ArrayList。它是一个视图对象， 带有访问底层数组的 get 和 set方法。改变数组大小的所有方法（例如，与迭代器相关的 add 和 remove 方法）都会抛出一个Unsupported OperationException 异常。  </li>
+<li>如果由多个线程访问集合，就必须确保集不会被意外地破坏。例如， 如果一个线程试图将元素添加到散列表中，同时另一个线程正在对散列表进行再散列，其结果将是灾难性的。类库的设计者使用视图机制来确保常规集合的线程安全， 而不是实现线程安全的集合类。例如， Collections 类的静态 synchronizedMap方法可以将任何一个映射表转换成具有同步访问方法的 Map 。</li>
+<li>现在， 就可以由多线程访问 map 对象了。像 get 和 put 这类方法都是同步操作的， 即在另一个线程调用另一个方法之前，刚才的方法调用必须彻底完成。  </li>
 </ol>
-<h2 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h2><ol>
-<li><p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出时， 线程不会死亡，而是在池中准备为下一个请求提供服务。   </p>
-<p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大<br>量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的<br>空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出<br>时， 线程不会死亡，而是在池中准备为下一个请求提供服务。  </p>
-</li>
-<li><p>执行器 （ Executor) 类有许多静态工厂方法用来构建线程池。</p>
-</li>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><ol>
+<li>泛型集合接口有一个很大的优点， 即算法只需要实现一次。</li>
+<li>Collections 类中的 sort 方法可以对实现了 List 接口的集合进行排序。  </li>
+<li>对列表进行随机访问的效率很低。实际上， 可以使用归并排序对列表进行高效的排序。然而，Java 程序设计语言并不是这样实现的。它直接将所有元素转人一个数组， 对数组进行排序，然后，再将排序后的序列复制回列表。  </li>
+<li>集合类库中使用的排序算法比快速排序要慢一些， 快速排序是通用排序算法的传统选择。但是， 归并排序有一个主要的优点：稳定， 即不需要交换相同的元素。 为什么要关注相同元素的顺序呢？ 下面是一种常见的情况。 假设有一个已经按照姓名排列的员工列表。现在，要按照工资再进行排序。 如果两个雇员的工资相等发生什么情况呢？ 如果采用稳定的排序算法， 将会保留按名字排列的顺序。换句话说， 排序的结果将会产生这样一个列表， 首先按照工资排序， 工资相同者再按照姓名排序。  </li>
+<li>Collections 类有一个算法 shuffle, 其功能与排序刚好相反， 即随机地混排列表中元素的顺序。  </li>
+<li>shuffle 方法将元素复制到数组中，然后打乱数组元素的顺序，最后再将打乱顺序后的元素复制回列表。  </li>
+<li>要想在数组中査找一个对象， 通常要依次访问数组中的每个元素，直到找到匹配的元素为止。然而， 如果数组是有序的， 就可以直接査看位于数组中间的元素， 看一看是否大于要查找的元素。如果是， 用同样的方法在数组的前半部分继续查找； 否则， 用同样的方法在数组的后半部分继续查找。这样就可以将查找范围缩减一半。一直用这种方式査找下去。  </li>
+<li>Collections 类的 binarySearch方法实现了这个算法。 注意， 集合必须是排好序的， 否则算法将返回错误的答案。要想查找某个元素， 必须提供集合（这个集合要实现 List 接口， 下面还要更加详细地介绍这个问题）以及要查找的元素。 如果集合没有采用 Comparable 接口的compareTo 方法进行排序， 就还要提供一个比较器对象。  </li>
+</ol>
+<h2 id="遗留的集合"><a href="#遗留的集合" class="headerlink" title="遗留的集合"></a>遗留的集合</h2><ol>
+<li>Hashtable 类与 HashMap 类的作用一样，实际上，它们拥有相同的接口。与 Vector 类的方法一样。Hashtable 的方法也是同步的。如果对同步性或与遗留代码的兼容性没有任何要求，就应该使用 HashMap。如果需要并发访问， 则要使用 ConcurrentHashMap  </li>
+<li>遗留集合使用 Enumeration 接口对元素序列进行遍历。 Enumeration 接口有两个方法， 即hasMoreElements 和 nextElement。 这两个方法与 Iterator 接口的 hasNext 方法和 next 方法十分类似。  </li>
+<li>属性映射（property map) 是一个类型非常特殊的映射结构。它有下面 3 个特性：  </li>
+</ol>
+<ul>
+<li>键与值都是字符串。  </li>
+<li>表可以保存到一个文件中， 也可以从文件中加载。  </li>
+<li>使用一个默认的辅助表。  </li>
+</ul>
+<ol start="4">
+<li>实现属性映射的 Java 平台类称为 Properties。  </li>
 </ol>
 ]]></content>
       <categories>
@@ -797,6 +851,119 @@
       </tags>
   </entry>
   <entry>
+    <title>Java运行时数据区域</title>
+    <url>/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/</url>
+    <content><![CDATA[<blockquote>
+<p> 读《深入理解Java虚拟机》记录</p>
+<p> Java 虚拟机有自动内存管理机制，但如果出现内存泄漏和溢出方面的问题，排查错误、修正问题就必须要了解虚拟机是怎样使用内存的。</p>
+</blockquote>
+<h1 id="Java运行时数据区域"><a href="#Java运行时数据区域" class="headerlink" title="Java运行时数据区域"></a>Java运行时数据区域</h1><p>Java运行时数据区域在JDK8前后是有区别的：</p>
+<p>下图是 JDK8 之后的 JVM 内存布局。</p>
+<p><img src="/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/Java运行时数据区域/14923529-c0cbbccaa6858ca1.png" alt="14923529-c0cbbccaa6858ca1"></p>
+<p>JDK8 之前的内存区域图如下:</p>
+<p><img src="/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/Java运行时数据区域/14923529-b96312d95eb09d15.png" alt="14923529-b96312d95eb09d15"></p>
+<blockquote>
+<p>在HotSpot JVM中，方法区（Method Area）与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。每当一个类初次被加载的时候，它的元数据都会放到永久代中。</p>
+<p>永久代是有大小限制的，因此如果加载的类太多，很有可能导致永久代内存溢出，即万恶的 <em>java.lang.OutOfMemoryError: PermGen</em> ，为此JVM开发者不得不对虚拟机做调优。</p>
+<p>JDK7的HotSpot，已经把原本放在永久代的字符串常量（移到堆中）、静态变量移出，到了JDK8则完全废弃了永久代，取而代之的是<strong>（元空间）Metaspace</strong>，将JDK7中永久代还剩余的内容（主要是类型信息）全部移到了元空间中。</p>
+<p>运行时常量池在元空间</p>
+</blockquote>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器（Program Counter Register）是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里面，字节码解释器工作时候就是通过改变机器数起的值来选择下一条需要执行的字节码执行，分支、循环、跳转、异常处理等基础功能都需要依赖计数器完成。</p>
+<p>由于 Java 虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一个确定的时刻，一个处理器内核都只会执行一条线程中的指令。因此，为了线程切换后能恢复到正确的执行位置，每条线程都需要有一个独立的程序计数器，各条线程之间计数器互不影响，独立存储，我们称这类内存区域为“线程私有”的内存。</p>
+<p>如果线程正在执行的是一个 Java 方法，这个计数器记录的是正在执行的虚拟机字节码指令的地址；如果正在执行的是 Native 方法，这个计数器值则为空（Undefined）。此内存区域是唯一一个在 Java 虚拟机规范中没有规定任何 OutOfMemoryError 情况的区域。</p>
+<h2 id="Java虚拟机栈"><a href="#Java虚拟机栈" class="headerlink" title="Java虚拟机栈"></a>Java虚拟机栈</h2><p>与程序计数器一样，Java 虚拟机栈（Java Virtual Machine Stacks）也是线程私有的，它的生命周期与线程相同。</p>
+<p>虚拟机栈描述的是 Java 方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧（Stack Frame，是方法运行时的基础数据结构）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
+<p>在活动线程中，只有位千栈顶的帧才是有效的，称为当前栈帧。正在执行的方法称为当前方法，栈帧是方法运行的基本结构。在执行引擎运行时，所有指令都只能针对当前栈帧进行操作。</p>
+<p><img src="/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/Java运行时数据区域/14923529-7a6d6e02c15fff2f.png" alt="14923529-7a6d6e02c15fff2f"></p>
+<h3 id="1-局部变量表"><a href="#1-局部变量表" class="headerlink" title="1. 局部变量表"></a>1. 局部变量表</h3><p>局部变量表是存放方法参数和局部变量的区域。 局部变量没有准备阶段， 必须显式初始化。如果是非静态方法，<strong>则在 index[0] 位置上存储的是方法所属对象的实例引用</strong>，一个引用变量占 4 个字节，随后存储的是参数和局部变量。字节码指令中的 STORE 指令就是将操作栈中计算完成的局部变呈写回局部变量表的存储空间内。</p>
+<p>虚拟机栈规定了两种异常状况：如果线程请求的栈深度大于虚拟机所允许的深度，将抛出 StackOverflowError 异常；如果虚拟机栈可以动态扩展（当前大部分的 Java 虚拟机都可动态扩展），如果扩展时无法申请到足够的内存，就会抛出 OutOfMemoryError 异常。</p>
+<h3 id="2-操作栈"><a href="#2-操作栈" class="headerlink" title="2. 操作栈"></a>2. 操作栈</h3><p>操作栈是个初始状态为空的桶式结构栈。在方法执行过程中， 会有各种指令往<br>栈中写入和提取信息。JVM 的执行引擎是基于栈的执行引擎， 其中的栈指的就是操<br>作栈。字节码指令集的定义都是基于栈类型的，栈的深度在方法元信息的 stack 属性中。</p>
+<p><strong>i++ 和 ++i 的区别：</strong></p>
+<ol>
+<li>i++：从局部变量表取出 i 并压入操作栈(load memory)，然后对局部变量表中的 i 自增 1(add&amp;store memory)，将操作栈栈顶值取出使用，如此线程从操作栈读到的是自增之前的值。</li>
+<li>++i：先对局部变量表的 i 自增 1(load memory&amp;add&amp;store memory)，然后取出并压入操作栈(load memory)，再将操作栈栈顶值取出使用，线程从操作栈读到的是自增之后的值。</li>
+</ol>
+<p>之前之所以说 i++ 不是原子操作，即使使用 volatile 修饰也不是线程安全，就是因为，可能 i 被从局部变量表（内存）取出，压入操作栈（寄存器），操作栈中自增，使用栈顶值更新局部变量表（寄存器更新写入内存），其中分为 3 步，volatile 保证可见性，保证每次从局部变量表读取的都是最新的值，但可能这 3 步可能被另一个线程的 3 步打断，产生数据互相覆盖问题，从而导致 i 的值比预期的小。</p>
+<h3 id="3-动态链接"><a href="#3-动态链接" class="headerlink" title="3. 动态链接"></a>3. 动态链接</h3><p>每个栈帧中包含一个在常量池中对当前方法的引用， 目的是支持方法调用过程的动态连接。</p>
+<h3 id="4-方法返回地址"><a href="#4-方法返回地址" class="headerlink" title="4.方法返回地址"></a>4.方法返回地址</h3><p>方法执行时有两种退出情况：</p>
+<ol>
+<li>正常退出，即正常执行到任何方法的返回字节码指令，如 RETURN、IRETURN、ARETURN 等；</li>
+<li>异常退出。</li>
+</ol>
+<p>无论何种退出情况，都将返回至方法当前被调用的位置。方法退出的过程相当于弹出当前栈帧，退出可能有三种方式：</p>
+<ol>
+<li>返回值压入上层调用栈帧。</li>
+<li>异常信息抛给能够处理的栈帧。</li>
+<li>PC计数器指向方法调用后的下一条指令。</li>
+</ol>
+<h2 id="本地方法区"><a href="#本地方法区" class="headerlink" title="本地方法区"></a>本地方法区</h2><p>本地方法栈（Native Method Stack）与虚拟机栈所发挥的作用是非常相似的，它们之间的区别不过是虚拟机栈为虚拟机执行 Java 方法（也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。Sun HotSpot 虚拟机直接就把本地方法栈和虚拟机栈合二为一。与虚拟机栈一样，本地方法栈区域也会抛出 StackOverflowError 和 OutOfMemoryError 异常。</p>
+<h2 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h2><p>对于大多数应用来说，Java 堆（Java Heap）是 Java 虚拟机所管理的内存中最大的一块。Java 堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存。</p>
+<p>堆是垃圾收集器管理的主要区域，因此很多时候也被称做“GC堆”（Garbage Collected Heap）。从内存回收的角度来看，由于现在收集器基本都采用分代收集算法，所以 Java 堆中还可以细分为：新生代和老年代；再细致一点的有 Eden 空间、From Survivor 空间、To Survivor 空间等。从内存分配的角度来看，线程共享的 Java 堆中可能划分出多个线程私有的分配缓冲区（Thread Local Allocation Buffer,TLAB）。</p>
+<p>Java 堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可，当前主流的虚拟机都是按照可扩展来实现的（通过 -Xmx 和 -Xms 控制）。如果在堆中没有内存完成实例分配，并且堆也无法再扩展时，将会抛出 OutOfMemoryError 异常。</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区（Method Area）与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。虽然Java 虚拟机规范把方法区描述为堆的一个逻辑部分，但是它却有一个别名叫做 Non-Heap（非堆），目的应该是与 Java 堆区分开来。</p>
+<p>Java 虚拟机规范对方法区的限制非常宽松，除了和 Java 堆一样不需要连续的内存和可以选择固定大小或者可扩展外，还可以选择不实现垃圾收集。垃圾收集行为在这个区域是比较少出现的，其内存回收目标主要是针对常量池的回收和对类型的卸载。当方法区无法满足内存分配需求时，将抛出 OutOfMemoryError 异常。</p>
+<p><strong>JDK8 之前，Hotspot 中方法区的实现是永久代（Perm），JDK8 开始使用元空间（Metaspace），以前永久代所有内容的字符串常量移至堆内存，其他内容移至元空间，元空间直接在本地内存分配。</strong></p>
+<p>为什么要使用元空间取代永久代的实现？</p>
+<ol>
+<li>字符串存在永久代中，容易出现性能问题和内存溢出。</li>
+<li>类及方法的信息等比较难确定其大小，因此对于永久代的大小指定比较困难，太小容易出现永久代溢出，太大则容易导致老年代溢出。</li>
+<li>永久代会为 GC 带来不必要的复杂度，并且回收效率偏低。</li>
+<li>将 HotSpot 与 JRockit 合二为一。</li>
+</ol>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池（Runtime Constant Pool）是方法区的一部分。Class 文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池（Constant Pool Table），用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
+<p>一般来说，除了保存 Class 文件中描述的符号引用外，还会把翻译出来的直接引用也存储在运行时常量池中。</p>
+<p>运行时常量池相对于 Class 文件常量池的另外一个重要特征是具备动态性，Java 语言并不要求常量一定只有编译期才能产生，也就是并非预置入 Class 文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用得比较多的便是 String 类的 intern() 方法。</p>
+<p>既然运行时常量池是方法区的一部分，自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出 OutOfMemoryError 异常。</p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是 Java 虚拟机规范中定义的内存区域。</p>
+<p>在 JDK 1.4 中新加入了 NIO，引入了一种基于通道（Channel）与缓冲区（Buffer）的 I/O 方式，它可以使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 堆中的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在 Java 堆和 Native 堆中来回复制数据。</p>
+<p>显然，本机直接内存的分配不会受到 Java 堆大小的限制，但是，既然是内存，肯定还是会受到本机总内存（包括 RAM 以及 SWAP 区或者分页文件）大小以及处理器寻址空间的限制。服务器管理员在配置虚拟机参数时，会根据实际内存设置 -Xmx 等参数信息，但经常忽略直接内存，使得各个内存区域总和大于物理内存限制（包括物理的和操作系统级的限制），从而导致动态扩展时出现 OutOfMemoryError 异常。</p>
+<p><img src="/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/Java运行时数据区域/14923529-3d9e650ad915bc0e.png" alt="14923529-3d9e650ad915bc0e"></p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>技术书籍</tag>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MongoDB-持久化</title>
+    <url>/2019/04/20/MongoDB-%E6%8C%81%E4%B9%85%E5%8C%96/</url>
+    <content><![CDATA[<blockquote>
+<p>Mongodb在1.8版本之后开始支持journal，就是我们常说的redo log，用于故障恢复和持久化。<br>MongoDB可以保证当服务器崩溃或服务器硬关机或硬盘故障时的数据完整性</p>
+</blockquote>
+<h1 id="MongoDB-Journaling"><a href="#MongoDB-Journaling" class="headerlink" title="MongoDB-Journaling"></a>MongoDB-Journaling</h1><h2 id="备份和恢复"><a href="#备份和恢复" class="headerlink" title="备份和恢复"></a>备份和恢复</h2><p>当执行写操作时，MongoDB创建一个journal来包含确切磁盘位置和改变的字节。因此，如果服务器突然崩溃， 可以在启动时对日志进行重放，从而重新执行哪些停机前没有刷新到磁盘的操作。 </p>
+<p> 数据文件默认每60s刷盘一次。数据文件存放到/data/db/journal目录里。 </p>
+<p> 数据库被正常关闭后，journal日志文件被刷盘，journal被清空。 </p>
+<h2 id="批量提交"><a href="#批量提交" class="headerlink" title="批量提交"></a><strong>批量提交</strong></h2><p>Mongodb默认每隔100毫秒或者写入数据达到若干兆字节后，便会将这些操作写入到日志。即Mongodb不会在每次写入的时候都写入到日志，而是会成批量的提交更改。因此，在默认设置情况下，Mongodb不会丢失超过100毫秒的数据。<br><strong>因此，在Mongodb中存在丢失数据的可能。</strong> </p>
+<h1 id="Journa工作原理"><a href="#Journa工作原理" class="headerlink" title="Journa工作原理"></a>Journa工作原理</h1><p>当系统启动时，mongodb会将数据文件映射到一块内存区域，称之为Shared view，在不开启journal的系统中，数据直接写入shared view，然后返回，系统每60s刷新这块内存到磁盘，这样，如果断电或down机，就会丢失很多内存中未持久化的数据。当系统开启了journal功能，系统会再映射一块内存区域供journal使用，称之为private view，mongodb默认每100ms刷新privateView到journal，也就是说，断电或宕机，有可能丢失这100ms数据，一般都是可以忍受的，如果不能忍受，那就用程序写log吧。这也是为什么开启journal后mongod使用的虚拟内存是之前的两倍。Mongodb的隔离级别是read_uncommitted，不管使用不使用journal，都是以内存中的数据为准，只不过，不开启journal，数据从shared view读取，开启journal，数据从private view读取。 </p>
+<p>在开启journal的系统中，写操作从请求到写入磁盘共经历5个步骤，在serverStatus()中已经列出各个步骤消耗的时间。 </p>
+<ol>
+<li>Write to privateView </li>
+<li><p>prepLogBuffer </p>
+<p>Private view(PV) 中的数据并不是直接刷新到journal文件，而是通过一个中间内存块（journalbuffer，或者alogned buffer）一部分一部分的刷新到journal，这样可以提高并发。preplogbuffer即是将PV中的数据写入到aligned buffer中的过程。这个过程有两部分，basic write 操作和非 basic write操作（e.g.create file）。一次preplogbuffer是以一个commitJob为一个单位，可能会有很多个commitJob写入到aligned buffer，然后提交。一个commitJob中包含多个basic write 和非basic write 操作，basic write是存在Writeintent结构体中的，Writeintent记录了写操作的地址信息。非basic write 操作存在一个vector中。 </p>
+</li>
+<li><p>WritetoJournal </p>
+<p>writetoJournal操作是将alignedbuffer刷新到JournalFile的过程。默认100ms刷新一次，由–journalCommitInterval 参数控制。writetoJournal会做一些checksum验证，将alignedbuffer进行压缩，然后将压缩过后的alignedbuffer写入到磁盘。写入磁盘后将删除已经满的Journal文件，更新lsn号到lsn文件。写操作到这一步就是安全的了，因为数据已经在磁盘上，如果使用getlasterror（j=true），这一步即可返回。 </p>
+</li>
+<li><p>WritetoDataFile </p>
+<p>WritetoDataFile是将未压缩的aligned buffer写入到shared view的过程，然后由操作系统刷新到磁盘文件中。WritetoDataFile首先会对aligned buffer进行严格的验证，确保没有改变过，然后解析aligned buffer，通过memcpy函数拷贝到shareview </p>
+</li>
+<li><p>RemaptoPrivateView </p>
+</li>
+</ol>
+<p>RemaptoprivateView会将持久化的数据重新映射到PV，以减小PV的大小，防止它不断扩大，按照源码上说，RemaptoprivateView会两秒钟重新映射一次，大约有1000个view，不是一次全做完，而是一部分一部分的做。由于读操作是读取PV，所以在映射完成之后会有短暂的时间读取磁盘。</p>
+<p>经过这四步，一个写操作就完成了，journal提高了数据的安全性，并不像想象中的会丢数据，重要的是如何使用和维护。</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MongoDB-常用命令及操作</title>
     <url>/2019/12/08/MongoDB-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><p>MongoDB 是一个跨平台的，面向文档的数据库，是当前 NoSQL 数据库产品中最热门的一种。它介于关系数据库和非关系数据库之间，是非关系数据库当中功能最丰富，最像关系数据库的产品。它支持的数据结构非常松散，是类似 JSON 的 BSON 格式，因此可以存储比较复杂的数据类型。<br>​ MongoDB 的官方网站地址是：<a href="http://www.mongodb.org/">http://www.mongodb.org/</a></p>
@@ -928,39 +1095,178 @@
       </tags>
   </entry>
   <entry>
-    <title>MongoDB-持久化</title>
-    <url>/2019/04/20/MongoDB-%E6%8C%81%E4%B9%85%E5%8C%96/</url>
-    <content><![CDATA[<blockquote>
-<p>Mongodb在1.8版本之后开始支持journal，就是我们常说的redo log，用于故障恢复和持久化。<br>MongoDB可以保证当服务器崩溃或服务器硬关机或硬盘故障时的数据完整性</p>
-</blockquote>
-<h1 id="MongoDB-Journaling"><a href="#MongoDB-Journaling" class="headerlink" title="MongoDB-Journaling"></a>MongoDB-Journaling</h1><h2 id="备份和恢复"><a href="#备份和恢复" class="headerlink" title="备份和恢复"></a>备份和恢复</h2><p>当执行写操作时，MongoDB创建一个journal来包含确切磁盘位置和改变的字节。因此，如果服务器突然崩溃， 可以在启动时对日志进行重放，从而重新执行哪些停机前没有刷新到磁盘的操作。 </p>
-<p> 数据文件默认每60s刷盘一次。数据文件存放到/data/db/journal目录里。 </p>
-<p> 数据库被正常关闭后，journal日志文件被刷盘，journal被清空。 </p>
-<h2 id="批量提交"><a href="#批量提交" class="headerlink" title="批量提交"></a><strong>批量提交</strong></h2><p>Mongodb默认每隔100毫秒或者写入数据达到若干兆字节后，便会将这些操作写入到日志。即Mongodb不会在每次写入的时候都写入到日志，而是会成批量的提交更改。因此，在默认设置情况下，Mongodb不会丢失超过100毫秒的数据。<br><strong>因此，在Mongodb中存在丢失数据的可能。</strong> </p>
-<h1 id="Journa工作原理"><a href="#Journa工作原理" class="headerlink" title="Journa工作原理"></a>Journa工作原理</h1><p>当系统启动时，mongodb会将数据文件映射到一块内存区域，称之为Shared view，在不开启journal的系统中，数据直接写入shared view，然后返回，系统每60s刷新这块内存到磁盘，这样，如果断电或down机，就会丢失很多内存中未持久化的数据。当系统开启了journal功能，系统会再映射一块内存区域供journal使用，称之为private view，mongodb默认每100ms刷新privateView到journal，也就是说，断电或宕机，有可能丢失这100ms数据，一般都是可以忍受的，如果不能忍受，那就用程序写log吧。这也是为什么开启journal后mongod使用的虚拟内存是之前的两倍。Mongodb的隔离级别是read_uncommitted，不管使用不使用journal，都是以内存中的数据为准，只不过，不开启journal，数据从shared view读取，开启journal，数据从private view读取。 </p>
-<p>在开启journal的系统中，写操作从请求到写入磁盘共经历5个步骤，在serverStatus()中已经列出各个步骤消耗的时间。 </p>
-<ol>
-<li>Write to privateView </li>
-<li><p>prepLogBuffer </p>
-<p>Private view(PV) 中的数据并不是直接刷新到journal文件，而是通过一个中间内存块（journalbuffer，或者alogned buffer）一部分一部分的刷新到journal，这样可以提高并发。preplogbuffer即是将PV中的数据写入到aligned buffer中的过程。这个过程有两部分，basic write 操作和非 basic write操作（e.g.create file）。一次preplogbuffer是以一个commitJob为一个单位，可能会有很多个commitJob写入到aligned buffer，然后提交。一个commitJob中包含多个basic write 和非basic write 操作，basic write是存在Writeintent结构体中的，Writeintent记录了写操作的地址信息。非basic write 操作存在一个vector中。 </p>
-</li>
-<li><p>WritetoJournal </p>
-<p>writetoJournal操作是将alignedbuffer刷新到JournalFile的过程。默认100ms刷新一次，由–journalCommitInterval 参数控制。writetoJournal会做一些checksum验证，将alignedbuffer进行压缩，然后将压缩过后的alignedbuffer写入到磁盘。写入磁盘后将删除已经满的Journal文件，更新lsn号到lsn文件。写操作到这一步就是安全的了，因为数据已经在磁盘上，如果使用getlasterror（j=true），这一步即可返回。 </p>
-</li>
-<li><p>WritetoDataFile </p>
-<p>WritetoDataFile是将未压缩的aligned buffer写入到shared view的过程，然后由操作系统刷新到磁盘文件中。WritetoDataFile首先会对aligned buffer进行严格的验证，确保没有改变过，然后解析aligned buffer，通过memcpy函数拷贝到shareview </p>
-</li>
-<li><p>RemaptoPrivateView </p>
-</li>
-</ol>
-<p>RemaptoprivateView会将持久化的数据重新映射到PV，以减小PV的大小，防止它不断扩大，按照源码上说，RemaptoprivateView会两秒钟重新映射一次，大约有1000个view，不是一次全做完，而是一部分一部分的做。由于读操作是读取PV，所以在映射完成之后会有短暂的时间读取磁盘。</p>
-<p>经过这四步，一个写操作就完成了，journal提高了数据的安全性，并不像想象中的会丢数据，重要的是如何使用和维护。</p>
+    <title>MyBatis中$和#的区别</title>
+    <url>/2019/06/16/MyBatis/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybatis为我们提供了两种支持动态SQL 的语法：#{} 以及 ${}。</p>
+<p>#{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’）</p>
+<p>${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需手动代码中过滤）</p>
+<p><strong>#{ }</strong></p>
+<p>例如，Mapper.xml中如下的 sql 语句：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>动态解析为：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = ?; </span><br></pre></td></tr></table></figure>
+<p>一个 #{ } 被解析为一个参数占位符 ? 。</p>
+<p><strong>${ } </strong></p>
+<p>例如，Mapper.xml中如下的 sql语句：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = $&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>当我们传递的参数为 “Java” 时，上述 sql 的解析为：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = &quot;Java&quot;;</span><br></pre></td></tr></table></figure>
+<p>预编译之前的 SQL 语句已经不包含变量了，完全已经是常量数据了。</p>
+<p>综上所得， ${ } 变量的替换阶段是在动态 SQL 解析阶段，而 #{ }变量的替换是在 DBMS 中。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>#{}是预编译处理，${}是字符串替换。</p>
+<p>Mybatis在处理#{}时，会将SQL中的#{}替换为？，调用PreparedStatement的set方法来赋值。</p>
+<p>Mybatis在处理${}时，就是把${}替换成变量的值。</p>
+<p>使用#{}可以有效的防止SQL注入，提高系统安全性。</p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p><strong>1、能使用 #{ } 的地方就用 #{ }</strong></p>
+<ul>
+<li>首先这是为了性能考虑的，相同的预编译 sql 可以重复利用。</li>
+<li>其次，${ } 在预编译之前已经被变量替换了，这会存在 sql 注入问题。</li>
+</ul>
+<p>例如，如下的 sql：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> $&#123;tableName&#125; <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>假如，我们的参数 tableName 为 user; delete user; –，那么 SQL 动态解析阶段之后，预编译之前的 sql 将变为：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span>; <span class="keyword">delete</span> <span class="keyword">user</span>; <span class="comment">-- where name = ?;</span></span><br></pre></td></tr></table></figure>
+<p>– 之后的语句将作为注释，不起作用，因此本来的一条查询语句偷偷的包含了一个删除表数据的 SQL。</p>
+<p><strong>2. 表名作为变量时，必须使用 ${ }</strong><br>这是因为，表名是字符串，使用 sql 占位符替换字符串时会带上单引号 ‘’，这会导致 sql 语法错误，例如：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> #&#123;tableName&#125; <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>预编译之后的sql 变为：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> ? <span class="keyword">where</span> <span class="type">name</span> = ?;</span><br></pre></td></tr></table></figure>
+<p>假设我们传入的参数为 tableName = “user” , name = “Java”，那么在占位符进行变量替换后，sql 语句变为：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">&#x27;user&#x27;</span> <span class="keyword">where</span> <span class="type">name</span>=<span class="string">&#x27;Java&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>上述 sql 语句是存在语法错误的</p>
+<h2 id="SQL预编译"><a href="#SQL预编译" class="headerlink" title="SQL预编译"></a>SQL预编译</h2><p><strong>1. 定义：</strong><br>sql 预编译指的是数据库驱动在发送 sql 语句和参数给 DBMS 之前对 sql 语句进行编译，这样 DBMS 执行 sql 时，就不需要重新编译。</p>
+<p><strong>2. 为什么需要预编译</strong></p>
+<ul>
+<li>JDBC 中使用对象 PreparedStatement 来抽象预编译语句，使用预编译。</li>
+<li>预编译阶段可以优化 sql 的执行。预编译之后的 sql 多数情况下可以直接执行，DBMS 不需要再次编译，越复杂的sql，编译的复杂度将越大，预编译阶段可以合并多次操作为一个操作。</li>
+<li>预编译语句对象可以重复利用。把一个 sql 预编译后产生的 PreparedStatement 对象缓存下来，下次对于同一个sql，可以直接使用这个缓存的 PreparedState 对象。</li>
+<li>mybatis 默认情况下，将对所有的 sql 进行预编译。</li>
+</ul>
 ]]></content>
       <categories>
         <category>编程</category>
       </categories>
       <tags>
-        <tag>数据库</tag>
+        <tag>框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java核心技术1-并发</title>
+    <url>/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/</url>
+    <content><![CDATA[<blockquote>
+<p>读《Java核心技术1》记录知识点</p>
+</blockquote>
+<h1 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><ol>
+<li>多线程程序在较低的层次上扩展了多任务的概念：一个程序同时执行多个任务。通常，每一个任务称为一个线程（ thread), 它是线程控制的简称。可以同时运行一个以上线程的程序称为多线程程序（multithreaded)。  </li>
+<li>多进程与多线程有哪些区别呢？ 本质的区别在于每个进程拥有自己的一整套变量， 而线程则共享数据。 这听起来似乎有些风险。然而，共享变量使线程之间的通信比进程之间的通信更有效、 更容易。 此外， 在有些操作系统中， 与进程相比较， 线程更“ 轻量级”， 创建、 撤销一个线程比启动新进程的开销要小得多。  </li>
+<li>调用 Threadsleep 不会创建一个新线程，sleep 是 Thread 类的静态方法，用于暂停当前线程的活动。  </li>
+<li><p>Runnable 接口只有一个 run 方法  </p>
+<h2 id="中断线程"><a href="#中断线程" class="headerlink" title="中断线程"></a>中断线程</h2></li>
+<li><p>当线程的 run 方法执行方法体中最后一条语句后， 并经由执行 return 语句返冋时， 或者出现了在方法中没有捕获的异常时，线程将终止。 在 Java 的早期版本中， 还有一个 stop方法， 其他线程可以调用它终止线程。但是， 这个方法现在已经被弃用了。  </p>
+</li>
+<li>没有可以强制线程终止的方法。然而， interrupt 方法可以用来请求终止线程。  </li>
+<li>当对一个线程调用 interrupt 方法时，线程的中断状态将被置位。这是每一个线程都具有的 boolean 标志。每个线程都应该不时地检査这个标志， 以判断线程是否被中断。<br>要想弄清中断状态是否被置位，首先调用静态的 Thread.currentThread 方法获得当前线程， 然后调用 islnterrupted 方法  </li>
+<li>如果线程被阻塞， 就无法检测中断状态。这是产生 InterruptedExceptioii 异常的地方。当在一个被阻塞的线程（调用 sleep 或 wait ) 上调用 interrupt 方法时， 阻塞调用将会被Interrupted Exception 异常中断。</li>
+</ol>
+<h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><ol>
+<li><p>线程可以有如下 6 种状态：</p>
+<ul>
+<li>New (新创建）：当用 new 操作符创建一个新线程时， 如 newThread(r)， 该线程还没有开始运行。这意味着它的状态是 new。当一个线程处于新创建状态时， 程序还没有开始运行线程中的代码。在线程运行之前还有一些基础工作要做。</li>
+<li>Runnable (可运行）：一旦调用 start 方法，线程处于 runnable 状态。一个可运行的线桿可能正在运行也可能没有运行， 这取决于操作系统给线程提供运行的时间。  </li>
+</ul>
+<p>一旦一个线程开始运行，它不必始终保持运行。事实上，运行中的线程被中断，目的是为了让其他线程获得运行机会。线程调度的细节依赖于操作系统提供的服务。抢占式调度系统给每一个可运行线程一个时间片来执行任务。 当时间片用完，操作系统剥夺该线程的运行权， 并给另一个线程运行机会。当选择下一个线程时， 操作系统考虑线程的优先级  。<br>现在所有的桌面以及服务器操作系统都使用抢占式调度。但是，像手机这样的小型设备可能使用协作式调度。在这样的设备中，一个线程只有在调用 yield 方法、 或者被阻塞或等待时，线程才失去控制权。<br>在具有多个处理器的机器上，每一个处理器运行一个线程， 可以有多个线程并行运行。当然， 如果线程的数目多于处理器的数目， 调度器依然采用时间片机制。<br>记住，在任何给定时刻，二个可运行的线程可能正在运行也可能没有运行（这就是为什么将这个状态称为可运行而不是运行。)</p>
+<ul>
+<li>Blocked (被阻塞）：当一个线程试图获取一个内部的对象锁（而不是 javiutiUoncurrent 库中的锁，) 而该锁被其他线程持有， 则该线程进人阻塞状态。当所有其他线程释放该锁，并且线程调度器允许本线程持有它的时候，该线程将变成非阻塞状态。  </li>
+<li>Waiting (等待）：当线程等待另一个线程通知调度器一个条件时， 它自己进入等待状态。 在调用 Object.wait 方法或 Thread.join 方法， 或者是等待 java.util.concurrent 库中的 Lock 或 Condition 时， 就会出现这种情况。  </li>
+<li>Timed waiting (计时等待）：有几个方法有一个超时参数。调用它们导致线程进人计时等待（timed waiting) 状态。这一状态将一直保持到超时期满或者接收到适当的通知。带有超时参数的方法有：<br>Thread.sleep 和 Object.wait、 Thread.join、 Lock.tryLock 以及 Condition.await 的计时版。  </li>
+<li>Terminated (被终止）线程因如下两个原因之一而被终止：  </li>
+</ul>
+<ol>
+<li>因为 run 方法正常退出而自然死亡。  </li>
+<li>因为一个没有捕获的异常终止了 run 方法而意外死亡。  </li>
+</ol>
+</li>
+</ol>
+<h2 id="线程属性"><a href="#线程属性" class="headerlink" title="线程属性"></a>线程属性</h2><ol>
+<li>线程的各种属性，其中包括：</li>
+</ol>
+<ul>
+<li>线程优先级:在 Java 程序设计语言中，每一个线程有一个优先级。默认情况下， 一个线程继承它的父线程的优先级。可以用 setPriority 方法提高或降低任何一个线程的优先级。可以将优先级设置为在 MIN_PRIORITY (在 Thread 类中定义为 1 ) 与 MAX_PRIORITY (定义为 10 ) 之间的任何值。NORM_PRIORITY 被定义为 5。<br>每当线程调度器有机会选择新线程时， 它首先选择具有较高优先级的线程。但是，线程优先级是高度依赖于系统的。当虚拟机依赖于宿主机平台的线程实现机制时， Java 线程的优先级被映射到宿主机平台的优先级上， 优先级个数也许更多，也许更少。<br>例如， Windows 有 7 个优先级别。一些 Java 优先级将映射到相同的操作系统优先级。在Oracle 为 Linux 提供的 Java 虚拟机中， 线程的优先级被忽略一所有线程具有相同的优先级。</li>
+<li>守护线程：可以通过调用t.setDaemon(true);将线程转换为守护线程（daemon thread)。这样一个线程没有什么神奇。守护线程的唯一用途是为其他线程提供服务。计时线程就是一个例子，它定时地发送“ 计时器嘀嗒” 信号给其他线程或清空过时的高速缓存项的线程。当只剩下守护线程时， 虚拟机就退出了，由于如果只剩下守护线程， 就没必要继续运行程序了。  </li>
+<li>线程组以及处理未捕获异常的处理器：线程的 run方法不能抛出任何受查异常， 但是，非受査异常会导致线程终止。在这种情况下，线程就死亡了。但是，不需要任何 catch 子句来处理可以被传播的异常。相反， 就在线程死亡之前， 异常被传递到一个用于未捕获异常的处理器。  </li>
+</ul>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><ol>
+<li><p>有两种机制防止代码块受并发访问的干扰。Java语言提供一个 synchronized 关键字达到这一目的，并且 Java SE 5.0 引入了 ReentrantLock 类。  </p>
+</li>
+<li><p>用 ReentrantLock 保护代码块的基本结构如下：<br>myLock.lock（）; // a ReentrantLock object</p>
+<figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">critical section</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">&#123;</span><br><span class="line">myLock.unlock()；<span class="comment">// make sure the lock is unlocked even if an exception is thrown</span></span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把解锁操作括在 finally 子句之内是至关重要的。如果在临界区的代码抛出异常，<br>锁必须被释放。 否则， 其他线程将永远阻塞。</p>
+</li>
+<li><p>有关锁和条件的关键之处：  </p>
+</li>
+</ol>
+<ul>
+<li>锁用来保护代码片段， 任何时刻只能有一个线程执行被保护的代码。  </li>
+<li>锁可以管理试图进入被保护代码段的线程。  </li>
+<li>锁可以拥有一个或多个相关的条件对象。  </li>
+<li>每个条件对象管理那些已经进入被保护的代码段但还不能运行的线程。  </li>
+</ul>
+<ol start="5">
+<li><p>锁和条件是线程同步的强大工具，但是，严格地讲，它们不是面向对象的。多年来，研究人员努力寻找一种方法，可以在不需要程序员考虑如何加锁的情况下，就可以保证多线程的安全性。最成功的解决方案之一是监视器（monitor)  </p>
+</li>
+<li><p>监视器具有如下特性：</p>
+<ul>
+<li>监视器是只包含私有域的类。</li>
+<li>每个监视器类的对象有一个相关的锁。</li>
+<li>使用该锁对所有的方法进行加锁。换句话说，如果客户端调用 obj.method(), 那 么 obj对象的锁是在方法调用开始时自动获得， 并且当方法返回时自动释放该锁。因为所有的域是私有的，这样的安排可以确保一个线程在对对象操作时， 没有其他线程能访问该域。</li>
+<li>该锁可以有任意多个相关条件。</li>
+</ul>
+</li>
+<li><p>volatile 关键字为实例域的同步访问提供了一种免锁机制。如果声明一个域为 volatile ,那么编译器和虚拟机就知道该域是可能被另一个线程并发更新的。  </p>
+</li>
+<li><p>线程在调用 lock 方法来获得另一个线程所持有的锁的时候，很可能发生阻塞。应该更加谨慎地申请锁。 tryLock 方法试图申请一个锁， 在成功获得锁后返回 true, 否则， 立即返回false, 而且线程可以立即离开去做其他事情。  </p>
+</li>
+<li><p>lock 方法不能被中断。如果一个线程在等待获得一个锁时被中断，中断线程在获得锁之前一直处于阻塞状态。如果出现死锁， 那么， lock 方法就无法终止。<br>然而， 如果调用带有用超时参数的 tryLock, 那么如果线程在等待期间被中断，将抛出InterruptedException 异常。这是一个非常有用的特性，因为允许程序打破死锁。<br>也可以调用 locklnterruptibly 方法。它就相当于一个超时设为无限的 tryLock 方法。 </p>
+</li>
+<li><p>java.util.concurrent.locks 包 定 义 了 两 个 锁 类， 我 们 已 经 讨 论 的 ReentrantLock 类 和<br>ReentrantReadWriteLock 类。 如果很多线程从一个数据结构读取数据而很少线程修改其中数据的话， 后者是十分有用的。在这种情况下， 允许对读者线程共享访问是合适的。当然， 写者线程依然必须是互斥访问的。   </p>
+</li>
+<li><p>为什么弃用 stop 和 suspend 方法?</p>
+<p>初始的 Java 版本定义了一个 stop 方法用来终止一个线程， 以及一个 suspend 方法用来阻塞一个线程直至另一个线程调用 resume。stop 和 suspend 方法有一些共同点：都试图控制一个给定线程的行为。<br>stop、 suspend 和 resume 方法已经弃用。stop 方法天生就不安全，经验证明 suspend 方法会经常导致死锁。<br>首先来看看 stop 方法， 该方法终止所有未结束的方法， 包括 run 方法。当线程被终止，立即释放被它锁住的所有对象的锁。这会导致对象处于不一致的状态。例如’假定 TransferThread在从一个账户向另一个账户转账的过程中被终止，钱款已经转出，却没有转人目标账户，现在银行对象就被破坏了。因为锁已经被释放，这种破坏会被其他尚未停止的线程观察到。<br>当线程要终止另一个线程时， 无法知道什么时候调用 stop 方法是安全的， 什么时候导致<br>对象被破坏。因此，该方法被弃用了。在希望停止线程的时候应该中断线程， 被中断的线程<br>会在安全的时候停止。</p>
+<p>与 stop 不同，suspend 不会破坏对象。但是，如果用 suspend 挂起一个持有一个锁的线程， 那么，该锁在恢复之前是不可用的。 如果调用suspend 方法的线程试图获得同一个锁， 那么程序死锁： 被挂起的线程等着被恢复， 而将其挂起的线程等待获得锁。    </p>
+</li>
+</ol>
+<h2 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h2><ol>
+<li><p>对于许多线程问题， 可以通过使用一个或多个队列以优雅且安全的方式将其形式化。生产者线程向队列插人元素， 消费者线程则取出它们。使用队列，可以安全地从一个线程向另一个线程传递数据。 例如， 考虑银行转账程序， 转账线程将转账指令对象插入一个队列中，而不是直接访问银行对象。 另一个线程从队列中取出指令执行转账。只有该线程可以访问该银行对象的内部。因此不需要同步。（当然， 线程安全的队列类的实现者不能不考虑锁和条件，但是， 那是他们的问题而不是你的问题。）  </p>
+</li>
+<li><p>当试图向队列添加元素而队列已满， 或是想从队列移出元素而队列为空的时候， 阻塞队列（blocking queue ) 导致线程阻塞。在协调多个线程之间的合作时， 阻塞队列是一个有用的工具。工作者线程可以周期性地将中间结果存储在阻塞队列中。其他的工作者线程移出中间结果并进一步加以修改。队列会自动地平衡负载。如果第一个线程集运行得比第二个慢， 第二个线程集在等待结果时会阻塞。 如果第一个线程集运行得快， 它将等待第二个队列集赶上来。  </p>
+</li>
+<li><p>java.util.concurrent 包提供了阻塞队列的几个变种。 默认情况下， LinkedBlockingQueue的容量是没有上边界的，但是，也可以选择指定最大容量。LinkedBlockingDeque 是一个双端的版本。ArrayBlockingQueue 在构造时需要指定容量，并且有一个可选的参数来指定是否需要公平性。若设置了公平参数， 则那么等待了最长时间的线程会优先得到处理。通常，公平性会降低性能，只有在确实非常需要时才使用它。</p>
+<p>PriorityBlockingQueue 是一个带优先级的队列， 而不是先进先出队列。元素按照它们的优先级顺序被移出。该队列是没有容量上限，但是，如果队列是空的， 取元素的操作会阻塞。  </p>
+</li>
+</ol>
+<h2 id="线程安全的集合"><a href="#线程安全的集合" class="headerlink" title="线程安全的集合"></a>线程安全的集合</h2><ol>
+<li>java.util.concurrent 包提供了映射、 有序集和队列的高效实现： ConcurrentHashMap、ConcurrentSkipListMap &gt; ConcurrentSkipListSet 和 ConcurrentLinkedQueue。这些集合使用复杂的算法，通过允许并发地访问数据结构的不同部分来使竞争极小化。  </li>
+<li>CopyOnWriteArrayList 和 CopyOnWriteArraySet 是线程安全的集合， 其中所有的修改线程对底层数组进行复制。 如果在集合上进行迭代的线程数超过修改线程数， 这样的安排是很有用的。当构建一个迭代器的时候， 它包含一个对当前数组的引用。如果数组后来被修改了，迭代器仍然引用旧数组， 但是，集合的数组已经被替换了。因而，旧的迭代器拥有一致的（可能过时的）视图，访问它无须任何同步开销。</li>
+</ol>
+<h2 id="Callable与Future"><a href="#Callable与Future" class="headerlink" title="Callable与Future"></a>Callable与Future</h2><ol>
+<li>Runnable 封装一个异步运行的任务，可以把它想象成为一个没有参数和返回值的异步方法。Callable 与 Runnable 类似， 但是有返回值。Callable 接口是一个参数化的类型， 只有一个方法 call。  </li>
+<li>Future 保存异步计算的结果。可以启动一个计算，将 Future 对象交给某个线程，然后忘掉它。 Future 对象的所有者在结果计算好之后就可以获得它。  </li>
+</ol>
+<h2 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h2><ol>
+<li><p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出时， 线程不会死亡，而是在池中准备为下一个请求提供服务。   </p>
+<p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大<br>量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的<br>空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出<br>时， 线程不会死亡，而是在池中准备为下一个请求提供服务。  </p>
+</li>
+<li><p>执行器 （ Executor) 类有许多静态工厂方法用来构建线程池。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>技术书籍</tag>
       </tags>
   </entry>
   <entry>
@@ -1008,83 +1314,6 @@
       </categories>
       <tags>
         <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java运行时数据区域</title>
-    <url>/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/</url>
-    <content><![CDATA[<blockquote>
-<p> 读《深入理解Java虚拟机》记录</p>
-<p> Java 虚拟机有自动内存管理机制，但如果出现内存泄漏和溢出方面的问题，排查错误、修正问题就必须要了解虚拟机是怎样使用内存的。</p>
-</blockquote>
-<h1 id="Java运行时数据区域"><a href="#Java运行时数据区域" class="headerlink" title="Java运行时数据区域"></a>Java运行时数据区域</h1><p>Java运行时数据区域在JDK8前后是有区别的：</p>
-<p>下图是 JDK8 之后的 JVM 内存布局。</p>
-<p><img src="/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/Java运行时数据区域/14923529-c0cbbccaa6858ca1.png" alt="14923529-c0cbbccaa6858ca1"></p>
-<p>JDK8 之前的内存区域图如下:</p>
-<p><img src="/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/Java运行时数据区域/14923529-b96312d95eb09d15.png" alt="14923529-b96312d95eb09d15"></p>
-<blockquote>
-<p>在HotSpot JVM中，方法区（Method Area）与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。每当一个类初次被加载的时候，它的元数据都会放到永久代中。</p>
-<p>永久代是有大小限制的，因此如果加载的类太多，很有可能导致永久代内存溢出，即万恶的 <em>java.lang.OutOfMemoryError: PermGen</em> ，为此JVM开发者不得不对虚拟机做调优。</p>
-<p>JDK7的HotSpot，已经把原本放在永久代的字符串常量（移到堆中）、静态变量移出，到了JDK8则完全废弃了永久代，取而代之的是<strong>（元空间）Metaspace</strong>，将JDK7中永久代还剩余的内容（主要是类型信息）全部移到了元空间中。</p>
-<p>运行时常量池在元空间</p>
-</blockquote>
-<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器（Program Counter Register）是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里面，字节码解释器工作时候就是通过改变机器数起的值来选择下一条需要执行的字节码执行，分支、循环、跳转、异常处理等基础功能都需要依赖计数器完成。</p>
-<p>由于 Java 虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一个确定的时刻，一个处理器内核都只会执行一条线程中的指令。因此，为了线程切换后能恢复到正确的执行位置，每条线程都需要有一个独立的程序计数器，各条线程之间计数器互不影响，独立存储，我们称这类内存区域为“线程私有”的内存。</p>
-<p>如果线程正在执行的是一个 Java 方法，这个计数器记录的是正在执行的虚拟机字节码指令的地址；如果正在执行的是 Native 方法，这个计数器值则为空（Undefined）。此内存区域是唯一一个在 Java 虚拟机规范中没有规定任何 OutOfMemoryError 情况的区域。</p>
-<h2 id="Java虚拟机栈"><a href="#Java虚拟机栈" class="headerlink" title="Java虚拟机栈"></a>Java虚拟机栈</h2><p>与程序计数器一样，Java 虚拟机栈（Java Virtual Machine Stacks）也是线程私有的，它的生命周期与线程相同。</p>
-<p>虚拟机栈描述的是 Java 方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧（Stack Frame，是方法运行时的基础数据结构）用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈到出栈的过程。</p>
-<p>在活动线程中，只有位千栈顶的帧才是有效的，称为当前栈帧。正在执行的方法称为当前方法，栈帧是方法运行的基本结构。在执行引擎运行时，所有指令都只能针对当前栈帧进行操作。</p>
-<p><img src="/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/Java运行时数据区域/14923529-7a6d6e02c15fff2f.png" alt="14923529-7a6d6e02c15fff2f"></p>
-<h3 id="1-局部变量表"><a href="#1-局部变量表" class="headerlink" title="1. 局部变量表"></a>1. 局部变量表</h3><p>局部变量表是存放方法参数和局部变量的区域。 局部变量没有准备阶段， 必须显式初始化。如果是非静态方法，<strong>则在 index[0] 位置上存储的是方法所属对象的实例引用</strong>，一个引用变量占 4 个字节，随后存储的是参数和局部变量。字节码指令中的 STORE 指令就是将操作栈中计算完成的局部变呈写回局部变量表的存储空间内。</p>
-<p>虚拟机栈规定了两种异常状况：如果线程请求的栈深度大于虚拟机所允许的深度，将抛出 StackOverflowError 异常；如果虚拟机栈可以动态扩展（当前大部分的 Java 虚拟机都可动态扩展），如果扩展时无法申请到足够的内存，就会抛出 OutOfMemoryError 异常。</p>
-<h3 id="2-操作栈"><a href="#2-操作栈" class="headerlink" title="2. 操作栈"></a>2. 操作栈</h3><p>操作栈是个初始状态为空的桶式结构栈。在方法执行过程中， 会有各种指令往<br>栈中写入和提取信息。JVM 的执行引擎是基于栈的执行引擎， 其中的栈指的就是操<br>作栈。字节码指令集的定义都是基于栈类型的，栈的深度在方法元信息的 stack 属性中。</p>
-<p><strong>i++ 和 ++i 的区别：</strong></p>
-<ol>
-<li>i++：从局部变量表取出 i 并压入操作栈(load memory)，然后对局部变量表中的 i 自增 1(add&amp;store memory)，将操作栈栈顶值取出使用，如此线程从操作栈读到的是自增之前的值。</li>
-<li>++i：先对局部变量表的 i 自增 1(load memory&amp;add&amp;store memory)，然后取出并压入操作栈(load memory)，再将操作栈栈顶值取出使用，线程从操作栈读到的是自增之后的值。</li>
-</ol>
-<p>之前之所以说 i++ 不是原子操作，即使使用 volatile 修饰也不是线程安全，就是因为，可能 i 被从局部变量表（内存）取出，压入操作栈（寄存器），操作栈中自增，使用栈顶值更新局部变量表（寄存器更新写入内存），其中分为 3 步，volatile 保证可见性，保证每次从局部变量表读取的都是最新的值，但可能这 3 步可能被另一个线程的 3 步打断，产生数据互相覆盖问题，从而导致 i 的值比预期的小。</p>
-<h3 id="3-动态链接"><a href="#3-动态链接" class="headerlink" title="3. 动态链接"></a>3. 动态链接</h3><p>每个栈帧中包含一个在常量池中对当前方法的引用， 目的是支持方法调用过程的动态连接。</p>
-<h3 id="4-方法返回地址"><a href="#4-方法返回地址" class="headerlink" title="4.方法返回地址"></a>4.方法返回地址</h3><p>方法执行时有两种退出情况：</p>
-<ol>
-<li>正常退出，即正常执行到任何方法的返回字节码指令，如 RETURN、IRETURN、ARETURN 等；</li>
-<li>异常退出。</li>
-</ol>
-<p>无论何种退出情况，都将返回至方法当前被调用的位置。方法退出的过程相当于弹出当前栈帧，退出可能有三种方式：</p>
-<ol>
-<li>返回值压入上层调用栈帧。</li>
-<li>异常信息抛给能够处理的栈帧。</li>
-<li>PC计数器指向方法调用后的下一条指令。</li>
-</ol>
-<h2 id="本地方法区"><a href="#本地方法区" class="headerlink" title="本地方法区"></a>本地方法区</h2><p>本地方法栈（Native Method Stack）与虚拟机栈所发挥的作用是非常相似的，它们之间的区别不过是虚拟机栈为虚拟机执行 Java 方法（也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。Sun HotSpot 虚拟机直接就把本地方法栈和虚拟机栈合二为一。与虚拟机栈一样，本地方法栈区域也会抛出 StackOverflowError 和 OutOfMemoryError 异常。</p>
-<h2 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h2><p>对于大多数应用来说，Java 堆（Java Heap）是 Java 虚拟机所管理的内存中最大的一块。Java 堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存。</p>
-<p>堆是垃圾收集器管理的主要区域，因此很多时候也被称做“GC堆”（Garbage Collected Heap）。从内存回收的角度来看，由于现在收集器基本都采用分代收集算法，所以 Java 堆中还可以细分为：新生代和老年代；再细致一点的有 Eden 空间、From Survivor 空间、To Survivor 空间等。从内存分配的角度来看，线程共享的 Java 堆中可能划分出多个线程私有的分配缓冲区（Thread Local Allocation Buffer,TLAB）。</p>
-<p>Java 堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可，当前主流的虚拟机都是按照可扩展来实现的（通过 -Xmx 和 -Xms 控制）。如果在堆中没有内存完成实例分配，并且堆也无法再扩展时，将会抛出 OutOfMemoryError 异常。</p>
-<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区（Method Area）与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。虽然Java 虚拟机规范把方法区描述为堆的一个逻辑部分，但是它却有一个别名叫做 Non-Heap（非堆），目的应该是与 Java 堆区分开来。</p>
-<p>Java 虚拟机规范对方法区的限制非常宽松，除了和 Java 堆一样不需要连续的内存和可以选择固定大小或者可扩展外，还可以选择不实现垃圾收集。垃圾收集行为在这个区域是比较少出现的，其内存回收目标主要是针对常量池的回收和对类型的卸载。当方法区无法满足内存分配需求时，将抛出 OutOfMemoryError 异常。</p>
-<p><strong>JDK8 之前，Hotspot 中方法区的实现是永久代（Perm），JDK8 开始使用元空间（Metaspace），以前永久代所有内容的字符串常量移至堆内存，其他内容移至元空间，元空间直接在本地内存分配。</strong></p>
-<p>为什么要使用元空间取代永久代的实现？</p>
-<ol>
-<li>字符串存在永久代中，容易出现性能问题和内存溢出。</li>
-<li>类及方法的信息等比较难确定其大小，因此对于永久代的大小指定比较困难，太小容易出现永久代溢出，太大则容易导致老年代溢出。</li>
-<li>永久代会为 GC 带来不必要的复杂度，并且回收效率偏低。</li>
-<li>将 HotSpot 与 JRockit 合二为一。</li>
-</ol>
-<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池（Runtime Constant Pool）是方法区的一部分。Class 文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池（Constant Pool Table），用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
-<p>一般来说，除了保存 Class 文件中描述的符号引用外，还会把翻译出来的直接引用也存储在运行时常量池中。</p>
-<p>运行时常量池相对于 Class 文件常量池的另外一个重要特征是具备动态性，Java 语言并不要求常量一定只有编译期才能产生，也就是并非预置入 Class 文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用得比较多的便是 String 类的 intern() 方法。</p>
-<p>既然运行时常量池是方法区的一部分，自然受到方法区内存的限制，当常量池无法再申请到内存时会抛出 OutOfMemoryError 异常。</p>
-<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是 Java 虚拟机规范中定义的内存区域。</p>
-<p>在 JDK 1.4 中新加入了 NIO，引入了一种基于通道（Channel）与缓冲区（Buffer）的 I/O 方式，它可以使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 堆中的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在 Java 堆和 Native 堆中来回复制数据。</p>
-<p>显然，本机直接内存的分配不会受到 Java 堆大小的限制，但是，既然是内存，肯定还是会受到本机总内存（包括 RAM 以及 SWAP 区或者分页文件）大小以及处理器寻址空间的限制。服务器管理员在配置虚拟机参数时，会根据实际内存设置 -Xmx 等参数信息，但经常忽略直接内存，使得各个内存区域总和大于物理内存限制（包括物理的和操作系统级的限制），从而导致动态扩展时出现 OutOfMemoryError 异常。</p>
-<p><img src="/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/Java运行时数据区域/14923529-3d9e650ad915bc0e.png" alt="14923529-3d9e650ad915bc0e"></p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>技术书籍</tag>
-        <tag>JVM</tag>
       </tags>
   </entry>
   <entry>
@@ -1169,179 +1398,6 @@
       </categories>
       <tags>
         <tag>网络编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java核心技术1-泛型程序设计、集合</title>
-    <url>/2019/03/17/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E6%B3%9B%E5%9E%8B%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<blockquote>
-<p>读《Java核心技术1》记录知识点</p>
-</blockquote>
-<h1 id="泛型程序设计"><a href="#泛型程序设计" class="headerlink" title="泛型程序设计"></a>泛型程序设计</h1><h2 id="为什么要使用泛型设计"><a href="#为什么要使用泛型设计" class="headerlink" title="为什么要使用泛型设计"></a>为什么要使用泛型设计</h2><ol>
-<li>泛型正是我们需要的程序设计手段。使用泛型机制编写的程序代码要比那些杂乱地使用Object 变量，然后再进行强制类型转换的代码具有更好的安全性和可读性。 </li>
-<li>泛型程序设计（Generic programming) 意味着编写的代码可以被很多不同类型的对象所重用。 </li>
-<li>泛型提供了一个更好的解决方案： 类型参数 （ type parameters)。 ArrayList 类有一个类型参数用来指示元素的类型：<br>ArrayList<String> files = new ArrayList<String>():<br>这使得代码具有更好的可读性。人们一看就知道这个数组列表中包含的是 String 对象。   </String></String></li>
-<li>类型参数的魅力在于：使得程序具有更好的可读性和安全性。  </li>
-</ol>
-<h2 id="定义简单泛型类"><a href="#定义简单泛型类" class="headerlink" title="定义简单泛型类"></a>定义简单泛型类</h2><ol>
-<li>一个泛型类（generic class) 就是具有一个或多个类型变量的类。</li>
-<li>类型变量使用大写形式，且比较短， 这是很常见的。在 Java 库中，使用变量 E 表示集合的元素类型， K 和 V 分别表示表的关键字与值的类型。 T ( 需要时还可以用临近的字母 U 和 S ) 表示“ 任意类型”。</li>
-<li>泛型类可看作普通类的工厂。  </li>
-</ol>
-<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><ol>
-<li>一个泛型方法，可以从尖括号和类型变量看出这一点。注意，类型变量放在修饰符（这里是 public static) 后面，返回类型的前面。</li>
-<li>泛型方法可以定义在普通类中，也可以定义在泛型类中。</li>
-<li>当调用一个泛型方法时，在方法名前的尖括号中放人具体的类型 。</li>
-</ol>
-<h2 id="泛型代码和虚拟机"><a href="#泛型代码和虚拟机" class="headerlink" title="泛型代码和虚拟机"></a>泛型代码和虚拟机</h2><ol>
-<li>虚拟机没有泛型类型对象—所有对象都属于普通类。  </li>
-<li>无论何时定义一个泛型类型， 都自动提供了一个相应的原始类型 （ raw type)。原始类型的名字就是删去类型参数后的泛型类型名。擦除（ erased) 类型变M , 并替换为限定类型 （无限定的变量用 Object)。</li>
-<li>当程序调用泛型方法时， 如果擦除返回类型， 编译器插入强制类型转换。  </li>
-<li>总之，需要记住有关 Java 泛型转换的事实：<ul>
-<li>虚拟机中没有泛型，只有普通的类和方法。</li>
-<li>所有的类型参数都用它们的限定类型替换。</li>
-<li>桥方法被合成来保持多态。</li>
-<li>为保持类型安全性，必要时插人强制类型转换。   </li>
-</ul>
-</li>
-</ol>
-<h2 id="约束与局限性"><a href="#约束与局限性" class="headerlink" title="约束与局限性"></a>约束与局限性</h2><ol>
-<li>不能用基本类型实例化类型参数  </li>
-<li>运行时类型查询只适用于原始类型  </li>
-<li>Varargs 警告  </li>
-<li>不能实例化类型变置  </li>
-<li>不能创建参数化类型的数组</li>
-<li>不能构造泛型数组</li>
-<li>泛型类的静态上下文中类型变量无效  </li>
-<li>不能抛出或捕获泛型类的实例</li>
-<li>可以消除对受查异常的检查</li>
-<li>注意擦除后的冲突</li>
-</ol>
-<h2 id="泛型类型的继承规则"><a href="#泛型类型的继承规则" class="headerlink" title="泛型类型的继承规则"></a>泛型类型的继承规则</h2><ol>
-<li>泛型类可以扩展或实现其他的泛型类。就这一点而言，与普通的类没有什么区别。 例如， ArrayList<T> 类实现 List<T> 接口。这意味着， 一个 ArrayList<Manager> 可以被转换为一个 List<Manager>。  </Manager></Manager></T></T></li>
-</ol>
-<h2 id="通配符类型"><a href="#通配符类型" class="headerlink" title="通配符类型"></a>通配符类型</h2><ol>
-<li>通配符类型中， 允许类型参数变化。 例如， 通配符类型<br>Pair&lt;? extends Employee〉<br>表示任何泛型 Pair 类型， 它的类型参数是 Employee 的子类， 如 Pair<Manager>， 但不Pair<String>。</String></Manager></li>
-<li>通配符限定与类型变量限定十分类似，但是，还有一个附加的能力， 即可以指定一个超类型限定 （supertypebound), 如下所亦：<br>? super Manager    </li>
-</ol>
-<h2 id="反射和泛型"><a href="#反射和泛型" class="headerlink" title="反射和泛型"></a>反射和泛型</h2><ol>
-<li>反射允许你在运行时分析任意的对象。 如果对象是泛型类的实例，关于泛型类型参数则得不到太多信息， 因为它们会被擦除。  </li>
-<li>可以使用反射 API 来确定：<ul>
-<li>这个泛型方法有一个叫做 T 的类型参数。</li>
-<li>这个类型参数有一个子类型限定， 其自身又是一个泛型类型。</li>
-<li>这个限定类型有一个通配符参数。</li>
-<li>这个通配符参数有一个超类型限定。</li>
-<li>这个泛型方法有一个泛型数组参数。  </li>
-</ul>
-</li>
-</ol>
-<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><h2 id="Java集合框架"><a href="#Java集合框架" class="headerlink" title="Java集合框架"></a>Java集合框架</h2><ol>
-<li>队列接口指出可以在队列的尾部添加元素， 在队列的头部删除元素，并且可以査找队列中元素的个数。当需要收集对象， 并按照“ 先进先出” 的规则检索对象时就应该使用队列 。</li>
-<li>队列通常有两种实现方式： 一种是使用循环数组； 另一种是使用链表 。</li>
-<li>循环数组是一个有界集合， 即容量有限。如果程序中要收集的对象数量没有上限， 就最好使用链表来实现。  </li>
-<li>在 Java 类库中，集合类的基本接口是 Collection 接口。  </li>
-<li>编译器简单地将“ foreach” 循环翻译为带有迭代器的循环。<br>“ for each” 循环可以与任何实现了 Iterable 接口的对象一起工作， 这个接口只包含一个抽象方法。</li>
-<li>Collection 接口扩展了 Iterable 接口。因此， 对于标准类库中的任何集合都可以使用“ foreach” 循环。   </li>
-<li>元素被访问的顺序取决于集合类型。 如果对 ArrayList 进行迭代， 迭代器将从索引 0开始，每迭代一次，索引值加 1。 然而， 如果访问 HashSet 中的元素， 每个元素将会按照某种随机的次序出现。虽然可以确定在迭代过程中能够遍历到集合中的所有元素，但却无法预知元素被访问的次序。这对于计算总和或统计符合某个条件的元素个数这类与顺序无关的操作来说，并不是什么问题。   </li>
-<li>将 Java 迭代器认为是位于两个元素之间。 当调用 next 时，迭代器就越过下一个元素，并返回刚刚越过的那个元素的引用 。</li>
-<li>Iterator 接口的 remove 方法将会删除上次调用 next 方法时返回的元素。在大多数情况下，在决定删除某个元素之前应该先看一下这个元素是很具有实际意义的。然而， 如果想要删除指定位置上的元素， 仍然需要越过这个元素。  </li>
-<li>对 next 方法和 remove 方法的调用具有互相依赖性。如果调用 remove 之前没有调用 next 将是不合法的。 如果这样做， 将会抛出一个 IllegalStateException 异常。  </li>
-<li>由于 Collection 与 Iterator 都是泛型接口，可以编写操作任何集合类型的实用方法。  </li>
-<li>集合有两个基本接口：Collection 和 Map。  </li>
-<li>List 是一个有序集合（ or办 元 素 会 增 加 到 容 器 中 的 特 定 位 置。 可 以采用两种方式访问元素：使用迭代器访问， 或者使用一个整数索引来访问。后一种方法称为随机访问（random access), 因为这样可以按任意顺序访问元素。与之不同，使用迭代器访问时，必须顺序地访问元素。   </li>
-<li>Set 接口等同于 Collection 接口，不过其方法的行为有更严谨的定义。集（set) 的 add方法不允许增加重复的元素。要适当地定义集的 equals 方法：只要两个集包含同样的元素就认为是相等的，而不要求这些元素有同样的顺序。 hashCode 方法的定义要保证包含相同元素的两个集会得到相同的散列码。  </li>
-</ol>
-<h2 id="具体的集合"><a href="#具体的集合" class="headerlink" title="具体的集合"></a>具体的集合</h2><ol>
-<li><p>数组和数组列表都有一个重大的缺陷。这就是从数组的中间位置删除一个元素要付出很大的代价，其原因是<br>数组中处于被删除元素之后的所有元素都要向数组的前端移动。 在数组中间的位置上插入一个元素也是如此。  </p>
-</li>
-<li><p>的数据结构一链表（ linked list) 解决了这个问题。尽管数组在连续的存储位置上存放对象引用， 但链表却将每个对象存放在独立的结点中。每个结点还存放着序列中下一个结点的引用。在 Java 程序设计语言中， 所有链表实际上都是双向链接的(doubly linked)—即每个结点还存放着指向前驱结点的引用 。</p>
-</li>
-<li><p>从链表中间删除一个元素是一个很轻松的操作， 即需要更新被删除元素附近的链接 。</p>
-</li>
-<li><p>链 表 与 泛 型 集 合 之 间 有 一 个 重 要 的 区 别。 链 表 是 一 个 有 序 集 合（ ordered collection), 每个对象的位置十分重要。 LinkedList.add 方法将对象添加到链表的尾部。但是，常常需要将元素添加到链表的中间。由于迭代器是描述集合中位置的， 所以这种依赖于位置的 add 方法将由迭代器负责。只有对自然有序的集合使用迭代器添加元素才有实际意义。 集 （set ) 类型，其中的元素完全无序。 因此， 在 Iterator 接口中就没有add 方法。相反地，集合类库提供了子接口 Listlterator, 其 中 包 含 add 方 法 。</p>
-</li>
-<li><p>如果多次调用 add 方法， 将按照提供的次序把元素添加到链表中。它们被依次添加到迭代器当前位置之前。</p>
-</li>
-<li><p>可以使用 Listlterator 类从前后两个方向遍历链表中的元素， 并可以添加、 删除元素。   </p>
-</li>
-<li><p>为什么要优先使用链表呢？ 使用链表的唯一理由是尽可能地减少在列表中间插人或删除元素所付出的代价。 如果列表只有少数几个元素， 就完全可以使用 ArrayList。   </p>
-</li>
-<li><p>有一种众所周知的数据结构， 可以快速地査找所需要的对象， 这就是散列表（hash table )。散列表为每个对象计算一个整数， 称为散列码（hash code)。散列码是由对象的实例域产生的一个整数。更准确地说， 具有不同数据域的对象将产生不同的散列码。</p>
-</li>
-<li><p>自己实现的 hashCode方法应该与 equals 方法兼容，即如果 a_equals(b) 为 true, a 与 b 必须具有相同的散列码。  </p>
-</li>
-<li><p>在 Java 中， 散列表用链表数组实现。每个列表被称为桶 （ bucket)要想査找表中对象的位置， 就要先计算它的散列码， 然后与桶的总数取余， 所得到的结果就是保存这个元素的桶的索引。 </p>
-<p>例如， 如果某个对象的散列码为 76268, 并且有 128 个桶， 对象应该保存在第 108 号桶中（ 76268除以 128余 108 )。 或许会很幸运， 在这个桶中没有其他元素， 此时将元素直接插人到桶中就可以了。  </p>
-</li>
-<li><p>当然， 有时候会遇到桶被占满的情况， 这也是不可避免的。这种现象被称为散列冲突（ hash collision) 。这时， 需要用新对象与桶中的所有对象进行比较，査看这个对象是否已经存在。如果散列码是合理且随机分布的， 桶的数目也足够大， 需要比较的次数就会很少。  </p>
-</li>
-<li><p>在 JavaSE 8 中， 桶满时会从链表变为平衡二叉树。如果选择的散列函数不当， 会产生很多冲突， 或者如果有恶意代码试图在散列表中填充多个有相同散列码的值， 这样就能提高性能。  </p>
-</li>
-<li><p>如果想更多地控制散列表的运行性能， 就要指定一个初始的桶数。桶数是指用于收集具有相同散列值的桶的数目。 如果要插入到散列表中的元素太多， 就会增加冲突的可能性， 降低运行性能。  </p>
-</li>
-<li><p>如果大致知道最终会有多少个元素要插人到散列表中， 就可以设置桶数。通常， 将桶数设置为预计元素个数的 75% ~ 150%。有些研究人员认为：尽管还没有确凿的证据，但最好将桶数设置为一个素数， 以防键的集聚。标准类库使用的桶数是 2 的幂， 默认值为 16 (为表大小提供的任何值都将被自动地转换为 2 的下一个幂 )。当然，并不是总能够知道需要存储多少个元素的， 也有可能最初的估计过低。 如果散列表太满， 就需要再散列 （rehashed)。 如果要对散列表再散列， 就需要创建一个桶数更多的表，并将所有元素插入到这个新表中，. 然后丢弃原来的表。 装填因子（ load factor) 决定何时对散列表进行再散列。 例如， 如果装填因子为 0.75 (默认值，) 而表中超过 75%的位置已经填人元素， 这个表就会用双倍的桶数自动地进行再散列。对于大多数应用程序来说， 装填因子为0.75 是比较合理的。  </p>
-</li>
-<li><p>散列表可以用于实现几个重要的数据结构。 其中最简单的是 set 类型。set 是没有重复元素的元素集合。set 的 add 方法首先在集中查找要添加的对象， 如果不存在，就将这个对象添加进去。  </p>
-</li>
-<li><p>Java 集合类库提供了一个 HashSet 类，它实现了基于散列表的集。可以用 add 方法添加元素。contains方法已经被重新定义， 用来快速地查看是否某个元素已经出现在集中。它只在某个桶中査找元素，而不必查看集合中的所有元素。</p>
-</li>
-<li><p>TreeSet 类与散列集十分类似， 不过， 它比散列集有所改进。树集是一个有序集合( sorted collection) o 可以以任意顺序将元素插入到集合中。在对集合进行遍历时， 每个值将自动地按照排序后的顺序呈现。 </p>
-</li>
-<li><p>正如 TreeSet 类名所示， 排序是用树结构完成的（当前实现使用的是红黑树（red-black tree)）。每次将一个元素添加到树中时，都被放置在正确的排序位置上。因此，迭代器总是以排好序的顺序访问每个元素。  </p>
-</li>
-<li><p>队列可以让人们有效地在尾部添加一个元素， 在头部删除一个元素。有两个端头的队列， 即双端队列， 可以让人们有效地在头部和尾部同时添加或删除元素。不支持在队列中间添加元素。在 Java SE 6 中引人了 Deque 接口， 并由 ArrayDeque 和LinkedList 类实现。这两个类都提供了双端队列，而且在必要时可以增加队列的长度。</p>
-</li>
-<li><p>优先级队列（priority queue) 中的元素可以按照任意的顺序插人，却总是按照排序的顺序进行检索。也就是说，无论何时调用 remove 方法，总会获得当前优先级队列中最小的元素。然而，优先级队列并没有对所有的元素进行排序。如果用迭代的方式处理这些元素，并不需要对它们进行排序。优先级队列使用了一个优雅且高效的数据结构，称为堆（heap)。堆是一个可以自我调整的二叉树，对树执行添加 （ add) 和删除（remore) 操作， 可以让最小的元素移动到根，而不必花费时间对元素进行排序。  </p>
-</li>
-</ol>
-<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><ol>
-<li>集是一个集合，它可以快速地查找现有的元素。但是，要查看一个元素， 需要有要查找元素的精确副本。这不是一种非常通用的査找方式。通常， 我们知道某些键的信息，并想要查找与之对应的元素。 映射（ map) 数据结构就是为此设计的。映射用来存放键 / 值对。如果提供了键， 就能够查找到值。</li>
-<li>Java 类库为映射提供了两个通用的实现： HashMap 和 TreeMap 。这两个类都实现了 Map 接口。  </li>
-<li>散列映射对键进行散列， 树映射用键的整体顺序对元素进行排序， 并将其组织成搜索树。散列或比较函数只能作用于键。与键关联的值不能进行散列或比较。</li>
-<li>应该选择散列映射还是树映射呢？ 与集一样， 散列稍微快一些， 如果不需要按照排列顺序访问键， 就最好选择散列。  </li>
-<li>键必须是唯一的。不能对同一个键存放两个值。 如果对同一个键两次调用 put 方法， 第二个值就会取代第一个值。实际上， put 将返回用这个键参数存储的上一个值。  </li>
-<li>remove 方法用于从映射中删除给定键对应的元素。 size 方法用于返回映射中的元素数。  </li>
-<li>集合框架不认为映射本身是一个集合。（其他数据结构框架认为映射是一个键 / 值对集合， 或者是由键索引的值集合。）不过， 可以得到映射的视图（ View )—这是实现了Collection 接口或某个子接口的对象。  </li>
-<li>有 3 种视图： 键集、 值集合（不是一个集） 以及键 / 值对集。键和键 / 值对可以构成一个集， 因为映射中一个键只能有一个副本。  </li>
-<li>LinkedHashSet 和 LinkedHashMap类用来记住插人元素项的顺序。这样就可以避免在散歹IJ表中的项从表面上看是随机排列的。当条目插入到表中时，就会并人到双向链表中  </li>
-</ol>
-<h2 id="视图与包装器"><a href="#视图与包装器" class="headerlink" title="视图与包装器"></a>视图与包装器</h2><ol>
-<li>keySet 方法返回一个实现 Set接口的类对象， 这个类的方法对原映射进行操作。这种集合称为视图。  </li>
-<li>Arrays 类的静态方法 asList 将返回一个包装了普通 Java 数组的 List 包装器。这个方法可以将数组传递给一个期望得到列表或集合参数的方法。  </li>
-<li>Arrays.asList返回的对象不是 ArrayList。它是一个视图对象， 带有访问底层数组的 get 和 set方法。改变数组大小的所有方法（例如，与迭代器相关的 add 和 remove 方法）都会抛出一个Unsupported OperationException 异常。  </li>
-<li>如果由多个线程访问集合，就必须确保集不会被意外地破坏。例如， 如果一个线程试图将元素添加到散列表中，同时另一个线程正在对散列表进行再散列，其结果将是灾难性的。类库的设计者使用视图机制来确保常规集合的线程安全， 而不是实现线程安全的集合类。例如， Collections 类的静态 synchronizedMap方法可以将任何一个映射表转换成具有同步访问方法的 Map 。</li>
-<li>现在， 就可以由多线程访问 map 对象了。像 get 和 put 这类方法都是同步操作的， 即在另一个线程调用另一个方法之前，刚才的方法调用必须彻底完成。  </li>
-</ol>
-<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><ol>
-<li>泛型集合接口有一个很大的优点， 即算法只需要实现一次。</li>
-<li>Collections 类中的 sort 方法可以对实现了 List 接口的集合进行排序。  </li>
-<li>对列表进行随机访问的效率很低。实际上， 可以使用归并排序对列表进行高效的排序。然而，Java 程序设计语言并不是这样实现的。它直接将所有元素转人一个数组， 对数组进行排序，然后，再将排序后的序列复制回列表。  </li>
-<li>集合类库中使用的排序算法比快速排序要慢一些， 快速排序是通用排序算法的传统选择。但是， 归并排序有一个主要的优点：稳定， 即不需要交换相同的元素。 为什么要关注相同元素的顺序呢？ 下面是一种常见的情况。 假设有一个已经按照姓名排列的员工列表。现在，要按照工资再进行排序。 如果两个雇员的工资相等发生什么情况呢？ 如果采用稳定的排序算法， 将会保留按名字排列的顺序。换句话说， 排序的结果将会产生这样一个列表， 首先按照工资排序， 工资相同者再按照姓名排序。  </li>
-<li>Collections 类有一个算法 shuffle, 其功能与排序刚好相反， 即随机地混排列表中元素的顺序。  </li>
-<li>shuffle 方法将元素复制到数组中，然后打乱数组元素的顺序，最后再将打乱顺序后的元素复制回列表。  </li>
-<li>要想在数组中査找一个对象， 通常要依次访问数组中的每个元素，直到找到匹配的元素为止。然而， 如果数组是有序的， 就可以直接査看位于数组中间的元素， 看一看是否大于要查找的元素。如果是， 用同样的方法在数组的前半部分继续查找； 否则， 用同样的方法在数组的后半部分继续查找。这样就可以将查找范围缩减一半。一直用这种方式査找下去。  </li>
-<li>Collections 类的 binarySearch方法实现了这个算法。 注意， 集合必须是排好序的， 否则算法将返回错误的答案。要想查找某个元素， 必须提供集合（这个集合要实现 List 接口， 下面还要更加详细地介绍这个问题）以及要查找的元素。 如果集合没有采用 Comparable 接口的compareTo 方法进行排序， 就还要提供一个比较器对象。  </li>
-</ol>
-<h2 id="遗留的集合"><a href="#遗留的集合" class="headerlink" title="遗留的集合"></a>遗留的集合</h2><ol>
-<li>Hashtable 类与 HashMap 类的作用一样，实际上，它们拥有相同的接口。与 Vector 类的方法一样。Hashtable 的方法也是同步的。如果对同步性或与遗留代码的兼容性没有任何要求，就应该使用 HashMap。如果需要并发访问， 则要使用 ConcurrentHashMap  </li>
-<li>遗留集合使用 Enumeration 接口对元素序列进行遍历。 Enumeration 接口有两个方法， 即hasMoreElements 和 nextElement。 这两个方法与 Iterator 接口的 hasNext 方法和 next 方法十分类似。  </li>
-<li>属性映射（property map) 是一个类型非常特殊的映射结构。它有下面 3 个特性：  </li>
-</ol>
-<ul>
-<li>键与值都是字符串。  </li>
-<li>表可以保存到一个文件中， 也可以从文件中加载。  </li>
-<li>使用一个默认的辅助表。  </li>
-</ul>
-<ol start="4">
-<li>实现属性映射的 Java 平台类称为 Properties。  </li>
-</ol>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>技术书籍</tag>
       </tags>
   </entry>
   <entry>
@@ -1707,90 +1763,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring Security环境下CORS跨域失效问题</title>
-    <url>/2019/05/12/Spring%20Security%20%E7%8E%AF%E5%A2%83%E4%B8%8B%20CORS%20%E8%B7%A8%E5%9F%9F%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<blockquote>
-<p>前后端分离项目中，后端已经配置对跨域支持，前端还是报请求跨域问题。</p>
-</blockquote>
-<h1 id="基于Spring-MVC正常配置跨域问题"><a href="#基于Spring-MVC正常配置跨域问题" class="headerlink" title="基于Spring MVC正常配置跨域问题"></a>基于Spring MVC正常配置跨域问题</h1><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public <span class="keyword">class</span> WebMvcConfig extends WebMvcConfigurerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CorsConfiguration build<span class="constructor">Config()</span> &#123;</span><br><span class="line">        CorsConfiguration corsConfiguration = <span class="keyword">new</span> <span class="constructor">CorsConfiguration()</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedOrigin(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedHeader(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedMethod(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">ExposedHeader(<span class="string">&quot;Authorization&quot;</span>)</span>;</span><br><span class="line">        return corsConfiguration;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public CorsFilter cors<span class="constructor">Filter()</span> &#123;</span><br><span class="line">        UrlBasedCorsConfigurationSource source = <span class="keyword">new</span> <span class="constructor">UrlBasedCorsConfigurationSource()</span>;</span><br><span class="line">        source.register<span class="constructor">CorsConfiguration(<span class="string">&quot;/**&quot;</span>, <span class="params">buildConfig</span>()</span>);</span><br><span class="line">        return <span class="keyword">new</span> <span class="constructor">CorsFilter(<span class="params">source</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">CorsMappings(CorsRegistry <span class="params">registry</span>)</span> &#123;</span><br><span class="line">        registry.add<span class="constructor">Mapping(<span class="string">&quot;/**&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Origins(<span class="string">&quot;*&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Methods(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>, <span class="string">&quot;DELETE&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Headers(<span class="string">&quot;*&quot;</span>)</span></span><br><span class="line">                .max<span class="constructor">Age(3600)</span></span><br><span class="line">                .allow<span class="constructor">Credentials(<span class="params">true</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>配置完成后前端控制他还是显示请求跨域问题，说明上面的配置失效了。</p>
-<h1 id="跨域失效原因"><a href="#跨域失效原因" class="headerlink" title="跨域失效原因"></a>跨域失效原因</h1><p>启动 spring boot 项目，观察控制台打印的过滤器 chain 的顺序 cors filter 是在 spring security filter chain 之后。</p>
-<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;characterEncodingFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;hiddenHttpMethodFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;httpPutFormContentFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;requestContextFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.DelegatingFilterProxyRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;springSecurityFilterChain&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;corsFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.ServletRegistrationBean - Servlet dispatcherServlet mapped <span class="keyword">to</span> [/]</span><br></pre></td></tr></table></figure>
-<p> 所以，问题很清晰了，问题在于 spring security 的 过滤器链，我们只需要将手动创建的跨域 filter 置于 spring security filter chain 之前即可。 </p>
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ol>
-<li>在Spring Security配置文件中configure方法开启跨域</li>
-</ol>
-<figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        http</span><br><span class="line">                .cors().</span><br><span class="line">                and()</span><br><span class="line">                .authorizeRequests()</span><br><span class="line">                ……</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>手动实现跨域过滤器并将过滤器置于spring security filter chain之前</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span>: lcq</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: 手动生成过滤器</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2019-05-11 16:55</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityCorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletResponse res = (HttpServletResponse) response;</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST, GET, OPTIONS, DELETE, PUT&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;3600&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Authorization, Content-Type, Accept, x-requested-with, Cache-Control&quot;</span>);</span><br><span class="line">        chain.doFilter(request, res);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">.<span class="keyword">and</span><span class="literal">()</span>.add<span class="constructor">FilterBefore(<span class="params">new</span> WebSecurityCorsFilter()</span>, <span class="module-access"><span class="module"><span class="identifier">ChannelProcessingFilter</span>.</span></span><span class="keyword">class</span>) <span class="comment">// 添加前置过滤器，保证跨域的过滤器首先触发</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>Spring集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MyBatis中$和#的区别</title>
-    <url>/2019/06/16/MyBatis/</url>
-    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybatis为我们提供了两种支持动态SQL 的语法：#{} 以及 ${}。</p>
-<p>#{}：占位符号，可以防止SQL注入（替换结果会增加单引号’’）</p>
-<p>${}：SQL拼接符号（替换结果不会增加单引号’’，表名作为变量、like和order by时使用，存在sql注入问题，需手动代码中过滤）</p>
-<p><strong>#{ }</strong></p>
-<p>例如，Mapper.xml中如下的 sql 语句：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>动态解析为：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = ?; </span><br></pre></td></tr></table></figure>
-<p>一个 #{ } 被解析为一个参数占位符 ? 。</p>
-<p><strong>${ } </strong></p>
-<p>例如，Mapper.xml中如下的 sql语句：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = $&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>当我们传递的参数为 “Java” 时，上述 sql 的解析为：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="type">name</span> = &quot;Java&quot;;</span><br></pre></td></tr></table></figure>
-<p>预编译之前的 SQL 语句已经不包含变量了，完全已经是常量数据了。</p>
-<p>综上所得， ${ } 变量的替换阶段是在动态 SQL 解析阶段，而 #{ }变量的替换是在 DBMS 中。</p>
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>#{}是预编译处理，${}是字符串替换。</p>
-<p>Mybatis在处理#{}时，会将SQL中的#{}替换为？，调用PreparedStatement的set方法来赋值。</p>
-<p>Mybatis在处理${}时，就是把${}替换成变量的值。</p>
-<p>使用#{}可以有效的防止SQL注入，提高系统安全性。</p>
-<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p><strong>1、能使用 #{ } 的地方就用 #{ }</strong></p>
-<ul>
-<li>首先这是为了性能考虑的，相同的预编译 sql 可以重复利用。</li>
-<li>其次，${ } 在预编译之前已经被变量替换了，这会存在 sql 注入问题。</li>
-</ul>
-<p>例如，如下的 sql：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> $&#123;tableName&#125; <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;</span><br></pre></td></tr></table></figure>
-<p>假如，我们的参数 tableName 为 user; delete user; –，那么 SQL 动态解析阶段之后，预编译之前的 sql 将变为：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span>; <span class="keyword">delete</span> <span class="keyword">user</span>; <span class="comment">-- where name = ?;</span></span><br></pre></td></tr></table></figure>
-<p>– 之后的语句将作为注释，不起作用，因此本来的一条查询语句偷偷的包含了一个删除表数据的 SQL。</p>
-<p><strong>2. 表名作为变量时，必须使用 ${ }</strong><br>这是因为，表名是字符串，使用 sql 占位符替换字符串时会带上单引号 ‘’，这会导致 sql 语法错误，例如：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> #&#123;tableName&#125; <span class="keyword">where</span> <span class="type">name</span> = #&#123;<span class="type">name</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>预编译之后的sql 变为：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> ? <span class="keyword">where</span> <span class="type">name</span> = ?;</span><br></pre></td></tr></table></figure>
-<p>假设我们传入的参数为 tableName = “user” , name = “Java”，那么在占位符进行变量替换后，sql 语句变为：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">&#x27;user&#x27;</span> <span class="keyword">where</span> <span class="type">name</span>=<span class="string">&#x27;Java&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p>上述 sql 语句是存在语法错误的</p>
-<h2 id="SQL预编译"><a href="#SQL预编译" class="headerlink" title="SQL预编译"></a>SQL预编译</h2><p><strong>1. 定义：</strong><br>sql 预编译指的是数据库驱动在发送 sql 语句和参数给 DBMS 之前对 sql 语句进行编译，这样 DBMS 执行 sql 时，就不需要重新编译。</p>
-<p><strong>2. 为什么需要预编译</strong></p>
-<ul>
-<li>JDBC 中使用对象 PreparedStatement 来抽象预编译语句，使用预编译。</li>
-<li>预编译阶段可以优化 sql 的执行。预编译之后的 sql 多数情况下可以直接执行，DBMS 不需要再次编译，越复杂的sql，编译的复杂度将越大，预编译阶段可以合并多次操作为一个操作。</li>
-<li>预编译语句对象可以重复利用。把一个 sql 预编译后产生的 PreparedStatement 对象缓存下来，下次对于同一个sql，可以直接使用这个缓存的 PreparedState 对象。</li>
-<li>mybatis 默认情况下，将对所有的 sql 进行预编译。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>框架</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring中事务的七种传播机制和四个隔离级别</title>
     <url>/2019/06/28/Spring%E4%B8%AD%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%B8%83%E7%A7%8D%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6%E5%92%8C%E5%9B%9B%E4%B8%AA%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</url>
     <content><![CDATA[<blockquote>
@@ -1886,6 +1858,34 @@
 </tbody>
 </table>
 <p>注：MySQL的默认隔离级别是可重复读，Oracle的默认隔离级别是读已提交。</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>Spring集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring Security环境下CORS跨域失效问题</title>
+    <url>/2019/05/12/Spring%20Security%20%E7%8E%AF%E5%A2%83%E4%B8%8B%20CORS%20%E8%B7%A8%E5%9F%9F%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<blockquote>
+<p>前后端分离项目中，后端已经配置对跨域支持，前端还是报请求跨域问题。</p>
+</blockquote>
+<h1 id="基于Spring-MVC正常配置跨域问题"><a href="#基于Spring-MVC正常配置跨域问题" class="headerlink" title="基于Spring MVC正常配置跨域问题"></a>基于Spring MVC正常配置跨域问题</h1><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public <span class="keyword">class</span> WebMvcConfig extends WebMvcConfigurerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CorsConfiguration build<span class="constructor">Config()</span> &#123;</span><br><span class="line">        CorsConfiguration corsConfiguration = <span class="keyword">new</span> <span class="constructor">CorsConfiguration()</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedOrigin(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedHeader(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedMethod(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">ExposedHeader(<span class="string">&quot;Authorization&quot;</span>)</span>;</span><br><span class="line">        return corsConfiguration;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public CorsFilter cors<span class="constructor">Filter()</span> &#123;</span><br><span class="line">        UrlBasedCorsConfigurationSource source = <span class="keyword">new</span> <span class="constructor">UrlBasedCorsConfigurationSource()</span>;</span><br><span class="line">        source.register<span class="constructor">CorsConfiguration(<span class="string">&quot;/**&quot;</span>, <span class="params">buildConfig</span>()</span>);</span><br><span class="line">        return <span class="keyword">new</span> <span class="constructor">CorsFilter(<span class="params">source</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">CorsMappings(CorsRegistry <span class="params">registry</span>)</span> &#123;</span><br><span class="line">        registry.add<span class="constructor">Mapping(<span class="string">&quot;/**&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Origins(<span class="string">&quot;*&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Methods(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>, <span class="string">&quot;DELETE&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Headers(<span class="string">&quot;*&quot;</span>)</span></span><br><span class="line">                .max<span class="constructor">Age(3600)</span></span><br><span class="line">                .allow<span class="constructor">Credentials(<span class="params">true</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置完成后前端控制他还是显示请求跨域问题，说明上面的配置失效了。</p>
+<h1 id="跨域失效原因"><a href="#跨域失效原因" class="headerlink" title="跨域失效原因"></a>跨域失效原因</h1><p>启动 spring boot 项目，观察控制台打印的过滤器 chain 的顺序 cors filter 是在 spring security filter chain 之后。</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;characterEncodingFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;hiddenHttpMethodFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;httpPutFormContentFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;requestContextFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.DelegatingFilterProxyRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;springSecurityFilterChain&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;corsFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.ServletRegistrationBean - Servlet dispatcherServlet mapped <span class="keyword">to</span> [/]</span><br></pre></td></tr></table></figure>
+<p> 所以，问题很清晰了，问题在于 spring security 的 过滤器链，我们只需要将手动创建的跨域 filter 置于 spring security filter chain 之前即可。 </p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ol>
+<li>在Spring Security配置文件中configure方法开启跨域</li>
+</ol>
+<figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        http</span><br><span class="line">                .cors().</span><br><span class="line">                and()</span><br><span class="line">                .authorizeRequests()</span><br><span class="line">                ……</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>手动实现跨域过滤器并将过滤器置于spring security filter chain之前</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span>: lcq</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: 手动生成过滤器</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2019-05-11 16:55</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityCorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletResponse res = (HttpServletResponse) response;</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST, GET, OPTIONS, DELETE, PUT&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;3600&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Authorization, Content-Type, Accept, x-requested-with, Cache-Control&quot;</span>);</span><br><span class="line">        chain.doFilter(request, res);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">.<span class="keyword">and</span><span class="literal">()</span>.add<span class="constructor">FilterBefore(<span class="params">new</span> WebSecurityCorsFilter()</span>, <span class="module-access"><span class="module"><span class="identifier">ChannelProcessingFilter</span>.</span></span><span class="keyword">class</span>) <span class="comment">// 添加前置过滤器，保证跨域的过滤器首先触发</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>编程</category>
@@ -2224,6 +2224,78 @@
       </tags>
   </entry>
   <entry>
+    <title>个人对于Vuex的理解</title>
+    <url>/2019/03/23/%E4%B8%AA%E4%BA%BA%E5%AF%B9%E4%BA%8EVuex%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="Vuex简介"><a href="#Vuex简介" class="headerlink" title="Vuex简介"></a>Vuex简介</h2><p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 <a href="https://github.com/vuejs/vue-devtools">devtools extension</a>，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。</p>
+<p>官方文档：<a href="https://vuex.vuejs.org/zh/">https://vuex.vuejs.org/zh/</a></p>
+<h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>state:Vuex中的数据源，我们需要保存的数据就保存在这里。相当于vue中的data,用$store.state.modules名.xxx来获取</p>
+<p>mutations:相当于vue中的methods,用this.$store.commit(‘事件名’)来获取</p>
+<p>actions:vuex中的actions是支持异步的,可理解为当组件需要调用多次mutations中的事件时,可将事件写入actions中,用$store.dispatch(‘事件名’)来获取</p>
+<p>getters:相当于vue中的computed计算属性。用于过滤,组合state。比如说state里面存了一个数组，数组有好多个数据，而我只想要用status：0的那些个，就可以用getters</p>
+<p>modules:将store分割成模块，避免混淆</p>
+<p>Vuex:可看作是个在vue中创建全局变量的东西,Vuex提供了一些优雅的方法，可以让我们改变全局变量的值</p>
+<p>注:刷新页面Vuex会进行丢失数据，可配合session防止页面刷新丢失数据</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用ELK做日志收集</title>
+    <url>/2020/08/31/%E4%BD%BF%E7%94%A8ELK%E5%81%9A%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/</url>
+    <content><![CDATA[<blockquote>
+<p> 微服务系统的日志都保存在各自指定的目录中，如果这些微服务部署在不同的服务器上，那么日志文件也是分散在各自的服务器上。分散的日志不利于我们快速通过日志定位问题，我们可以借助ELK来收集各个微服务系统的日志并集中展示。<br>ELK即Elasticsearch、Logstash和Kibana首字母缩写。Elasticsearch用于存储日志信息，Logstash用于收集日志，Kibana用于图形化展示。 </p>
+</blockquote>
+<h1 id="搭建ELK环境"><a href="#搭建ELK环境" class="headerlink" title="搭建ELK环境"></a>搭建ELK环境</h1><p> 在Windwos上搭建ELK环境较为麻烦，这里我选择在CentOS7 上通过Docker来搭建ELK环境。</p>
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><h3 id="安装Docker所需要的包"><a href="#安装Docker所需要的包" class="headerlink" title="安装Docker所需要的包"></a>安装Docker所需要的包</h3><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">yum</span> install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-<span class="class"><span class="keyword">data</span> \</span></span><br><span class="line">  lvm2</span><br></pre></td></tr></table></figure>
+<h3 id="设置稳定的仓库"><a href="#设置稳定的仓库" class="headerlink" title="设置稳定的仓库"></a>设置稳定的仓库</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https:<span class="regexp">//</span>download.docker.com<span class="regexp">/linux/</span>centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<h3 id="安装最新版的Docker引擎"><a href="#安装最新版的Docker引擎" class="headerlink" title="安装最新版的Docker引擎"></a>安装最新版的Docker引擎</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">yum install docker-<span class="keyword">ce</span> docker-<span class="keyword">ce</span>-cli containerd.io</span><br></pre></td></tr></table></figure>
+<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> docker</span><br></pre></td></tr></table></figure>
+<h3 id="查看是否安装成功"><a href="#查看是否安装成功" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker -v</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装Docker-Compose"><a href="#安装Docker-Compose" class="headerlink" title="安装Docker Compose"></a>安装Docker Compose</h2><p> 安装好Docker后，我们接着安装Docker Compose，官方安装教程<a href="https://docs.docker.com/compose/install/，主要步骤为：">https://docs.docker.com/compose/install/，主要步骤为：</a> </p>
+<h3 id="获取Docker-Compose的最新稳定版本"><a href="#获取Docker-Compose的最新稳定版本" class="headerlink" title="获取Docker Compose的最新稳定版本"></a>获取Docker Compose的最新稳定版本</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">curl -L <span class="string">&quot;https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)&quot;</span> -o <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="对二进制文件授予可执行权限"><a href="#对二进制文件授予可执行权限" class="headerlink" title="对二进制文件授予可执行权限"></a>对二进制文件授予可执行权限</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">chmod +x <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="创建link"><a href="#创建link" class="headerlink" title="创建link"></a>创建link</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose <span class="regexp">/usr/</span>bin/docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="查看是否安装成功-1"><a href="#查看是否安装成功-1" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker-compose -v</span></span><br></pre></td></tr></table></figure>
+<h2 id="Docker-Compose搭建ELK"><a href="#Docker-Compose搭建ELK" class="headerlink" title="Docker Compose搭建ELK"></a>Docker Compose搭建ELK</h2><p>在搭建ELK之前，我们需要做一些准备工作。</p>
+<p>正如官方所说的那样 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：">https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：</a></p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.<span class="attribute">max_map_count</span>=262144</span><br></pre></td></tr></table></figure>
+<h3 id="创建Elasticsearch数据挂载路径"><a href="#创建Elasticsearch数据挂载路径" class="headerlink" title="创建Elasticsearch数据挂载路径"></a>创建Elasticsearch数据挂载路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elasticsearch/data</span><br></pre></td></tr></table></figure>
+<h3 id="对该路径授予777权限"><a href="#对该路径授予777权限" class="headerlink" title="对该路径授予777权限"></a>对该路径授予777权限</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">chmod <span class="number">777</span> <span class="regexp">/lxb/</span>elasticsearch/data</span><br></pre></td></tr></table></figure>
+<h3 id="创建Elasticsearch插件挂载路径"><a href="#创建Elasticsearch插件挂载路径" class="headerlink" title="创建Elasticsearch插件挂载路径"></a>创建Elasticsearch插件挂载路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elasticsearch/plugins</span><br></pre></td></tr></table></figure>
+<h3 id="创建Logstash配置文件存储路径"><a href="#创建Logstash配置文件存储路径" class="headerlink" title="创建Logstash配置文件存储路径"></a>创建Logstash配置文件存储路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>logstash</span><br></pre></td></tr></table></figure>
+<p>在该路径下创建<code>logstash-lxb.conf</code>配置文件（没有安装vim的话可以使用<code>yum install vim</code>命令安装)</p>
+<p>内容如下所示:</p>
+<figure class="highlight puppet"><table><tr><td class="code"><pre><span class="line"><span class="keyword">input</span> &#123;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    <span class="attr">mode</span> =&gt; <span class="string">&quot;server&quot;</span></span><br><span class="line">    <span class="attr">host</span> =&gt; <span class="string">&quot;0.0.0.0&quot;</span></span><br><span class="line">    <span class="attr">port</span> =&gt; <span class="number">4560</span></span><br><span class="line">    <span class="attr">codec</span> =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">output</span> &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    <span class="attr">hosts</span> =&gt; <span class="string">&quot;es:9200&quot;</span></span><br><span class="line">    <span class="attr">index</span> =&gt; <span class="string">&quot;lxb-logstash-%&#123;+YYYY.MM.dd&#125;&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建ELK-Docker-Compose文件存储路径"><a href="#创建ELK-Docker-Compose文件存储路径" class="headerlink" title="创建ELK Docker Compose文件存储路径"></a>创建ELK Docker Compose文件存储路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elk</span><br></pre></td></tr></table></figure>
+<p> 在该目录下创建<code>docker-compose.yml</code>文件： </p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">vim <span class="regexp">/lxb/</span>elk/docker-compose.yml</span><br></pre></td></tr></table></figure>
+<p> 内容如下所示： </p>
+<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="symbol">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="symbol">services:</span></span><br><span class="line"><span class="symbol">  elasticsearch:</span></span><br><span class="line"><span class="symbol">    image:</span> elasticsearch:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">&quot;cluster.name=elasticsearch&quot;</span> <span class="meta">#集群名称为elasticsearch</span></span><br><span class="line">      - <span class="string">&quot;discovery.type=single-node&quot;</span> <span class="meta">#单节点启动</span></span><br><span class="line">      - <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span> <span class="meta">#jvm内存分配为512MB</span></span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/plugins:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>plugins</span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/data:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>data</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">9200</span>:<span class="number">9200</span></span><br><span class="line"><span class="symbol">  kibana:</span></span><br><span class="line"><span class="symbol">    image:</span> kibana:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> kibana</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es <span class="meta">#配置elasticsearch域名为es</span></span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">&quot;elasticsearch.hosts=http://es:9200&quot;</span> <span class="meta">#因为上面配置了域名，所以这里可以简写为http:<span class="comment">//es:9200</span></span></span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">5601</span>:<span class="number">5601</span></span><br><span class="line"><span class="symbol">  logstash:</span></span><br><span class="line"><span class="symbol">    image:</span> logstash:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> logstash</span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>logstash/logstash-febs.conf:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/logstash/</span>pipeline/logstash.conf</span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">4560</span>:<span class="number">4560</span></span><br></pre></td></tr></table></figure>
+<p> 切换到<code>/lxb/elk</code>目录下，使用如下命令启动： </p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker-compose up -d</span></span><br></pre></td></tr></table></figure>
+<p> 第一次启动的时候，Docker需要拉取ELK镜像，过程可能稍慢，耐心等待即可。 </p>
+<h2 id="Logstash中安装json-lines插件"><a href="#Logstash中安装json-lines插件" class="headerlink" title="Logstash中安装json_lines插件"></a>Logstash中安装json_lines插件</h2><p> 使用如下命令进入到Logstash容器中 </p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker exec -it logstash <span class="regexp">/bin/</span>bash</span><br></pre></td></tr></table></figure>
+<p> 切换到/bin目录，安装json_lines插件，然后退出： </p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker exec -it logstash <span class="regexp">/bin/</span>bash</span><br><span class="line">cd <span class="regexp">/bin/</span></span><br><span class="line">logstash-plugin install logstash-codec-json_lines</span><br></pre></td></tr></table></figure>
+<p> 使用浏览器访问<a href="http://localhost:5601/">http://localhost:5601</a>便可以看到Kibana管理界面</p>
+<h1 id="修改微服务日志配置"><a href="#修改微服务日志配置" class="headerlink" title="修改微服务日志配置"></a>修改微服务日志配置</h1><h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.logstash.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logstash-logback-encoder<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置修改"><a href="#配置修改" class="headerlink" title="配置修改"></a>配置修改</h2><p> 日志配置文件<code>logback-spring.xml</code>里添加如下配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--输出到 logstash的 appender--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">&quot;logstash&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">destination</span>&gt;</span>192.168.33.10:4560<span class="tag">&lt;/<span class="name">destination</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">encoder</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.logstash.logback.encoder.LogstashEncoder&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"><span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">&quot;info&quot;</span>&gt;</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">&quot;logstash&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> <code>192.168.33.10:4560</code>对应我们刚刚搭建的Logstash地址。</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>中间件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用Docker搭建MongoDB副本集</title>
     <url>/2021/05/02/%E4%BD%BF%E7%94%A8Docker%E6%90%AD%E5%BB%BAMongoDB%E5%89%AF%E6%9C%AC%E9%9B%86/</url>
     <content><![CDATA[<blockquote>
@@ -2302,58 +2374,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ELK做日志收集</title>
-    <url>/2020/08/31/%E4%BD%BF%E7%94%A8ELK%E5%81%9A%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/</url>
-    <content><![CDATA[<blockquote>
-<p> 微服务系统的日志都保存在各自指定的目录中，如果这些微服务部署在不同的服务器上，那么日志文件也是分散在各自的服务器上。分散的日志不利于我们快速通过日志定位问题，我们可以借助ELK来收集各个微服务系统的日志并集中展示。<br>ELK即Elasticsearch、Logstash和Kibana首字母缩写。Elasticsearch用于存储日志信息，Logstash用于收集日志，Kibana用于图形化展示。 </p>
-</blockquote>
-<h1 id="搭建ELK环境"><a href="#搭建ELK环境" class="headerlink" title="搭建ELK环境"></a>搭建ELK环境</h1><p> 在Windwos上搭建ELK环境较为麻烦，这里我选择在CentOS7 上通过Docker来搭建ELK环境。</p>
-<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><h3 id="安装Docker所需要的包"><a href="#安装Docker所需要的包" class="headerlink" title="安装Docker所需要的包"></a>安装Docker所需要的包</h3><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">yum</span> install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-<span class="class"><span class="keyword">data</span> \</span></span><br><span class="line">  lvm2</span><br></pre></td></tr></table></figure>
-<h3 id="设置稳定的仓库"><a href="#设置稳定的仓库" class="headerlink" title="设置稳定的仓库"></a>设置稳定的仓库</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https:<span class="regexp">//</span>download.docker.com<span class="regexp">/linux/</span>centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-<h3 id="安装最新版的Docker引擎"><a href="#安装最新版的Docker引擎" class="headerlink" title="安装最新版的Docker引擎"></a>安装最新版的Docker引擎</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">yum install docker-<span class="keyword">ce</span> docker-<span class="keyword">ce</span>-cli containerd.io</span><br></pre></td></tr></table></figure>
-<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> docker</span><br></pre></td></tr></table></figure>
-<h3 id="查看是否安装成功"><a href="#查看是否安装成功" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker -v</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装Docker-Compose"><a href="#安装Docker-Compose" class="headerlink" title="安装Docker Compose"></a>安装Docker Compose</h2><p> 安装好Docker后，我们接着安装Docker Compose，官方安装教程<a href="https://docs.docker.com/compose/install/，主要步骤为：">https://docs.docker.com/compose/install/，主要步骤为：</a> </p>
-<h3 id="获取Docker-Compose的最新稳定版本"><a href="#获取Docker-Compose的最新稳定版本" class="headerlink" title="获取Docker Compose的最新稳定版本"></a>获取Docker Compose的最新稳定版本</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">curl -L <span class="string">&quot;https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)&quot;</span> -o <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
-<h3 id="对二进制文件授予可执行权限"><a href="#对二进制文件授予可执行权限" class="headerlink" title="对二进制文件授予可执行权限"></a>对二进制文件授予可执行权限</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">chmod +x <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
-<h3 id="创建link"><a href="#创建link" class="headerlink" title="创建link"></a>创建link</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose <span class="regexp">/usr/</span>bin/docker-compose</span><br></pre></td></tr></table></figure>
-<h3 id="查看是否安装成功-1"><a href="#查看是否安装成功-1" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker-compose -v</span></span><br></pre></td></tr></table></figure>
-<h2 id="Docker-Compose搭建ELK"><a href="#Docker-Compose搭建ELK" class="headerlink" title="Docker Compose搭建ELK"></a>Docker Compose搭建ELK</h2><p>在搭建ELK之前，我们需要做一些准备工作。</p>
-<p>正如官方所说的那样 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：">https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：</a></p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.<span class="attribute">max_map_count</span>=262144</span><br></pre></td></tr></table></figure>
-<h3 id="创建Elasticsearch数据挂载路径"><a href="#创建Elasticsearch数据挂载路径" class="headerlink" title="创建Elasticsearch数据挂载路径"></a>创建Elasticsearch数据挂载路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elasticsearch/data</span><br></pre></td></tr></table></figure>
-<h3 id="对该路径授予777权限"><a href="#对该路径授予777权限" class="headerlink" title="对该路径授予777权限"></a>对该路径授予777权限</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">chmod <span class="number">777</span> <span class="regexp">/lxb/</span>elasticsearch/data</span><br></pre></td></tr></table></figure>
-<h3 id="创建Elasticsearch插件挂载路径"><a href="#创建Elasticsearch插件挂载路径" class="headerlink" title="创建Elasticsearch插件挂载路径"></a>创建Elasticsearch插件挂载路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elasticsearch/plugins</span><br></pre></td></tr></table></figure>
-<h3 id="创建Logstash配置文件存储路径"><a href="#创建Logstash配置文件存储路径" class="headerlink" title="创建Logstash配置文件存储路径"></a>创建Logstash配置文件存储路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>logstash</span><br></pre></td></tr></table></figure>
-<p>在该路径下创建<code>logstash-lxb.conf</code>配置文件（没有安装vim的话可以使用<code>yum install vim</code>命令安装)</p>
-<p>内容如下所示:</p>
-<figure class="highlight puppet"><table><tr><td class="code"><pre><span class="line"><span class="keyword">input</span> &#123;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    <span class="attr">mode</span> =&gt; <span class="string">&quot;server&quot;</span></span><br><span class="line">    <span class="attr">host</span> =&gt; <span class="string">&quot;0.0.0.0&quot;</span></span><br><span class="line">    <span class="attr">port</span> =&gt; <span class="number">4560</span></span><br><span class="line">    <span class="attr">codec</span> =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">output</span> &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    <span class="attr">hosts</span> =&gt; <span class="string">&quot;es:9200&quot;</span></span><br><span class="line">    <span class="attr">index</span> =&gt; <span class="string">&quot;lxb-logstash-%&#123;+YYYY.MM.dd&#125;&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建ELK-Docker-Compose文件存储路径"><a href="#创建ELK-Docker-Compose文件存储路径" class="headerlink" title="创建ELK Docker Compose文件存储路径"></a>创建ELK Docker Compose文件存储路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elk</span><br></pre></td></tr></table></figure>
-<p> 在该目录下创建<code>docker-compose.yml</code>文件： </p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">vim <span class="regexp">/lxb/</span>elk/docker-compose.yml</span><br></pre></td></tr></table></figure>
-<p> 内容如下所示： </p>
-<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="symbol">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="symbol">services:</span></span><br><span class="line"><span class="symbol">  elasticsearch:</span></span><br><span class="line"><span class="symbol">    image:</span> elasticsearch:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">&quot;cluster.name=elasticsearch&quot;</span> <span class="meta">#集群名称为elasticsearch</span></span><br><span class="line">      - <span class="string">&quot;discovery.type=single-node&quot;</span> <span class="meta">#单节点启动</span></span><br><span class="line">      - <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span> <span class="meta">#jvm内存分配为512MB</span></span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/plugins:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>plugins</span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/data:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>data</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">9200</span>:<span class="number">9200</span></span><br><span class="line"><span class="symbol">  kibana:</span></span><br><span class="line"><span class="symbol">    image:</span> kibana:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> kibana</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es <span class="meta">#配置elasticsearch域名为es</span></span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">&quot;elasticsearch.hosts=http://es:9200&quot;</span> <span class="meta">#因为上面配置了域名，所以这里可以简写为http:<span class="comment">//es:9200</span></span></span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">5601</span>:<span class="number">5601</span></span><br><span class="line"><span class="symbol">  logstash:</span></span><br><span class="line"><span class="symbol">    image:</span> logstash:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> logstash</span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>logstash/logstash-febs.conf:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/logstash/</span>pipeline/logstash.conf</span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">4560</span>:<span class="number">4560</span></span><br></pre></td></tr></table></figure>
-<p> 切换到<code>/lxb/elk</code>目录下，使用如下命令启动： </p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker-compose up -d</span></span><br></pre></td></tr></table></figure>
-<p> 第一次启动的时候，Docker需要拉取ELK镜像，过程可能稍慢，耐心等待即可。 </p>
-<h2 id="Logstash中安装json-lines插件"><a href="#Logstash中安装json-lines插件" class="headerlink" title="Logstash中安装json_lines插件"></a>Logstash中安装json_lines插件</h2><p> 使用如下命令进入到Logstash容器中 </p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker exec -it logstash <span class="regexp">/bin/</span>bash</span><br></pre></td></tr></table></figure>
-<p> 切换到/bin目录，安装json_lines插件，然后退出： </p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker exec -it logstash <span class="regexp">/bin/</span>bash</span><br><span class="line">cd <span class="regexp">/bin/</span></span><br><span class="line">logstash-plugin install logstash-codec-json_lines</span><br></pre></td></tr></table></figure>
-<p> 使用浏览器访问<a href="http://localhost:5601/">http://localhost:5601</a>便可以看到Kibana管理界面</p>
-<h1 id="修改微服务日志配置"><a href="#修改微服务日志配置" class="headerlink" title="修改微服务日志配置"></a>修改微服务日志配置</h1><h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.logstash.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logstash-logback-encoder<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置修改"><a href="#配置修改" class="headerlink" title="配置修改"></a>配置修改</h2><p> 日志配置文件<code>logback-spring.xml</code>里添加如下配置</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--输出到 logstash的 appender--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">&quot;logstash&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">destination</span>&gt;</span>192.168.33.10:4560<span class="tag">&lt;/<span class="name">destination</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">encoder</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.logstash.logback.encoder.LogstashEncoder&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"><span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">&quot;info&quot;</span>&gt;</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">&quot;logstash&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p> <code>192.168.33.10:4560</code>对应我们刚刚搭建的Logstash地址。</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>中间件</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用Nginx配置HTTPS和前端多目录部署</title>
     <url>/2020/09/28/%E4%BD%BF%E7%94%A8Nginx%E9%85%8D%E7%BD%AEHTTPS%E5%92%8C%E5%89%8D%E7%AB%AF%E5%A4%9A%E7%9B%AE%E5%BD%95%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<blockquote>
@@ -2383,23 +2403,32 @@
       </tags>
   </entry>
   <entry>
-    <title>个人对于Vuex的理解</title>
-    <url>/2019/03/23/%E4%B8%AA%E4%BA%BA%E5%AF%B9%E4%BA%8EVuex%E7%9A%84%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="Vuex简介"><a href="#Vuex简介" class="headerlink" title="Vuex简介"></a>Vuex简介</h2><p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 <a href="https://github.com/vuejs/vue-devtools">devtools extension</a>，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。</p>
-<p>官方文档：<a href="https://vuex.vuejs.org/zh/">https://vuex.vuejs.org/zh/</a></p>
-<h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>state:Vuex中的数据源，我们需要保存的数据就保存在这里。相当于vue中的data,用$store.state.modules名.xxx来获取</p>
-<p>mutations:相当于vue中的methods,用this.$store.commit(‘事件名’)来获取</p>
-<p>actions:vuex中的actions是支持异步的,可理解为当组件需要调用多次mutations中的事件时,可将事件写入actions中,用$store.dispatch(‘事件名’)来获取</p>
-<p>getters:相当于vue中的computed计算属性。用于过滤,组合state。比如说state里面存了一个数组，数组有好多个数据，而我只想要用status：0的那些个，就可以用getters</p>
-<p>modules:将store分割成模块，避免混淆</p>
-<p>Vuex:可看作是个在vue中创建全局变量的东西,Vuex提供了一些优雅的方法，可以让我们改变全局变量的值</p>
-<p>注:刷新页面Vuex会进行丢失数据，可配合session防止页面刷新丢失数据</p>
+    <title>使用Redis分布式锁解决并发问题</title>
+    <url>/2019/05/06/%E4%BD%BF%E7%94%A8Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E8%A7%A3%E5%86%B3%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="synchronized处理并发"><a href="#synchronized处理并发" class="headerlink" title="synchronized处理并发"></a>synchronized处理并发</h2><p>首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。</p>
+<p>但是通过压测，发现请求变的很慢，因为：<br>synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。</p>
+<p>同时，使用synchronized还是存在一些问题的，首先，它无法做到细粒度的控制，比如同一时间有秒杀A商品和B商品的请求，都进入到了这个方法，虽然秒杀A商品的人很多，但是秒杀B商品的人很少，但是即使是买B商品，进入到了这个方法，也会一样的慢。</p>
+<p>最重要的是，它只适合单点的情况。如果以后程序水平扩展了，弄了个集群，很显然，负载均衡之后，不同的用户看到的结果一定是五花八门的。</p>
+<p>所以，还是使用更好的办法，使用redis分布式锁。</p>
+<h2 id="redis分布式锁"><a href="#redis分布式锁" class="headerlink" title="redis分布式锁"></a>redis分布式锁</h2><h3 id="两个redis的命令"><a href="#两个redis的命令" class="headerlink" title="两个redis的命令"></a>两个redis的命令</h3><p>setnx key value ：setnx就是，如果没有这个key，那么就set一个key-value, 但是如果这个key已经存在，那么将不会再次设置，get出来的value还是最开始set进去的那个value.<br>网站中还专门讲到可以使用!SETNX加锁，如果获得锁，返回1，如果返回0，那么该键已经被其他的客户端锁定。<br>并且也提到了如何处理死锁。</p>
+<p>参考地址：<a href="http://www.redis.cn/commands/setnx.html">http://www.redis.cn/commands/setnx.html</a></p>
+<p>getset key value ：先通过key获取value，然后再将新的value set进去。</p>
+<p>参考地址：<a href="http://www.redis.cn/commands/getset.html">http://www.redis.cn/commands/getset.html</a></p>
+<h3 id="redis分布式锁的实现"><a href="#redis分布式锁的实现" class="headerlink" title="redis分布式锁的实现"></a>redis分布式锁的实现</h3><p>我们希望的，无非就是这一段代码，能够单线程的去访问，因此在这段代码之前给他加锁，相应的，这段代码后面要给它解锁：</p>
+<p><img src="/2019/05/06/%E4%BD%BF%E7%94%A8Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E8%A7%A3%E5%86%B3%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png" alt="需要解决的代码图"></p>
+<h4 id="引入redis依赖"><a href="#引入redis依赖" class="headerlink" title="引入redis依赖"></a>引入redis依赖</h4><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置redis"><a href="#配置redis" class="headerlink" title="配置redis"></a>配置redis</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+<h4 id="编写加锁和解锁的方法"><a href="#编写加锁和解锁的方法" class="headerlink" title="编写加锁和解锁的方法"></a>编写加锁和解锁的方法</h4><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">@Component</span><br><span class="line">public <span class="keyword">class</span> RedisLock &#123;</span><br><span class="line">Logger logger = <span class="module-access"><span class="module"><span class="identifier">LoggerFactory</span>.</span></span>get<span class="constructor">Logger(<span class="params">this</span>.<span class="params">getClass</span>()</span>);</span><br><span class="line"></span><br><span class="line">@Autowired</span><br><span class="line"><span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 加锁</span></span><br><span class="line"><span class="comment"> * @param key   商品id</span></span><br><span class="line"><span class="comment"> * @param value 当前时间+超时时间</span></span><br><span class="line"><span class="comment"> * @return</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public boolean lock(String key, String value) &#123;</span><br><span class="line">    <span class="keyword">if</span> (redisTemplate.ops<span class="constructor">ForValue()</span>.set<span class="constructor">IfAbsent(<span class="params">key</span>, <span class="params">value</span>)</span>) &#123;     <span class="comment">//这个其实就是setnx命令，只不过在java这边稍有变化，返回的是boolea</span></span><br><span class="line">        return <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//避免死锁，且只让一个线程拿到锁</span></span><br><span class="line">    String currentValue = redisTemplate.ops<span class="constructor">ForValue()</span>.get(key);</span><br><span class="line">    <span class="comment">//如果锁过期了</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="module-access"><span class="module"><span class="identifier">StringUtils</span>.</span></span>is<span class="constructor">Empty(<span class="params">currentValue</span>)</span><span class="operator"> &amp;&amp; </span><span class="module-access"><span class="module"><span class="identifier">Long</span>.</span></span>parse<span class="constructor">Long(<span class="params">currentValue</span>)</span> &lt; <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>current<span class="constructor">TimeMillis()</span>) &#123;</span><br><span class="line">        <span class="comment">//获取上一个锁的时间</span></span><br><span class="line">        String oldValues = redisTemplate.ops<span class="constructor">ForValue()</span>.get<span class="constructor">AndSet(<span class="params">key</span>, <span class="params">value</span>)</span>;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">           只会让一个线程拿到锁</span></span><br><span class="line"><span class="comment">           如果旧的value和currentValue相等，只会有一个线程达成条件，因为第二个线程拿到的oldValue已经和currentValue不一样了</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">if</span> (!<span class="module-access"><span class="module"><span class="identifier">StringUtils</span>.</span></span>is<span class="constructor">Empty(<span class="params">oldValues</span>)</span><span class="operator"> &amp;&amp; </span>oldValues.equals(currentValue)) &#123;</span><br><span class="line">            return <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 解锁</span></span><br><span class="line"><span class="comment"> * @param key</span></span><br><span class="line"><span class="comment"> * @param value</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public void unlock(String key, String value) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String currentValue = redisTemplate.ops<span class="constructor">ForValue()</span>.get(key);</span><br><span class="line">        <span class="keyword">if</span> (!<span class="module-access"><span class="module"><span class="identifier">StringUtils</span>.</span></span>is<span class="constructor">Empty(<span class="params">currentValue</span>)</span><span class="operator"> &amp;&amp; </span>currentValue.equals(value)) &#123;</span><br><span class="line">            redisTemplate.ops<span class="constructor">ForValue()</span>.get<span class="constructor">Operations()</span>.delete(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        logger.error(<span class="string">&quot;『redis分布式锁』解锁异常，&#123;&#125;&quot;</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么要有避免死锁的一步呢？<br>假设没有『避免死锁』这一步，结果在执行到下单代码的时候出了问题，毕竟操作数据库、网络、io的时候抛了个异常，这个异常是偶然抛出来的，就那么偶尔一次，那么会导致解锁步骤不去执行，这时候就没有解锁，后面的请求进来自然也或得不到锁，这就被称之为死锁。<br>而这里的『避免死锁』，就是给锁加了一个过期时间，如果锁超时了，就返回true，解开之前的那个死锁。</p>
+<h4 id="下单代码中引入加锁和解锁，确保只有一个线程操作"><a href="#下单代码中引入加锁和解锁，确保只有一个线程操作" class="headerlink" title="下单代码中引入加锁和解锁，确保只有一个线程操作"></a>下单代码中引入加锁和解锁，确保只有一个线程操作</h4><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">@Autowired</span><br><span class="line"><span class="keyword">private</span> RedisLock redisLock;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">@Transactional</span><br><span class="line">public String seckill(Integer id)throws RuntimeException &#123;</span><br><span class="line">    <span class="comment">//加锁</span></span><br><span class="line">    long time = <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>current<span class="constructor">TimeMillis()</span> + <span class="number">1000</span>*<span class="number">10</span>;  <span class="comment">//超时时间：10秒，最好设为常量</span></span><br><span class="line"></span><br><span class="line">    boolean isLock = redisLock.lock(<span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">id</span>)</span>, <span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">time</span>)</span>);</span><br><span class="line">    <span class="keyword">if</span>(!isLock)&#123;</span><br><span class="line">        throw <span class="keyword">new</span> <span class="constructor">RuntimeException(<span class="string">&quot;人太多了，换个姿势再试试~&quot;</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查库存</span></span><br><span class="line">    Product product = productMapper.find<span class="constructor">ById(<span class="params">id</span>)</span>;</span><br><span class="line">    <span class="keyword">if</span>(product.get<span class="constructor">Stock()</span>==<span class="number">0</span>) throw <span class="keyword">new</span> <span class="constructor">RuntimeException(<span class="string">&quot;已经卖光&quot;</span>)</span>;</span><br><span class="line">    <span class="comment">//写入订单表</span></span><br><span class="line">    Order order=<span class="keyword">new</span> <span class="constructor">Order()</span>;</span><br><span class="line">    order.set<span class="constructor">ProductId(<span class="params">product</span>.<span class="params">getId</span>()</span>);</span><br><span class="line">    order.set<span class="constructor">ProductName(<span class="params">product</span>.<span class="params">getName</span>()</span>);</span><br><span class="line">    orderMapper.add(order);</span><br><span class="line">    <span class="comment">//减库存</span></span><br><span class="line">    product.set<span class="constructor">Price(<span class="params">null</span>)</span>;</span><br><span class="line">    product.set<span class="constructor">Name(<span class="params">null</span>)</span>;</span><br><span class="line">    product.set<span class="constructor">Stock(<span class="params">product</span>.<span class="params">getStock</span>()</span>-<span class="number">1</span>);</span><br><span class="line">    productMapper.update(product);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//解锁</span></span><br><span class="line">    redisLock.unlock(<span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">id</span>)</span>,<span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">time</span>)</span>);</span><br><span class="line"></span><br><span class="line">    return find<span class="constructor">ProductInfo(<span class="params">id</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就能用redis分布式锁解决并发问题</p>
 ]]></content>
       <categories>
         <category>编程</category>
       </categories>
       <tags>
-        <tag>前端</tag>
+        <tag>中间件</tag>
+        <tag>并发</tag>
       </tags>
   </entry>
   <entry>
@@ -2521,35 +2550,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用Redis分布式锁解决并发问题</title>
-    <url>/2019/05/06/%E4%BD%BF%E7%94%A8Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E8%A7%A3%E5%86%B3%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="synchronized处理并发"><a href="#synchronized处理并发" class="headerlink" title="synchronized处理并发"></a>synchronized处理并发</h2><p>首先，synchronized的确是一个解决办法，而且也很简单，在方法前面加一个synchronized关键字。</p>
-<p>但是通过压测，发现请求变的很慢，因为：<br>synchronized就用一个锁把这个方法锁住了，每次访问这个方法，只会有一个线程，所以这就是它导致慢的原因。通过这种方式，保证这个方法中的代码都是单线程来处理，不会出什么问题。</p>
-<p>同时，使用synchronized还是存在一些问题的，首先，它无法做到细粒度的控制，比如同一时间有秒杀A商品和B商品的请求，都进入到了这个方法，虽然秒杀A商品的人很多，但是秒杀B商品的人很少，但是即使是买B商品，进入到了这个方法，也会一样的慢。</p>
-<p>最重要的是，它只适合单点的情况。如果以后程序水平扩展了，弄了个集群，很显然，负载均衡之后，不同的用户看到的结果一定是五花八门的。</p>
-<p>所以，还是使用更好的办法，使用redis分布式锁。</p>
-<h2 id="redis分布式锁"><a href="#redis分布式锁" class="headerlink" title="redis分布式锁"></a>redis分布式锁</h2><h3 id="两个redis的命令"><a href="#两个redis的命令" class="headerlink" title="两个redis的命令"></a>两个redis的命令</h3><p>setnx key value ：setnx就是，如果没有这个key，那么就set一个key-value, 但是如果这个key已经存在，那么将不会再次设置，get出来的value还是最开始set进去的那个value.<br>网站中还专门讲到可以使用!SETNX加锁，如果获得锁，返回1，如果返回0，那么该键已经被其他的客户端锁定。<br>并且也提到了如何处理死锁。</p>
-<p>参考地址：<a href="http://www.redis.cn/commands/setnx.html">http://www.redis.cn/commands/setnx.html</a></p>
-<p>getset key value ：先通过key获取value，然后再将新的value set进去。</p>
-<p>参考地址：<a href="http://www.redis.cn/commands/getset.html">http://www.redis.cn/commands/getset.html</a></p>
-<h3 id="redis分布式锁的实现"><a href="#redis分布式锁的实现" class="headerlink" title="redis分布式锁的实现"></a>redis分布式锁的实现</h3><p>我们希望的，无非就是这一段代码，能够单线程的去访问，因此在这段代码之前给他加锁，相应的，这段代码后面要给它解锁：</p>
-<p><img src="/2019/05/06/%E4%BD%BF%E7%94%A8Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E8%A7%A3%E5%86%B3%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/使用Redis分布式锁解决并发问题/image_1cabec77q16dibn41a207mkpb19.png" alt="需要解决的代码图"></p>
-<h4 id="引入redis依赖"><a href="#引入redis依赖" class="headerlink" title="引入redis依赖"></a>引入redis依赖</h4><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="配置redis"><a href="#配置redis" class="headerlink" title="配置redis"></a>配置redis</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
-<h4 id="编写加锁和解锁的方法"><a href="#编写加锁和解锁的方法" class="headerlink" title="编写加锁和解锁的方法"></a>编写加锁和解锁的方法</h4><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">@Component</span><br><span class="line">public <span class="keyword">class</span> RedisLock &#123;</span><br><span class="line">Logger logger = <span class="module-access"><span class="module"><span class="identifier">LoggerFactory</span>.</span></span>get<span class="constructor">Logger(<span class="params">this</span>.<span class="params">getClass</span>()</span>);</span><br><span class="line"></span><br><span class="line">@Autowired</span><br><span class="line"><span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 加锁</span></span><br><span class="line"><span class="comment"> * @param key   商品id</span></span><br><span class="line"><span class="comment"> * @param value 当前时间+超时时间</span></span><br><span class="line"><span class="comment"> * @return</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public boolean lock(String key, String value) &#123;</span><br><span class="line">    <span class="keyword">if</span> (redisTemplate.ops<span class="constructor">ForValue()</span>.set<span class="constructor">IfAbsent(<span class="params">key</span>, <span class="params">value</span>)</span>) &#123;     <span class="comment">//这个其实就是setnx命令，只不过在java这边稍有变化，返回的是boolea</span></span><br><span class="line">        return <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//避免死锁，且只让一个线程拿到锁</span></span><br><span class="line">    String currentValue = redisTemplate.ops<span class="constructor">ForValue()</span>.get(key);</span><br><span class="line">    <span class="comment">//如果锁过期了</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="module-access"><span class="module"><span class="identifier">StringUtils</span>.</span></span>is<span class="constructor">Empty(<span class="params">currentValue</span>)</span><span class="operator"> &amp;&amp; </span><span class="module-access"><span class="module"><span class="identifier">Long</span>.</span></span>parse<span class="constructor">Long(<span class="params">currentValue</span>)</span> &lt; <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>current<span class="constructor">TimeMillis()</span>) &#123;</span><br><span class="line">        <span class="comment">//获取上一个锁的时间</span></span><br><span class="line">        String oldValues = redisTemplate.ops<span class="constructor">ForValue()</span>.get<span class="constructor">AndSet(<span class="params">key</span>, <span class="params">value</span>)</span>;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">           只会让一个线程拿到锁</span></span><br><span class="line"><span class="comment">           如果旧的value和currentValue相等，只会有一个线程达成条件，因为第二个线程拿到的oldValue已经和currentValue不一样了</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">if</span> (!<span class="module-access"><span class="module"><span class="identifier">StringUtils</span>.</span></span>is<span class="constructor">Empty(<span class="params">oldValues</span>)</span><span class="operator"> &amp;&amp; </span>oldValues.equals(currentValue)) &#123;</span><br><span class="line">            return <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 解锁</span></span><br><span class="line"><span class="comment"> * @param key</span></span><br><span class="line"><span class="comment"> * @param value</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public void unlock(String key, String value) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String currentValue = redisTemplate.ops<span class="constructor">ForValue()</span>.get(key);</span><br><span class="line">        <span class="keyword">if</span> (!<span class="module-access"><span class="module"><span class="identifier">StringUtils</span>.</span></span>is<span class="constructor">Empty(<span class="params">currentValue</span>)</span><span class="operator"> &amp;&amp; </span>currentValue.equals(value)) &#123;</span><br><span class="line">            redisTemplate.ops<span class="constructor">ForValue()</span>.get<span class="constructor">Operations()</span>.delete(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        logger.error(<span class="string">&quot;『redis分布式锁』解锁异常，&#123;&#125;&quot;</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为什么要有避免死锁的一步呢？<br>假设没有『避免死锁』这一步，结果在执行到下单代码的时候出了问题，毕竟操作数据库、网络、io的时候抛了个异常，这个异常是偶然抛出来的，就那么偶尔一次，那么会导致解锁步骤不去执行，这时候就没有解锁，后面的请求进来自然也或得不到锁，这就被称之为死锁。<br>而这里的『避免死锁』，就是给锁加了一个过期时间，如果锁超时了，就返回true，解开之前的那个死锁。</p>
-<h4 id="下单代码中引入加锁和解锁，确保只有一个线程操作"><a href="#下单代码中引入加锁和解锁，确保只有一个线程操作" class="headerlink" title="下单代码中引入加锁和解锁，确保只有一个线程操作"></a>下单代码中引入加锁和解锁，确保只有一个线程操作</h4><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">@Autowired</span><br><span class="line"><span class="keyword">private</span> RedisLock redisLock;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">@Transactional</span><br><span class="line">public String seckill(Integer id)throws RuntimeException &#123;</span><br><span class="line">    <span class="comment">//加锁</span></span><br><span class="line">    long time = <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>current<span class="constructor">TimeMillis()</span> + <span class="number">1000</span>*<span class="number">10</span>;  <span class="comment">//超时时间：10秒，最好设为常量</span></span><br><span class="line"></span><br><span class="line">    boolean isLock = redisLock.lock(<span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">id</span>)</span>, <span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">time</span>)</span>);</span><br><span class="line">    <span class="keyword">if</span>(!isLock)&#123;</span><br><span class="line">        throw <span class="keyword">new</span> <span class="constructor">RuntimeException(<span class="string">&quot;人太多了，换个姿势再试试~&quot;</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查库存</span></span><br><span class="line">    Product product = productMapper.find<span class="constructor">ById(<span class="params">id</span>)</span>;</span><br><span class="line">    <span class="keyword">if</span>(product.get<span class="constructor">Stock()</span>==<span class="number">0</span>) throw <span class="keyword">new</span> <span class="constructor">RuntimeException(<span class="string">&quot;已经卖光&quot;</span>)</span>;</span><br><span class="line">    <span class="comment">//写入订单表</span></span><br><span class="line">    Order order=<span class="keyword">new</span> <span class="constructor">Order()</span>;</span><br><span class="line">    order.set<span class="constructor">ProductId(<span class="params">product</span>.<span class="params">getId</span>()</span>);</span><br><span class="line">    order.set<span class="constructor">ProductName(<span class="params">product</span>.<span class="params">getName</span>()</span>);</span><br><span class="line">    orderMapper.add(order);</span><br><span class="line">    <span class="comment">//减库存</span></span><br><span class="line">    product.set<span class="constructor">Price(<span class="params">null</span>)</span>;</span><br><span class="line">    product.set<span class="constructor">Name(<span class="params">null</span>)</span>;</span><br><span class="line">    product.set<span class="constructor">Stock(<span class="params">product</span>.<span class="params">getStock</span>()</span>-<span class="number">1</span>);</span><br><span class="line">    productMapper.update(product);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//解锁</span></span><br><span class="line">    redisLock.unlock(<span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">id</span>)</span>,<span class="module-access"><span class="module"><span class="identifier">String</span>.</span></span>value<span class="constructor">Of(<span class="params">time</span>)</span>);</span><br><span class="line"></span><br><span class="line">    return find<span class="constructor">ProductInfo(<span class="params">id</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样就能用redis分布式锁解决并发问题</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>中间件</tag>
-        <tag>并发</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>分布式唯一ID-雪花算法的原理和实现</title>
     <url>/2020/01/05/%E5%88%86%E5%B8%83%E5%BC%8F%E5%94%AF%E4%B8%80ID-%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<blockquote>
@@ -2577,19 +2577,6 @@
       </categories>
       <tags>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>我的第一篇博客</title>
-    <url>/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p><strong>Hello,Blog!</strong></p>
-<p><img src="/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/我的第一篇博客/1566915522.jpg" alt="窗外的世界"></p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -2701,6 +2688,62 @@
       </tags>
   </entry>
   <entry>
+    <title>数据库优化</title>
+    <url>/2019/11/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="什么影响了数据库性能"><a href="#什么影响了数据库性能" class="headerlink" title="什么影响了数据库性能"></a>什么影响了数据库性能</h1><ul>
+<li>sql查询速度</li>
+<li>服务器硬件</li>
+<li>网卡流量</li>
+<li>磁盘IO</li>
+<li>大表(10G)</li>
+<li>大事务</li>
+</ul>
+<p>大表对DDL操作的影响</p>
+<ul>
+<li>建立索引需要很长时间</li>
+<li>修改表结构需要长时间锁表</li>
+</ul>
+<p>如何处理数据库中的大表</p>
+<ul>
+<li>分库分表<br>把一张表分成多个小表<br>难点：<br>分表主键的选择<br>分表后跨分区数据的查询和统计</li>
+<li>历史数据归档<br>难点：<br>归档时间点的选择<br>如何进行归档操作</li>
+</ul>
+<p>大事务的影响</p>
+<ul>
+<li>锁定太多的数据，造成大量的阻塞和锁超时</li>
+<li>回滚所需的时间比较长</li>
+<li>执行时间长，容易造成主从延迟</li>
+</ul>
+<p>RAID</p>
+<h1 id="数据库索引优化策略"><a href="#数据库索引优化策略" class="headerlink" title="数据库索引优化策略"></a>数据库索引优化策略</h1><ol>
+<li>索引列上不能使用表达式或函数</li>
+<li>前缀索引和索引列的选择性</li>
+<li>联合索引</li>
+</ol>
+<ul>
+<li>经常会被使用到的列优先</li>
+<li>选择性高的列优先</li>
+<li>宽度小的列优先</li>
+</ul>
+<ol start="4">
+<li>覆盖索引</li>
+</ol>
+<ul>
+<li>优点</li>
+<li>可以优化缓存，减少磁盘IO操作</li>
+<li>可以减少随机IO，变随机IO操作变为顺序IO操作</li>
+<li>可以避免对Innodb主键索引的二次查询</li>
+<li>可以避免MyISAM表进行系统调用</li>
+</ul>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>浅谈计算机网络中的三种可靠传输机制</title>
     <url>/2021/04/02/%E6%B5%85%E8%B0%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<blockquote>
@@ -2787,96 +2830,16 @@
       </tags>
   </entry>
   <entry>
-    <title>数据库优化</title>
-    <url>/2019/11/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h1 id="什么影响了数据库性能"><a href="#什么影响了数据库性能" class="headerlink" title="什么影响了数据库性能"></a>什么影响了数据库性能</h1><ul>
-<li>sql查询速度</li>
-<li>服务器硬件</li>
-<li>网卡流量</li>
-<li>磁盘IO</li>
-<li>大表(10G)</li>
-<li>大事务</li>
-</ul>
-<p>大表对DDL操作的影响</p>
-<ul>
-<li>建立索引需要很长时间</li>
-<li>修改表结构需要长时间锁表</li>
-</ul>
-<p>如何处理数据库中的大表</p>
-<ul>
-<li>分库分表<br>把一张表分成多个小表<br>难点：<br>分表主键的选择<br>分表后跨分区数据的查询和统计</li>
-<li>历史数据归档<br>难点：<br>归档时间点的选择<br>如何进行归档操作</li>
-</ul>
-<p>大事务的影响</p>
-<ul>
-<li>锁定太多的数据，造成大量的阻塞和锁超时</li>
-<li>回滚所需的时间比较长</li>
-<li>执行时间长，容易造成主从延迟</li>
-</ul>
-<p>RAID</p>
-<h1 id="数据库索引优化策略"><a href="#数据库索引优化策略" class="headerlink" title="数据库索引优化策略"></a>数据库索引优化策略</h1><ol>
-<li>索引列上不能使用表达式或函数</li>
-<li>前缀索引和索引列的选择性</li>
-<li>联合索引</li>
-</ol>
-<ul>
-<li>经常会被使用到的列优先</li>
-<li>选择性高的列优先</li>
-<li>宽度小的列优先</li>
-</ul>
-<ol start="4">
-<li>覆盖索引</li>
-</ol>
-<ul>
-<li>优点</li>
-<li>可以优化缓存，减少磁盘IO操作</li>
-<li>可以减少随机IO，变随机IO操作变为顺序IO操作</li>
-<li>可以避免对Innodb主键索引的二次查询</li>
-<li>可以避免MyISAM表进行系统调用</li>
-</ul>
+    <title>我的第一篇博客</title>
+    <url>/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p><strong>Hello,Blog!</strong></p>
+<p><img src="/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/我的第一篇博客/1566915522.jpg" alt="窗外的世界"></p>
 ]]></content>
       <categories>
-        <category>编程</category>
+        <category>博客</category>
       </categories>
       <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网络编程知识总结</title>
-    <url>/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="网络编程简述"><a href="#网络编程简述" class="headerlink" title="网络编程简述"></a>网络编程简述</h1><p>网络编程就是在两个或两个以上的设备(例如计算机)之间传输数据，中间传输为物理线路的作用。</p>
-<h1 id="网络通信要素"><a href="#网络通信要素" class="headerlink" title="网络通信要素"></a>网络通信要素</h1><h2 id="IP地址（InetAddress）"><a href="#IP地址（InetAddress）" class="headerlink" title="IP地址（InetAddress）"></a>IP地址（InetAddress）</h2><p> 特点：<br>          网络中的设备标识。<br>          不易记忆，但是可用主机名。<br>          本地回环地址127.0.0.1  主机名localhost。</p>
-<h2 id="端口号"><a href="#端口号" class="headerlink" title="端口号"></a>端口号</h2><p>数据要发送到对方指定的应用程序上，为了标识这些应用程序，给这些网络应用程序都用数字进行标识。为了方便称呼这个数字，把它称为端口，是逻辑端口。<br> 特点：<br>          用于标识进程的逻辑地址。<br>          有效端口号：0—65535，其中0—1024系统使用或保留端口。</p>
-<h2 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h2><p> 传输协议：通讯的规则。</p>
-<h3 id="TCP-传输控制协议-方式"><a href="#TCP-传输控制协议-方式" class="headerlink" title="TCP(传输控制协议)方式"></a>TCP(传输控制协议)方式</h3><p>TCP方式就类似于拨打电话，使用该种方式进行网络通讯时，需要建立专门的虚拟连接，然后进行可靠的数据传输，如果数据发送失败，则客户端会自动重发该数据<br>特点：<br>          建立连接，形成传输数据的通道。<br>          在连接中可以进行大数据传输。<br>          通过三次握手完成连接，是可靠协议<br>          必须建立连接，效率和降低。</p>
-<h3 id="UDP-用户数据报协议-方式"><a href="#UDP-用户数据报协议-方式" class="headerlink" title="UDP(用户数据报协议)方式"></a>UDP(用户数据报协议)方式</h3><p>UDP方式就类似于发送短信，使用这种方式进行网络通讯时，不需要建立专门的虚拟连接，传输也不是很可靠，如果发送失败则客户端无法获得<br>特点：<br>          将数据及源和目的封装在数据包中，不需要建立连接<br>          每个数据报的大小限制在64K内。<br>          不需要建立连接，速度快。<br>          因无连接，是不可靠协议。</p>
-<p>这两种传输方式都是实际的网络编程中进行使用，重要的数据一般使用TCP方式进行数据传输，而大量的非核心数据则都通过UDP方式进行传递，在一些程序中甚至结合使用这两种方式进行数据的传递。由于TCP需要建立专用的虚拟连接以及确认传输是否正确，所以使用TCP方式的速度稍微慢一些，而且传输时产生的数据量要比UDP稍微大一些。</p>
-<h3 id="UDP和TCP协议的区别"><a href="#UDP和TCP协议的区别" class="headerlink" title="UDP和TCP协议的区别"></a>UDP和TCP协议的区别</h3><p>​          使用UDP时，每个数据报中都给出了完整的地址信息，因此无需要建立发送方和接收方的连接。 </p>
-<p>​          对于TCP协议，由于它是一个面向连接的协议，在socket之间进行数据传输之前必然要建立连接，所以在TCP中多了一个连接建立的时间 。</p>
-<p>​          使用UDP传输数据时是有大小限制的，每个被传输的数据报必须限定在64KB之内。 </p>
-<p>​          TCP没有这方面的限制，一旦连接建立起来，双方的socket就可以按统一的格式传输大量的数据。 </p>
-<p>​          UDP是一个不可靠的协议，发送方所发送的数据报并不一定以相同的次序到达接收方。 </p>
-<p>​          TCP是一个可靠的协议，它确保接收方完全正确地获取发送方所发送的全部数据 。</p>
-<p>​          TCP在网络通信上有极强的生命力，例如远程连接（Telnet）和文件传输（FTP）都需要不定长度的数据被可靠地传输。 </p>
-<p>​          相比之下UDP操作简单，而且仅需要较少的监护，因此通常用于局域网高可靠性的分散系统中client/server应用程序 。</p>
-<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>​                             1.OSI参考模型                                2.TCP/IP参考模型</p>
-<p><img src="/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/网络编程笔记/983980-20161121173924409-1128983178.png" alt="模型参考图"></p>
-<h1 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h1><p>特点：<br>​          Socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。<br>​          Socket就是为网络服务提供的一种机制。<br>​          通信的两端都有Socket。<br>​          网络通信其实就是Socket之间的通信。<br>​          数据在两个Socket之间通过IO传输。</p>
-<h1 id="HTTP-和-WebSocket的区别"><a href="#HTTP-和-WebSocket的区别" class="headerlink" title="HTTP 和 WebSocket的区别"></a>HTTP 和 WebSocket的区别</h1><ol>
-<li>http协议是用在应用层的协议，他是基于tcp协议的，http协议建立链接也必须要有三次握手才能发送信息。</li>
-</ol>
-<p>　　http链接分为短链接，长链接，短链接是每次请求都要三次握手才能发送自己的信息。即每一个request对应一个response。长链接是在一定的期限内保持链接。保持TCP连接不断开。客户端与服务器通信，必须要有客户端发起然后服务器返回结果。客户端是主动的，服务器是被动的。</p>
-<ol start="2">
-<li>WebSocket他是为了解决客户端发起多个http请求到服务器资源浏览器必须要经过长时间的轮训问题而生的，他实现了多路复用，他是全双工通信。在webSocket协议下客服端和浏览器可以同时发送信息。</li>
-</ol>
-<p>　　建立了WebSocket之后服务器不必在浏览器发送request请求之后才能发送信息到浏览器。这时的服务器已有主动权想什么时候发就可以发送信息到服务器。而且信息当中不必在带有head的部分信息了与http的长链接通信来说，这种方式，不仅能降低服务器的压力。而且信息当中也减少了部分多余的信息。</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
+        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -3072,19 +3035,40 @@
       </tags>
   </entry>
   <entry>
-    <title>解决Spring Boot异步上传文件提示无法找到文件问题</title>
-    <url>/2021/01/20/%E8%A7%A3%E5%86%B3Spring%20Boot%E5%BC%82%E6%AD%A5%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E6%8F%90%E7%A4%BA%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E6%96%87%E4%BB%B6%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>使用Spring Boot上传文件进行操作时，为了减少客户端等待耗时，选择使用异步实现后报</p>
-<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="variable">java.io.FileNotFoundException</span>: <span class="function"><span class="title">xxx</span>(系统找不到指定的文件。)</span></span><br></pre></td></tr></table></figure>
-<p>根据提示在找到临时文件路径，确实在文件夹里找不到对应文件</p>
-<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>表面看以为是临时文件创建失败或者文件夹不存在，真正原因在于异步操作上传时，主线程请求流已经关闭了，并把临时目录下的临时文件删除了，所以业务中才会报找不到文件异常。</p>
-<h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>可以选择在主线程保存文件流数据</p>
+    <title>网络编程知识总结</title>
+    <url>/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="网络编程简述"><a href="#网络编程简述" class="headerlink" title="网络编程简述"></a>网络编程简述</h1><p>网络编程就是在两个或两个以上的设备(例如计算机)之间传输数据，中间传输为物理线路的作用。</p>
+<h1 id="网络通信要素"><a href="#网络通信要素" class="headerlink" title="网络通信要素"></a>网络通信要素</h1><h2 id="IP地址（InetAddress）"><a href="#IP地址（InetAddress）" class="headerlink" title="IP地址（InetAddress）"></a>IP地址（InetAddress）</h2><p> 特点：<br>          网络中的设备标识。<br>          不易记忆，但是可用主机名。<br>          本地回环地址127.0.0.1  主机名localhost。</p>
+<h2 id="端口号"><a href="#端口号" class="headerlink" title="端口号"></a>端口号</h2><p>数据要发送到对方指定的应用程序上，为了标识这些应用程序，给这些网络应用程序都用数字进行标识。为了方便称呼这个数字，把它称为端口，是逻辑端口。<br> 特点：<br>          用于标识进程的逻辑地址。<br>          有效端口号：0—65535，其中0—1024系统使用或保留端口。</p>
+<h2 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h2><p> 传输协议：通讯的规则。</p>
+<h3 id="TCP-传输控制协议-方式"><a href="#TCP-传输控制协议-方式" class="headerlink" title="TCP(传输控制协议)方式"></a>TCP(传输控制协议)方式</h3><p>TCP方式就类似于拨打电话，使用该种方式进行网络通讯时，需要建立专门的虚拟连接，然后进行可靠的数据传输，如果数据发送失败，则客户端会自动重发该数据<br>特点：<br>          建立连接，形成传输数据的通道。<br>          在连接中可以进行大数据传输。<br>          通过三次握手完成连接，是可靠协议<br>          必须建立连接，效率和降低。</p>
+<h3 id="UDP-用户数据报协议-方式"><a href="#UDP-用户数据报协议-方式" class="headerlink" title="UDP(用户数据报协议)方式"></a>UDP(用户数据报协议)方式</h3><p>UDP方式就类似于发送短信，使用这种方式进行网络通讯时，不需要建立专门的虚拟连接，传输也不是很可靠，如果发送失败则客户端无法获得<br>特点：<br>          将数据及源和目的封装在数据包中，不需要建立连接<br>          每个数据报的大小限制在64K内。<br>          不需要建立连接，速度快。<br>          因无连接，是不可靠协议。</p>
+<p>这两种传输方式都是实际的网络编程中进行使用，重要的数据一般使用TCP方式进行数据传输，而大量的非核心数据则都通过UDP方式进行传递，在一些程序中甚至结合使用这两种方式进行数据的传递。由于TCP需要建立专用的虚拟连接以及确认传输是否正确，所以使用TCP方式的速度稍微慢一些，而且传输时产生的数据量要比UDP稍微大一些。</p>
+<h3 id="UDP和TCP协议的区别"><a href="#UDP和TCP协议的区别" class="headerlink" title="UDP和TCP协议的区别"></a>UDP和TCP协议的区别</h3><p>​          使用UDP时，每个数据报中都给出了完整的地址信息，因此无需要建立发送方和接收方的连接。 </p>
+<p>​          对于TCP协议，由于它是一个面向连接的协议，在socket之间进行数据传输之前必然要建立连接，所以在TCP中多了一个连接建立的时间 。</p>
+<p>​          使用UDP传输数据时是有大小限制的，每个被传输的数据报必须限定在64KB之内。 </p>
+<p>​          TCP没有这方面的限制，一旦连接建立起来，双方的socket就可以按统一的格式传输大量的数据。 </p>
+<p>​          UDP是一个不可靠的协议，发送方所发送的数据报并不一定以相同的次序到达接收方。 </p>
+<p>​          TCP是一个可靠的协议，它确保接收方完全正确地获取发送方所发送的全部数据 。</p>
+<p>​          TCP在网络通信上有极强的生命力，例如远程连接（Telnet）和文件传输（FTP）都需要不定长度的数据被可靠地传输。 </p>
+<p>​          相比之下UDP操作简单，而且仅需要较少的监护，因此通常用于局域网高可靠性的分散系统中client/server应用程序 。</p>
+<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>​                             1.OSI参考模型                                2.TCP/IP参考模型</p>
+<p><img src="/2019/05/16/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/网络编程笔记/983980-20161121173924409-1128983178.png" alt="模型参考图"></p>
+<h1 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h1><p>特点：<br>​          Socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。<br>​          Socket就是为网络服务提供的一种机制。<br>​          通信的两端都有Socket。<br>​          网络通信其实就是Socket之间的通信。<br>​          数据在两个Socket之间通过IO传输。</p>
+<h1 id="HTTP-和-WebSocket的区别"><a href="#HTTP-和-WebSocket的区别" class="headerlink" title="HTTP 和 WebSocket的区别"></a>HTTP 和 WebSocket的区别</h1><ol>
+<li>http协议是用在应用层的协议，他是基于tcp协议的，http协议建立链接也必须要有三次握手才能发送信息。</li>
+</ol>
+<p>　　http链接分为短链接，长链接，短链接是每次请求都要三次握手才能发送自己的信息。即每一个request对应一个response。长链接是在一定的期限内保持链接。保持TCP连接不断开。客户端与服务器通信，必须要有客户端发起然后服务器返回结果。客户端是主动的，服务器是被动的。</p>
+<ol start="2">
+<li>WebSocket他是为了解决客户端发起多个http请求到服务器资源浏览器必须要经过长时间的轮训问题而生的，他实现了多路复用，他是全双工通信。在webSocket协议下客服端和浏览器可以同时发送信息。</li>
+</ol>
+<p>　　建立了WebSocket之后服务器不必在浏览器发送request请求之后才能发送信息到浏览器。这时的服务器已有主动权想什么时候发就可以发送信息到服务器。而且信息当中不必在带有head的部分信息了与http的长链接通信来说，这种方式，不仅能降低服务器的压力。而且信息当中也减少了部分多余的信息。</p>
 ]]></content>
       <categories>
         <category>编程</category>
       </categories>
       <tags>
-        <tag>Spring集合</tag>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -3138,27 +3122,6 @@
       <tags>
         <tag>技术书籍</tag>
         <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解读SPDY协议</title>
-    <url>/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。</p>
-<ul>
-<li>注：该协议已弃用，可探究其特性和其底层原理进行学习<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1></li>
-<li>单个TCP连接支持并发的HTTP请求。</li>
-<li>压缩报头和去掉不必要的头部来减少当前HTTP使用的带宽。</li>
-<li>定义一个容易实现，在服务器端高效率的协议。通过减少边缘情况、定义易解析的消息格式来减少HTTP的复杂性。</li>
-<li>强制使用SSL，让SSL协议在现存的网络设施下有更好的安全性和兼容性。</li>
-<li>允许服务器在需要时发起对客户端的连接并推送数据。</li>
-</ul>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>SSL层上增加SPDY会话层<br><img src="/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png" alt="SPDY原理图"></p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -3304,6 +3267,43 @@
       <tags>
         <tag>技术书籍</tag>
         <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决Spring Boot异步上传文件提示无法找到文件问题</title>
+    <url>/2021/01/20/%E8%A7%A3%E5%86%B3Spring%20Boot%E5%BC%82%E6%AD%A5%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E6%8F%90%E7%A4%BA%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E6%96%87%E4%BB%B6%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>使用Spring Boot上传文件进行操作时，为了减少客户端等待耗时，选择使用异步实现后报</p>
+<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="variable">java.io.FileNotFoundException</span>: <span class="function"><span class="title">xxx</span>(系统找不到指定的文件。)</span></span><br></pre></td></tr></table></figure>
+<p>根据提示在找到临时文件路径，确实在文件夹里找不到对应文件</p>
+<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>表面看以为是临时文件创建失败或者文件夹不存在，真正原因在于异步操作上传时，主线程请求流已经关闭了，并把临时目录下的临时文件删除了，所以业务中才会报找不到文件异常。</p>
+<h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>可以选择在主线程保存文件流数据</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>Spring集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解读SPDY协议</title>
+    <url>/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。</p>
+<ul>
+<li>注：该协议已弃用，可探究其特性和其底层原理进行学习<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1></li>
+<li>单个TCP连接支持并发的HTTP请求。</li>
+<li>压缩报头和去掉不必要的头部来减少当前HTTP使用的带宽。</li>
+<li>定义一个容易实现，在服务器端高效率的协议。通过减少边缘情况、定义易解析的消息格式来减少HTTP的复杂性。</li>
+<li>强制使用SSL，让SSL协议在现存的网络设施下有更好的安全性和兼容性。</li>
+<li>允许服务器在需要时发起对客户端的连接并推送数据。</li>
+</ul>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>SSL层上增加SPDY会话层<br><img src="/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png" alt="SPDY原理图"></p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
