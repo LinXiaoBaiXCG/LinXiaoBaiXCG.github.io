@@ -23,43 +23,6 @@
       </tags>
   </entry>
   <entry>
-    <title>API接口签名实现</title>
-    <url>/2021/02/04/API%E6%8E%A5%E5%8F%A3%E7%AD%BE%E5%90%8D%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<blockquote>
-<p> 近期，公司小游戏涉及上传得分操作，为防止用户通过篡改接口数据刷游戏榜单获得奖金。最终通过签名的方式设计接口，解决数据被篡改问题。</p>
-</blockquote>
-<h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><p>接口签名是主流的通信安全解决方案。</p>
-<p>优点：</p>
-<ol>
-<li>能有效防止数据被篡改</li>
-<li>能检验请求来源是否合法</li>
-<li>能检验请求是否具有唯一性</li>
-</ol>
-<p>接口签名主要是请求方和接口提供方约定一个加密规则。请求方按照约定好的算法生成签名字符串，接口提供方验算签名即可知是否合法。</p>
-<p>步骤通常如下：</p>
-<ol>
-<li>接口提供方给出appid和appsecret</li>
-<li>调用方根据appid和appsecret以及请求参数和时间戳，按照约定好的算法生成签名sign</li>
-<li>接口提供方验证签名</li>
-</ol>
-<p>项目中需求是防止数据被篡改，最终简化为如下步骤：</p>
-<ol>
-<li>调用方对请求参数排序后加盐进行MD5加密，然后转为大写</li>
-<li>然后使用公钥对MD5再次加密，生成最终的签名sign</li>
-<li>接口提供方对签名sign进行校验</li>
-</ol>
-<p>这里用到签名算法是MD5摘要算法和RSA非对称加密算法。<a href="https://linxiaobaixcg.github.io/2020/10/10/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">软件系统中常见的加密算法和实现</a></p>
-<p>以上步骤能有效防止数据被篡改，但无法校验请求来源是否合法和唯一性</p>
-<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="客户端加密示例"><a href="#客户端加密示例" class="headerlink" title="客户端加密示例"></a>客户端加密示例</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 参数拼接和排序</span></span><br><span class="line">String data = <span class="string">&quot;a:&quot;</span> + <span class="string">&quot;a&quot;</span> + <span class="string">&quot;b:&quot;</span> + <span class="string">&quot;b&quot;</span> + <span class="string">&quot;salt:&quot;</span> + <span class="string">&quot;salt&quot;</span>;</span><br><span class="line"><span class="comment">// MD5加密后转大写</span></span><br><span class="line">Digester md5 = <span class="keyword">new</span> Digester(DigestAlgorithm.MD5);</span><br><span class="line">String digestHex = md5.digestHex(data).toUpperCase();</span><br><span class="line"><span class="comment">// 使用公钥加密得到sign</span></span><br><span class="line">RSA rsa = <span class="keyword">new</span> RSA(<span class="keyword">null</span>, <span class="string">&quot;这里是公钥&quot;</span>);</span><br><span class="line">String sign = rsa.encryptBase64(digestHex, KeyType.PublicKey);</span><br></pre></td></tr></table></figure>
-<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 拼接MD5加密数据</span></span><br><span class="line">String data = <span class="string">&quot;a:&quot;</span> + <span class="string">&quot;a&quot;</span> + <span class="string">&quot;b:&quot;</span> + <span class="string">&quot;b&quot;</span> + <span class="string">&quot;salt:&quot;</span> + <span class="string">&quot;salt&quot;</span>;</span><br><span class="line"><span class="comment">// 对得分和盐进行MD5加密并转为大写</span></span><br><span class="line">Digester md5 = <span class="keyword">new</span> Digester(DigestAlgorithm.MD5);</span><br><span class="line">String upperMD5 = md5.digestHex(data).toUpperCase();</span><br><span class="line"><span class="comment">// 对sign进行私钥解密</span></span><br><span class="line">RSA rsa = <span class="keyword">new</span> RSA(privateKey, <span class="keyword">null</span>);</span><br><span class="line">String decryptSign = <span class="keyword">new</span> String(rsa.decrypt(<span class="string">&quot;调用方请求的sign&quot;</span>, KeyType.PrivateKey));</span><br><span class="line"><span class="comment">// 用sign和解密字符串进行比较</span></span><br><span class="line"><span class="keyword">if</span> (upperMD5.equals(decryptSign)) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Dockerfile详解</title>
     <url>/2020/05/20/Dockerfile%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h1 id="Dockerfile？"><a href="#Dockerfile？" class="headerlink" title="Dockerfile？"></a>Dockerfile？</h1><p>Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。</p>
@@ -207,6 +170,43 @@
       </tags>
   </entry>
   <entry>
+    <title>API接口签名实现</title>
+    <url>/2021/02/04/API%E6%8E%A5%E5%8F%A3%E7%AD%BE%E5%90%8D%E5%AE%9E%E7%8E%B0/</url>
+    <content><![CDATA[<blockquote>
+<p> 近期，公司小游戏涉及上传得分操作，为防止用户通过篡改接口数据刷游戏榜单获得奖金。最终通过签名的方式设计接口，解决数据被篡改问题。</p>
+</blockquote>
+<h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><p>接口签名是主流的通信安全解决方案。</p>
+<p>优点：</p>
+<ol>
+<li>能有效防止数据被篡改</li>
+<li>能检验请求来源是否合法</li>
+<li>能检验请求是否具有唯一性</li>
+</ol>
+<p>接口签名主要是请求方和接口提供方约定一个加密规则。请求方按照约定好的算法生成签名字符串，接口提供方验算签名即可知是否合法。</p>
+<p>步骤通常如下：</p>
+<ol>
+<li>接口提供方给出appid和appsecret</li>
+<li>调用方根据appid和appsecret以及请求参数和时间戳，按照约定好的算法生成签名sign</li>
+<li>接口提供方验证签名</li>
+</ol>
+<p>项目中需求是防止数据被篡改，最终简化为如下步骤：</p>
+<ol>
+<li>调用方对请求参数排序后加盐进行MD5加密，然后转为大写</li>
+<li>然后使用公钥对MD5再次加密，生成最终的签名sign</li>
+<li>接口提供方对签名sign进行校验</li>
+</ol>
+<p>这里用到签名算法是MD5摘要算法和RSA非对称加密算法。<a href="https://linxiaobaixcg.github.io/2020/10/10/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">软件系统中常见的加密算法和实现</a></p>
+<p>以上步骤能有效防止数据被篡改，但无法校验请求来源是否合法和唯一性</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="客户端加密示例"><a href="#客户端加密示例" class="headerlink" title="客户端加密示例"></a>客户端加密示例</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 参数拼接和排序</span></span><br><span class="line">String data = <span class="string">&quot;a:&quot;</span> + <span class="string">&quot;a&quot;</span> + <span class="string">&quot;b:&quot;</span> + <span class="string">&quot;b&quot;</span> + <span class="string">&quot;salt:&quot;</span> + <span class="string">&quot;salt&quot;</span>;</span><br><span class="line"><span class="comment">// MD5加密后转大写</span></span><br><span class="line">Digester md5 = <span class="keyword">new</span> Digester(DigestAlgorithm.MD5);</span><br><span class="line">String digestHex = md5.digestHex(data).toUpperCase();</span><br><span class="line"><span class="comment">// 使用公钥加密得到sign</span></span><br><span class="line">RSA rsa = <span class="keyword">new</span> RSA(<span class="keyword">null</span>, <span class="string">&quot;这里是公钥&quot;</span>);</span><br><span class="line">String sign = rsa.encryptBase64(digestHex, KeyType.PublicKey);</span><br></pre></td></tr></table></figure>
+<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 拼接MD5加密数据</span></span><br><span class="line">String data = <span class="string">&quot;a:&quot;</span> + <span class="string">&quot;a&quot;</span> + <span class="string">&quot;b:&quot;</span> + <span class="string">&quot;b&quot;</span> + <span class="string">&quot;salt:&quot;</span> + <span class="string">&quot;salt&quot;</span>;</span><br><span class="line"><span class="comment">// 对得分和盐进行MD5加密并转为大写</span></span><br><span class="line">Digester md5 = <span class="keyword">new</span> Digester(DigestAlgorithm.MD5);</span><br><span class="line">String upperMD5 = md5.digestHex(data).toUpperCase();</span><br><span class="line"><span class="comment">// 对sign进行私钥解密</span></span><br><span class="line">RSA rsa = <span class="keyword">new</span> RSA(privateKey, <span class="keyword">null</span>);</span><br><span class="line">String decryptSign = <span class="keyword">new</span> String(rsa.decrypt(<span class="string">&quot;调用方请求的sign&quot;</span>, KeyType.PrivateKey));</span><br><span class="line"><span class="comment">// 用sign和解密字符串进行比较</span></span><br><span class="line"><span class="keyword">if</span> (upperMD5.equals(decryptSign)) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dubbo入门实战</title>
     <url>/2019/04/19/Dubbo%E5%85%A5%E9%97%A8%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<h2 id="Dubbo简介"><a href="#Dubbo简介" class="headerlink" title="Dubbo简介"></a>Dubbo简介</h2><p>Dubbo是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。</p>
@@ -283,26 +283,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java中深拷贝和浅拷贝的理解和区别</title>
-    <url>/2019/04/03/Java%E4%B8%AD%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<h1 id="对象拷贝"><a href="#对象拷贝" class="headerlink" title="对象拷贝"></a>对象拷贝</h1><p>Java中的对象拷贝(Object Copy)指的是将一个对象的所有属性（成员变量）拷贝到另一个有着相同类类型的对象中去。举例说明：比如，对象A和对象B都属于类S，具有属性a和b。那么对对象A进行拷贝操作赋值给对象B就是：B.a=A.a;  B.b=A.b;</p>
-<p>在程序中拷贝对象是很常见的，主要是为了在新的上下文环境中复用现有对象的部分或全部数据。</p>
-<p>Java中的对象拷贝主要分为：浅拷贝(Shallow Copy)、深拷贝(Deep Copy)。</p>
-<h1 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h1><p>被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象。</p>
-<p>浅拷贝是地址拷贝</p>
-<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p>被复制对象的所有变量都含有与原来的对象相同的值，除去那些引用其他对象的变量。</p>
-<p>那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。</p>
-<p>深拷贝是内容拷贝</p>
-<h1 id="浅拷贝和深拷贝的区别"><a href="#浅拷贝和深拷贝的区别" class="headerlink" title="浅拷贝和深拷贝的区别"></a>浅拷贝和深拷贝的区别</h1><p>深拷贝会创建一个新的内存空间，拷贝的值是一样的，但是内存地址不一样。<br>浅拷贝只是拷贝指向原来对象的地址，使原对象的引用计数+1</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ElasticSearch使用Logstash从MySQL中同步数据</title>
     <url>/2020/06/16/ElasticSearch%E4%BD%BF%E7%94%A8Logstash%E4%BB%8EMySQL%E4%B8%AD%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<blockquote>
@@ -334,6 +314,26 @@
       </categories>
       <tags>
         <tag>中间件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java中深拷贝和浅拷贝的理解和区别</title>
+    <url>/2019/04/03/Java%E4%B8%AD%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<h1 id="对象拷贝"><a href="#对象拷贝" class="headerlink" title="对象拷贝"></a>对象拷贝</h1><p>Java中的对象拷贝(Object Copy)指的是将一个对象的所有属性（成员变量）拷贝到另一个有着相同类类型的对象中去。举例说明：比如，对象A和对象B都属于类S，具有属性a和b。那么对对象A进行拷贝操作赋值给对象B就是：B.a=A.a;  B.b=A.b;</p>
+<p>在程序中拷贝对象是很常见的，主要是为了在新的上下文环境中复用现有对象的部分或全部数据。</p>
+<p>Java中的对象拷贝主要分为：浅拷贝(Shallow Copy)、深拷贝(Deep Copy)。</p>
+<h1 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h1><p>被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象。</p>
+<p>浅拷贝是地址拷贝</p>
+<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p>被复制对象的所有变量都含有与原来的对象相同的值，除去那些引用其他对象的变量。</p>
+<p>那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。</p>
+<p>深拷贝是内容拷贝</p>
+<h1 id="浅拷贝和深拷贝的区别"><a href="#浅拷贝和深拷贝的区别" class="headerlink" title="浅拷贝和深拷贝的区别"></a>浅拷贝和深拷贝的区别</h1><p>深拷贝会创建一个新的内存空间，拷贝的值是一样的，但是内存地址不一样。<br>浅拷贝只是拷贝指向原来对象的地址，使原对象的引用计数+1</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -481,6 +481,256 @@
       <tags>
         <tag>java</tag>
         <tag>技术书籍</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java核心技术1-并发</title>
+    <url>/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/</url>
+    <content><![CDATA[<blockquote>
+<p>读《Java核心技术1》记录知识点</p>
+</blockquote>
+<h1 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><ol>
+<li>多线程程序在较低的层次上扩展了多任务的概念：一个程序同时执行多个任务。通常，每一个任务称为一个线程（ thread), 它是线程控制的简称。可以同时运行一个以上线程的程序称为多线程程序（multithreaded)。  </li>
+<li>多进程与多线程有哪些区别呢？ 本质的区别在于每个进程拥有自己的一整套变量， 而线程则共享数据。 这听起来似乎有些风险。然而，共享变量使线程之间的通信比进程之间的通信更有效、 更容易。 此外， 在有些操作系统中， 与进程相比较， 线程更“ 轻量级”， 创建、 撤销一个线程比启动新进程的开销要小得多。  </li>
+<li>调用 Threadsleep 不会创建一个新线程，sleep 是 Thread 类的静态方法，用于暂停当前线程的活动。  </li>
+<li><p>Runnable 接口只有一个 run 方法  </p>
+<h2 id="中断线程"><a href="#中断线程" class="headerlink" title="中断线程"></a>中断线程</h2></li>
+<li><p>当线程的 run 方法执行方法体中最后一条语句后， 并经由执行 return 语句返冋时， 或者出现了在方法中没有捕获的异常时，线程将终止。 在 Java 的早期版本中， 还有一个 stop方法， 其他线程可以调用它终止线程。但是， 这个方法现在已经被弃用了。  </p>
+</li>
+<li>没有可以强制线程终止的方法。然而， interrupt 方法可以用来请求终止线程。  </li>
+<li>当对一个线程调用 interrupt 方法时，线程的中断状态将被置位。这是每一个线程都具有的 boolean 标志。每个线程都应该不时地检査这个标志， 以判断线程是否被中断。<br>要想弄清中断状态是否被置位，首先调用静态的 Thread.currentThread 方法获得当前线程， 然后调用 islnterrupted 方法  </li>
+<li>如果线程被阻塞， 就无法检测中断状态。这是产生 InterruptedExceptioii 异常的地方。当在一个被阻塞的线程（调用 sleep 或 wait ) 上调用 interrupt 方法时， 阻塞调用将会被Interrupted Exception 异常中断。</li>
+</ol>
+<h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><ol>
+<li><p>线程可以有如下 6 种状态：</p>
+<ul>
+<li>New (新创建）：当用 new 操作符创建一个新线程时， 如 newThread(r)， 该线程还没有开始运行。这意味着它的状态是 new。当一个线程处于新创建状态时， 程序还没有开始运行线程中的代码。在线程运行之前还有一些基础工作要做。</li>
+<li>Runnable (可运行）：一旦调用 start 方法，线程处于 runnable 状态。一个可运行的线桿可能正在运行也可能没有运行， 这取决于操作系统给线程提供运行的时间。  </li>
+</ul>
+<p>一旦一个线程开始运行，它不必始终保持运行。事实上，运行中的线程被中断，目的是为了让其他线程获得运行机会。线程调度的细节依赖于操作系统提供的服务。抢占式调度系统给每一个可运行线程一个时间片来执行任务。 当时间片用完，操作系统剥夺该线程的运行权， 并给另一个线程运行机会。当选择下一个线程时， 操作系统考虑线程的优先级  。<br>现在所有的桌面以及服务器操作系统都使用抢占式调度。但是，像手机这样的小型设备可能使用协作式调度。在这样的设备中，一个线程只有在调用 yield 方法、 或者被阻塞或等待时，线程才失去控制权。<br>在具有多个处理器的机器上，每一个处理器运行一个线程， 可以有多个线程并行运行。当然， 如果线程的数目多于处理器的数目， 调度器依然采用时间片机制。<br>记住，在任何给定时刻，二个可运行的线程可能正在运行也可能没有运行（这就是为什么将这个状态称为可运行而不是运行。)</p>
+<ul>
+<li>Blocked (被阻塞）：当一个线程试图获取一个内部的对象锁（而不是 javiutiUoncurrent 库中的锁，) 而该锁被其他线程持有， 则该线程进人阻塞状态。当所有其他线程释放该锁，并且线程调度器允许本线程持有它的时候，该线程将变成非阻塞状态。  </li>
+<li>Waiting (等待）：当线程等待另一个线程通知调度器一个条件时， 它自己进入等待状态。 在调用 Object.wait 方法或 Thread.join 方法， 或者是等待 java.util.concurrent 库中的 Lock 或 Condition 时， 就会出现这种情况。  </li>
+<li>Timed waiting (计时等待）：有几个方法有一个超时参数。调用它们导致线程进人计时等待（timed waiting) 状态。这一状态将一直保持到超时期满或者接收到适当的通知。带有超时参数的方法有：<br>Thread.sleep 和 Object.wait、 Thread.join、 Lock.tryLock 以及 Condition.await 的计时版。  </li>
+<li>Terminated (被终止）线程因如下两个原因之一而被终止：  </li>
+</ul>
+<ol>
+<li>因为 run 方法正常退出而自然死亡。  </li>
+<li>因为一个没有捕获的异常终止了 run 方法而意外死亡。  </li>
+</ol>
+</li>
+</ol>
+<h2 id="线程属性"><a href="#线程属性" class="headerlink" title="线程属性"></a>线程属性</h2><ol>
+<li>线程的各种属性，其中包括：</li>
+</ol>
+<ul>
+<li>线程优先级:在 Java 程序设计语言中，每一个线程有一个优先级。默认情况下， 一个线程继承它的父线程的优先级。可以用 setPriority 方法提高或降低任何一个线程的优先级。可以将优先级设置为在 MIN_PRIORITY (在 Thread 类中定义为 1 ) 与 MAX_PRIORITY (定义为 10 ) 之间的任何值。NORM_PRIORITY 被定义为 5。<br>每当线程调度器有机会选择新线程时， 它首先选择具有较高优先级的线程。但是，线程优先级是高度依赖于系统的。当虚拟机依赖于宿主机平台的线程实现机制时， Java 线程的优先级被映射到宿主机平台的优先级上， 优先级个数也许更多，也许更少。<br>例如， Windows 有 7 个优先级别。一些 Java 优先级将映射到相同的操作系统优先级。在Oracle 为 Linux 提供的 Java 虚拟机中， 线程的优先级被忽略一所有线程具有相同的优先级。</li>
+<li>守护线程：可以通过调用t.setDaemon(true);将线程转换为守护线程（daemon thread)。这样一个线程没有什么神奇。守护线程的唯一用途是为其他线程提供服务。计时线程就是一个例子，它定时地发送“ 计时器嘀嗒” 信号给其他线程或清空过时的高速缓存项的线程。当只剩下守护线程时， 虚拟机就退出了，由于如果只剩下守护线程， 就没必要继续运行程序了。  </li>
+<li>线程组以及处理未捕获异常的处理器：线程的 run方法不能抛出任何受查异常， 但是，非受査异常会导致线程终止。在这种情况下，线程就死亡了。但是，不需要任何 catch 子句来处理可以被传播的异常。相反， 就在线程死亡之前， 异常被传递到一个用于未捕获异常的处理器。  </li>
+</ul>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><ol>
+<li><p>有两种机制防止代码块受并发访问的干扰。Java语言提供一个 synchronized 关键字达到这一目的，并且 Java SE 5.0 引入了 ReentrantLock 类。  </p>
+</li>
+<li><p>用 ReentrantLock 保护代码块的基本结构如下：<br>myLock.lock（）; // a ReentrantLock object</p>
+<figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">critical section</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">&#123;</span><br><span class="line">myLock.unlock()；<span class="comment">// make sure the lock is unlocked even if an exception is thrown</span></span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把解锁操作括在 finally 子句之内是至关重要的。如果在临界区的代码抛出异常，<br>锁必须被释放。 否则， 其他线程将永远阻塞。</p>
+</li>
+<li><p>有关锁和条件的关键之处：  </p>
+</li>
+</ol>
+<ul>
+<li>锁用来保护代码片段， 任何时刻只能有一个线程执行被保护的代码。  </li>
+<li>锁可以管理试图进入被保护代码段的线程。  </li>
+<li>锁可以拥有一个或多个相关的条件对象。  </li>
+<li>每个条件对象管理那些已经进入被保护的代码段但还不能运行的线程。  </li>
+</ul>
+<ol start="5">
+<li><p>锁和条件是线程同步的强大工具，但是，严格地讲，它们不是面向对象的。多年来，研究人员努力寻找一种方法，可以在不需要程序员考虑如何加锁的情况下，就可以保证多线程的安全性。最成功的解决方案之一是监视器（monitor)  </p>
+</li>
+<li><p>监视器具有如下特性：</p>
+<ul>
+<li>监视器是只包含私有域的类。</li>
+<li>每个监视器类的对象有一个相关的锁。</li>
+<li>使用该锁对所有的方法进行加锁。换句话说，如果客户端调用 obj.method(), 那 么 obj对象的锁是在方法调用开始时自动获得， 并且当方法返回时自动释放该锁。因为所有的域是私有的，这样的安排可以确保一个线程在对对象操作时， 没有其他线程能访问该域。</li>
+<li>该锁可以有任意多个相关条件。</li>
+</ul>
+</li>
+<li><p>volatile 关键字为实例域的同步访问提供了一种免锁机制。如果声明一个域为 volatile ,那么编译器和虚拟机就知道该域是可能被另一个线程并发更新的。  </p>
+</li>
+<li><p>线程在调用 lock 方法来获得另一个线程所持有的锁的时候，很可能发生阻塞。应该更加谨慎地申请锁。 tryLock 方法试图申请一个锁， 在成功获得锁后返回 true, 否则， 立即返回false, 而且线程可以立即离开去做其他事情。  </p>
+</li>
+<li><p>lock 方法不能被中断。如果一个线程在等待获得一个锁时被中断，中断线程在获得锁之前一直处于阻塞状态。如果出现死锁， 那么， lock 方法就无法终止。<br>然而， 如果调用带有用超时参数的 tryLock, 那么如果线程在等待期间被中断，将抛出InterruptedException 异常。这是一个非常有用的特性，因为允许程序打破死锁。<br>也可以调用 locklnterruptibly 方法。它就相当于一个超时设为无限的 tryLock 方法。 </p>
+</li>
+<li><p>java.util.concurrent.locks 包 定 义 了 两 个 锁 类， 我 们 已 经 讨 论 的 ReentrantLock 类 和<br>ReentrantReadWriteLock 类。 如果很多线程从一个数据结构读取数据而很少线程修改其中数据的话， 后者是十分有用的。在这种情况下， 允许对读者线程共享访问是合适的。当然， 写者线程依然必须是互斥访问的。   </p>
+</li>
+<li><p>为什么弃用 stop 和 suspend 方法?</p>
+<p>初始的 Java 版本定义了一个 stop 方法用来终止一个线程， 以及一个 suspend 方法用来阻塞一个线程直至另一个线程调用 resume。stop 和 suspend 方法有一些共同点：都试图控制一个给定线程的行为。<br>stop、 suspend 和 resume 方法已经弃用。stop 方法天生就不安全，经验证明 suspend 方法会经常导致死锁。<br>首先来看看 stop 方法， 该方法终止所有未结束的方法， 包括 run 方法。当线程被终止，立即释放被它锁住的所有对象的锁。这会导致对象处于不一致的状态。例如’假定 TransferThread在从一个账户向另一个账户转账的过程中被终止，钱款已经转出，却没有转人目标账户，现在银行对象就被破坏了。因为锁已经被释放，这种破坏会被其他尚未停止的线程观察到。<br>当线程要终止另一个线程时， 无法知道什么时候调用 stop 方法是安全的， 什么时候导致<br>对象被破坏。因此，该方法被弃用了。在希望停止线程的时候应该中断线程， 被中断的线程<br>会在安全的时候停止。</p>
+<p>与 stop 不同，suspend 不会破坏对象。但是，如果用 suspend 挂起一个持有一个锁的线程， 那么，该锁在恢复之前是不可用的。 如果调用suspend 方法的线程试图获得同一个锁， 那么程序死锁： 被挂起的线程等着被恢复， 而将其挂起的线程等待获得锁。    </p>
+</li>
+</ol>
+<h2 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h2><ol>
+<li><p>对于许多线程问题， 可以通过使用一个或多个队列以优雅且安全的方式将其形式化。生产者线程向队列插人元素， 消费者线程则取出它们。使用队列，可以安全地从一个线程向另一个线程传递数据。 例如， 考虑银行转账程序， 转账线程将转账指令对象插入一个队列中，而不是直接访问银行对象。 另一个线程从队列中取出指令执行转账。只有该线程可以访问该银行对象的内部。因此不需要同步。（当然， 线程安全的队列类的实现者不能不考虑锁和条件，但是， 那是他们的问题而不是你的问题。）  </p>
+</li>
+<li><p>当试图向队列添加元素而队列已满， 或是想从队列移出元素而队列为空的时候， 阻塞队列（blocking queue ) 导致线程阻塞。在协调多个线程之间的合作时， 阻塞队列是一个有用的工具。工作者线程可以周期性地将中间结果存储在阻塞队列中。其他的工作者线程移出中间结果并进一步加以修改。队列会自动地平衡负载。如果第一个线程集运行得比第二个慢， 第二个线程集在等待结果时会阻塞。 如果第一个线程集运行得快， 它将等待第二个队列集赶上来。  </p>
+</li>
+<li><p>java.util.concurrent 包提供了阻塞队列的几个变种。 默认情况下， LinkedBlockingQueue的容量是没有上边界的，但是，也可以选择指定最大容量。LinkedBlockingDeque 是一个双端的版本。ArrayBlockingQueue 在构造时需要指定容量，并且有一个可选的参数来指定是否需要公平性。若设置了公平参数， 则那么等待了最长时间的线程会优先得到处理。通常，公平性会降低性能，只有在确实非常需要时才使用它。</p>
+<p>PriorityBlockingQueue 是一个带优先级的队列， 而不是先进先出队列。元素按照它们的优先级顺序被移出。该队列是没有容量上限，但是，如果队列是空的， 取元素的操作会阻塞。  </p>
+</li>
+</ol>
+<h2 id="线程安全的集合"><a href="#线程安全的集合" class="headerlink" title="线程安全的集合"></a>线程安全的集合</h2><ol>
+<li>java.util.concurrent 包提供了映射、 有序集和队列的高效实现： ConcurrentHashMap、ConcurrentSkipListMap &gt; ConcurrentSkipListSet 和 ConcurrentLinkedQueue。这些集合使用复杂的算法，通过允许并发地访问数据结构的不同部分来使竞争极小化。  </li>
+<li>CopyOnWriteArrayList 和 CopyOnWriteArraySet 是线程安全的集合， 其中所有的修改线程对底层数组进行复制。 如果在集合上进行迭代的线程数超过修改线程数， 这样的安排是很有用的。当构建一个迭代器的时候， 它包含一个对当前数组的引用。如果数组后来被修改了，迭代器仍然引用旧数组， 但是，集合的数组已经被替换了。因而，旧的迭代器拥有一致的（可能过时的）视图，访问它无须任何同步开销。</li>
+</ol>
+<h2 id="Callable与Future"><a href="#Callable与Future" class="headerlink" title="Callable与Future"></a>Callable与Future</h2><ol>
+<li>Runnable 封装一个异步运行的任务，可以把它想象成为一个没有参数和返回值的异步方法。Callable 与 Runnable 类似， 但是有返回值。Callable 接口是一个参数化的类型， 只有一个方法 call。  </li>
+<li>Future 保存异步计算的结果。可以启动一个计算，将 Future 对象交给某个线程，然后忘掉它。 Future 对象的所有者在结果计算好之后就可以获得它。  </li>
+</ol>
+<h2 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h2><ol>
+<li><p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出时， 线程不会死亡，而是在池中准备为下一个请求提供服务。   </p>
+<p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大<br>量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的<br>空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出<br>时， 线程不会死亡，而是在池中准备为下一个请求提供服务。  </p>
+</li>
+<li><p>执行器 （ Executor) 类有许多静态工厂方法用来构建线程池。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>技术书籍</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MongoDB-常用命令及操作</title>
+    <url>/2019/12/08/MongoDB-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><p>MongoDB 是一个跨平台的，面向文档的数据库，是当前 NoSQL 数据库产品中最热门的一种。它介于关系数据库和非关系数据库之间，是非关系数据库当中功能最丰富，最像关系数据库的产品。它支持的数据结构非常松散，是类似 JSON 的 BSON 格式，因此可以存储比较复杂的数据类型。<br>​ MongoDB 的官方网站地址是：<a href="http://www.mongodb.org/">http://www.mongodb.org/</a></p>
+<h1 id="MongoDB的体系结构"><a href="#MongoDB的体系结构" class="headerlink" title="MongoDB的体系结构"></a>MongoDB的体系结构</h1><p>在MongoDB中基本的概念是数据库、集合、文档</p>
+<p>MongoDB和MySQL概念对比</p>
+<table>
+<thead>
+<tr>
+<th>MySQL</th>
+<th>MongoDB</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>database</td>
+<td>database</td>
+<td>数据库</td>
+</tr>
+<tr>
+<td>table</td>
+<td>collection</td>
+<td>数据库表/集合</td>
+</tr>
+<tr>
+<td>row</td>
+<td>document</td>
+<td>数据记录行/文档</td>
+</tr>
+<tr>
+<td>column</td>
+<td>field</td>
+<td>数据字段/域</td>
+</tr>
+<tr>
+<td>index</td>
+<td>index</td>
+<td>索引</td>
+</tr>
+<tr>
+<td>table joins</td>
+<td></td>
+<td>表连接,MongoDB不支持</td>
+</tr>
+<tr>
+<td>primary key</td>
+<td>primary key</td>
+<td>主键,MongoDB自动将_id字段设置为主键</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MongoDB的数据类型"><a href="#MongoDB的数据类型" class="headerlink" title="MongoDB的数据类型"></a>MongoDB的数据类型</h1><ol>
+<li>null：用于表示空值或者不存在的字段，{“x”:null}</li>
+<li>布尔型：布尔类型有两个值true和false，{“x”:true}</li>
+<li>数值：shell默认使用64为浮点型数值。{“x”：3.14}或{“x”：3}。对于整型值，可以使用NumberInt（4字节符号整数）或NumberLong（8字节符号整数），{“x”:NumberInt(“3”)}{“x”:NumberLong(“3”)}</li>
+<li>字符串：UTF-8字符串都可以表示为字符串类型的数据，{“x”：“呵呵”}</li>
+<li>日期：日期被存储为自新纪元依赖经过的毫秒数，不存储时区，{“x”:new Date()}</li>
+<li>正则表达式：查询时，使用正则表达式作为限定条件，语法与JavaScript的正则表达式相同，{“x”:/[abc]/}</li>
+<li>数组：数据列表或数据集可以表示为数组，{“x”： [“a“，“b”,”c”]}</li>
+<li>内嵌文档：文档可以嵌套其他文档，被嵌套的文档作为值来处理，{“x”:{“y”:3 }}</li>
+<li>对象Id：对象id是一个12字节的字符串，是文档的唯一标识，{“x”: objectId() }</li>
+<li>二进制数据：二进制数据是一个任意字节的字符串。它不能直接在shell中使用。如果要将非utf-字符保存到数据库中，二进制数据是唯一的方式。</li>
+<li>代码：查询和文档中可以包括任何JavaScript代码，{“x”:function(){/<em>…</em>/}} </li>
+</ol>
+<h1 id="MongoDB常用命令"><a href="#MongoDB常用命令" class="headerlink" title="MongoDB常用命令"></a>MongoDB常用命令</h1><ol>
+<li><p>show dbs – 显示所有数据库</p>
+</li>
+<li><p>db – 显示当前数据库对象或集合</p>
+</li>
+<li><p>use DATABASE_NAME – 如果数据库不存在，则创建数据库，否则切换到指定数据库。</p>
+</li>
+<li><p>db.dropDatabase() –  删除数据库</p>
+</li>
+<li><p>db.COLLECTION_NAME.drop() – 删除集合</p>
+</li>
+<li>db.createCollection(name, options) – 创建集合（name: 要创建的集合名称；options: 可选参数, 指定有关内存大小及索引的选项）</li>
+</ol>
+<p>注意：创建集合后添加文档才算正式创建成功</p>
+<ol start="7">
+<li>show collections 或 show tables – 查看已有集合</li>
+<li><p>db.COLLECTION_NAME.insert(document) 或 db.COLLECTION_NAME.save(document)  – 插入文档<br>注意：插入文档你也可以使用 db.col.save(document) 命令。如果不指定 _id 字段 save() 方法类似于 insert() 方法。如果指定 _id 字段，则会更新该 _id 的数据。</p>
+</li>
+<li><p>db.collection.update(<br>query,<br>update,<br>{<br>  upsert: boolean,<br>  multi: boolean,<br>  writeConcern: document<br>}） – 用于更新已存在的文档</p>
+</li>
+</ol>
+<p>参数说明：</p>
+<ul>
+<li>query : update的查询条件，类似sql update查询内where后面的。</li>
+<li>update : update的对象和一些更新的操作符（如$,$inc…）等，也可以理解为sql update查询内set后面的</li>
+<li>upsert : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是false，不插入。</li>
+<li>multi : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。</li>
+<li>writeConcern :可选，抛出异常的级别。</li>
+</ul>
+<ol start="10">
+<li>db.collection.remove(<br>   query,<br>   justOne<br>) –删除文档</li>
+</ol>
+<p>参数说明：</p>
+<ul>
+<li>query :（可选）删除的文档的条件。</li>
+<li>justOne : （可选）如果设为 true 或 1，则只删除一个文档，如果不设置该参数，或使用默认值</li>
+<li>false，则删除所有匹配条件的文档。</li>
+<li>writeConcern :（可选）抛出异常的级别。</li>
+</ul>
+<ol start="11">
+<li>db.collection.find(query, projection) – 查询文档</li>
+<li>条件操作符：</li>
+</ol>
+<ul>
+<li>(&gt;) 大于 - $gt</li>
+<li>(&lt;) 小于 - $lt</li>
+<li>(&gt;=) 大于等于 - $gte</li>
+<li>(&lt;= ) 小于等于 - $lte</li>
+</ul>
+<ol start="13">
+<li>db.COLLECTION_NAME.find().limit(NUMBER) – 读取指定数量的数据记录，该参数指定从MongoDB中读取的记录条数。</li>
+<li>db.COLLECTION_NAME.find().sort({KEY:1}) – 使用 sort() 方法对数据进行排序，sort() 方法可以通过参数指定排序的字段，并使用 1 和 -1 来指定排序的方式，其中 1 为升序排列，而 -1 是用于降序排列。</li>
+<li>db.COLLECTION_NAME.count() – 统计记录</li>
+<li>模糊查询：MongoDB的模糊查询是通过正则表达式的方式实现的。格式为：/模糊查询字符串/</li>
+<li>包含与不包含：包含使用$in操作符。不包含使用$nin操作符。</li>
+<li>条件连接：$and操作符将条件进行关联</li>
+<li>列值自增：对某列值在原有值的基础上进行增加或减少，可以使用$inc运算符来实现</li>
+</ol>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -964,137 +1214,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MongoDB-常用命令及操作</title>
-    <url>/2019/12/08/MongoDB-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><p>MongoDB 是一个跨平台的，面向文档的数据库，是当前 NoSQL 数据库产品中最热门的一种。它介于关系数据库和非关系数据库之间，是非关系数据库当中功能最丰富，最像关系数据库的产品。它支持的数据结构非常松散，是类似 JSON 的 BSON 格式，因此可以存储比较复杂的数据类型。<br>​ MongoDB 的官方网站地址是：<a href="http://www.mongodb.org/">http://www.mongodb.org/</a></p>
-<h1 id="MongoDB的体系结构"><a href="#MongoDB的体系结构" class="headerlink" title="MongoDB的体系结构"></a>MongoDB的体系结构</h1><p>在MongoDB中基本的概念是数据库、集合、文档</p>
-<p>MongoDB和MySQL概念对比</p>
-<table>
-<thead>
-<tr>
-<th>MySQL</th>
-<th>MongoDB</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>database</td>
-<td>database</td>
-<td>数据库</td>
-</tr>
-<tr>
-<td>table</td>
-<td>collection</td>
-<td>数据库表/集合</td>
-</tr>
-<tr>
-<td>row</td>
-<td>document</td>
-<td>数据记录行/文档</td>
-</tr>
-<tr>
-<td>column</td>
-<td>field</td>
-<td>数据字段/域</td>
-</tr>
-<tr>
-<td>index</td>
-<td>index</td>
-<td>索引</td>
-</tr>
-<tr>
-<td>table joins</td>
-<td></td>
-<td>表连接,MongoDB不支持</td>
-</tr>
-<tr>
-<td>primary key</td>
-<td>primary key</td>
-<td>主键,MongoDB自动将_id字段设置为主键</td>
-</tr>
-</tbody>
-</table>
-<h1 id="MongoDB的数据类型"><a href="#MongoDB的数据类型" class="headerlink" title="MongoDB的数据类型"></a>MongoDB的数据类型</h1><ol>
-<li>null：用于表示空值或者不存在的字段，{“x”:null}</li>
-<li>布尔型：布尔类型有两个值true和false，{“x”:true}</li>
-<li>数值：shell默认使用64为浮点型数值。{“x”：3.14}或{“x”：3}。对于整型值，可以使用NumberInt（4字节符号整数）或NumberLong（8字节符号整数），{“x”:NumberInt(“3”)}{“x”:NumberLong(“3”)}</li>
-<li>字符串：UTF-8字符串都可以表示为字符串类型的数据，{“x”：“呵呵”}</li>
-<li>日期：日期被存储为自新纪元依赖经过的毫秒数，不存储时区，{“x”:new Date()}</li>
-<li>正则表达式：查询时，使用正则表达式作为限定条件，语法与JavaScript的正则表达式相同，{“x”:/[abc]/}</li>
-<li>数组：数据列表或数据集可以表示为数组，{“x”： [“a“，“b”,”c”]}</li>
-<li>内嵌文档：文档可以嵌套其他文档，被嵌套的文档作为值来处理，{“x”:{“y”:3 }}</li>
-<li>对象Id：对象id是一个12字节的字符串，是文档的唯一标识，{“x”: objectId() }</li>
-<li>二进制数据：二进制数据是一个任意字节的字符串。它不能直接在shell中使用。如果要将非utf-字符保存到数据库中，二进制数据是唯一的方式。</li>
-<li>代码：查询和文档中可以包括任何JavaScript代码，{“x”:function(){/<em>…</em>/}} </li>
-</ol>
-<h1 id="MongoDB常用命令"><a href="#MongoDB常用命令" class="headerlink" title="MongoDB常用命令"></a>MongoDB常用命令</h1><ol>
-<li><p>show dbs – 显示所有数据库</p>
-</li>
-<li><p>db – 显示当前数据库对象或集合</p>
-</li>
-<li><p>use DATABASE_NAME – 如果数据库不存在，则创建数据库，否则切换到指定数据库。</p>
-</li>
-<li><p>db.dropDatabase() –  删除数据库</p>
-</li>
-<li><p>db.COLLECTION_NAME.drop() – 删除集合</p>
-</li>
-<li>db.createCollection(name, options) – 创建集合（name: 要创建的集合名称；options: 可选参数, 指定有关内存大小及索引的选项）</li>
-</ol>
-<p>注意：创建集合后添加文档才算正式创建成功</p>
-<ol start="7">
-<li>show collections 或 show tables – 查看已有集合</li>
-<li><p>db.COLLECTION_NAME.insert(document) 或 db.COLLECTION_NAME.save(document)  – 插入文档<br>注意：插入文档你也可以使用 db.col.save(document) 命令。如果不指定 _id 字段 save() 方法类似于 insert() 方法。如果指定 _id 字段，则会更新该 _id 的数据。</p>
-</li>
-<li><p>db.collection.update(<br>query,<br>update,<br>{<br>  upsert: boolean,<br>  multi: boolean,<br>  writeConcern: document<br>}） – 用于更新已存在的文档</p>
-</li>
-</ol>
-<p>参数说明：</p>
-<ul>
-<li>query : update的查询条件，类似sql update查询内where后面的。</li>
-<li>update : update的对象和一些更新的操作符（如$,$inc…）等，也可以理解为sql update查询内set后面的</li>
-<li>upsert : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是false，不插入。</li>
-<li>multi : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。</li>
-<li>writeConcern :可选，抛出异常的级别。</li>
-</ul>
-<ol start="10">
-<li>db.collection.remove(<br>   query,<br>   justOne<br>) –删除文档</li>
-</ol>
-<p>参数说明：</p>
-<ul>
-<li>query :（可选）删除的文档的条件。</li>
-<li>justOne : （可选）如果设为 true 或 1，则只删除一个文档，如果不设置该参数，或使用默认值</li>
-<li>false，则删除所有匹配条件的文档。</li>
-<li>writeConcern :（可选）抛出异常的级别。</li>
-</ul>
-<ol start="11">
-<li>db.collection.find(query, projection) – 查询文档</li>
-<li>条件操作符：</li>
-</ol>
-<ul>
-<li>(&gt;) 大于 - $gt</li>
-<li>(&lt;) 小于 - $lt</li>
-<li>(&gt;=) 大于等于 - $gte</li>
-<li>(&lt;= ) 小于等于 - $lte</li>
-</ul>
-<ol start="13">
-<li>db.COLLECTION_NAME.find().limit(NUMBER) – 读取指定数量的数据记录，该参数指定从MongoDB中读取的记录条数。</li>
-<li>db.COLLECTION_NAME.find().sort({KEY:1}) – 使用 sort() 方法对数据进行排序，sort() 方法可以通过参数指定排序的字段，并使用 1 和 -1 来指定排序的方式，其中 1 为升序排列，而 -1 是用于降序排列。</li>
-<li>db.COLLECTION_NAME.count() – 统计记录</li>
-<li>模糊查询：MongoDB的模糊查询是通过正则表达式的方式实现的。格式为：/模糊查询字符串/</li>
-<li>包含与不包含：包含使用$in操作符。不包含使用$nin操作符。</li>
-<li>条件连接：$and操作符将条件进行关联</li>
-<li>列值自增：对某列值在原有值的基础上进行增加或减少，可以使用$inc运算符来实现</li>
-</ol>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MyBatis中$和#的区别</title>
     <url>/2019/06/16/MyBatis/</url>
     <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>动态SQL是Mybatis的主要特性之一，在mapper中定义的参数传到xml中之后，在查询之前Mybatis会对其进行动态解析。Mybatis为我们提供了两种支持动态SQL 的语法：#{} 以及 ${}。</p>
@@ -1151,122 +1270,24 @@
       </tags>
   </entry>
   <entry>
-    <title>Java核心技术1-并发</title>
-    <url>/2019/03/20/Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1-%E5%B9%B6%E5%8F%91/</url>
+    <title>Mybatis中的方法和DAO接口方法是怎么绑定到一起的</title>
+    <url>/2019/08/13/Mybatis%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8CDAO%E6%8E%A5%E5%8F%A3%E6%96%B9%E6%B3%95%E6%98%AF%E6%80%8E%E4%B9%88%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%80%E8%B5%B7%E7%9A%84/</url>
     <content><![CDATA[<blockquote>
-<p>读《Java核心技术1》记录知识点</p>
+<p>在未理解代理前，一直有个疑问，Mybatis中DAO层接口没有写实现类，Mapper中的方法和DAO接口方法是怎么绑定到一起的，其内部是怎么实现的</p>
 </blockquote>
-<h1 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><ol>
-<li>多线程程序在较低的层次上扩展了多任务的概念：一个程序同时执行多个任务。通常，每一个任务称为一个线程（ thread), 它是线程控制的简称。可以同时运行一个以上线程的程序称为多线程程序（multithreaded)。  </li>
-<li>多进程与多线程有哪些区别呢？ 本质的区别在于每个进程拥有自己的一整套变量， 而线程则共享数据。 这听起来似乎有些风险。然而，共享变量使线程之间的通信比进程之间的通信更有效、 更容易。 此外， 在有些操作系统中， 与进程相比较， 线程更“ 轻量级”， 创建、 撤销一个线程比启动新进程的开销要小得多。  </li>
-<li>调用 Threadsleep 不会创建一个新线程，sleep 是 Thread 类的静态方法，用于暂停当前线程的活动。  </li>
-<li><p>Runnable 接口只有一个 run 方法  </p>
-<h2 id="中断线程"><a href="#中断线程" class="headerlink" title="中断线程"></a>中断线程</h2></li>
-<li><p>当线程的 run 方法执行方法体中最后一条语句后， 并经由执行 return 语句返冋时， 或者出现了在方法中没有捕获的异常时，线程将终止。 在 Java 的早期版本中， 还有一个 stop方法， 其他线程可以调用它终止线程。但是， 这个方法现在已经被弃用了。  </p>
-</li>
-<li>没有可以强制线程终止的方法。然而， interrupt 方法可以用来请求终止线程。  </li>
-<li>当对一个线程调用 interrupt 方法时，线程的中断状态将被置位。这是每一个线程都具有的 boolean 标志。每个线程都应该不时地检査这个标志， 以判断线程是否被中断。<br>要想弄清中断状态是否被置位，首先调用静态的 Thread.currentThread 方法获得当前线程， 然后调用 islnterrupted 方法  </li>
-<li>如果线程被阻塞， 就无法检测中断状态。这是产生 InterruptedExceptioii 异常的地方。当在一个被阻塞的线程（调用 sleep 或 wait ) 上调用 interrupt 方法时， 阻塞调用将会被Interrupted Exception 异常中断。</li>
-</ol>
-<h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><ol>
-<li><p>线程可以有如下 6 种状态：</p>
-<ul>
-<li>New (新创建）：当用 new 操作符创建一个新线程时， 如 newThread(r)， 该线程还没有开始运行。这意味着它的状态是 new。当一个线程处于新创建状态时， 程序还没有开始运行线程中的代码。在线程运行之前还有一些基础工作要做。</li>
-<li>Runnable (可运行）：一旦调用 start 方法，线程处于 runnable 状态。一个可运行的线桿可能正在运行也可能没有运行， 这取决于操作系统给线程提供运行的时间。  </li>
-</ul>
-<p>一旦一个线程开始运行，它不必始终保持运行。事实上，运行中的线程被中断，目的是为了让其他线程获得运行机会。线程调度的细节依赖于操作系统提供的服务。抢占式调度系统给每一个可运行线程一个时间片来执行任务。 当时间片用完，操作系统剥夺该线程的运行权， 并给另一个线程运行机会。当选择下一个线程时， 操作系统考虑线程的优先级  。<br>现在所有的桌面以及服务器操作系统都使用抢占式调度。但是，像手机这样的小型设备可能使用协作式调度。在这样的设备中，一个线程只有在调用 yield 方法、 或者被阻塞或等待时，线程才失去控制权。<br>在具有多个处理器的机器上，每一个处理器运行一个线程， 可以有多个线程并行运行。当然， 如果线程的数目多于处理器的数目， 调度器依然采用时间片机制。<br>记住，在任何给定时刻，二个可运行的线程可能正在运行也可能没有运行（这就是为什么将这个状态称为可运行而不是运行。)</p>
-<ul>
-<li>Blocked (被阻塞）：当一个线程试图获取一个内部的对象锁（而不是 javiutiUoncurrent 库中的锁，) 而该锁被其他线程持有， 则该线程进人阻塞状态。当所有其他线程释放该锁，并且线程调度器允许本线程持有它的时候，该线程将变成非阻塞状态。  </li>
-<li>Waiting (等待）：当线程等待另一个线程通知调度器一个条件时， 它自己进入等待状态。 在调用 Object.wait 方法或 Thread.join 方法， 或者是等待 java.util.concurrent 库中的 Lock 或 Condition 时， 就会出现这种情况。  </li>
-<li>Timed waiting (计时等待）：有几个方法有一个超时参数。调用它们导致线程进人计时等待（timed waiting) 状态。这一状态将一直保持到超时期满或者接收到适当的通知。带有超时参数的方法有：<br>Thread.sleep 和 Object.wait、 Thread.join、 Lock.tryLock 以及 Condition.await 的计时版。  </li>
-<li>Terminated (被终止）线程因如下两个原因之一而被终止：  </li>
-</ul>
-<ol>
-<li>因为 run 方法正常退出而自然死亡。  </li>
-<li>因为一个没有捕获的异常终止了 run 方法而意外死亡。  </li>
-</ol>
-</li>
-</ol>
-<h2 id="线程属性"><a href="#线程属性" class="headerlink" title="线程属性"></a>线程属性</h2><ol>
-<li>线程的各种属性，其中包括：</li>
-</ol>
-<ul>
-<li>线程优先级:在 Java 程序设计语言中，每一个线程有一个优先级。默认情况下， 一个线程继承它的父线程的优先级。可以用 setPriority 方法提高或降低任何一个线程的优先级。可以将优先级设置为在 MIN_PRIORITY (在 Thread 类中定义为 1 ) 与 MAX_PRIORITY (定义为 10 ) 之间的任何值。NORM_PRIORITY 被定义为 5。<br>每当线程调度器有机会选择新线程时， 它首先选择具有较高优先级的线程。但是，线程优先级是高度依赖于系统的。当虚拟机依赖于宿主机平台的线程实现机制时， Java 线程的优先级被映射到宿主机平台的优先级上， 优先级个数也许更多，也许更少。<br>例如， Windows 有 7 个优先级别。一些 Java 优先级将映射到相同的操作系统优先级。在Oracle 为 Linux 提供的 Java 虚拟机中， 线程的优先级被忽略一所有线程具有相同的优先级。</li>
-<li>守护线程：可以通过调用t.setDaemon(true);将线程转换为守护线程（daemon thread)。这样一个线程没有什么神奇。守护线程的唯一用途是为其他线程提供服务。计时线程就是一个例子，它定时地发送“ 计时器嘀嗒” 信号给其他线程或清空过时的高速缓存项的线程。当只剩下守护线程时， 虚拟机就退出了，由于如果只剩下守护线程， 就没必要继续运行程序了。  </li>
-<li>线程组以及处理未捕获异常的处理器：线程的 run方法不能抛出任何受查异常， 但是，非受査异常会导致线程终止。在这种情况下，线程就死亡了。但是，不需要任何 catch 子句来处理可以被传播的异常。相反， 就在线程死亡之前， 异常被传递到一个用于未捕获异常的处理器。  </li>
-</ul>
-<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><ol>
-<li><p>有两种机制防止代码块受并发访问的干扰。Java语言提供一个 synchronized 关键字达到这一目的，并且 Java SE 5.0 引入了 ReentrantLock 类。  </p>
-</li>
-<li><p>用 ReentrantLock 保护代码块的基本结构如下：<br>myLock.lock（）; // a ReentrantLock object</p>
-<figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">critical section</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">&#123;</span><br><span class="line">myLock.unlock()；<span class="comment">// make sure the lock is unlocked even if an exception is thrown</span></span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
-</li>
-<li><p>把解锁操作括在 finally 子句之内是至关重要的。如果在临界区的代码抛出异常，<br>锁必须被释放。 否则， 其他线程将永远阻塞。</p>
-</li>
-<li><p>有关锁和条件的关键之处：  </p>
-</li>
-</ol>
-<ul>
-<li>锁用来保护代码片段， 任何时刻只能有一个线程执行被保护的代码。  </li>
-<li>锁可以管理试图进入被保护代码段的线程。  </li>
-<li>锁可以拥有一个或多个相关的条件对象。  </li>
-<li>每个条件对象管理那些已经进入被保护的代码段但还不能运行的线程。  </li>
-</ul>
-<ol start="5">
-<li><p>锁和条件是线程同步的强大工具，但是，严格地讲，它们不是面向对象的。多年来，研究人员努力寻找一种方法，可以在不需要程序员考虑如何加锁的情况下，就可以保证多线程的安全性。最成功的解决方案之一是监视器（monitor)  </p>
-</li>
-<li><p>监视器具有如下特性：</p>
-<ul>
-<li>监视器是只包含私有域的类。</li>
-<li>每个监视器类的对象有一个相关的锁。</li>
-<li>使用该锁对所有的方法进行加锁。换句话说，如果客户端调用 obj.method(), 那 么 obj对象的锁是在方法调用开始时自动获得， 并且当方法返回时自动释放该锁。因为所有的域是私有的，这样的安排可以确保一个线程在对对象操作时， 没有其他线程能访问该域。</li>
-<li>该锁可以有任意多个相关条件。</li>
-</ul>
-</li>
-<li><p>volatile 关键字为实例域的同步访问提供了一种免锁机制。如果声明一个域为 volatile ,那么编译器和虚拟机就知道该域是可能被另一个线程并发更新的。  </p>
-</li>
-<li><p>线程在调用 lock 方法来获得另一个线程所持有的锁的时候，很可能发生阻塞。应该更加谨慎地申请锁。 tryLock 方法试图申请一个锁， 在成功获得锁后返回 true, 否则， 立即返回false, 而且线程可以立即离开去做其他事情。  </p>
-</li>
-<li><p>lock 方法不能被中断。如果一个线程在等待获得一个锁时被中断，中断线程在获得锁之前一直处于阻塞状态。如果出现死锁， 那么， lock 方法就无法终止。<br>然而， 如果调用带有用超时参数的 tryLock, 那么如果线程在等待期间被中断，将抛出InterruptedException 异常。这是一个非常有用的特性，因为允许程序打破死锁。<br>也可以调用 locklnterruptibly 方法。它就相当于一个超时设为无限的 tryLock 方法。 </p>
-</li>
-<li><p>java.util.concurrent.locks 包 定 义 了 两 个 锁 类， 我 们 已 经 讨 论 的 ReentrantLock 类 和<br>ReentrantReadWriteLock 类。 如果很多线程从一个数据结构读取数据而很少线程修改其中数据的话， 后者是十分有用的。在这种情况下， 允许对读者线程共享访问是合适的。当然， 写者线程依然必须是互斥访问的。   </p>
-</li>
-<li><p>为什么弃用 stop 和 suspend 方法?</p>
-<p>初始的 Java 版本定义了一个 stop 方法用来终止一个线程， 以及一个 suspend 方法用来阻塞一个线程直至另一个线程调用 resume。stop 和 suspend 方法有一些共同点：都试图控制一个给定线程的行为。<br>stop、 suspend 和 resume 方法已经弃用。stop 方法天生就不安全，经验证明 suspend 方法会经常导致死锁。<br>首先来看看 stop 方法， 该方法终止所有未结束的方法， 包括 run 方法。当线程被终止，立即释放被它锁住的所有对象的锁。这会导致对象处于不一致的状态。例如’假定 TransferThread在从一个账户向另一个账户转账的过程中被终止，钱款已经转出，却没有转人目标账户，现在银行对象就被破坏了。因为锁已经被释放，这种破坏会被其他尚未停止的线程观察到。<br>当线程要终止另一个线程时， 无法知道什么时候调用 stop 方法是安全的， 什么时候导致<br>对象被破坏。因此，该方法被弃用了。在希望停止线程的时候应该中断线程， 被中断的线程<br>会在安全的时候停止。</p>
-<p>与 stop 不同，suspend 不会破坏对象。但是，如果用 suspend 挂起一个持有一个锁的线程， 那么，该锁在恢复之前是不可用的。 如果调用suspend 方法的线程试图获得同一个锁， 那么程序死锁： 被挂起的线程等着被恢复， 而将其挂起的线程等待获得锁。    </p>
-</li>
-</ol>
-<h2 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h2><ol>
-<li><p>对于许多线程问题， 可以通过使用一个或多个队列以优雅且安全的方式将其形式化。生产者线程向队列插人元素， 消费者线程则取出它们。使用队列，可以安全地从一个线程向另一个线程传递数据。 例如， 考虑银行转账程序， 转账线程将转账指令对象插入一个队列中，而不是直接访问银行对象。 另一个线程从队列中取出指令执行转账。只有该线程可以访问该银行对象的内部。因此不需要同步。（当然， 线程安全的队列类的实现者不能不考虑锁和条件，但是， 那是他们的问题而不是你的问题。）  </p>
-</li>
-<li><p>当试图向队列添加元素而队列已满， 或是想从队列移出元素而队列为空的时候， 阻塞队列（blocking queue ) 导致线程阻塞。在协调多个线程之间的合作时， 阻塞队列是一个有用的工具。工作者线程可以周期性地将中间结果存储在阻塞队列中。其他的工作者线程移出中间结果并进一步加以修改。队列会自动地平衡负载。如果第一个线程集运行得比第二个慢， 第二个线程集在等待结果时会阻塞。 如果第一个线程集运行得快， 它将等待第二个队列集赶上来。  </p>
-</li>
-<li><p>java.util.concurrent 包提供了阻塞队列的几个变种。 默认情况下， LinkedBlockingQueue的容量是没有上边界的，但是，也可以选择指定最大容量。LinkedBlockingDeque 是一个双端的版本。ArrayBlockingQueue 在构造时需要指定容量，并且有一个可选的参数来指定是否需要公平性。若设置了公平参数， 则那么等待了最长时间的线程会优先得到处理。通常，公平性会降低性能，只有在确实非常需要时才使用它。</p>
-<p>PriorityBlockingQueue 是一个带优先级的队列， 而不是先进先出队列。元素按照它们的优先级顺序被移出。该队列是没有容量上限，但是，如果队列是空的， 取元素的操作会阻塞。  </p>
-</li>
-</ol>
-<h2 id="线程安全的集合"><a href="#线程安全的集合" class="headerlink" title="线程安全的集合"></a>线程安全的集合</h2><ol>
-<li>java.util.concurrent 包提供了映射、 有序集和队列的高效实现： ConcurrentHashMap、ConcurrentSkipListMap &gt; ConcurrentSkipListSet 和 ConcurrentLinkedQueue。这些集合使用复杂的算法，通过允许并发地访问数据结构的不同部分来使竞争极小化。  </li>
-<li>CopyOnWriteArrayList 和 CopyOnWriteArraySet 是线程安全的集合， 其中所有的修改线程对底层数组进行复制。 如果在集合上进行迭代的线程数超过修改线程数， 这样的安排是很有用的。当构建一个迭代器的时候， 它包含一个对当前数组的引用。如果数组后来被修改了，迭代器仍然引用旧数组， 但是，集合的数组已经被替换了。因而，旧的迭代器拥有一致的（可能过时的）视图，访问它无须任何同步开销。</li>
-</ol>
-<h2 id="Callable与Future"><a href="#Callable与Future" class="headerlink" title="Callable与Future"></a>Callable与Future</h2><ol>
-<li>Runnable 封装一个异步运行的任务，可以把它想象成为一个没有参数和返回值的异步方法。Callable 与 Runnable 类似， 但是有返回值。Callable 接口是一个参数化的类型， 只有一个方法 call。  </li>
-<li>Future 保存异步计算的结果。可以启动一个计算，将 Future 对象交给某个线程，然后忘掉它。 Future 对象的所有者在结果计算好之后就可以获得它。  </li>
-</ol>
-<h2 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h2><ol>
-<li><p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出时， 线程不会死亡，而是在池中准备为下一个请求提供服务。   </p>
-<p>构建一个新的线程是有一定代价的， 因为涉及与操作系统的交互。如果程序中创建了大<br>量的生命期很短的线程，应该使用线程池（thread pool )。一个线程池中包含许多准备运行的<br>空闲线程。 将 Runnable 对象交给线程池， 就会有一个线程调用 run 方法。 当 run 方法退出<br>时， 线程不会死亡，而是在池中准备为下一个请求提供服务。  </p>
-</li>
-<li><p>执行器 （ Executor) 类有许多静态工厂方法用来构建线程池。</p>
-</li>
-</ol>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>根据网上的一些知识点，讲一下原理:</p>
+<p>Mybatis通过JDK的动态代理方式，在启动加载配置文件时，根据配置mapper的xml去生成Dao的实现。</p>
+<p>session.getMapper()使用了代理，当调用一次此方法，都会产生一个代理class的instance,看看这个代理class的实现。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">public <span class="keyword">class</span> MapperProxy implements InvocationHandler &#123;<span class="operator"> </span></span><br><span class="line"><span class="operator">... </span></span><br><span class="line"><span class="operator"></span>public static &lt;T&gt; T <span class="keyword">new</span><span class="constructor">MapperProxy(Class&lt;T&gt; <span class="params">mapperInterface</span>, SqlSession <span class="params">sqlSession</span>)</span> &#123; </span><br><span class="line">    ClassLoader classLoader = mapperInterface.get<span class="constructor">ClassLoader()</span>; </span><br><span class="line">    Class&lt;?&gt;<span class="literal">[]</span> interfaces = <span class="keyword">new</span> Class<span class="literal">[]</span>&#123;mapperInterface&#125;; </span><br><span class="line">    MapperProxy proxy = <span class="keyword">new</span> <span class="constructor">MapperProxy(<span class="params">sqlSession</span>)</span>; </span><br><span class="line">    return (T) <span class="module-access"><span class="module"><span class="identifier">Proxy</span>.</span></span><span class="keyword">new</span><span class="constructor">ProxyInstance(<span class="params">classLoader</span>, <span class="params">interfaces</span>, <span class="params">proxy</span>)</span>; </span><br><span class="line">  &#125; </span><br><span class="line"></span><br><span class="line">public Object invoke(Object proxy, Method <span class="keyword">method</span>, Object<span class="literal">[]</span> args) throws Throwable &#123; </span><br><span class="line">    <span class="keyword">if</span> (!<span class="module-access"><span class="module"><span class="identifier">OBJECT_METHODS</span>.</span></span>contains(<span class="keyword">method</span>.get<span class="constructor">Name()</span>)) &#123; </span><br><span class="line">      final Class&lt;?&gt; declaringInterface = find<span class="constructor">DeclaringInterface(<span class="params">proxy</span>, <span class="params">method</span>)</span>; </span><br><span class="line">      final MapperMethod mapperMethod = <span class="keyword">new</span> <span class="constructor">MapperMethod(<span class="params">declaringInterface</span>, <span class="params">method</span>, <span class="params">sqlSession</span>)</span>; </span><br><span class="line">      final Object result = mapperMethod.execute(args); </span><br><span class="line">      <span class="keyword">if</span> (result<span class="operator"> == </span>null<span class="operator"> &amp;&amp; </span><span class="keyword">method</span>.get<span class="constructor">ReturnType()</span>.is<span class="constructor">Primitive()</span>) &#123; </span><br><span class="line">        throw <span class="keyword">new</span> <span class="constructor">BindingException(<span class="string">&quot;Mapper method &#x27;&quot;</span> + <span class="params">method</span>.<span class="params">getName</span>()</span> + <span class="string">&quot;&#x27; (&quot;</span> + <span class="keyword">method</span>.get<span class="constructor">DeclaringClass()</span> + <span class="string">&quot;) attempted to return null from a method with a primitive return type (&quot;</span> + <span class="keyword">method</span>.get<span class="constructor">ReturnType()</span> + <span class="string">&quot;).&quot;</span>); </span><br><span class="line">      &#125; </span><br><span class="line">      return result; </span><br><span class="line">    &#125; </span><br><span class="line">    return null; </span><br><span class="line">  &#125; </span><br></pre></td></tr></table></figure>
+<p>这里是用到了JDK的代理。 newMapperProxy()可以取得实现interfaces 的class的代理类的实例。</p>
+<p>当执行interfaces中的方法的时候，会自动执行invoke()方法，其中public Object invoke(Object proxy, Method method, Object[] args)中 method参数就代表你要执行的方法.</p>
+<p>MapperMethod类会使用method方法的methodName 和declaringInterface去取 sqlMapxml 取得对应的sql，也就是拿declaringInterface的类全名加上 sql-id</p>
 ]]></content>
       <categories>
         <category>编程</category>
       </categories>
       <tags>
-        <tag>java</tag>
-        <tag>技术书籍</tag>
+        <tag>框架</tag>
       </tags>
   </entry>
   <entry>
@@ -1314,27 +1335,6 @@
       </categories>
       <tags>
         <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mybatis中的方法和DAO接口方法是怎么绑定到一起的</title>
-    <url>/2019/08/13/Mybatis%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8CDAO%E6%8E%A5%E5%8F%A3%E6%96%B9%E6%B3%95%E6%98%AF%E6%80%8E%E4%B9%88%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%80%E8%B5%B7%E7%9A%84/</url>
-    <content><![CDATA[<blockquote>
-<p>在未理解代理前，一直有个疑问，Mybatis中DAO层接口没有写实现类，Mapper中的方法和DAO接口方法是怎么绑定到一起的，其内部是怎么实现的</p>
-</blockquote>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>根据网上的一些知识点，讲一下原理:</p>
-<p>Mybatis通过JDK的动态代理方式，在启动加载配置文件时，根据配置mapper的xml去生成Dao的实现。</p>
-<p>session.getMapper()使用了代理，当调用一次此方法，都会产生一个代理class的instance,看看这个代理class的实现。</p>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">public <span class="keyword">class</span> MapperProxy implements InvocationHandler &#123;<span class="operator"> </span></span><br><span class="line"><span class="operator">... </span></span><br><span class="line"><span class="operator"></span>public static &lt;T&gt; T <span class="keyword">new</span><span class="constructor">MapperProxy(Class&lt;T&gt; <span class="params">mapperInterface</span>, SqlSession <span class="params">sqlSession</span>)</span> &#123; </span><br><span class="line">    ClassLoader classLoader = mapperInterface.get<span class="constructor">ClassLoader()</span>; </span><br><span class="line">    Class&lt;?&gt;<span class="literal">[]</span> interfaces = <span class="keyword">new</span> Class<span class="literal">[]</span>&#123;mapperInterface&#125;; </span><br><span class="line">    MapperProxy proxy = <span class="keyword">new</span> <span class="constructor">MapperProxy(<span class="params">sqlSession</span>)</span>; </span><br><span class="line">    return (T) <span class="module-access"><span class="module"><span class="identifier">Proxy</span>.</span></span><span class="keyword">new</span><span class="constructor">ProxyInstance(<span class="params">classLoader</span>, <span class="params">interfaces</span>, <span class="params">proxy</span>)</span>; </span><br><span class="line">  &#125; </span><br><span class="line"></span><br><span class="line">public Object invoke(Object proxy, Method <span class="keyword">method</span>, Object<span class="literal">[]</span> args) throws Throwable &#123; </span><br><span class="line">    <span class="keyword">if</span> (!<span class="module-access"><span class="module"><span class="identifier">OBJECT_METHODS</span>.</span></span>contains(<span class="keyword">method</span>.get<span class="constructor">Name()</span>)) &#123; </span><br><span class="line">      final Class&lt;?&gt; declaringInterface = find<span class="constructor">DeclaringInterface(<span class="params">proxy</span>, <span class="params">method</span>)</span>; </span><br><span class="line">      final MapperMethod mapperMethod = <span class="keyword">new</span> <span class="constructor">MapperMethod(<span class="params">declaringInterface</span>, <span class="params">method</span>, <span class="params">sqlSession</span>)</span>; </span><br><span class="line">      final Object result = mapperMethod.execute(args); </span><br><span class="line">      <span class="keyword">if</span> (result<span class="operator"> == </span>null<span class="operator"> &amp;&amp; </span><span class="keyword">method</span>.get<span class="constructor">ReturnType()</span>.is<span class="constructor">Primitive()</span>) &#123; </span><br><span class="line">        throw <span class="keyword">new</span> <span class="constructor">BindingException(<span class="string">&quot;Mapper method &#x27;&quot;</span> + <span class="params">method</span>.<span class="params">getName</span>()</span> + <span class="string">&quot;&#x27; (&quot;</span> + <span class="keyword">method</span>.get<span class="constructor">DeclaringClass()</span> + <span class="string">&quot;) attempted to return null from a method with a primitive return type (&quot;</span> + <span class="keyword">method</span>.get<span class="constructor">ReturnType()</span> + <span class="string">&quot;).&quot;</span>); </span><br><span class="line">      &#125; </span><br><span class="line">      return result; </span><br><span class="line">    &#125; </span><br><span class="line">    return null; </span><br><span class="line">  &#125; </span><br></pre></td></tr></table></figure>
-<p>这里是用到了JDK的代理。 newMapperProxy()可以取得实现interfaces 的class的代理类的实例。</p>
-<p>当执行interfaces中的方法的时候，会自动执行invoke()方法，其中public Object invoke(Object proxy, Method method, Object[] args)中 method参数就代表你要执行的方法.</p>
-<p>MapperMethod类会使用method方法的methodName 和declaringInterface去取 sqlMapxml 取得对应的sql，也就是拿declaringInterface的类全名加上 sql-id</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>框架</tag>
       </tags>
   </entry>
   <entry>
@@ -1763,6 +1763,46 @@
       </tags>
   </entry>
   <entry>
+    <title>Spring Security环境下CORS跨域失效问题</title>
+    <url>/2019/05/12/Spring%20Security%20%E7%8E%AF%E5%A2%83%E4%B8%8B%20CORS%20%E8%B7%A8%E5%9F%9F%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<blockquote>
+<p>前后端分离项目中，后端已经配置对跨域支持，前端还是报请求跨域问题。</p>
+</blockquote>
+<h1 id="基于Spring-MVC正常配置跨域问题"><a href="#基于Spring-MVC正常配置跨域问题" class="headerlink" title="基于Spring MVC正常配置跨域问题"></a>基于Spring MVC正常配置跨域问题</h1><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public <span class="keyword">class</span> WebMvcConfig extends WebMvcConfigurerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CorsConfiguration build<span class="constructor">Config()</span> &#123;</span><br><span class="line">        CorsConfiguration corsConfiguration = <span class="keyword">new</span> <span class="constructor">CorsConfiguration()</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedOrigin(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedHeader(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedMethod(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">ExposedHeader(<span class="string">&quot;Authorization&quot;</span>)</span>;</span><br><span class="line">        return corsConfiguration;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public CorsFilter cors<span class="constructor">Filter()</span> &#123;</span><br><span class="line">        UrlBasedCorsConfigurationSource source = <span class="keyword">new</span> <span class="constructor">UrlBasedCorsConfigurationSource()</span>;</span><br><span class="line">        source.register<span class="constructor">CorsConfiguration(<span class="string">&quot;/**&quot;</span>, <span class="params">buildConfig</span>()</span>);</span><br><span class="line">        return <span class="keyword">new</span> <span class="constructor">CorsFilter(<span class="params">source</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">CorsMappings(CorsRegistry <span class="params">registry</span>)</span> &#123;</span><br><span class="line">        registry.add<span class="constructor">Mapping(<span class="string">&quot;/**&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Origins(<span class="string">&quot;*&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Methods(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>, <span class="string">&quot;DELETE&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Headers(<span class="string">&quot;*&quot;</span>)</span></span><br><span class="line">                .max<span class="constructor">Age(3600)</span></span><br><span class="line">                .allow<span class="constructor">Credentials(<span class="params">true</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置完成后前端控制他还是显示请求跨域问题，说明上面的配置失效了。</p>
+<h1 id="跨域失效原因"><a href="#跨域失效原因" class="headerlink" title="跨域失效原因"></a>跨域失效原因</h1><p>启动 spring boot 项目，观察控制台打印的过滤器 chain 的顺序 cors filter 是在 spring security filter chain 之后。</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;characterEncodingFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;hiddenHttpMethodFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;httpPutFormContentFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;requestContextFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.DelegatingFilterProxyRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;springSecurityFilterChain&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;corsFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.ServletRegistrationBean - Servlet dispatcherServlet mapped <span class="keyword">to</span> [/]</span><br></pre></td></tr></table></figure>
+<p> 所以，问题很清晰了，问题在于 spring security 的 过滤器链，我们只需要将手动创建的跨域 filter 置于 spring security filter chain 之前即可。 </p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ol>
+<li>在Spring Security配置文件中configure方法开启跨域</li>
+</ol>
+<figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        http</span><br><span class="line">                .cors().</span><br><span class="line">                and()</span><br><span class="line">                .authorizeRequests()</span><br><span class="line">                ……</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>手动实现跨域过滤器并将过滤器置于spring security filter chain之前</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span>: lcq</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: 手动生成过滤器</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2019-05-11 16:55</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityCorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletResponse res = (HttpServletResponse) response;</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST, GET, OPTIONS, DELETE, PUT&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;3600&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Authorization, Content-Type, Accept, x-requested-with, Cache-Control&quot;</span>);</span><br><span class="line">        chain.doFilter(request, res);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">.<span class="keyword">and</span><span class="literal">()</span>.add<span class="constructor">FilterBefore(<span class="params">new</span> WebSecurityCorsFilter()</span>, <span class="module-access"><span class="module"><span class="identifier">ChannelProcessingFilter</span>.</span></span><span class="keyword">class</span>) <span class="comment">// 添加前置过滤器，保证跨域的过滤器首先触发</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>Spring集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring的容器</title>
+    <url>/2019/04/18/Spring%E7%9A%84%E5%AE%B9%E5%99%A8/</url>
+    <content><![CDATA[<p>Spring提供了两种容器类型： BeanFactory和ApplicationContext。<br> BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延<br>迟初始化策略（lazy-load）。只有当客户端对象需要访问容器中的某个受管对象的时候，才对<br>该受管对象进行初始化以及依赖注入操作。所以，相对来说，容器启动初期速度较快，所需<br>要的资源有限。对于资源有限，并且功能要求不是很严格的场景， BeanFactory是比较合适的<br>IoC容器选择。<br>ApplicationContext。 ApplicationContext在BeanFactory的基础上构建，是相对比较高<br>级的容器实现，除了拥有BeanFactory的所有支持， ApplicationContext还提供了其他高级  特性，比如事件发布、国际化信息支持等，这些会在后面详述。 ApplicationContext所管理<br>的对象，在该类型容器启动之后，默认全部初始化并绑定完成。所以，相对于BeanFactory来<br>说， ApplicationContext要求更多的系统资源，同时，因为在启动时就完成所有初始化，容<br>器启动时间较之BeanFactory也会长一些。在那些系统资源充足，并且要求更多功能的场景中，<br>ApplicationContext类型的容器是比较合适的选择。  </p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>Spring集合</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spring中事务的七种传播机制和四个隔离级别</title>
     <url>/2019/06/28/Spring%E4%B8%AD%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%B8%83%E7%A7%8D%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6%E5%92%8C%E5%9B%9B%E4%B8%AA%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</url>
     <content><![CDATA[<blockquote>
@@ -1864,93 +1904,6 @@
       </categories>
       <tags>
         <tag>Spring集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spring Security环境下CORS跨域失效问题</title>
-    <url>/2019/05/12/Spring%20Security%20%E7%8E%AF%E5%A2%83%E4%B8%8B%20CORS%20%E8%B7%A8%E5%9F%9F%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<blockquote>
-<p>前后端分离项目中，后端已经配置对跨域支持，前端还是报请求跨域问题。</p>
-</blockquote>
-<h1 id="基于Spring-MVC正常配置跨域问题"><a href="#基于Spring-MVC正常配置跨域问题" class="headerlink" title="基于Spring MVC正常配置跨域问题"></a>基于Spring MVC正常配置跨域问题</h1><figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public <span class="keyword">class</span> WebMvcConfig extends WebMvcConfigurerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CorsConfiguration build<span class="constructor">Config()</span> &#123;</span><br><span class="line">        CorsConfiguration corsConfiguration = <span class="keyword">new</span> <span class="constructor">CorsConfiguration()</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedOrigin(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedHeader(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">AllowedMethod(<span class="string">&quot;*&quot;</span>)</span>;</span><br><span class="line">        corsConfiguration.add<span class="constructor">ExposedHeader(<span class="string">&quot;Authorization&quot;</span>)</span>;</span><br><span class="line">        return corsConfiguration;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public CorsFilter cors<span class="constructor">Filter()</span> &#123;</span><br><span class="line">        UrlBasedCorsConfigurationSource source = <span class="keyword">new</span> <span class="constructor">UrlBasedCorsConfigurationSource()</span>;</span><br><span class="line">        source.register<span class="constructor">CorsConfiguration(<span class="string">&quot;/**&quot;</span>, <span class="params">buildConfig</span>()</span>);</span><br><span class="line">        return <span class="keyword">new</span> <span class="constructor">CorsFilter(<span class="params">source</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void add<span class="constructor">CorsMappings(CorsRegistry <span class="params">registry</span>)</span> &#123;</span><br><span class="line">        registry.add<span class="constructor">Mapping(<span class="string">&quot;/**&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Origins(<span class="string">&quot;*&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Methods(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>, <span class="string">&quot;DELETE&quot;</span>)</span></span><br><span class="line">                .allowed<span class="constructor">Headers(<span class="string">&quot;*&quot;</span>)</span></span><br><span class="line">                .max<span class="constructor">Age(3600)</span></span><br><span class="line">                .allow<span class="constructor">Credentials(<span class="params">true</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>配置完成后前端控制他还是显示请求跨域问题，说明上面的配置失效了。</p>
-<h1 id="跨域失效原因"><a href="#跨域失效原因" class="headerlink" title="跨域失效原因"></a>跨域失效原因</h1><p>启动 spring boot 项目，观察控制台打印的过滤器 chain 的顺序 cors filter 是在 spring security filter chain 之后。</p>
-<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;characterEncodingFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;hiddenHttpMethodFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;httpPutFormContentFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;requestContextFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.DelegatingFilterProxyRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;springSecurityFilterChain&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.FilterRegistrationBean - Mapping <span class="built_in">filter</span>: <span class="string">&#x27;corsFilter&#x27;</span> <span class="keyword">to</span>: [/*]</span><br><span class="line"><span class="keyword">o</span>.s.<span class="keyword">b</span>.<span class="keyword">w</span>.s.ServletRegistrationBean - Servlet dispatcherServlet mapped <span class="keyword">to</span> [/]</span><br></pre></td></tr></table></figure>
-<p> 所以，问题很清晰了，问题在于 spring security 的 过滤器链，我们只需要将手动创建的跨域 filter 置于 spring security filter chain 之前即可。 </p>
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ol>
-<li>在Spring Security配置文件中configure方法开启跨域</li>
-</ol>
-<figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        http</span><br><span class="line">                .cors().</span><br><span class="line">                and()</span><br><span class="line">                .authorizeRequests()</span><br><span class="line">                ……</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>手动实现跨域过滤器并将过滤器置于spring security filter chain之前</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span>: lcq</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: 手动生成过滤器</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2019-05-11 16:55</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityCorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletResponse res = (HttpServletResponse) response;</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST, GET, OPTIONS, DELETE, PUT&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;3600&quot;</span>);</span><br><span class="line">        res.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Authorization, Content-Type, Accept, x-requested-with, Cache-Control&quot;</span>);</span><br><span class="line">        chain.doFilter(request, res);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line">.<span class="keyword">and</span><span class="literal">()</span>.add<span class="constructor">FilterBefore(<span class="params">new</span> WebSecurityCorsFilter()</span>, <span class="module-access"><span class="module"><span class="identifier">ChannelProcessingFilter</span>.</span></span><span class="keyword">class</span>) <span class="comment">// 添加前置过滤器，保证跨域的过滤器首先触发</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>Spring集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spring的容器</title>
-    <url>/2019/04/18/Spring%E7%9A%84%E5%AE%B9%E5%99%A8/</url>
-    <content><![CDATA[<p>Spring提供了两种容器类型： BeanFactory和ApplicationContext。<br> BeanFactory。基础类型IoC容器，提供完整的IoC服务支持。如果没有特殊指定，默认采用延<br>迟初始化策略（lazy-load）。只有当客户端对象需要访问容器中的某个受管对象的时候，才对<br>该受管对象进行初始化以及依赖注入操作。所以，相对来说，容器启动初期速度较快，所需<br>要的资源有限。对于资源有限，并且功能要求不是很严格的场景， BeanFactory是比较合适的<br>IoC容器选择。<br>ApplicationContext。 ApplicationContext在BeanFactory的基础上构建，是相对比较高<br>级的容器实现，除了拥有BeanFactory的所有支持， ApplicationContext还提供了其他高级  特性，比如事件发布、国际化信息支持等，这些会在后面详述。 ApplicationContext所管理<br>的对象，在该类型容器启动之后，默认全部初始化并绑定完成。所以，相对于BeanFactory来<br>说， ApplicationContext要求更多的系统资源，同时，因为在启动时就完成所有初始化，容<br>器启动时间较之BeanFactory也会长一些。在那些系统资源充足，并且要求更多功能的场景中，<br>ApplicationContext类型的容器是比较合适的选择。  </p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>Spring集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP流量控制和拥塞控制</title>
-    <url>/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/</url>
-    <content><![CDATA[<blockquote>
-<p> 流量控制和拥塞控制是TCP实现可靠传输的方法之一</p>
-</blockquote>
-<h1 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h1><h2 id="为什么要流量控制"><a href="#为什么要流量控制" class="headerlink" title="为什么要流量控制"></a>为什么要流量控制</h2><p>如果发送端的发送速度太快，会导致接收端的接收缓冲区很快的填充满了。此时如果发送端仍旧发送数据，那么接下来发送的数据都会丢包。 所谓流量控制就是让发送方发送速率不要过快，让接收方来得及接收。</p>
-<h2 id="TCP如何实现流量控制"><a href="#TCP如何实现流量控制" class="headerlink" title="TCP如何实现流量控制"></a>TCP如何实现流量控制</h2><h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>利用滑动窗口机制可以实现流量控制。</p>
-<p>原理就是<strong>运用TCP报文段中的窗口大小字段来控制，发送方的发送窗口不可以大于接收方发回的窗口大小。</strong></p>
-<p>考虑一种特殊的情况，就是接收方若没有缓存足够使用，就会发送零窗口大小的报文，此时发送放将发送窗口设置为0，停止发送数据。之后接收方有足够的缓存，发送了非零窗口大小的报文，但是这个报文在中途丢失的，那么发送方的发送窗口就一直为零导致死锁。</p>
-<p>解决这个问题，TCP为每一个连接设置一个持续计时器（persistence timer）。只要TCP的一方收到对方的零窗口通知，<strong>就启动该计时器，周期性的发送一个零窗口探测报文段。对方就在确认这个报文的时候给出现在的窗口大小（注意：</strong>TCP规定，即使设置为零窗口，接收方也必须接收以下几种报文段：零窗口探测报文段、确认报文段和携带紧急数据的报文段）。</p>
-<h1 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h1><h2 id="什么是拥塞控制"><a href="#什么是拥塞控制" class="headerlink" title="什么是拥塞控制"></a>什么是拥塞控制</h2><p>TCP传输的过程中，发送端开始发送数据的时候，<strong>如果刚开始就发送大量的数据，那么就可能造成一些问题。网络可能在开始的时候就很拥堵</strong>，如果给网络中在扔出大量数据，那么这个拥堵就会加剧。拥堵的加剧就会产生大量的丢包，就对大量的超时重传，严重影响传输。</p>
-<h2 id="TCP如何实现拥塞控制"><a href="#TCP如何实现拥塞控制" class="headerlink" title="TCP如何实现拥塞控制"></a>TCP如何实现拥塞控制</h2><h3 id="拥塞窗口"><a href="#拥塞窗口" class="headerlink" title="拥塞窗口"></a>拥塞窗口</h3><p>发送报文段速率的确定，既要根据接收端的接收能力，又要从全局考虑不要使网络发生拥塞，这由接收窗口和拥塞窗口两个状态量确定。</p>
-<p><strong>接收端窗口（Reciver Window)又称通知窗口（Advertised Window)</strong>,是接收端根据目前的接收缓存大小所许诺的最新窗口值，是来自接收端的流量控制。</p>
-<p><strong>拥塞窗口cwnd（Congestion Window)</strong>是<strong>发送端</strong>根据自己估计的网络拥塞程度而设置的窗口动态值，是来自发送端的流量控制。</p>
-<p>因特网建议标准RFC2581定义了进行拥塞控制的四种算法，即<strong>慢启动（Slow-start)，拥塞避免（Congestion Avoidance)，快重传（Fast Restrangsmit)和快恢复（Fast Recovery）</strong></p>
-<h3 id="慢启动算法和拥塞避免算法"><a href="#慢启动算法和拥塞避免算法" class="headerlink" title="慢启动算法和拥塞避免算法"></a>慢启动算法和拥塞避免算法</h3><p><img src="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/TCP流量控制和拥塞控制/微信截图_20210407134157.png" alt></p>
-<p>慢开始算法的思路就是，不要一开始就发送大量的数据，先探测一下网络的拥塞程度，也就是说由小到大逐渐增加拥塞窗口的大小。</p>
-<p>当然收到单个确认但此确认多个数据报的时候就加相应的数值。所以一次传输轮次之后拥塞窗口就加倍。这就是乘法增长，和后面的拥塞避免算法的加法增长比较。</p>
-<p>为了防止cwnd增长过大引起网络拥塞，还需设置一个慢开始门限ssthresh状态变量。ssthresh的用法如下：</p>
-<p>当cwnd&lt;ssthresh时，使用慢开始算法。</p>
-<p>当cwnd&gt;ssthresh时，改用拥塞避免算法。</p>
-<p>当cwnd=ssthresh时，慢开始与拥塞避免算法任意。</p>
-<h3 id="快重传算法和快恢复算法"><a href="#快重传算法和快恢复算法" class="headerlink" title="快重传算法和快恢复算法"></a>快重传算法和快恢复算法</h3><p> 一条TCP连接有时会因等待重传计时器的超时而空闲较长的时间，慢开始和拥塞避免无法很好的解决这类问题，因此提出了快重传和快恢复的拥塞控制方法。</p>
-<p>   <strong>快重传算法</strong>并非取消了<strong>重传机制</strong>，只是在某些情况下更早的重传丢失的报文段（如果当发送端接收到三个重复的确认ACK时，则断定分组丢失，立即重传丢失的报文段，而不必等待重传计时器超时）。</p>
-<p>   <strong>快恢复算法</strong>有以下两个要点：</p>
-<ol>
-<li><p>当发送方连续收到接收方发来的三个重复确认时，就执行“乘法减小”算法，把慢开始门限减半，这是为了预防网络发生拥塞。</p>
-</li>
-<li><p>由于发送方现在认为网络很可能没有发生拥塞，因此现在不执行慢开始算法，而是把<strong>cwnd(拥塞窗口)</strong>值设置为慢开始门限减半后的值，然后开始执行拥塞避免算法<strong>，使拥塞窗口的线性增大</strong>。</p>
-</li>
-</ol>
-<p><img src="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/TCP流量控制和拥塞控制/微信截图_20210407134649.png" alt></p>
-<h1 id="TCP拥塞控制和流量控制的差别"><a href="#TCP拥塞控制和流量控制的差别" class="headerlink" title="TCP拥塞控制和流量控制的差别"></a>TCP拥塞控制和流量控制的差别</h1><ul>
-<li><p>拥塞控制就是防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载。拥塞控制所要做的都有一个前提，就是网络能承受现有的网络负荷。</p>
-</li>
-<li><p>流量控制往往指的是点对点通信量的控制，是个端到端的问题。流量控制所要做的就是控制发送端发送数据的速率，以便使接收端来得及接受。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -2205,25 +2158,6 @@
       </tags>
   </entry>
   <entry>
-    <title>路遥--平凡的世界 观后感</title>
-    <url>/2019/10/15/%5B%E8%B7%AF%E9%81%A5--%E5%B9%B3%E5%87%A1%E7%9A%84%E4%B8%96%E7%95%8C%5D%E8%A7%82%E5%90%8E%E6%84%9F/</url>
-    <content><![CDATA[<h2 id="作者简介"><a href="#作者简介" class="headerlink" title="作者简介"></a>作者简介</h2><p>路遥（1949年12月3日—1992年11月17日），本名王卫国，出生于陕北榆林清涧县，中国当代作家，代表作有长篇小说《平凡的世界》、《人生》等。 [1]  曾任中国作家协会陕西分会党组成员、副主席。<br>路遥1949年12月3日出生于陕西陕北山区清涧县一个贫困的农民家庭，7岁时因为家里困难被过继给延川县农村的伯父。曾在延川县立中学学习，1969年回乡务农。这段时间里他做过许多临时性的工作，并在农村一小学中教过一年书。1973年进入延安大学中文系学习，其间开始文学创作。大学毕业后，任《陕西文艺》（今为《延河》）编辑。1980年发表《惊人动魄的一幕》，获得第一届全国优秀中篇小说奖。1982年发表中篇小说《人生》，后被改编为电影。1991年完成百万字的长篇巨著《平凡的世界》，这部小说以其恢宏的气势和史诗般的品格，全景式地表现了改革时代中国城乡的社会生活和人们思想情感的巨大变迁，还未完成即在中央人民电台广播。路遥因此而荣获茅盾文学奖。<br>1992年11月17日，路遥因肝硬化腹水医治无效在西安逝世，年仅42岁。 [1]  2018年12月18日，党中央、国务院授予路遥同志改革先锋称号，颁授改革先锋奖章，并获评鼓舞亿万农村青年投身改革开放的优秀作家。</p>
-<p>参考：百度百科：<a href="https://baike.baidu.com/item/路遥/216?fr=aladdin">https://baike.baidu.com/item/路遥/216?fr=aladdin</a></p>
-<h2 id="作品简介"><a href="#作品简介" class="headerlink" title="作品简介"></a>作品简介</h2><p>《平凡的世界》是中国作家路遥创作的一部百万字的小说。这是一部全景式地表现中国当代城乡社会生活的长篇小说，全书共三部。1986年12月首次出版。<br>该书以中国70年代中期到80年代中期十年间为背景，通过复杂的矛盾纠葛，以孙少安和孙少平两兄弟为中心，刻画了当时社会各阶层众多普通人的形象；劳动与爱情、挫折与追求、痛苦与欢乐、日常生活与巨大社会冲突纷繁地交织在一起，深刻地展示了普通人在大时代历史进程中所走过的艰难曲折的道路。1991年3月，《平凡的世界》获中国第三届茅盾文学奖。</p>
-<p>参考：百度百科：<a href="https://baike.baidu.com/item/平凡的世界/166?fr=aladdin">https://baike.baidu.com/item/平凡的世界/166?fr=aladdin</a></p>
-<h2 id="个人观后感"><a href="#个人观后感" class="headerlink" title="个人观后感"></a>个人观后感</h2><p>阅读完本书给我的最大感受是每个人可以在书中找到自己的一个角色，作者在书中刻画了不同阶层，不同身份的人物，刻画了不同道路上的曲折。而书中的主人公孙少平正是现今的我应该去学习的，他不甘平庸，有理想，试图通过自己的努力去改变自己的人生。平凡的村子，平凡的土地，平凡的农民，平凡的爱情，平凡的亲情，平凡的一切。人生的道路，当你得到一些东西时，可能一会伴随的失去一些东西，孙少平的人生亦是如此，我们的人生也是如此。而现今的我，应该去做好一道最重要的选择题……</p>
-<blockquote>
-<p>生活不止眼前的苟且，还有诗和远方。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>阅读</category>
-      </categories>
-      <tags>
-        <tag>观后感</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>个人对于Vuex的理解</title>
     <url>/2019/03/23/%E4%B8%AA%E4%BA%BA%E5%AF%B9%E4%BA%8EVuex%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="Vuex简介"><a href="#Vuex简介" class="headerlink" title="Vuex简介"></a>Vuex简介</h2><p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 也集成到 Vue 的官方调试工具 <a href="https://github.com/vuejs/vue-devtools">devtools extension</a>，提供了诸如零配置的 time-travel 调试、状态快照导入导出等高级调试功能。</p>
@@ -2244,55 +2178,69 @@
       </tags>
   </entry>
   <entry>
-    <title>使用ELK做日志收集</title>
-    <url>/2020/08/31/%E4%BD%BF%E7%94%A8ELK%E5%81%9A%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/</url>
-    <content><![CDATA[<blockquote>
-<p> 微服务系统的日志都保存在各自指定的目录中，如果这些微服务部署在不同的服务器上，那么日志文件也是分散在各自的服务器上。分散的日志不利于我们快速通过日志定位问题，我们可以借助ELK来收集各个微服务系统的日志并集中展示。<br>ELK即Elasticsearch、Logstash和Kibana首字母缩写。Elasticsearch用于存储日志信息，Logstash用于收集日志，Kibana用于图形化展示。 </p>
+    <title>路遥--平凡的世界 观后感</title>
+    <url>/2019/10/15/%5B%E8%B7%AF%E9%81%A5--%E5%B9%B3%E5%87%A1%E7%9A%84%E4%B8%96%E7%95%8C%5D%E8%A7%82%E5%90%8E%E6%84%9F/</url>
+    <content><![CDATA[<h2 id="作者简介"><a href="#作者简介" class="headerlink" title="作者简介"></a>作者简介</h2><p>路遥（1949年12月3日—1992年11月17日），本名王卫国，出生于陕北榆林清涧县，中国当代作家，代表作有长篇小说《平凡的世界》、《人生》等。 [1]  曾任中国作家协会陕西分会党组成员、副主席。<br>路遥1949年12月3日出生于陕西陕北山区清涧县一个贫困的农民家庭，7岁时因为家里困难被过继给延川县农村的伯父。曾在延川县立中学学习，1969年回乡务农。这段时间里他做过许多临时性的工作，并在农村一小学中教过一年书。1973年进入延安大学中文系学习，其间开始文学创作。大学毕业后，任《陕西文艺》（今为《延河》）编辑。1980年发表《惊人动魄的一幕》，获得第一届全国优秀中篇小说奖。1982年发表中篇小说《人生》，后被改编为电影。1991年完成百万字的长篇巨著《平凡的世界》，这部小说以其恢宏的气势和史诗般的品格，全景式地表现了改革时代中国城乡的社会生活和人们思想情感的巨大变迁，还未完成即在中央人民电台广播。路遥因此而荣获茅盾文学奖。<br>1992年11月17日，路遥因肝硬化腹水医治无效在西安逝世，年仅42岁。 [1]  2018年12月18日，党中央、国务院授予路遥同志改革先锋称号，颁授改革先锋奖章，并获评鼓舞亿万农村青年投身改革开放的优秀作家。</p>
+<p>参考：百度百科：<a href="https://baike.baidu.com/item/路遥/216?fr=aladdin">https://baike.baidu.com/item/路遥/216?fr=aladdin</a></p>
+<h2 id="作品简介"><a href="#作品简介" class="headerlink" title="作品简介"></a>作品简介</h2><p>《平凡的世界》是中国作家路遥创作的一部百万字的小说。这是一部全景式地表现中国当代城乡社会生活的长篇小说，全书共三部。1986年12月首次出版。<br>该书以中国70年代中期到80年代中期十年间为背景，通过复杂的矛盾纠葛，以孙少安和孙少平两兄弟为中心，刻画了当时社会各阶层众多普通人的形象；劳动与爱情、挫折与追求、痛苦与欢乐、日常生活与巨大社会冲突纷繁地交织在一起，深刻地展示了普通人在大时代历史进程中所走过的艰难曲折的道路。1991年3月，《平凡的世界》获中国第三届茅盾文学奖。</p>
+<p>参考：百度百科：<a href="https://baike.baidu.com/item/平凡的世界/166?fr=aladdin">https://baike.baidu.com/item/平凡的世界/166?fr=aladdin</a></p>
+<h2 id="个人观后感"><a href="#个人观后感" class="headerlink" title="个人观后感"></a>个人观后感</h2><p>阅读完本书给我的最大感受是每个人可以在书中找到自己的一个角色，作者在书中刻画了不同阶层，不同身份的人物，刻画了不同道路上的曲折。而书中的主人公孙少平正是现今的我应该去学习的，他不甘平庸，有理想，试图通过自己的努力去改变自己的人生。平凡的村子，平凡的土地，平凡的农民，平凡的爱情，平凡的亲情，平凡的一切。人生的道路，当你得到一些东西时，可能一会伴随的失去一些东西，孙少平的人生亦是如此，我们的人生也是如此。而现今的我，应该去做好一道最重要的选择题……</p>
+<blockquote>
+<p>生活不止眼前的苟且，还有诗和远方。</p>
 </blockquote>
-<h1 id="搭建ELK环境"><a href="#搭建ELK环境" class="headerlink" title="搭建ELK环境"></a>搭建ELK环境</h1><p> 在Windwos上搭建ELK环境较为麻烦，这里我选择在CentOS7 上通过Docker来搭建ELK环境。</p>
-<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><h3 id="安装Docker所需要的包"><a href="#安装Docker所需要的包" class="headerlink" title="安装Docker所需要的包"></a>安装Docker所需要的包</h3><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">yum</span> install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-<span class="class"><span class="keyword">data</span> \</span></span><br><span class="line">  lvm2</span><br></pre></td></tr></table></figure>
-<h3 id="设置稳定的仓库"><a href="#设置稳定的仓库" class="headerlink" title="设置稳定的仓库"></a>设置稳定的仓库</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https:<span class="regexp">//</span>download.docker.com<span class="regexp">/linux/</span>centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-<h3 id="安装最新版的Docker引擎"><a href="#安装最新版的Docker引擎" class="headerlink" title="安装最新版的Docker引擎"></a>安装最新版的Docker引擎</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">yum install docker-<span class="keyword">ce</span> docker-<span class="keyword">ce</span>-cli containerd.io</span><br></pre></td></tr></table></figure>
-<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> docker</span><br></pre></td></tr></table></figure>
-<h3 id="查看是否安装成功"><a href="#查看是否安装成功" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker -v</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装Docker-Compose"><a href="#安装Docker-Compose" class="headerlink" title="安装Docker Compose"></a>安装Docker Compose</h2><p> 安装好Docker后，我们接着安装Docker Compose，官方安装教程<a href="https://docs.docker.com/compose/install/，主要步骤为：">https://docs.docker.com/compose/install/，主要步骤为：</a> </p>
-<h3 id="获取Docker-Compose的最新稳定版本"><a href="#获取Docker-Compose的最新稳定版本" class="headerlink" title="获取Docker Compose的最新稳定版本"></a>获取Docker Compose的最新稳定版本</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">curl -L <span class="string">&quot;https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)&quot;</span> -o <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
-<h3 id="对二进制文件授予可执行权限"><a href="#对二进制文件授予可执行权限" class="headerlink" title="对二进制文件授予可执行权限"></a>对二进制文件授予可执行权限</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">chmod +x <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
-<h3 id="创建link"><a href="#创建link" class="headerlink" title="创建link"></a>创建link</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose <span class="regexp">/usr/</span>bin/docker-compose</span><br></pre></td></tr></table></figure>
-<h3 id="查看是否安装成功-1"><a href="#查看是否安装成功-1" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker-compose -v</span></span><br></pre></td></tr></table></figure>
-<h2 id="Docker-Compose搭建ELK"><a href="#Docker-Compose搭建ELK" class="headerlink" title="Docker Compose搭建ELK"></a>Docker Compose搭建ELK</h2><p>在搭建ELK之前，我们需要做一些准备工作。</p>
-<p>正如官方所说的那样 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：">https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：</a></p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.<span class="attribute">max_map_count</span>=262144</span><br></pre></td></tr></table></figure>
-<h3 id="创建Elasticsearch数据挂载路径"><a href="#创建Elasticsearch数据挂载路径" class="headerlink" title="创建Elasticsearch数据挂载路径"></a>创建Elasticsearch数据挂载路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elasticsearch/data</span><br></pre></td></tr></table></figure>
-<h3 id="对该路径授予777权限"><a href="#对该路径授予777权限" class="headerlink" title="对该路径授予777权限"></a>对该路径授予777权限</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">chmod <span class="number">777</span> <span class="regexp">/lxb/</span>elasticsearch/data</span><br></pre></td></tr></table></figure>
-<h3 id="创建Elasticsearch插件挂载路径"><a href="#创建Elasticsearch插件挂载路径" class="headerlink" title="创建Elasticsearch插件挂载路径"></a>创建Elasticsearch插件挂载路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elasticsearch/plugins</span><br></pre></td></tr></table></figure>
-<h3 id="创建Logstash配置文件存储路径"><a href="#创建Logstash配置文件存储路径" class="headerlink" title="创建Logstash配置文件存储路径"></a>创建Logstash配置文件存储路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>logstash</span><br></pre></td></tr></table></figure>
-<p>在该路径下创建<code>logstash-lxb.conf</code>配置文件（没有安装vim的话可以使用<code>yum install vim</code>命令安装)</p>
-<p>内容如下所示:</p>
-<figure class="highlight puppet"><table><tr><td class="code"><pre><span class="line"><span class="keyword">input</span> &#123;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    <span class="attr">mode</span> =&gt; <span class="string">&quot;server&quot;</span></span><br><span class="line">    <span class="attr">host</span> =&gt; <span class="string">&quot;0.0.0.0&quot;</span></span><br><span class="line">    <span class="attr">port</span> =&gt; <span class="number">4560</span></span><br><span class="line">    <span class="attr">codec</span> =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">output</span> &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    <span class="attr">hosts</span> =&gt; <span class="string">&quot;es:9200&quot;</span></span><br><span class="line">    <span class="attr">index</span> =&gt; <span class="string">&quot;lxb-logstash-%&#123;+YYYY.MM.dd&#125;&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="创建ELK-Docker-Compose文件存储路径"><a href="#创建ELK-Docker-Compose文件存储路径" class="headerlink" title="创建ELK Docker Compose文件存储路径"></a>创建ELK Docker Compose文件存储路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elk</span><br></pre></td></tr></table></figure>
-<p> 在该目录下创建<code>docker-compose.yml</code>文件： </p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">vim <span class="regexp">/lxb/</span>elk/docker-compose.yml</span><br></pre></td></tr></table></figure>
-<p> 内容如下所示： </p>
-<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="symbol">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="symbol">services:</span></span><br><span class="line"><span class="symbol">  elasticsearch:</span></span><br><span class="line"><span class="symbol">    image:</span> elasticsearch:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">&quot;cluster.name=elasticsearch&quot;</span> <span class="meta">#集群名称为elasticsearch</span></span><br><span class="line">      - <span class="string">&quot;discovery.type=single-node&quot;</span> <span class="meta">#单节点启动</span></span><br><span class="line">      - <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span> <span class="meta">#jvm内存分配为512MB</span></span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/plugins:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>plugins</span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/data:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>data</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">9200</span>:<span class="number">9200</span></span><br><span class="line"><span class="symbol">  kibana:</span></span><br><span class="line"><span class="symbol">    image:</span> kibana:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> kibana</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es <span class="meta">#配置elasticsearch域名为es</span></span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">&quot;elasticsearch.hosts=http://es:9200&quot;</span> <span class="meta">#因为上面配置了域名，所以这里可以简写为http:<span class="comment">//es:9200</span></span></span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">5601</span>:<span class="number">5601</span></span><br><span class="line"><span class="symbol">  logstash:</span></span><br><span class="line"><span class="symbol">    image:</span> logstash:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> logstash</span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>logstash/logstash-febs.conf:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/logstash/</span>pipeline/logstash.conf</span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">4560</span>:<span class="number">4560</span></span><br></pre></td></tr></table></figure>
-<p> 切换到<code>/lxb/elk</code>目录下，使用如下命令启动： </p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker-compose up -d</span></span><br></pre></td></tr></table></figure>
-<p> 第一次启动的时候，Docker需要拉取ELK镜像，过程可能稍慢，耐心等待即可。 </p>
-<h2 id="Logstash中安装json-lines插件"><a href="#Logstash中安装json-lines插件" class="headerlink" title="Logstash中安装json_lines插件"></a>Logstash中安装json_lines插件</h2><p> 使用如下命令进入到Logstash容器中 </p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker exec -it logstash <span class="regexp">/bin/</span>bash</span><br></pre></td></tr></table></figure>
-<p> 切换到/bin目录，安装json_lines插件，然后退出： </p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker exec -it logstash <span class="regexp">/bin/</span>bash</span><br><span class="line">cd <span class="regexp">/bin/</span></span><br><span class="line">logstash-plugin install logstash-codec-json_lines</span><br></pre></td></tr></table></figure>
-<p> 使用浏览器访问<a href="http://localhost:5601/">http://localhost:5601</a>便可以看到Kibana管理界面</p>
-<h1 id="修改微服务日志配置"><a href="#修改微服务日志配置" class="headerlink" title="修改微服务日志配置"></a>修改微服务日志配置</h1><h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.logstash.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logstash-logback-encoder<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="配置修改"><a href="#配置修改" class="headerlink" title="配置修改"></a>配置修改</h2><p> 日志配置文件<code>logback-spring.xml</code>里添加如下配置</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--输出到 logstash的 appender--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">&quot;logstash&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">destination</span>&gt;</span>192.168.33.10:4560<span class="tag">&lt;/<span class="name">destination</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">encoder</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.logstash.logback.encoder.LogstashEncoder&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"><span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">&quot;info&quot;</span>&gt;</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">&quot;logstash&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p> <code>192.168.33.10:4560</code>对应我们刚刚搭建的Logstash地址。</p>
+]]></content>
+      <categories>
+        <category>阅读</category>
+      </categories>
+      <tags>
+        <tag>观后感</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP流量控制和拥塞控制</title>
+    <url>/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/</url>
+    <content><![CDATA[<blockquote>
+<p> 流量控制和拥塞控制是TCP实现可靠传输的方法之一</p>
+</blockquote>
+<h1 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h1><h2 id="为什么要流量控制"><a href="#为什么要流量控制" class="headerlink" title="为什么要流量控制"></a>为什么要流量控制</h2><p>如果发送端的发送速度太快，会导致接收端的接收缓冲区很快的填充满了。此时如果发送端仍旧发送数据，那么接下来发送的数据都会丢包。 所谓流量控制就是让发送方发送速率不要过快，让接收方来得及接收。</p>
+<h2 id="TCP如何实现流量控制"><a href="#TCP如何实现流量控制" class="headerlink" title="TCP如何实现流量控制"></a>TCP如何实现流量控制</h2><h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>利用滑动窗口机制可以实现流量控制。</p>
+<p>原理就是<strong>运用TCP报文段中的窗口大小字段来控制，发送方的发送窗口不可以大于接收方发回的窗口大小。</strong></p>
+<p>考虑一种特殊的情况，就是接收方若没有缓存足够使用，就会发送零窗口大小的报文，此时发送放将发送窗口设置为0，停止发送数据。之后接收方有足够的缓存，发送了非零窗口大小的报文，但是这个报文在中途丢失的，那么发送方的发送窗口就一直为零导致死锁。</p>
+<p>解决这个问题，TCP为每一个连接设置一个持续计时器（persistence timer）。只要TCP的一方收到对方的零窗口通知，<strong>就启动该计时器，周期性的发送一个零窗口探测报文段。对方就在确认这个报文的时候给出现在的窗口大小（注意：</strong>TCP规定，即使设置为零窗口，接收方也必须接收以下几种报文段：零窗口探测报文段、确认报文段和携带紧急数据的报文段）。</p>
+<h1 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h1><h2 id="什么是拥塞控制"><a href="#什么是拥塞控制" class="headerlink" title="什么是拥塞控制"></a>什么是拥塞控制</h2><p>TCP传输的过程中，发送端开始发送数据的时候，<strong>如果刚开始就发送大量的数据，那么就可能造成一些问题。网络可能在开始的时候就很拥堵</strong>，如果给网络中在扔出大量数据，那么这个拥堵就会加剧。拥堵的加剧就会产生大量的丢包，就对大量的超时重传，严重影响传输。</p>
+<h2 id="TCP如何实现拥塞控制"><a href="#TCP如何实现拥塞控制" class="headerlink" title="TCP如何实现拥塞控制"></a>TCP如何实现拥塞控制</h2><h3 id="拥塞窗口"><a href="#拥塞窗口" class="headerlink" title="拥塞窗口"></a>拥塞窗口</h3><p>发送报文段速率的确定，既要根据接收端的接收能力，又要从全局考虑不要使网络发生拥塞，这由接收窗口和拥塞窗口两个状态量确定。</p>
+<p><strong>接收端窗口（Reciver Window)又称通知窗口（Advertised Window)</strong>,是接收端根据目前的接收缓存大小所许诺的最新窗口值，是来自接收端的流量控制。</p>
+<p><strong>拥塞窗口cwnd（Congestion Window)</strong>是<strong>发送端</strong>根据自己估计的网络拥塞程度而设置的窗口动态值，是来自发送端的流量控制。</p>
+<p>因特网建议标准RFC2581定义了进行拥塞控制的四种算法，即<strong>慢启动（Slow-start)，拥塞避免（Congestion Avoidance)，快重传（Fast Restrangsmit)和快恢复（Fast Recovery）</strong></p>
+<h3 id="慢启动算法和拥塞避免算法"><a href="#慢启动算法和拥塞避免算法" class="headerlink" title="慢启动算法和拥塞避免算法"></a>慢启动算法和拥塞避免算法</h3><p><img src="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/TCP流量控制和拥塞控制/微信截图_20210407134157.png" alt></p>
+<p>慢开始算法的思路就是，不要一开始就发送大量的数据，先探测一下网络的拥塞程度，也就是说由小到大逐渐增加拥塞窗口的大小。</p>
+<p>当然收到单个确认但此确认多个数据报的时候就加相应的数值。所以一次传输轮次之后拥塞窗口就加倍。这就是乘法增长，和后面的拥塞避免算法的加法增长比较。</p>
+<p>为了防止cwnd增长过大引起网络拥塞，还需设置一个慢开始门限ssthresh状态变量。ssthresh的用法如下：</p>
+<p>当cwnd&lt;ssthresh时，使用慢开始算法。</p>
+<p>当cwnd&gt;ssthresh时，改用拥塞避免算法。</p>
+<p>当cwnd=ssthresh时，慢开始与拥塞避免算法任意。</p>
+<h3 id="快重传算法和快恢复算法"><a href="#快重传算法和快恢复算法" class="headerlink" title="快重传算法和快恢复算法"></a>快重传算法和快恢复算法</h3><p> 一条TCP连接有时会因等待重传计时器的超时而空闲较长的时间，慢开始和拥塞避免无法很好的解决这类问题，因此提出了快重传和快恢复的拥塞控制方法。</p>
+<p>   <strong>快重传算法</strong>并非取消了<strong>重传机制</strong>，只是在某些情况下更早的重传丢失的报文段（如果当发送端接收到三个重复的确认ACK时，则断定分组丢失，立即重传丢失的报文段，而不必等待重传计时器超时）。</p>
+<p>   <strong>快恢复算法</strong>有以下两个要点：</p>
+<ol>
+<li><p>当发送方连续收到接收方发来的三个重复确认时，就执行“乘法减小”算法，把慢开始门限减半，这是为了预防网络发生拥塞。</p>
+</li>
+<li><p>由于发送方现在认为网络很可能没有发生拥塞，因此现在不执行慢开始算法，而是把<strong>cwnd(拥塞窗口)</strong>值设置为慢开始门限减半后的值，然后开始执行拥塞避免算法<strong>，使拥塞窗口的线性增大</strong>。</p>
+</li>
+</ol>
+<p><img src="/2021/04/07/TCP%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%92%8C%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/TCP流量控制和拥塞控制/微信截图_20210407134649.png" alt></p>
+<h1 id="TCP拥塞控制和流量控制的差别"><a href="#TCP拥塞控制和流量控制的差别" class="headerlink" title="TCP拥塞控制和流量控制的差别"></a>TCP拥塞控制和流量控制的差别</h1><ul>
+<li><p>拥塞控制就是防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载。拥塞控制所要做的都有一个前提，就是网络能承受现有的网络负荷。</p>
+</li>
+<li><p>流量控制往往指的是点对点通信量的控制，是个端到端的问题。流量控制所要做的就是控制发送端发送数据的速率，以便使接收端来得及接受。</p>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>编程</category>
       </categories>
       <tags>
-        <tag>中间件</tag>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -2371,6 +2319,58 @@
       </categories>
       <tags>
         <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用ELK做日志收集</title>
+    <url>/2020/08/31/%E4%BD%BF%E7%94%A8ELK%E5%81%9A%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/</url>
+    <content><![CDATA[<blockquote>
+<p> 微服务系统的日志都保存在各自指定的目录中，如果这些微服务部署在不同的服务器上，那么日志文件也是分散在各自的服务器上。分散的日志不利于我们快速通过日志定位问题，我们可以借助ELK来收集各个微服务系统的日志并集中展示。<br>ELK即Elasticsearch、Logstash和Kibana首字母缩写。Elasticsearch用于存储日志信息，Logstash用于收集日志，Kibana用于图形化展示。 </p>
+</blockquote>
+<h1 id="搭建ELK环境"><a href="#搭建ELK环境" class="headerlink" title="搭建ELK环境"></a>搭建ELK环境</h1><p> 在Windwos上搭建ELK环境较为麻烦，这里我选择在CentOS7 上通过Docker来搭建ELK环境。</p>
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><h3 id="安装Docker所需要的包"><a href="#安装Docker所需要的包" class="headerlink" title="安装Docker所需要的包"></a>安装Docker所需要的包</h3><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">yum</span> install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-<span class="class"><span class="keyword">data</span> \</span></span><br><span class="line">  lvm2</span><br></pre></td></tr></table></figure>
+<h3 id="设置稳定的仓库"><a href="#设置稳定的仓库" class="headerlink" title="设置稳定的仓库"></a>设置稳定的仓库</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https:<span class="regexp">//</span>download.docker.com<span class="regexp">/linux/</span>centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<h3 id="安装最新版的Docker引擎"><a href="#安装最新版的Docker引擎" class="headerlink" title="安装最新版的Docker引擎"></a>安装最新版的Docker引擎</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">yum install docker-<span class="keyword">ce</span> docker-<span class="keyword">ce</span>-cli containerd.io</span><br></pre></td></tr></table></figure>
+<h3 id="启动Docker"><a href="#启动Docker" class="headerlink" title="启动Docker"></a>启动Docker</h3><figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> docker</span><br></pre></td></tr></table></figure>
+<h3 id="查看是否安装成功"><a href="#查看是否安装成功" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker -v</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装Docker-Compose"><a href="#安装Docker-Compose" class="headerlink" title="安装Docker Compose"></a>安装Docker Compose</h2><p> 安装好Docker后，我们接着安装Docker Compose，官方安装教程<a href="https://docs.docker.com/compose/install/，主要步骤为：">https://docs.docker.com/compose/install/，主要步骤为：</a> </p>
+<h3 id="获取Docker-Compose的最新稳定版本"><a href="#获取Docker-Compose的最新稳定版本" class="headerlink" title="获取Docker Compose的最新稳定版本"></a>获取Docker Compose的最新稳定版本</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">curl -L <span class="string">&quot;https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)&quot;</span> -o <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="对二进制文件授予可执行权限"><a href="#对二进制文件授予可执行权限" class="headerlink" title="对二进制文件授予可执行权限"></a>对二进制文件授予可执行权限</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">chmod +x <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="创建link"><a href="#创建link" class="headerlink" title="创建link"></a>创建link</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose <span class="regexp">/usr/</span>bin/docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="查看是否安装成功-1"><a href="#查看是否安装成功-1" class="headerlink" title="查看是否安装成功"></a>查看是否安装成功</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker-compose -v</span></span><br></pre></td></tr></table></figure>
+<h2 id="Docker-Compose搭建ELK"><a href="#Docker-Compose搭建ELK" class="headerlink" title="Docker Compose搭建ELK"></a>Docker Compose搭建ELK</h2><p>在搭建ELK之前，我们需要做一些准备工作。</p>
+<p>正如官方所说的那样 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：">https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html，Elasticsearch默认使用mmapfs目录来存储索引。操作系统默认的mmap计数太低可能导致内存不足，我们可以使用下面这条命令来增加内存：</a></p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">sysctl -w vm.<span class="attribute">max_map_count</span>=262144</span><br></pre></td></tr></table></figure>
+<h3 id="创建Elasticsearch数据挂载路径"><a href="#创建Elasticsearch数据挂载路径" class="headerlink" title="创建Elasticsearch数据挂载路径"></a>创建Elasticsearch数据挂载路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elasticsearch/data</span><br></pre></td></tr></table></figure>
+<h3 id="对该路径授予777权限"><a href="#对该路径授予777权限" class="headerlink" title="对该路径授予777权限"></a>对该路径授予777权限</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">chmod <span class="number">777</span> <span class="regexp">/lxb/</span>elasticsearch/data</span><br></pre></td></tr></table></figure>
+<h3 id="创建Elasticsearch插件挂载路径"><a href="#创建Elasticsearch插件挂载路径" class="headerlink" title="创建Elasticsearch插件挂载路径"></a>创建Elasticsearch插件挂载路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elasticsearch/plugins</span><br></pre></td></tr></table></figure>
+<h3 id="创建Logstash配置文件存储路径"><a href="#创建Logstash配置文件存储路径" class="headerlink" title="创建Logstash配置文件存储路径"></a>创建Logstash配置文件存储路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>logstash</span><br></pre></td></tr></table></figure>
+<p>在该路径下创建<code>logstash-lxb.conf</code>配置文件（没有安装vim的话可以使用<code>yum install vim</code>命令安装)</p>
+<p>内容如下所示:</p>
+<figure class="highlight puppet"><table><tr><td class="code"><pre><span class="line"><span class="keyword">input</span> &#123;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    <span class="attr">mode</span> =&gt; <span class="string">&quot;server&quot;</span></span><br><span class="line">    <span class="attr">host</span> =&gt; <span class="string">&quot;0.0.0.0&quot;</span></span><br><span class="line">    <span class="attr">port</span> =&gt; <span class="number">4560</span></span><br><span class="line">    <span class="attr">codec</span> =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">output</span> &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    <span class="attr">hosts</span> =&gt; <span class="string">&quot;es:9200&quot;</span></span><br><span class="line">    <span class="attr">index</span> =&gt; <span class="string">&quot;lxb-logstash-%&#123;+YYYY.MM.dd&#125;&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建ELK-Docker-Compose文件存储路径"><a href="#创建ELK-Docker-Compose文件存储路径" class="headerlink" title="创建ELK Docker Compose文件存储路径"></a>创建ELK Docker Compose文件存储路径</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mkdir -p <span class="regexp">/lxb/</span>elk</span><br></pre></td></tr></table></figure>
+<p> 在该目录下创建<code>docker-compose.yml</code>文件： </p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">vim <span class="regexp">/lxb/</span>elk/docker-compose.yml</span><br></pre></td></tr></table></figure>
+<p> 内容如下所示： </p>
+<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="symbol">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="symbol">services:</span></span><br><span class="line"><span class="symbol">  elasticsearch:</span></span><br><span class="line"><span class="symbol">    image:</span> elasticsearch:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">&quot;cluster.name=elasticsearch&quot;</span> <span class="meta">#集群名称为elasticsearch</span></span><br><span class="line">      - <span class="string">&quot;discovery.type=single-node&quot;</span> <span class="meta">#单节点启动</span></span><br><span class="line">      - <span class="string">&quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span> <span class="meta">#jvm内存分配为512MB</span></span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/plugins:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>plugins</span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>elasticsearch/data:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/elasticsearch/</span>data</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">9200</span>:<span class="number">9200</span></span><br><span class="line"><span class="symbol">  kibana:</span></span><br><span class="line"><span class="symbol">    image:</span> kibana:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> kibana</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es <span class="meta">#配置elasticsearch域名为es</span></span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    environment:</span></span><br><span class="line">      - <span class="string">&quot;elasticsearch.hosts=http://es:9200&quot;</span> <span class="meta">#因为上面配置了域名，所以这里可以简写为http:<span class="comment">//es:9200</span></span></span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">5601</span>:<span class="number">5601</span></span><br><span class="line"><span class="symbol">  logstash:</span></span><br><span class="line"><span class="symbol">    image:</span> logstash:<span class="number">6.4</span><span class="number">.1</span></span><br><span class="line"><span class="symbol">    container_name:</span> logstash</span><br><span class="line"><span class="symbol">    volumes:</span></span><br><span class="line">      - <span class="meta-keyword">/lxb/</span>logstash/logstash-febs.conf:<span class="meta-keyword">/usr/</span>share<span class="meta-keyword">/logstash/</span>pipeline/logstash.conf</span><br><span class="line"><span class="symbol">    depends_on:</span></span><br><span class="line">      - elasticsearch</span><br><span class="line"><span class="symbol">    links:</span></span><br><span class="line">      - elasticsearch:es</span><br><span class="line"><span class="symbol">    ports:</span></span><br><span class="line">      - <span class="number">4560</span>:<span class="number">4560</span></span><br></pre></td></tr></table></figure>
+<p> 切换到<code>/lxb/elk</code>目录下，使用如下命令启动： </p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">docker-compose up -d</span></span><br></pre></td></tr></table></figure>
+<p> 第一次启动的时候，Docker需要拉取ELK镜像，过程可能稍慢，耐心等待即可。 </p>
+<h2 id="Logstash中安装json-lines插件"><a href="#Logstash中安装json-lines插件" class="headerlink" title="Logstash中安装json_lines插件"></a>Logstash中安装json_lines插件</h2><p> 使用如下命令进入到Logstash容器中 </p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker exec -it logstash <span class="regexp">/bin/</span>bash</span><br></pre></td></tr></table></figure>
+<p> 切换到/bin目录，安装json_lines插件，然后退出： </p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker exec -it logstash <span class="regexp">/bin/</span>bash</span><br><span class="line">cd <span class="regexp">/bin/</span></span><br><span class="line">logstash-plugin install logstash-codec-json_lines</span><br></pre></td></tr></table></figure>
+<p> 使用浏览器访问<a href="http://localhost:5601/">http://localhost:5601</a>便可以看到Kibana管理界面</p>
+<h1 id="修改微服务日志配置"><a href="#修改微服务日志配置" class="headerlink" title="修改微服务日志配置"></a>修改微服务日志配置</h1><h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.logstash.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logstash-logback-encoder<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="配置修改"><a href="#配置修改" class="headerlink" title="配置修改"></a>配置修改</h2><p> 日志配置文件<code>logback-spring.xml</code>里添加如下配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--输出到 logstash的 appender--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">&quot;logstash&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">destination</span>&gt;</span>192.168.33.10:4560<span class="tag">&lt;/<span class="name">destination</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">encoder</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.logstash.logback.encoder.LogstashEncoder&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"><span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">&quot;info&quot;</span>&gt;</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">&quot;logstash&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> <code>192.168.33.10:4560</code>对应我们刚刚搭建的Logstash地址。</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -2688,6 +2688,19 @@
       </tags>
   </entry>
   <entry>
+    <title>我的第一篇博客</title>
+    <url>/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p><strong>Hello,Blog!</strong></p>
+<p><img src="/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/我的第一篇博客/1566915522.jpg" alt="窗外的世界"></p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据库优化</title>
     <url>/2019/11/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<h1 id="什么影响了数据库性能"><a href="#什么影响了数据库性能" class="headerlink" title="什么影响了数据库性能"></a>什么影响了数据库性能</h1><ul>
@@ -2830,16 +2843,56 @@
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客</title>
-    <url>/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p><strong>Hello,Blog!</strong></p>
-<p><img src="/2019/03/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/我的第一篇博客/1566915522.jpg" alt="窗外的世界"></p>
+    <title>虚拟机字节码执行引擎</title>
+    <url>/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/</url>
+    <content><![CDATA[<blockquote>
+<p> 读《深入理解Java虚拟机》记录<br> 所谓的「虚拟机字节码执行引擎」其实就是 JVM 根据 Class 文件中给出的字节码指令，基于栈解释器的一种执行机制。通俗点来说，也就是 JVM 解析字节码指令，输出运行结果的一个过程。</p>
+</blockquote>
+<h1 id="运行时栈帧结构"><a href="#运行时栈帧结构" class="headerlink" title="运行时栈帧结构"></a>运行时栈帧结构</h1><p>详见：<a href="https://linxiaobaixcg.github.io/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/">https://linxiaobaixcg.github.io/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/</a></p>
+<h1 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h1><p><strong>Class文件的编译过程并不包含传统编译的连接阶段，Class文件中方法都是以符号引用的形式存储的，而不是方法的入口地址。这个特性使得Java具有强大的动态扩展的能力，但同时也增加了Java方法调用过程的复杂性</strong>，因为方法需要在类加载期间甚至是运行时才能确定真正的入口地址，即将符号引用转换为直接引用。</p>
+<p>这里所说的方法调用并不等同于方法执行，这个阶段的唯一目的就是确定被调用方法的版本，还不涉及方法内部的具体运行过程。对于方法的版本，需要解释的就是由于重载与多态的存在，一个符号引用可能对应多个真正的方法，这就是方法的版本。</p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>解析的过程就是在类加载过程中的解析阶段。在类加载过程中，我们知道解析阶段就是将符号引用转换为直接引用的过程，那个时候的解析阶段解析了类或接口、字段、类方法和接口方法。在这个阶段，会将Class文件中的一部分方法的符号引用解析为直接引用，这种解析能够成立的条件是，方法在程序真正运行之前就有一个可确定的调用版本，并且这个方法的电泳版本在运行期间是不变的。也就是说，调用目标在程序代码写好、编译器进行编译时就必须确定下来。</p>
+<p>在Java虚拟机中提供了5条方法调用的字节码指令，分别是：</p>
+<ul>
+<li>invokestatic：调用静态方法；</li>
+<li>invokespecial：调用实例构造器<init>方法、私有方法和父类方法；</init></li>
+<li>invokevirtual：调用所有的虚方法；</li>
+<li>invokeinterface：调用接口方法，会在运行时再确定一个实现此接口的对象；</li>
+<li>invokedynamic：先在运行时动态解析出调用点限定符所引用的方法，然后再执行该方法，在此之前的4条调用指令，分派逻辑都是固化在Java虚拟机中的，而invokedynamic指令的分派逻辑是由用户所设定的引导方法决定的。</li>
+</ul>
+<p>解析调用是一个静态的过程，在编译期间就已经完全确定，在类加载的解析阶段就会把涉及到的符号引用转化为直接引用，不会延迟到运行期再去完成。而分派调用则既可能是静态的也可能是动态的，根据分派的宗量数可以分为单分派和多分派，这两类分派方法的两两组合就构成了静态单分派、静态多分派、动态单分派和动态多分派四种。</p>
+<h2 id="分派"><a href="#分派" class="headerlink" title="分派"></a>分派</h2><p>Java是一门面向对象的语言，它具备三个主要的面向对象特征：继承、封装和多态。正是由于多态的存在，使得在判断方法调用的版本的时候会存在选择的问题，这也正是分派阶段存在的原因。这一部分会在Java虚拟机的角度介绍<strong>“重载”和“重写”的底层实现原理(重载为静态分派,也是多分派; 重写是动态分派,也是单分派)。</strong></p>
+<h2 id="静态分派"><a href="#静态分派" class="headerlink" title="静态分派"></a>静态分派</h2><p>首先看看下面这个代码，涉及到了正是继承中的重载问题。</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticDispatch</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">sayHello</span>(<span class="params">Human human</span>)</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;hello,guy!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">sayHello</span>(<span class="params">Man man</span>)</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hello,gentleman!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">sayHello</span>(<span class="params">Woman woman</span>)</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hello,lady!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">main</span>(<span class="params"><span class="built_in">String</span>[] args</span>)</span> &#123;</span><br><span class="line">		Human man=<span class="keyword">new</span> Man();</span><br><span class="line">		Human woman=<span class="keyword">new</span> Woman();</span><br><span class="line">		StaticDispatch sr=<span class="keyword">new</span> StaticDispatch();</span><br><span class="line">		sr.sayHello(man);</span><br><span class="line">		sr.sayHello(woman);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<p>hello,guy!<br>hello,guy!</p>
+<p>这是考察多态的经典问题。要想了解这个问题的本质，需要知道这两个概念：静态类型和实际类型。</p>
+<p>什么是静态类型？静态类型可以理解为变量声明的类型，比如上面的man这个变量，它的静态类型就是Human。而实际类型就是创建这个对象的类型，man这个变量的实际类型就是Man。这两种类型在程序中都可以发生一些变化，区别是静态类型的变化仅仅在使用时发生，变量本身的静态类型不会发生变化，并且最终的静态类型是编译期间可知的。而实际类型变化的结果在运行期才可以确定，编译器在编译程序时并不知道一个对象的实际类型是什么。</p>
+<h2 id="动态分派"><a href="#动态分派" class="headerlink" title="动态分派"></a>动态分派</h2><p>在了解了静态分派后，再看看动态分派的过程，它和多态性的另一个重要的特性重写有关。下面用一个例子来介绍，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDispatch</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Hello gentleman&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Hello lady&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Human man=<span class="keyword">new</span> Man();</span><br><span class="line">		Human woman=<span class="keyword">new</span> Woman();</span><br><span class="line">		man.sayHello();</span><br><span class="line">		woman.sayHello();</span><br><span class="line">		man=<span class="keyword">new</span> Woman();</span><br><span class="line">		man.sayHello();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p>Hello gentleman<br>Hello lady<br>Hello lady</p>
+<p>这个结果对于熟悉Java面向对象编程的人来说都不陌生。这里要说明的是，虚拟机是如何知道要调用哪个版本的。</p>
+<p>显然这不是根据静态类型决定的，因为两个对象的静态类型都是Human。但是调用的结果却不同，这是因为这两个对象的实际类型不同。所以，Java虚拟机是通过实际类型来判断要调用方法的版本的。</p>
+<h2 id="单分派与多分派"><a href="#单分派与多分派" class="headerlink" title="单分派与多分派"></a>单分派与多分派</h2><p>方法的接收者与方法的参数统称为方法的宗量。根据分派基于多少种宗量，可以将分派划分为单分派和多分派两种。单分派是根据一个宗量对目标方法进行选择，多分派则是基于多个宗量。</p>
+<p>下面以一个例子介绍一下单分派或多分派，代码如下：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dispatch</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Pepsi</span></span>&#123;&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Coca</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">like</span>(<span class="params">Pepsi p</span>)</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Father likes pepsi&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">like</span>(<span class="params">Coca c</span>)</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Father likes coca&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">like</span>(<span class="params">Pepsi p</span>)</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Son likes pepsi&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">like</span>(<span class="params">Coca c</span>)</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Son likes coca&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">main</span>(<span class="params"><span class="built_in">String</span>[] args</span>)</span> &#123;</span><br><span class="line">		Father father=<span class="keyword">new</span> Father();</span><br><span class="line">		Son son=<span class="keyword">new</span> Son();</span><br><span class="line">		father.like(<span class="keyword">new</span> Coca());</span><br><span class="line">		son.like(<span class="keyword">new</span> Pepsi());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p>Father likes coca<br>Son likes pepsi</p>
+<p>这个结果没有什么意外的地方，主要是看一下虚拟机是如何确定方法调用的版本的。</p>
+<p>先看看静态分派过程，这个时候选择的依据有两个：静态类型是Father还是Son，方法参数是Pepsi还是Coca。这次选择产生了两个invokevirtual指令，两条指令的参数分别为常量池中指向Father.like(Coca)和Father.like(Pepsi)方法的符号引用。因为是根据两个宗量进行选择，所以Java语言的静态分派属于多分派类型。</p>
+<p>然后看看运行时虚拟机的选择，即动态分派过程。在执行son.like(new Pepsi())时，也就是说在执行invokevirtual指令时，由于编译期间已经决定目标方法的签名必须是like(Pepsi)，虚拟机此时不会关心传递过来的参数是什么，因为这时参数的静态类型、实际类型都对方法的选择不会构成影响，唯一有影响的就是方法的接收者的实际类型是Father还是Son。因为只有一个宗量，所以Java的动态分派属于单分派。</p>
+<h2 id="虚拟机动态分派的实现"><a href="#虚拟机动态分派的实现" class="headerlink" title="虚拟机动态分派的实现"></a>虚拟机动态分派的实现</h2><p>由于动态分派是非常频繁的操作，而且动态分派的方法版本选择过程需要运行时在类的方法元数据中搜索合适的目标方法，因此虚拟机会进行优化。常用的方法就是为类在方法区中建立一个虚方法表（Virtual Method Table，在invokeinterface执行时也会用到接口方法表，Interface Method Table），使用虚方法表索引来替代元数据查找以提升性能。下图就是前面代码的虚方法表结构：<br><img src="/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/虚拟机字节码执行引擎/20160606200822089.png" alt="20160606200822089"></p>
+<p>虚方法表中存放着各个方法的实际入口地址。如果某个方法在子类中没有被重写，那子类的虚方法表里面的地址入口和父类相同方法的地址入口是一致的，都指向父类的实现入口。如果子类重写了父类的方法，子类方法表中的地址会替换为指向子类实现版本的入口地址。在上图中，Son重写了Father的全部方法，所以Son的方法表替换了父类的地址。但是Son和Father都没有重写Object的方法，所以方法表都指向了Object的数据类型。</p>
+<p>为了程序实现上的方便，具有相同签名的方法，在父类和子类的虚方法表中都应该具有一样的索引号，这样当类型变换时，仅仅需要变更查找的方法表，就可以从不同的虚方法表中按索引转换出所需的入口地址。</p>
+<p>方法表一般在类加载的连接阶段进行初始化，准备了类的变量初始值后，虚拟机会把该类的方法表也初始化完毕。</p>
 ]]></content>
       <categories>
-        <category>博客</category>
+        <category>编程</category>
       </categories>
       <tags>
-        <tag>blog</tag>
+        <tag>技术书籍</tag>
+        <tag>JVM</tag>
       </tags>
   </entry>
   <entry>
@@ -3072,59 +3125,6 @@
       </tags>
   </entry>
   <entry>
-    <title>虚拟机字节码执行引擎</title>
-    <url>/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/</url>
-    <content><![CDATA[<blockquote>
-<p> 读《深入理解Java虚拟机》记录<br> 所谓的「虚拟机字节码执行引擎」其实就是 JVM 根据 Class 文件中给出的字节码指令，基于栈解释器的一种执行机制。通俗点来说，也就是 JVM 解析字节码指令，输出运行结果的一个过程。</p>
-</blockquote>
-<h1 id="运行时栈帧结构"><a href="#运行时栈帧结构" class="headerlink" title="运行时栈帧结构"></a>运行时栈帧结构</h1><p>详见：<a href="https://linxiaobaixcg.github.io/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/">https://linxiaobaixcg.github.io/2020/10/29/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F/</a></p>
-<h1 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h1><p><strong>Class文件的编译过程并不包含传统编译的连接阶段，Class文件中方法都是以符号引用的形式存储的，而不是方法的入口地址。这个特性使得Java具有强大的动态扩展的能力，但同时也增加了Java方法调用过程的复杂性</strong>，因为方法需要在类加载期间甚至是运行时才能确定真正的入口地址，即将符号引用转换为直接引用。</p>
-<p>这里所说的方法调用并不等同于方法执行，这个阶段的唯一目的就是确定被调用方法的版本，还不涉及方法内部的具体运行过程。对于方法的版本，需要解释的就是由于重载与多态的存在，一个符号引用可能对应多个真正的方法，这就是方法的版本。</p>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>解析的过程就是在类加载过程中的解析阶段。在类加载过程中，我们知道解析阶段就是将符号引用转换为直接引用的过程，那个时候的解析阶段解析了类或接口、字段、类方法和接口方法。在这个阶段，会将Class文件中的一部分方法的符号引用解析为直接引用，这种解析能够成立的条件是，方法在程序真正运行之前就有一个可确定的调用版本，并且这个方法的电泳版本在运行期间是不变的。也就是说，调用目标在程序代码写好、编译器进行编译时就必须确定下来。</p>
-<p>在Java虚拟机中提供了5条方法调用的字节码指令，分别是：</p>
-<ul>
-<li>invokestatic：调用静态方法；</li>
-<li>invokespecial：调用实例构造器<init>方法、私有方法和父类方法；</init></li>
-<li>invokevirtual：调用所有的虚方法；</li>
-<li>invokeinterface：调用接口方法，会在运行时再确定一个实现此接口的对象；</li>
-<li>invokedynamic：先在运行时动态解析出调用点限定符所引用的方法，然后再执行该方法，在此之前的4条调用指令，分派逻辑都是固化在Java虚拟机中的，而invokedynamic指令的分派逻辑是由用户所设定的引导方法决定的。</li>
-</ul>
-<p>解析调用是一个静态的过程，在编译期间就已经完全确定，在类加载的解析阶段就会把涉及到的符号引用转化为直接引用，不会延迟到运行期再去完成。而分派调用则既可能是静态的也可能是动态的，根据分派的宗量数可以分为单分派和多分派，这两类分派方法的两两组合就构成了静态单分派、静态多分派、动态单分派和动态多分派四种。</p>
-<h2 id="分派"><a href="#分派" class="headerlink" title="分派"></a>分派</h2><p>Java是一门面向对象的语言，它具备三个主要的面向对象特征：继承、封装和多态。正是由于多态的存在，使得在判断方法调用的版本的时候会存在选择的问题，这也正是分派阶段存在的原因。这一部分会在Java虚拟机的角度介绍<strong>“重载”和“重写”的底层实现原理(重载为静态分派,也是多分派; 重写是动态分派,也是单分派)。</strong></p>
-<h2 id="静态分派"><a href="#静态分派" class="headerlink" title="静态分派"></a>静态分派</h2><p>首先看看下面这个代码，涉及到了正是继承中的重载问题。</p>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticDispatch</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">sayHello</span>(<span class="params">Human human</span>)</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;hello,guy!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">sayHello</span>(<span class="params">Man man</span>)</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hello,gentleman!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">sayHello</span>(<span class="params">Woman woman</span>)</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hello,lady!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">main</span>(<span class="params"><span class="built_in">String</span>[] args</span>)</span> &#123;</span><br><span class="line">		Human man=<span class="keyword">new</span> Man();</span><br><span class="line">		Human woman=<span class="keyword">new</span> Woman();</span><br><span class="line">		StaticDispatch sr=<span class="keyword">new</span> StaticDispatch();</span><br><span class="line">		sr.sayHello(man);</span><br><span class="line">		sr.sayHello(woman);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果如下：</p>
-<p>hello,guy!<br>hello,guy!</p>
-<p>这是考察多态的经典问题。要想了解这个问题的本质，需要知道这两个概念：静态类型和实际类型。</p>
-<p>什么是静态类型？静态类型可以理解为变量声明的类型，比如上面的man这个变量，它的静态类型就是Human。而实际类型就是创建这个对象的类型，man这个变量的实际类型就是Man。这两种类型在程序中都可以发生一些变化，区别是静态类型的变化仅仅在使用时发生，变量本身的静态类型不会发生变化，并且最终的静态类型是编译期间可知的。而实际类型变化的结果在运行期才可以确定，编译器在编译程序时并不知道一个对象的实际类型是什么。</p>
-<h2 id="动态分派"><a href="#动态分派" class="headerlink" title="动态分派"></a>动态分派</h2><p>在了解了静态分派后，再看看动态分派的过程，它和多态性的另一个重要的特性重写有关。下面用一个例子来介绍，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDispatch</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Hello gentleman&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Human</span></span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Hello lady&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Human man=<span class="keyword">new</span> Man();</span><br><span class="line">		Human woman=<span class="keyword">new</span> Woman();</span><br><span class="line">		man.sayHello();</span><br><span class="line">		woman.sayHello();</span><br><span class="line">		man=<span class="keyword">new</span> Woman();</span><br><span class="line">		man.sayHello();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果如下：</p>
-<p>Hello gentleman<br>Hello lady<br>Hello lady</p>
-<p>这个结果对于熟悉Java面向对象编程的人来说都不陌生。这里要说明的是，虚拟机是如何知道要调用哪个版本的。</p>
-<p>显然这不是根据静态类型决定的，因为两个对象的静态类型都是Human。但是调用的结果却不同，这是因为这两个对象的实际类型不同。所以，Java虚拟机是通过实际类型来判断要调用方法的版本的。</p>
-<h2 id="单分派与多分派"><a href="#单分派与多分派" class="headerlink" title="单分派与多分派"></a>单分派与多分派</h2><p>方法的接收者与方法的参数统称为方法的宗量。根据分派基于多少种宗量，可以将分派划分为单分派和多分派两种。单分派是根据一个宗量对目标方法进行选择，多分派则是基于多个宗量。</p>
-<p>下面以一个例子介绍一下单分派或多分派，代码如下：</p>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dispatch</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Pepsi</span></span>&#123;&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Coca</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">like</span>(<span class="params">Pepsi p</span>)</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Father likes pepsi&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">like</span>(<span class="params">Coca c</span>)</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Father likes coca&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">like</span>(<span class="params">Pepsi p</span>)</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Son likes pepsi&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">like</span>(<span class="params">Coca c</span>)</span>&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;Son likes coca&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">void</span> <span class="function"><span class="title">main</span>(<span class="params"><span class="built_in">String</span>[] args</span>)</span> &#123;</span><br><span class="line">		Father father=<span class="keyword">new</span> Father();</span><br><span class="line">		Son son=<span class="keyword">new</span> Son();</span><br><span class="line">		father.like(<span class="keyword">new</span> Coca());</span><br><span class="line">		son.like(<span class="keyword">new</span> Pepsi());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果如下：</p>
-<p>Father likes coca<br>Son likes pepsi</p>
-<p>这个结果没有什么意外的地方，主要是看一下虚拟机是如何确定方法调用的版本的。</p>
-<p>先看看静态分派过程，这个时候选择的依据有两个：静态类型是Father还是Son，方法参数是Pepsi还是Coca。这次选择产生了两个invokevirtual指令，两条指令的参数分别为常量池中指向Father.like(Coca)和Father.like(Pepsi)方法的符号引用。因为是根据两个宗量进行选择，所以Java语言的静态分派属于多分派类型。</p>
-<p>然后看看运行时虚拟机的选择，即动态分派过程。在执行son.like(new Pepsi())时，也就是说在执行invokevirtual指令时，由于编译期间已经决定目标方法的签名必须是like(Pepsi)，虚拟机此时不会关心传递过来的参数是什么，因为这时参数的静态类型、实际类型都对方法的选择不会构成影响，唯一有影响的就是方法的接收者的实际类型是Father还是Son。因为只有一个宗量，所以Java的动态分派属于单分派。</p>
-<h2 id="虚拟机动态分派的实现"><a href="#虚拟机动态分派的实现" class="headerlink" title="虚拟机动态分派的实现"></a>虚拟机动态分派的实现</h2><p>由于动态分派是非常频繁的操作，而且动态分派的方法版本选择过程需要运行时在类的方法元数据中搜索合适的目标方法，因此虚拟机会进行优化。常用的方法就是为类在方法区中建立一个虚方法表（Virtual Method Table，在invokeinterface执行时也会用到接口方法表，Interface Method Table），使用虚方法表索引来替代元数据查找以提升性能。下图就是前面代码的虚方法表结构：<br><img src="/2020/12/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/虚拟机字节码执行引擎/20160606200822089.png" alt="20160606200822089"></p>
-<p>虚方法表中存放着各个方法的实际入口地址。如果某个方法在子类中没有被重写，那子类的虚方法表里面的地址入口和父类相同方法的地址入口是一致的，都指向父类的实现入口。如果子类重写了父类的方法，子类方法表中的地址会替换为指向子类实现版本的入口地址。在上图中，Son重写了Father的全部方法，所以Son的方法表替换了父类的地址。但是Son和Father都没有重写Object的方法，所以方法表都指向了Object的数据类型。</p>
-<p>为了程序实现上的方便，具有相同签名的方法，在父类和子类的虚方法表中都应该具有一样的索引号，这样当类型变换时，仅仅需要变更查找的方法表，就可以从不同的虚方法表中按索引转换出所需的入口地址。</p>
-<p>方法表一般在类加载的连接阶段进行初始化，准备了类的变量初始值后，虚拟机会把该类的方法表也初始化完毕。</p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>技术书籍</tag>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>虚拟机类加载机制</title>
     <url>/2020/12/08/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<blockquote>
@@ -3286,27 +3286,6 @@
       </tags>
   </entry>
   <entry>
-    <title>解读SPDY协议</title>
-    <url>/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。</p>
-<ul>
-<li>注：该协议已弃用，可探究其特性和其底层原理进行学习<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1></li>
-<li>单个TCP连接支持并发的HTTP请求。</li>
-<li>压缩报头和去掉不必要的头部来减少当前HTTP使用的带宽。</li>
-<li>定义一个容易实现，在服务器端高效率的协议。通过减少边缘情况、定义易解析的消息格式来减少HTTP的复杂性。</li>
-<li>强制使用SSL，让SSL协议在现存的网络设施下有更好的安全性和兼容性。</li>
-<li>允许服务器在需要时发起对客户端的连接并推送数据。</li>
-</ul>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>SSL层上增加SPDY会话层<br><img src="/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png" alt="SPDY原理图"></p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>软件系统中常见的加密算法和实现</title>
     <url>/2020/10/10/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<blockquote>
@@ -3446,6 +3425,27 @@
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解读SPDY协议</title>
+    <url>/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>SPDY（读作“SPeeDY”）是Google开发的基于TCP的会话层协议，用以最小化网络延迟，提升网络速度，优化用户的网络使用体验。它是对HTTP协议的增强。新协议的功能包括数据流的多路复用、请求优先级以及HTTP报头压缩。SPDY协议类似于HTTP，但旨在缩短网页的加载时间和提高安全性。SPDY协议通过压缩、多路复用和优先级来缩短加载时间。</p>
+<ul>
+<li>注：该协议已弃用，可探究其特性和其底层原理进行学习<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1></li>
+<li>单个TCP连接支持并发的HTTP请求。</li>
+<li>压缩报头和去掉不必要的头部来减少当前HTTP使用的带宽。</li>
+<li>定义一个容易实现，在服务器端高效率的协议。通过减少边缘情况、定义易解析的消息格式来减少HTTP的复杂性。</li>
+<li>强制使用SSL，让SSL协议在现存的网络设施下有更好的安全性和兼容性。</li>
+<li>允许服务器在需要时发起对客户端的连接并推送数据。</li>
+</ul>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>SSL层上增加SPDY会话层<br><img src="/2019/08/26/%E8%A7%A3%E8%AF%BBSPDY%E5%8D%8F%E8%AE%AE/解读SPDY协议/d000baa1cd11728b46037ae3cafcc3cec2fd2cc0.png" alt="SPDY原理图"></p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
 </search>
