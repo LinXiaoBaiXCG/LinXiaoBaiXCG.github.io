@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2021-11-20T15:34:50.000Z</updated>
+  <updated>2022-01-26T15:01:32.634Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>选择Undertow替代Tomcat</title>
+    <link href="https://linxiaobaixcg.github.io/2022/01/25/%E9%80%89%E6%8B%A9Undertow%E6%9B%BF%E4%BB%A3Tomcat/"/>
+    <id>https://linxiaobaixcg.github.io/2022/01/25/选择Undertow替代Tomcat/</id>
+    <published>2022-01-25T12:00:00.000Z</published>
+    <updated>2022-01-26T15:01:32.634Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 一个更适合高并发系统的Web服务器&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt; Spring Boot支持三个内
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Spring集合" scheme="https://linxiaobaixcg.github.io/tags/Spring%E9%9B%86%E5%90%88/"/>
+    
+  </entry>
   
   <entry>
     <title>Netty核心组件介绍</title>
@@ -497,32 +523,6 @@
     
     
       <category term="工具" scheme="https://linxiaobaixcg.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TCP粘包拆包及解决方法</title>
-    <link href="https://linxiaobaixcg.github.io/2020/02/11/TCP%E7%B2%98%E5%8C%85%E6%8B%86%E5%8C%85%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
-    <id>https://linxiaobaixcg.github.io/2020/02/11/TCP粘包拆包及解决方法/</id>
-    <published>2020-02-11T12:00:00.000Z</published>
-    <updated>2022-01-20T17:48:49.119Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;粘包拆包问题是处于网络比较底层的问题，在数据链路层、网络层以及传输层都有可能发生。我们日常的网络应用开发大都在传输层进行，由于UDP有消息保护边界，不会发生粘包拆包问题，因此粘包拆包问题只发生在TCP协议中。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
