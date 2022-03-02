@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>MySQL中，22个写SQL的好习惯 | Mr.Lin&#39;s blog</title>
+  <meta name="description" content="好习惯，利己利他。  写完SQL先explain查看执行计划（SQL性能优化）日常开发写SQL的时候，尽量养成这个好习惯呀：写完SQL后，用explain分析一下，尤其注意走不走索引。 1explain select * from user where userid &#x3D;10086 or age &#x3D;18;  操作delete或者update语句，加个limit(SQL后悔药）在执行删除或者更新语">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL中，22个写SQL的好习惯">
+<meta property="og:url" content="https://linxiaobaixcg.github.io/2022/03/02/MySQL%E4%B8%AD%EF%BC%8C22%E4%B8%AA%E5%86%99SQL%E7%9A%84%E5%A5%BD%E4%B9%A0%E6%83%AF/index.html">
+<meta property="og:site_name" content="LinChuangQiong&#39;s Blog">
+<meta property="og:description" content="好习惯，利己利他。  写完SQL先explain查看执行计划（SQL性能优化）日常开发写SQL的时候，尽量养成这个好习惯呀：写完SQL后，用explain分析一下，尤其注意走不走索引。 1explain select * from user where userid &#x3D;10086 or age &#x3D;18;  操作delete或者update语句，加个limit(SQL后悔药）在执行删除或者更新语">
+<meta property="og:locale">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/758773bfbe904d5ba801bc83d81a6bbc~tplv-k3u1fbpfcp-watermark.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e14bfc881f21454ca40981b777f56e3e~tplv-k3u1fbpfcp-watermark.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a71648ba03c4f0fa6772a3c03cd99f2~tplv-k3u1fbpfcp-watermark.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1320d5f64b2640ff8221251505cacf14~tplv-k3u1fbpfcp-watermark.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/480d9d01a71c40228696fd22850e111d~tplv-k3u1fbpfcp-watermark.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/17ad6b34e5a646028d9a086fd7ef7db0~tplv-k3u1fbpfcp-watermark.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4bae5bd0b3564484b18e6f145ff65fd6~tplv-k3u1fbpfcp-watermark.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/07bd6e743d974638a70c2db91c6cc9f2~tplv-k3u1fbpfcp-watermark.awebp">
+<meta property="article:published_time" content="2022-03-02T12:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-02T03:05:20.000Z">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/758773bfbe904d5ba801bc83d81a6bbc~tplv-k3u1fbpfcp-watermark.awebp">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://linxiaobaixcg.github.io/2022/03/02/MySQL%E4%B8%AD%EF%BC%8C22%E4%B8%AA%E5%86%99SQL%E7%9A%84%E5%A5%BD%E4%B9%A0%E6%83%AF/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="LinChuangQiong&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/linxiaobaixcg" target="_blank">
+          <img class="img-circle img-rotate" src="https://file.xiaoyanyixia.com/user/avatar/70eff35453784cec951870789bec2bf0-avatar-1623919632649.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Mr.Lin</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Java Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%98%85%E8%AF%BB/">阅读</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring%E9%9B%86%E5%90%88/" rel="tag">Spring集合</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" rel="tag">技术书籍</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag">网络编程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" rel="tag">观后感</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a><span class="tag-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DevOps/" style="font-size: 13px;">DevOps</a> <a href="/tags/JVM/" style="font-size: 13.5px;">JVM</a> <a href="/tags/Spring%E9%9B%86%E5%90%88/" style="font-size: 13.83px;">Spring集合</a> <a href="/tags/blog/" style="font-size: 13px;">blog</a> <a href="/tags/java/" style="font-size: 13.83px;">java</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 13.67px;">中间件</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 13.17px;">分布式</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13px;">前端</a> <a href="/tags/%E5%AE%89%E5%85%A8/" style="font-size: 13px;">安全</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 13px;">并发</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D/" style="font-size: 14px;">技术书籍</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 13.67px;">数据库</a> <a href="/tags/%E6%A1%86%E6%9E%B6/" style="font-size: 13.17px;">框架</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 13px;">网络编程</a> <a href="/tags/%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 13.17px;">观后感</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px;">计算机网络</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2022/03/02/MySQL%E4%B8%AD%EF%BC%8C22%E4%B8%AA%E5%86%99SQL%E7%9A%84%E5%A5%BD%E4%B9%A0%E6%83%AF/" class="title">MySQL中，22个写SQL的好习惯</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-03-02T12:00:00.000Z" itemprop="datePublished">2022-03-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2022/01/25/%E9%80%89%E6%8B%A9Undertow%E6%9B%BF%E4%BB%A3Tomcat/" class="title">选择Undertow替代Tomcat</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-01-25T12:00:00.000Z" itemprop="datePublished">2022-01-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/17/Netty%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="title">Netty核心组件介绍</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-17T12:00:00.000Z" itemprop="datePublished">2021-05-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/05/02/%E4%BD%BF%E7%94%A8Docker%E6%90%AD%E5%BB%BAMongoDB%E5%89%AF%E6%9C%AC%E9%9B%86/" class="title">使用Docker搭建MongoDB副本集</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-05-02T12:00:00.000Z" itemprop="datePublished">2021-05-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/24/TCP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="title">TCP的三次握手和四次挥手</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-24T12:00:00.000Z" itemprop="datePublished">2021-04-24</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-MySQL中，22个写SQL的好习惯" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL中，22个写SQL的好习惯
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2022/03/02/MySQL%E4%B8%AD%EF%BC%8C22%E4%B8%AA%E5%86%99SQL%E7%9A%84%E5%A5%BD%E4%B9%A0%E6%83%AF/" class="article-date">
+	  <time datetime="2022-03-02T12:00:00.000Z" itemprop="datePublished">2022-03-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/03/02/MySQL%E4%B8%AD%EF%BC%8C22%E4%B8%AA%E5%86%99SQL%E7%9A%84%E5%A5%BD%E4%B9%A0%E6%83%AF/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 2.2k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 8(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p> 好习惯，利己利他。</p>
+</blockquote>
+<h1 id="写完SQL先explain查看执行计划（SQL性能优化）"><a href="#写完SQL先explain查看执行计划（SQL性能优化）" class="headerlink" title="写完SQL先explain查看执行计划（SQL性能优化）"></a>写完SQL先explain查看执行计划（SQL性能优化）</h1><p>日常开发写SQL的时候，尽量养成这个好习惯呀：写完SQL后，用explain分析一下，尤其注意走不走索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> userid <span class="operator">=</span><span class="number">10086</span> <span class="keyword">or</span> age <span class="operator">=</span><span class="number">18</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/758773bfbe904d5ba801bc83d81a6bbc~tplv-k3u1fbpfcp-watermark.awebp" alt="img"></p>
+<h1 id="操作delete或者update语句，加个limit-SQL后悔药）"><a href="#操作delete或者update语句，加个limit-SQL后悔药）" class="headerlink" title="操作delete或者update语句，加个limit(SQL后悔药）"></a>操作delete或者update语句，加个limit(SQL后悔药）</h1><p>在执行删除或者更新语句，尽量加上limit，以下面的这条 SQL 为例吧：</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> euser <span class="keyword">where</span> age &gt; <span class="number">30</span> <span class="keyword">limit</span> <span class="number">200</span>;</span><br></pre></td></tr></table></figure>
+<p>因为加了limit 主要有这些好处：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e14bfc881f21454ca40981b777f56e3e~tplv-k3u1fbpfcp-watermark.awebp" alt="img"></p>
+<ul>
+<li><strong>降低写错SQL的代价</strong>, 你在命令行执行这个SQL的时候，如果不加limit，执行的时候一个<strong>不小心手抖</strong>，可能数据全删掉了，如果<strong>删错</strong>了呢？加了limit 200，就不一样了。删错也只是丢失200条数据，可以通过binlog日志快速恢复的。</li>
+<li><strong>SQL效率很可能更高</strong>，你在SQL行中，加了limit 1，如果第一条就命中目标return， 没有limit的话，还会继续执行扫描表。</li>
+<li><strong>避免了长事务</strong>，delete执行时,如果age加了索引，MySQL会将所有相关的行加写锁和间隙锁，所有执行相关行会被锁住，如果删除数量大，会直接影响相关业务无法使用。</li>
+<li><strong>数据量大的话，容易把CPU打满</strong> ,如果你删除数据量很大时，不加 limit限制一下记录数，容易把cpu打满，导致越删越慢的。</li>
+</ul>
+<h1 id="设计表的时候，所有表和字段都添加相应的注释（SQL规范优雅）"><a href="#设计表的时候，所有表和字段都添加相应的注释（SQL规范优雅）" class="headerlink" title="设计表的时候，所有表和字段都添加相应的注释（SQL规范优雅）"></a>设计表的时候，所有表和字段都添加相应的注释（SQL规范优雅）</h1><p>这个好习惯一定要养成啦，设计数据库表的时候，所有表和字段都添加相应的注释，后面更容易维护。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `account` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT &#x27;主键Id&#x27;,</span><br><span class="line">  `name` varchar(255) DEFAULT NULL COMMENT &#x27;账户名&#x27;,</span><br><span class="line">  `balance` int(11) DEFAULT NULL COMMENT &#x27;余额&#x27;,</span><br><span class="line">  `create_time` datetime NOT NULL COMMENT &#x27;创建时间&#x27;,</span><br><span class="line">  `update_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT &#x27;更新时间&#x27;,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  KEY `idx_name` (`name`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=1570068 DEFAULT CHARSET=utf8 ROW_FORMAT=REDUNDANT COMMENT=&#x27;账户表&#x27;;</span><br></pre></td></tr></table></figure>
+<p><strong>反例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `account` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `name` varchar(255) DEFAULT NULL,</span><br><span class="line">  `balance` int(11) DEFAULT NULL,</span><br><span class="line">  `create_time` datetime NOT NULL ,</span><br><span class="line">  `update_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  KEY `idx_name` (`name`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=1570068 DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<h1 id="SQL书写格式，关键字大小保持一致，使用缩进。（SQL规范优雅）"><a href="#SQL书写格式，关键字大小保持一致，使用缩进。（SQL规范优雅）" class="headerlink" title="SQL书写格式，关键字大小保持一致，使用缩进。（SQL规范优雅）"></a>SQL书写格式，关键字大小保持一致，使用缩进。（SQL规范优雅）</h1><p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> stu.name, <span class="built_in">sum</span>(stu.score)</span><br><span class="line"><span class="keyword">FROM</span> Student stu</span><br><span class="line"><span class="keyword">WHERE</span> stu.classNo <span class="operator">=</span> <span class="string">&#x27;1班&#x27;</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> stu.name</span><br></pre></td></tr></table></figure>
+<p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> stu.name, <span class="built_in">sum</span>(stu.score) <span class="keyword">from</span> Student stu <span class="keyword">WHERE</span> stu.classNo <span class="operator">=</span> <span class="string">&#x27;1班&#x27;</span> <span class="keyword">group</span> <span class="keyword">by</span> stu.name</span><br></pre></td></tr></table></figure>
+<p>显然，统一关键字大小写一致，使用缩进对齐，会使你的SQL看起来更优雅~</p>
+<h1 id="INSERT语句标明对应的字段名称（SQL规范优雅）"><a href="#INSERT语句标明对应的字段名称（SQL规范优雅）" class="headerlink" title="INSERT语句标明对应的字段名称（SQL规范优雅）"></a>INSERT语句标明对应的字段名称（SQL规范优雅）</h1><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Student <span class="keyword">values</span> (<span class="string">&#x27;666&#x27;</span>,<span class="string">&#x27;捡田螺的小男孩&#x27;</span>,<span class="string">&#x27;100&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Student(student_id,name,score) <span class="keyword">values</span> (<span class="string">&#x27;666&#x27;</span>,<span class="string">&#x27;捡田螺的小男孩&#x27;</span>,<span class="string">&#x27;100&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="变更SQL操作先在测试环境执行，写明详细的操作步骤以及回滚方案，并在上生产前review。（SQL后悔药）"><a href="#变更SQL操作先在测试环境执行，写明详细的操作步骤以及回滚方案，并在上生产前review。（SQL后悔药）" class="headerlink" title="变更SQL操作先在测试环境执行，写明详细的操作步骤以及回滚方案，并在上生产前review。（SQL后悔药）"></a>变更SQL操作先在测试环境执行，写明详细的操作步骤以及回滚方案，并在上生产前review。（SQL后悔药）</h1><ul>
+<li>变更SQL操作先在测试环境测试，避免有语法错误就放到生产上了。</li>
+<li>变更Sql操作需要写明详细操作步骤，尤其有依赖关系的时候，如：先修改表结构再补充对应的数据。</li>
+<li>变更Sql操作有回滚方案，并在上生产前，review对应变更SQL。</li>
+</ul>
+<h1 id="设计数据库表的时候，加上三个字段：主键，create-time-update-time。（SQL规范优雅）"><a href="#设计数据库表的时候，加上三个字段：主键，create-time-update-time。（SQL规范优雅）" class="headerlink" title="设计数据库表的时候，加上三个字段：主键，create_time,update_time。（SQL规范优雅）"></a>设计数据库表的时候，加上三个字段：主键，create_time,update_time。（SQL规范优雅）</h1><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `account` (</span><br><span class="line">  `name` <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;账户名&#x27;</span>,</span><br><span class="line">  `balance` <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;余额&#x27;</span>,</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB AUTO_INCREMENT<span class="operator">=</span><span class="number">1570068</span> <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8 ROW_FORMAT<span class="operator">=</span>REDUNDANT COMMENT<span class="operator">=</span><span class="string">&#x27;账户表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `account` (</span><br><span class="line">  `id` <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT COMMENT <span class="string">&#x27;主键Id&#x27;</span>,</span><br><span class="line">  `name` <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;账户名&#x27;</span>,</span><br><span class="line">  `balance` <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;余额&#x27;</span>,</span><br><span class="line">  `create_time` datetime <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;创建时间&#x27;</span>,</span><br><span class="line">  `update_time` datetime <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">ON</span> UPDATE <span class="built_in">CURRENT_TIMESTAMP</span> COMMENT <span class="string">&#x27;更新时间&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`),</span><br><span class="line">  KEY `idx_name` (`name`) <span class="keyword">USING</span> BTREE</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB AUTO_INCREMENT<span class="operator">=</span><span class="number">1570068</span> <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8 ROW_FORMAT<span class="operator">=</span>REDUNDANT COMMENT<span class="operator">=</span><span class="string">&#x27;账户表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>理由：</p>
+<ul>
+<li>主键一定要加上的，没有主键的表是没有灵魂的</li>
+<li>创建时间和更新时间的话，还是建议加上吧，详细审计、跟踪记录，都是有用的。</li>
+</ul>
+<p>阿里开发手册也提到这个点，如图 <img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a71648ba03c4f0fa6772a3c03cd99f2~tplv-k3u1fbpfcp-watermark.awebp" alt="img"></p>
+<h1 id="写完SQL语句，检查where-order-by-group-by后面的列，多表关联的列是否已加索引，优先考虑组合索引。（SQL性能优化）"><a href="#写完SQL语句，检查where-order-by-group-by后面的列，多表关联的列是否已加索引，优先考虑组合索引。（SQL性能优化）" class="headerlink" title="写完SQL语句，检查where,order by,group by后面的列，多表关联的列是否已加索引，优先考虑组合索引。（SQL性能优化）"></a>写完SQL语句，检查where,order by,group by后面的列，多表关联的列是否已加索引，优先考虑组合索引。（SQL性能优化）</h1><p>反例：</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> address =<span class="string">&#x27;深圳&#x27;</span> <span class="keyword">order</span> <span class="keyword">by</span> age ;</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1320d5f64b2640ff8221251505cacf14~tplv-k3u1fbpfcp-watermark.awebp" alt="img"></p>
+<p>正例：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">添加索引</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">user</span> <span class="keyword">add</span> <span class="keyword">index</span> idx_address_age (address,age)</span><br></pre></td></tr></table></figure>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/480d9d01a71c40228696fd22850e111d~tplv-k3u1fbpfcp-watermark.awebp" alt="img"></p>
+<h1 id="修改或删除重要数据前，要先备份，先备份，先备份（SQL后悔药）"><a href="#修改或删除重要数据前，要先备份，先备份，先备份（SQL后悔药）" class="headerlink" title="修改或删除重要数据前，要先备份，先备份，先备份（SQL后悔药）"></a>修改或删除重要数据前，要先备份，先备份，先备份（SQL后悔药）</h1><p>如果要修改或删除数据，在执行SQL前一定要先备份要修改的数据，万一误操作，还能吃口<strong>后悔药</strong>~</p>
+<h1 id="where后面的字段，留意其数据类型的隐式转换（SQL性能优化）"><a href="#where后面的字段，留意其数据类型的隐式转换（SQL性能优化）" class="headerlink" title="where后面的字段，留意其数据类型的隐式转换（SQL性能优化）"></a>where后面的字段，留意其数据类型的隐式转换（SQL性能优化）</h1><p><strong>反例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>userid 是<span class="type">varchar</span>字符串类型</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> userid <span class="operator">=</span><span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/17ad6b34e5a646028d9a086fd7ef7db0~tplv-k3u1fbpfcp-watermark.awebp" alt="img"></p>
+<p><strong>正例：</strong></p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> userid =<span class="string">&#x27;123&#x27;</span>;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4bae5bd0b3564484b18e6f145ff65fd6~tplv-k3u1fbpfcp-watermark.awebp" alt="img"></p>
+<p><strong>理由：</strong></p>
+<ul>
+<li>因为不加单引号时，是字符串跟数字的比较，它们类型不匹配，MySQL会做隐式的类型转换，把它们转换为浮点数再做比较，最后导致索引失效</li>
+</ul>
+<h1 id="尽量把所有列定义为NOT-NULL（SQL规范优雅）"><a href="#尽量把所有列定义为NOT-NULL（SQL规范优雅）" class="headerlink" title="尽量把所有列定义为NOT NULL（SQL规范优雅）"></a>尽量把所有列定义为NOT NULL（SQL规范优雅）</h1><ul>
+<li><strong>NOT NULL列更节省空间</strong>，NULL列需要一个额外字节作为判断是否为 NULL 的标志位。</li>
+<li><strong>NULL列需要注意空指针问题</strong>，NULL列在计算和比较的时候，需要注意空指针问题。</li>
+</ul>
+<h1 id="修改或者删除SQL，先写WHERE查一下，确认后再补充-delete-或-update（SQL后悔药）"><a href="#修改或者删除SQL，先写WHERE查一下，确认后再补充-delete-或-update（SQL后悔药）" class="headerlink" title="修改或者删除SQL，先写WHERE查一下，确认后再补充 delete 或 update（SQL后悔药）"></a>修改或者删除SQL，先写WHERE查一下，确认后再补充 delete 或 update（SQL后悔药）</h1><p>尤其在操作生产的数据时，遇到修改或者删除的SQL，先加个where查询一下，确认OK之后，再执行update或者delete操作</p>
+<h1 id="减少不必要的字段返回，如使用select-lt-具体字段-gt-代替-select-（SQL性能优化）"><a href="#减少不必要的字段返回，如使用select-lt-具体字段-gt-代替-select-（SQL性能优化）" class="headerlink" title="减少不必要的字段返回，如使用select &lt;具体字段&gt; 代替 select * （SQL性能优化）"></a>减少不必要的字段返回，如使用select &lt;具体字段&gt; 代替 select * （SQL性能优化）</h1><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> employee;</span><br></pre></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> id，name <span class="keyword">from</span> employee;</span><br></pre></td></tr></table></figure>
+<p>理由：</p>
+<ul>
+<li>节省资源、减少网络开销。</li>
+<li>可能用到覆盖索引，减少回表，提高查询效率。</li>
+</ul>
+<h1 id="所有表必须使用Innodb存储引擎（SQL规范优雅）"><a href="#所有表必须使用Innodb存储引擎（SQL规范优雅）" class="headerlink" title="所有表必须使用Innodb存储引擎（SQL规范优雅）"></a>所有表必须使用Innodb存储引擎（SQL规范优雅）</h1><p>Innodb 支持事务，支持行级锁，更好的恢复性，高并发下性能更好，所以呢，没有特殊要求（即Innodb无法满足的功能如：列存储，存储空间数据等）的情况下，所有表必须使用Innodb存储引擎</p>
+<h1 id="数据库和表的字符集统一使用utf8mb4（SQL规范优雅）"><a href="#数据库和表的字符集统一使用utf8mb4（SQL规范优雅）" class="headerlink" title="数据库和表的字符集统一使用utf8mb4（SQL规范优雅）"></a>数据库和表的字符集统一使用utf8mb4（SQL规范优雅）</h1><p>统一使用UTF8编码</p>
+<ul>
+<li>可以避免乱码问题</li>
+<li>可以避免，不同字符集比较转换，导致的索引失效问题</li>
+</ul>
+<p>如果是存储表情的，可以考虑 utf8mb4</p>
+<h1 id="尽量使用varchar代替-char。（SQL性能优化）"><a href="#尽量使用varchar代替-char。（SQL性能优化）" class="headerlink" title="尽量使用varchar代替 char。（SQL性能优化）"></a>尽量使用varchar代替 char。（SQL性能优化）</h1><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`deptName` <span class="type">char</span>(<span class="number">100</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;部门名称&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`deptName` <span class="type">varchar</span>(<span class="number">100</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;部门名称&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>理由：</p>
+<ul>
+<li>因为首先变长字段存储空间小，可以节省存储空间。</li>
+</ul>
+<h1 id="如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。-（SQL规范优雅）"><a href="#如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。-（SQL规范优雅）" class="headerlink" title="如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。 （SQL规范优雅）"></a>如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。 （SQL规范优雅）</h1><p>这个点，是阿里开发手册中，Mysql的规约。你的字段，尤其是表示枚举状态时，如果含义被修改了，或者状态追加时，为了后面更好维护，需要即时更新字段的注释。</p>
+<h1 id="SQL修改数据，养成begin-commit-事务的习惯；-SQL后悔药"><a href="#SQL修改数据，养成begin-commit-事务的习惯；-SQL后悔药" class="headerlink" title="SQL修改数据，养成begin + commit 事务的习惯；(SQL后悔药)"></a>SQL修改数据，养成begin + commit 事务的习惯；(SQL后悔药)</h1><p>正例：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">update</span> account <span class="keyword">set</span> balance =<span class="number">1000000</span></span><br><span class="line"><span class="keyword">where</span> <span class="type">name</span> =<span class="string">&#x27;捡田螺的小男孩&#x27;</span>;</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+<p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update account <span class="keyword">set</span> balance <span class="operator">=</span><span class="number">1000000</span></span><br><span class="line"><span class="keyword">where</span> name <span class="operator">=</span><span class="string">&#x27;捡田螺的小男孩&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="索引命名要规范，主键索引名为-pk-字段名；唯一索引名为-uk-字段名-；-普通索引名则为-idx-字段名。（SQL规范优雅）"><a href="#索引命名要规范，主键索引名为-pk-字段名；唯一索引名为-uk-字段名-；-普通索引名则为-idx-字段名。（SQL规范优雅）" class="headerlink" title="索引命名要规范，主键索引名为 pk_ 字段名；唯一索引名为 uk _字段名 ； 普通索引名则为 idx _字段名。（SQL规范优雅）"></a>索引命名要规范，主键索引名为 pk_ 字段名；唯一索引名为 uk _字段名 ； 普通索引名则为 idx _字段名。（SQL规范优雅）</h1><p>说明： pk_  即 primary key；uk _ 即  unique key；idx _ 即 index 的简称。</p>
+<h1 id="WHERE从句中不对列进行函数转换和表达式计算"><a href="#WHERE从句中不对列进行函数转换和表达式计算" class="headerlink" title="WHERE从句中不对列进行函数转换和表达式计算"></a>WHERE从句中不对列进行函数转换和表达式计算</h1><p>假设loginTime加了索引</p>
+<p><strong>反例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> userId,loginTime <span class="keyword">from</span> loginuser <span class="keyword">where</span> Date_ADD(loginTime,<span class="type">Interval</span> <span class="number">7</span> <span class="keyword">DAY</span>) <span class="operator">&gt;=</span>now();</span><br></pre></td></tr></table></figure>
+<p><strong>正例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain  <span class="keyword">select</span> userId,loginTime <span class="keyword">from</span> loginuser <span class="keyword">where</span>  loginTime <span class="operator">&gt;=</span> Date_ADD(NOW(),<span class="type">INTERVAL</span> <span class="operator">-</span> <span class="number">7</span> <span class="keyword">DAY</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>理由：</strong></p>
+<ul>
+<li>索引列上使用mysql的内置函数，索引失效</li>
+</ul>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/07bd6e743d974638a70c2db91c6cc9f2~tplv-k3u1fbpfcp-watermark.awebp" alt="img"></p>
+<h1 id="如果修改-更新数据过多，考虑批量进行。"><a href="#如果修改-更新数据过多，考虑批量进行。" class="headerlink" title="如果修改\更新数据过多，考虑批量进行。"></a>如果修改\更新数据过多，考虑批量进行。</h1><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> account  limit <span class="number">100000</span>;</span><br></pre></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="keyword">each</span>(<span class="number">200</span>次)</span><br><span class="line">&#123;</span><br><span class="line"> <span class="keyword">delete</span> <span class="keyword">from</span> account  limit <span class="number">500</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>理由：</p>
+<ul>
+<li>大批量操作会会造成主从延迟。</li>
+<li>大批量操作会产生大事务，阻塞。</li>
+<li>大批量操作，数据量过大，会把cpu打满。</li>
+</ul>
+<h1 id="统一数据库排序规则，避免因排序规则不同导致索引失效"><a href="#统一数据库排序规则，避免因排序规则不同导致索引失效" class="headerlink" title="统一数据库排序规则，避免因排序规则不同导致索引失效"></a>统一数据库排序规则，避免因排序规则不同导致索引失效</h1><p>转载：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6889550040558206983">Mysql中，21个写SQL的好习惯，你值得拥有呀</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://linxiaobaixcg.github.io/2022/03/02/MySQL%E4%B8%AD%EF%BC%8C22%E4%B8%AA%E5%86%99SQL%E7%9A%84%E5%A5%BD%E4%B9%A0%E6%83%AF/" title="MySQL中，22个写SQL的好习惯" target="_blank" rel="external">https://linxiaobaixcg.github.io/2022/03/02/MySQL中，22个写SQL的好习惯/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/linxiaobaixcg" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://file.xiaoyanyixia.com/user/avatar/70eff35453784cec951870789bec2bf0-avatar-1623919632649.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/linxiaobaixcg" target="_blank"><span class="text-dark">Mr.Lin</span><small class="ml-1x">Java Developer</small></a></h3>
+        <div>小小搬砖者。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2022/01/25/%E9%80%89%E6%8B%A9Undertow%E6%9B%BF%E4%BB%A3Tomcat/" title="选择Undertow替代Tomcat"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/linxiaobaixcg" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2022 LinChuangQiong&#39;s Blog
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'XP1G9MdACMzboxFrTazKufNa-gzGzoHsz',
+    appKey: 'YOhEz3KyowC1hg3TyMDAmMs4',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

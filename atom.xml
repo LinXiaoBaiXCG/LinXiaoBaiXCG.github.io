@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2022-01-26T15:01:32.634Z</updated>
+  <updated>2022-03-02T03:05:20.000Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySQL中，22个写SQL的好习惯</title>
+    <link href="https://linxiaobaixcg.github.io/2022/03/02/MySQL%E4%B8%AD%EF%BC%8C22%E4%B8%AA%E5%86%99SQL%E7%9A%84%E5%A5%BD%E4%B9%A0%E6%83%AF/"/>
+    <id>https://linxiaobaixcg.github.io/2022/03/02/MySQL中，22个写SQL的好习惯/</id>
+    <published>2022-03-02T12:00:00.000Z</published>
+    <updated>2022-03-02T03:05:20.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 好习惯，利己利他。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;写完SQL先explain查看执行计划（SQL性能优化）&quot;&gt;&lt;a href=&quot;#写完SQL先explain查看执行计划（SQL性能优化）&quot; class=&quot;headerlink
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="数据库" scheme="https://linxiaobaixcg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
   
   <entry>
     <title>选择Undertow替代Tomcat</title>
@@ -500,29 +526,6 @@
     
     
       <category term="中间件" scheme="https://linxiaobaixcg.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Dockerfile详解</title>
-    <link href="https://linxiaobaixcg.github.io/2020/05/20/Dockerfile%E8%AF%A6%E8%A7%A3/"/>
-    <id>https://linxiaobaixcg.github.io/2020/05/20/Dockerfile详解/</id>
-    <published>2020-05-20T12:00:00.000Z</published>
-    <updated>2021-11-20T15:34:50.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Dockerfile？&quot;&gt;&lt;a href=&quot;#Dockerfile？&quot; class=&quot;headerlink&quot; title=&quot;Dockerfile？&quot;&gt;&lt;/a&gt;Dockerfile？&lt;/h1&gt;&lt;p&gt;Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="工具" scheme="https://linxiaobaixcg.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
