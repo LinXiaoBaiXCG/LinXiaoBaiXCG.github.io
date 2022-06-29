@@ -6,10 +6,36 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://linxiaobaixcg.github.io/"/>
-  <updated>2022-03-02T03:05:20.000Z</updated>
+  <updated>2022-06-29T16:35:49.342Z</updated>
   <id>https://linxiaobaixcg.github.io/</id>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IO线程模型</title>
+    <link href="https://linxiaobaixcg.github.io/2022/06/29/IO%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/"/>
+    <id>https://linxiaobaixcg.github.io/2022/06/29/IO线程模型/</id>
+    <published>2022-06-29T12:00:00.000Z</published>
+    <updated>2022-06-29T16:35:49.342Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 线程模型通常是指线程的使用方式。在 Java I/O 中，主要有 2 种线程模型，即传统的阻塞式 I/O 模型和 Reactor 模型。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;传统的阻塞式线程I-O&quot;&gt;&lt;a href=&quot;#传统的阻塞
+      
+    
+    </summary>
+    
+      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL中，22个写SQL的好习惯</title>
@@ -500,32 +526,6 @@
     
     
       <category term="计算机网络" scheme="https://linxiaobaixcg.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ElasticSearch使用Logstash从MySQL中同步数据</title>
-    <link href="https://linxiaobaixcg.github.io/2020/06/16/ElasticSearch%E4%BD%BF%E7%94%A8Logstash%E4%BB%8EMySQL%E4%B8%AD%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/"/>
-    <id>https://linxiaobaixcg.github.io/2020/06/16/ElasticSearch使用Logstash从MySQL中同步数据/</id>
-    <published>2020-06-15T16:00:00.000Z</published>
-    <updated>2021-11-20T15:34:50.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt; 项目中的搜索功能需要使用ElasticSearch，现需使用Logstash来导入数据到ElasticSearch中。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;安装ElasticSearch&quot;&gt;&lt;a href=&quot;#安装ElasticS
-      
-    
-    </summary>
-    
-      <category term="编程" scheme="https://linxiaobaixcg.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="中间件" scheme="https://linxiaobaixcg.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
     
   </entry>
   
